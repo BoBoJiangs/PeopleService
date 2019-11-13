@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/takePhotoUV"
+        style="@style/utility_view"
+        app:content_gravity="center"
+        app:text_content="@string/take_photo"
+        app:text_content_color="@color/base_lib_blue"
+        app:title_padding_right="0dp" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/previewUV"
+        style="@style/utility_view"
+        app:content_gravity="center"
+        app:text_content="@string/preview_photo"
+        app:text_content_color="@color/base_lib_blue"
+        app:title_padding_right="0dp" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/deleteUV"
+        style="@style/utility_view"
+        app:content_gravity="center"
+        app:text_content="@string/delete"
+        app:text_content_color="@color/base_lib_blue"
+        app:title_padding_right="0dp" />
+
+    <Button
+        android:id="@+id/cancelBtn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_utility_view"
+        android:background="@android:color/white"
+        android:text="@string/cancel"
+        android:textColor="@color/base_lib_blue"
+        android:textSize="@dimen/font_btn" />
+
+</LinearLayout>

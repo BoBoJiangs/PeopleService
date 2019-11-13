@@ -1,0 +1,62 @@
+<resources>
+
+    <!--标题栏高度-->
+    <dimen name="height_title">46dp</dimen>
+    <!--UtilityView高度-->
+    <dimen name="height_utility_view">56dp</dimen>
+
+    <!--.........................间距.........................-->
+    <!--超大间距-->
+    <dimen name="space_super_big">70dp</dimen>
+    <!--大间距-->
+    <dimen name="space_big">40dp</dimen>
+    <!--中等间距-->
+    <dimen name="space_middle">20dp</dimen>
+    <!--默认间距-->
+    <dimen name="space">16dp</dimen>
+    <!--小间距-->
+    <dimen name="space_small">10dp</dimen>
+    <!--最小间距-->
+    <dimen name="space_small_best">4dp</dimen>
+
+    <!--.........................字体.........................-->
+    <!--标题字体超大-->
+    <dimen name="font_title_super">26sp</dimen>
+    <!--标题字体大-->
+    <dimen name="font_title_big">24sp</dimen>
+    <!--标题字体中-->
+    <dimen name="font_title_middle">22sp</dimen>
+    <!--标题字体默认-->
+    <dimen name="font_title">20sp</dimen>
+    <!--标题字体小-->
+    <dimen name="font_title_small">18sp</dimen>
+
+    <!--内容正文字体大小-->
+    <dimen name="font_content_big">19sp</dimen>
+    <!--内容中号字体大小-->
+    <dimen name="font_content_middle">17sp</dimen>
+    <!--内容默认字体大小-->
+    <dimen name="font_content">15sp</dimen>
+    <!--内容小号字体大小-->
+    <dimen name="font_content_small">13sp</dimen>
+
+    <!--标准按钮字体大小-->
+    <dimen name="font_btn">18sp</dimen>
+    <!--小号按钮字体大小-->
+    <dimen name="font_btn_small">16sp</dimen>
+    <!--最小号按钮字体大小-->
+    <dimen name="font_btn_small_best">14sp</dimen>
+
+    <!--.........................按钮.........................-->
+    <!--大按钮高度-->
+    <dimen name="height_btn_big">54dp</dimen>
+    <!--小按钮高度-->
+    <dimen name="height_btn_small">40dp</dimen>
+
+    <!--.........................其他.........................-->
+    <!--倒角半径大小-->
+    <dimen name="size_angle_radius">5dp</dimen>
+
+
+
+</resources>

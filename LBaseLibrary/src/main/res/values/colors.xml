@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="theme_color">#0878e6</color>
+    <color name="background_color">#ffffff</color>
+
+    <color name="base_gray_light_light">#f5f8fa</color>
+
+    <color name="blue">#3F69DF</color>
+    <color name="base_lib_gray_line">#e2e4e4</color>
+    <color name="base_lib_blue">#0878e6</color>
+    <color name="base_lib_gray">#999999</color>
+
+    <color name="base_white_alpha_10">#0AFFFFFF</color><!--白色半透明，数字为透明度-->
+    <color name="base_white_alpha_55">#37FFFFFF</color><!--白色半透明，数字为透明度-->
+    <color name="base_white_alpha_70">#46FFFFFF</color><!--白色半透明，数字为透明度-->
+    <color name="base_white_alpha_77">#4DFFFFFF</color><!--白色半透明，数字为透明度-->
+    <color name="base_white_alpha_100">#64FFFFFF</color><!--白色半透明，数字为透明度-->
+    <color name="base_white_alpha_130">#82FFFFFF</color><!--白色半透明，数字为透明度-->
+
+    <color name="base_black_alpha_200">#C8000000</color><!--黑色半透明，数字为透明度-->
+    <color name="base_black_alpha_100">#64000000</color><!--黑色半透明，数字为透明度-->
+    <color name="base_black_alpha_60">#3C000000</color><!--黑色半透明，数字为透明度-->
+    <color name="base_black_alpha_10">#0A000000</color><!--黑色半透明，数字为透明度-->
+</resources>

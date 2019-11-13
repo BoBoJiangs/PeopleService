@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--多功能通用的view-->
+    <declare-styleable name="UtilityView">
+        <!--横线上面显示信息的间距-->
+        <attr name="info_padding_left" format="dimension" />
+        <attr name="info_padding_top" format="dimension" />
+        <attr name="info_padding_right" format="dimension" />
+        <attr name="info_padding_bottom" format="dimension" />
+
+        <!--文本是否可选择-->
+        <attr name="text_is_selectable" format="boolean" />
+
+        <!--标题属性-->
+        <attr name="text_title" format="string" />
+        <attr name="text_title_color" format="color" />
+        <attr name="text_title_size" format="integer" />
+        <attr name="text_title_visible" format="boolean" />
+        <attr name="text_title_width" format="dimension" />
+        <attr name="title_padding_left" format="dimension" />
+        <attr name="title_padding_top" format="dimension" />
+        <attr name="title_padding_right" format="dimension" />
+        <attr name="title_padding_bottom" format="dimension" />
+
+        <!--内容属性-->
+        <attr name="text_content_visible" format="boolean" />
+        <attr name="text_content_hint" format="string" />
+        <attr name="text_content" format="string" />
+        <attr name="text_content_color" format="color" />
+        <attr name="text_content_hint_color" format="color" />
+        <attr name="text_content_size" format="dimension" />
+        <attr name="text_content_input_type">
+            <enum name="TEXT" value="0" /><!--任意文本-->
+            <enum name="NUMBER" value="1" /><!--纯数字-->
+            <enum name="NUMBER_DECIMAL" value="2" /><!--小数-->
+            <enum name="PHONE" value="3" /><!--电话-->
+            <enum name="PASSWORD" value="4" /><!--密码-->
+        </attr>
+
+        <!--内容位置，value的值和Gravity的常量值对应-->
+        <attr name="content_gravity">
+            <flag name="start" value="8388611" />
+            <flag name="end" value="8388613" />
+            <flag name="top" value="48" />
+            <flag name="center" value="17" />
+            <flag name="center_horizontal" value="1" />
+            <flag name="center_vertical" value="16" />
+        </attr>
+
+        <!--内容图片资源文件-->
+        <attr name="content_image_res" format="reference" />
+        <!--内容图片宽-->
+        <attr name="content_image_width" format="dimension" />
+        <!--内容图片高-->
+        <attr name="content_image_height" format="dimension" />
+
+        <!--右侧显示图片资源文件-->
+        <attr name="right_image_res" format="reference" />
+        <!--右侧图片宽-->
+        <attr name="right_image_width" format="dimension" />
+        <!--右侧图片高-->
+        <attr name="right_image_height" format="dimension" />
+        <!--右侧图片内边距-->
+        <attr name="right_image_padding" format="dimension" />
+        <!--是否根据输入框文本显示右侧按钮，例如右侧删除-->
+        <attr name="right_image_show_by_input" format="boolean" />
+
+        <!--下划线是否显示-->
+        <attr name="line_show" format="boolean" />
+        <!--下划线选中后的颜色-->
+        <attr name="line_color_checked" format="color" />
+        <!--下划线未选中或默认的颜色-->
+        <attr name="line_color" format="color" />
+
+        <!--内容控件类型，选择/输入-->
+        <attr name="type">
+            <!--选择-->
+            <enum name="CHOICE" value="0" />
+            <!--输入-->
+            <enum name="INPUT" value="1" />
+            <!--图片-->
+            <enum name="IMAGE" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <!--拍照的view-->
+    <declare-styleable name="TakePhotoView">
+        <!--是否可以操作-->
+        <attr name="operate" format="boolean" />
+        <!--列-->
+        <attr name="column" format="integer" />
+        <!--间距-->
+        <attr name="image_margin" format="dimension" />
+    </declare-styleable>
+
+</resources>

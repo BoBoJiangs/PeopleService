@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_title"
+    android:background="@color/theme_color">
+
+    <ImageView
+        android:id="@+id/leftIV"
+        style="@style/toolbar_image"
+        android:src="@drawable/base_icon_back" />
+
+    <TextView
+        android:id="@+id/titleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_title_middle" />
+
+    <ImageView
+        android:id="@+id/rightIV"
+        style="@style/toolbar_image"
+        android:layout_gravity="right"
+        android:src="@drawable/base_icon_default"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/rightTV"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_title"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:padding="@dimen/space_small"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_title_small" />
+
+</android.support.v7.widget.Toolbar>

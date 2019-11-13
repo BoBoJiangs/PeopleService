@@ -1,0 +1,12 @@
+<resources>
+
+    <style name="toolbar_image">
+        <item name="android:layout_width">@dimen/height_title</item>
+        <item name="android:layout_height">@dimen/height_title</item>
+        <item name="android:paddingLeft">@dimen/space_small_best</item>
+        <item name="android:paddingRight">@dimen/space_small</item>
+        <item name="android:paddingTop">@dimen/space_small</item>
+        <item name="android:paddingBottom">@dimen/space_small</item>
+    </style>
+
+</resources>
