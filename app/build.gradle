@@ -1,10 +1,15 @@
 apply plugin: 'com.android.application'
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd")
+}
+
+
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.yb.peopleservice"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -13,11 +18,43 @@ android {
         ndk {
             abiFilters "armeabi-v7a" //只支持32位
         }
+        manifestPlaceholders = [
+                //AS4J247WTLZG 属于应用"拔苗助长(考试系统)"独有的 Android AppKey, 用于配置SDK
+                MTA_APPKEY : "AS4J247WTLZG",
+                //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
+                MTA_CHANNEL: "到家"
+        ]
     }
+    //配置签名文件
+    signingConfigs {
+        keyConfig {
+            keyAlias KEYALIAS
+            keyPassword KEY_PASSWORD
+            storeFile file(KEYSTORE_PATH)
+            storePassword KEYSTORE_PASSWORD
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.keyConfig
+        }
+        debug {
+            signingConfig signingConfigs.keyConfig
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "flower_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${releaseTime()}_${buildType.name}.apk"
         }
     }
 }
@@ -31,4 +68,9 @@ dependencies {
     implementation project(':LThirdPlatform')
     //多dex拆分
     implementation 'com.android.support:multidex:1.0.3'
+    implementation "com.google.android.material:material:$rootProject.supportVersion"
+    //注解框架
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    //注解框架
+    api 'com.jakewharton:butterknife:10.1.0'
 }
