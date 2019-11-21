@@ -7,6 +7,7 @@ import androidx.multidex.MultiDexApplication;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
+import com.bumptech.glide.Glide;
 import com.yb.peopleservice.BuildConfig;
 
 import cn.sts.base.util.AppManageUtil;
@@ -27,7 +28,6 @@ public class MyApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         appContext = getApplicationContext();
-
         //APP开发工具初始化
         Utils.init(getApplicationContext());
         LogUtils.getConfig().setLogSwitch(BuildConfig.DEBUG);

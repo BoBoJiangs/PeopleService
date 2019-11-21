@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,5 +7,42 @@
     android:orientation="vertical"
     tools:context=".view.MainActivity">
 
+    <LinearLayout
+        android:id="@+id/titleLL"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_title"
+        android:orientation="horizontal"
+        android:background="@color/white">
 
-</LinearLayout>
+
+    </LinearLayout>
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titleLL"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/noDataTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
+        android:drawablePadding="@dimen/dp_10"
+        android:gravity="center"
+        android:textColor="@color/base_lib_gray"
+        android:textSize="@dimen/font_content_middle"
+        android:visibility="gone" />
+
+</RelativeLayout>

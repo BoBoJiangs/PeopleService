@@ -10,4 +10,23 @@
         <item name="toolbarStyle">@style/ToolbarLeftInset</item>
     </style>
 
+    <!--内容的TextView，灰色-->
+    <style name="text_view_content_gray" parent="text_view_content">
+        <item name="android:textColor">@color/base_lib_gray</item>
+    </style>
+
+    <!--内容的TextView，黑色-->
+    <style name="text_view_content_black" parent="text_view_content">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+    <!--内容的TextView-->
+    <style name="text_view_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_content_three</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>

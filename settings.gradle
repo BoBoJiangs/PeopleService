@@ -1,2 +1,2 @@
-include ':app', ':LThirdPlatform', ':LBaseLibrary'
+include ':app', ':LThirdPlatform', ':LBaseLibrary', ':pagerlayoutmanager'
 rootProject.name='PeopleService'

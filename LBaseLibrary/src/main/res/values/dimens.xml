@@ -34,11 +34,11 @@
     <!--内容正文字体大小-->
     <dimen name="font_content_big">19sp</dimen>
     <!--内容中号字体大小-->
-    <dimen name="font_content_middle">17sp</dimen>
+    <dimen name="font_content_middle">16sp</dimen>
     <!--内容默认字体大小-->
     <dimen name="font_content">15sp</dimen>
     <!--内容小号字体大小-->
-    <dimen name="font_content_small">13sp</dimen>
+    <dimen name="font_content_small">12sp</dimen>
 
     <!--标准按钮字体大小-->
     <dimen name="font_btn">18sp</dimen>

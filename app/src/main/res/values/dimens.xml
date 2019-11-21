@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--标题栏高度-->
+    <dimen name="height_title">90pt</dimen>
+
+    <!--UtilityView高度-->
+    <dimen name="height_utility_view">56dp</dimen>
+    <!--分割线高度-->
+    <dimen name="height_line">1px</dimen>
+    <!--分割线高度-->
+    <dimen name="height_line_big">20pt</dimen>
+
+
+    <!--标题字体-->
+    <dimen name="font_title">16sp</dimen>
+    <dimen name="font_title_middle">16sp</dimen>
+
+    <!--小图片的高宽-->
+    <dimen name="height_image_small">16dp</dimen>
+    <!--中等图片的高宽-->
+    <dimen name="height_image_middle">24dp</dimen>
+    <!--大图片高宽-->
+    <dimen name="height_image_big">40dp</dimen>
+    <!--图标的高宽-->
+    <dimen name="height_image_icon">48dp</dimen>
+
+    <!--右箭头的大小-->
+    <dimen name="height_right_arrow">30dp</dimen>
+
+    <!--.........................间距.........................-->
+    <!--超大间距-->
+    <dimen name="space_super_big">40dp</dimen>
+    <!--大间距-->
+    <dimen name="space_big">32dp</dimen>
+    <!--中等间距-->
+    <dimen name="space_middle">24pt</dimen>
+    <!--默认间距-->
+    <dimen name="space_default">30pt</dimen>
+    <!--小间距-->
+    <dimen name="space_small">15pt</dimen>
+    <!--最小间距-->
+    <dimen name="space_small_best">4dp</dimen>
+
+    <!--.........................字体.........................-->
+    <!--标题一级-->
+    <dimen name="font_title_one">24sp</dimen>
+    <!--标题二级-->
+    <dimen name="font_title_two">22sp</dimen>
+    <!--标题三级-->
+    <dimen name="font_title_three">20sp</dimen>
+    <!--标题四级-->
+    <dimen name="font_title_four">18sp</dimen>
+
+    <!--内容正文字体一级-->
+    <dimen name="font_content_one">20sp</dimen>
+    <!--内容中号字体二级-->
+    <dimen name="font_content_two">18sp</dimen>
+    <!--内容默认字体三级-->
+    <dimen name="font_content_three">17sp</dimen>
+    <!--内容小号字体四级-->
+    <dimen name="font_content_four">16sp</dimen>
+    <!--内容小号字体五级-->
+    <dimen name="font_content_five">14sp</dimen>
+    <!--内容小号字体六级-->
+    <dimen name="font_content_six">13sp</dimen>
+
+    <dimen name="font_title_small">16sp</dimen>
+
+
+    <!--标准按钮字体大小-->
+    <dimen name="font_btn">18sp</dimen>
+    <!--小号按钮字体大小-->
+    <dimen name="font_btn_small">16sp</dimen>
+    <!--最小号按钮字体大小-->
+    <dimen name="font_btn_small_best">14sp</dimen>
+
+    <!--.........................其他.........................-->
+    <!--倒角半径大小-->
+    <dimen name="size_angle_radius">5dp</dimen>
+
+    <!--.........................其他.........................-->
+    <!--tab页高度-->
+    <dimen name="height_tab">80pt</dimen>
+
+
+</resources>

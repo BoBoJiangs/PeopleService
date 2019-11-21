@@ -53,8 +53,6 @@ dependencies {
     api 'com.afollestad.material-dialogs:core:2.6.0'
     //图片下载缓存
     api 'com.squareup.picasso:picasso:2.71828'
-//    api 'com.github.bumptech.glide:glide:4.9.0'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     //图片选择，工具包含了图片下载缓存glide包
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     //RecyclerView

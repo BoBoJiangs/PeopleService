@@ -7,4 +7,5 @@
     <color name="theme_color">#ffffff</color>
     <color name="background_color">#ffffff</color>
     <color name="base_text_color">#FF5F00</color>
+    <color name="gray_cc">#CCCCCC</color>
 </resources>

@@ -37,8 +37,14 @@ public class MainActivity extends BaseViewPagerActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initToolView() {
+        super.initToolView();
         toolbar.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     @Override

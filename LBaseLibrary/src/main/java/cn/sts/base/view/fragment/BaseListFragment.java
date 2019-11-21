@@ -47,7 +47,7 @@ public abstract class BaseListFragment extends BaseFragment {
 
         baseQuickAdapter = initAdapter();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(getLayoutManager());
         recyclerView.setAdapter(baseQuickAdapter);
         baseQuickAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -56,6 +56,10 @@ public abstract class BaseListFragment extends BaseFragment {
             }
         });
         swipeRefreshLayout.setEnabled(false);//默认不能下拉刷新
+    }
+
+    protected RecyclerView.LayoutManager getLayoutManager() {
+        return new LinearLayoutManager(getActivity());
     }
 
     /**
