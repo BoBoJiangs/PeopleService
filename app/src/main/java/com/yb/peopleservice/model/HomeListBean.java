@@ -12,7 +12,8 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  * 修改描述:
  */
 public class HomeListBean implements MultiItemEntity{
-    public static final int CONTENT_TYPE = 1;//推荐
+    public static final int PAGE_TYPE = 3;//分类
+    public static final int CONTENT_TYPE = 1;//内容
     public static final int TITLE_TYPE = 2;//标题
     //网格布局每行所占的个数
     public static final int SPAN_SIZE_FOUR = 1;
