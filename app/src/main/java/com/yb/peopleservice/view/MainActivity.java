@@ -80,10 +80,10 @@ public class MainActivity extends BaseViewPagerActivity {
     protected List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(HomeFragment.getInstanceFragment());
-        fragmentList.add(HomeFragment.getInstanceFragment());
-        fragmentList.add(HomeFragment.getInstanceFragment());
-        fragmentList.add(HomeFragment.getInstanceFragment());
-        fragmentList.add(HomeFragment.getInstanceFragment());
+//        fragmentList.add(HomeFragment.getInstanceFragment());
+//        fragmentList.add(HomeFragment.getInstanceFragment());
+//        fragmentList.add(HomeFragment.getInstanceFragment());
+//        fragmentList.add(HomeFragment.getInstanceFragment());
         return fragmentList;
     }
 }

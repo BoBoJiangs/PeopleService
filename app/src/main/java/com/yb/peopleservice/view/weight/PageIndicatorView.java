@@ -85,9 +85,9 @@ public class PageIndicatorView extends LinearLayout {
     public void setSelectedPage(int selected) {
         for (int i = 0; i < indicatorViews.size(); i++) {
             if (i == selected) {
-                indicatorViews.get(i).setBackgroundResource(android.R.drawable.presence_online);
+                indicatorViews.get(i).setBackgroundResource(R.drawable.e_circle_point_blue);
             } else {
-                indicatorViews.get(i).setBackgroundResource(android.R.drawable.presence_invisible);
+                indicatorViews.get(i).setBackgroundResource(R.drawable.e_circle_point_white);
             }
         }
     }

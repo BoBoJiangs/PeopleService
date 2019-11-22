@@ -1,7 +1,10 @@
 package com.yb.peopleservice.view.adapter;
 
+import android.view.View;
+
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
@@ -25,6 +28,11 @@ public class HomePageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-
+        helper.getView(R.id.imageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtils.showLong(helper.getAdapterPosition()+"");
+            }
+        });
     }
 }

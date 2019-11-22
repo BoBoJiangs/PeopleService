@@ -56,7 +56,7 @@ dependencies {
     //图片选择，工具包含了图片下载缓存glide包
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     //RecyclerView
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
     //注解框架
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     //注解框架

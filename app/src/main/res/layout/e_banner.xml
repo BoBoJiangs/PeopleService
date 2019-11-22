@@ -15,17 +15,17 @@
         app:indicator_drawable_unselected="@drawable/e_circle_point_white"
         app:indicator_margin="@dimen/space_small_best" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/pageRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="350pt"/>
-        <com.yb.peopleservice.view.weight.PageIndicatorView
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical">-->
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/pageRecyclerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="350pt"/>-->
+<!--        <com.yb.peopleservice.view.weight.PageIndicatorView-->
+<!--            android:id="@+id/indicator"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--    </LinearLayout>-->
 </LinearLayout>
