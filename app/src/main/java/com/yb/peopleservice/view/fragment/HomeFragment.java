@@ -86,10 +86,7 @@ public class HomeFragment extends BaseListFragment {
         initHeaderView();
         listData.add(new HomeListBean(PAGE_TYPE, SPAN_SIZE_ONE));
         listData.add(new HomeListBean(TITLE_TYPE, SPAN_SIZE_ONE));
-        listData.add(new HomeListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
-        listData.add(new HomeListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         listData.add(new HomeListBean(TITLE_TYPE, SPAN_SIZE_ONE));
-        listData.add(new HomeListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         adapter.setSpanSizeLookup((gridLayoutManager, position) ->
                 listData.get(position).getSpanSize());
         adapter.setNewData(listData);

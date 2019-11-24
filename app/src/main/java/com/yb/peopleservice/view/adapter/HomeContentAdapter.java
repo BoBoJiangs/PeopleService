@@ -2,14 +2,10 @@ package com.yb.peopleservice.view.adapter;
 
 import android.view.View;
 
-import androidx.annotation.Nullable;
-
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
-
-import java.util.List;
 
 /**
  * 项目名称:PeopleService
@@ -20,19 +16,14 @@ import java.util.List;
  * 修改时间:
  * 修改描述:
  */
-public class HomePageAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class HomeContentAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
-    public HomePageAdapter() {
-        super(R.layout.e_adapter_page_item);
+    public HomeContentAdapter() {
+        super(R.layout.e_adapter_home_shop);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-//        helper.getView(R.id.imageView).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ToastUtils.showLong(helper.getAdapterPosition()+"");
-//            }
-//        });
+
     }
 }

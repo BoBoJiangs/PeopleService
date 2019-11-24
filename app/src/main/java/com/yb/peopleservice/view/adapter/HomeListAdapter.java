@@ -19,6 +19,7 @@ import com.yb.peopleservice.view.weight.PageIndicatorView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -33,6 +34,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, BaseViewHolder> {
     private Context context;
     private DraggableController mDraggableController;
+    List<String> contentLis = new ArrayList<>();
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -46,6 +48,10 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
         addItemType(HomeListBean.TITLE_TYPE, R.layout.e_adapter_home_title);
         addItemType(HomeListBean.CONTENT_TYPE, R.layout.e_adapter_home_shop);
         mDraggableController = new DraggableController(this);
+
+        for (int i = 0; i < 5; i++) {
+            contentLis.add("");
+        }
     }
 
     @Override
@@ -85,7 +91,17 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
                 pageAdapter.setNewData(listData);
                 break;
             case HomeListBean.TITLE_TYPE:
-
+                RecyclerView recyclerView = helper.getView(R.id.recyclerView);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context,RecyclerView.HORIZONTAL,false));
+                HomeContentAdapter contentAdapter = new HomeContentAdapter();
+                recyclerView.setAdapter(contentAdapter);
+                contentAdapter.setNewData(contentLis);
+                contentAdapter.setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        ToastUtils.showLong(position+"");
+                    }
+                });
                 break;
             case HomeListBean.CONTENT_TYPE:
                 TextView textView = helper.getView(R.id.priceTV2);

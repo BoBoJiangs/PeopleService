@@ -16,7 +16,7 @@ public class ScrollViewPager extends ViewPager {
     /**
      * 是否可以进行滑动
      */
-    private boolean isScroll = true;
+    private boolean isScroll = false;
 
     /**
      * 子View能滑动时是否优先滑动子View的视图
