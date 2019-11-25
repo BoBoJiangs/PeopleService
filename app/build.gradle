@@ -57,6 +57,21 @@ android {
             outputFileName = "flower_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${releaseTime()}_${buildType.name}.apk"
         }
     }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res',
+                            'src/main/res/layout/activity',
+                            'src/main/res/layout/fragment',
+                            'src/main/res/layout/adapter',
+                            'src/main/res/layout/popup',
+                            'src/main/res/layout/view'
+
+                    ]
+        }
+
+    }
 }
 
 dependencies {
@@ -80,5 +95,6 @@ dependencies {
     //图片下载缓存
     api 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-    compile project(path: ':pagerlayoutmanager')
+    implementation project(path: ':pagerlayoutmanager')
+    implementation 'com.noober.background:core:1.6.1'
 }

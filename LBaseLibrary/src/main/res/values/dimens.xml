@@ -56,7 +56,7 @@
     <!--.........................其他.........................-->
     <!--倒角半径大小-->
     <dimen name="size_angle_radius">5dp</dimen>
-
+    <dimen name="size_big_radius">25pt</dimen>
 
 
 </resources>

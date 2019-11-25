@@ -9,10 +9,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pageRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="350pt" />
-
+        android:layout_height="350pt"/>
     <com.yb.peopleservice.view.weight.PageIndicatorView
         android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 </LinearLayout>

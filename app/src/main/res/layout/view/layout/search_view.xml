@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50pt"
+    android:layout_margin="@dimen/dp_10"
+    style="@style/search_bg_style"
+    android:orientation="horizontal">
+
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/searchUV"
+        style="@style/login_utility"
+        app:text_content_size="@dimen/font_btn_small_best"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="5dp"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        app:content_gravity="start"
+        app:info_padding_left="0dp"
+        app:line_show="false"
+        app:text_content_hint="搜索"
+        app:text_content_input_type="TEXT" />
+
+    <ImageView
+        android:layout_width="@dimen/height_image_small"
+        android:layout_height="@dimen/height_image_small"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="@dimen/space_small"
+        android:src="@mipmap/icon_sousuo" />
+</LinearLayout>

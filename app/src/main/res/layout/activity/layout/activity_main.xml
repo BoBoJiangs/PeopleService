@@ -10,10 +10,6 @@
     <include layout="@layout/toolbar" />
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/base_lib_gray_line" />
 
     <cn.sts.base.view.widget.ScrollViewPager
         android:id="@+id/viewPager"
