@@ -7,7 +7,9 @@
     android:orientation="vertical"
     app:bl_solid_color="@color/white"
     app:bl_corners_radius="5dp"
-    android:layout_margin="@dimen/space_default"
+    android:layout_marginStart="@dimen/space_default"
+    android:layout_marginEnd="@dimen/space_default"
+    android:layout_marginTop="@dimen/space_default"
     tools:ignore="MissingPrefix">
 
     <LinearLayout
@@ -21,8 +23,11 @@
             style="@style/text_view_content_black"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textSize="@dimen/font_content_middle"
             android:text="我的钱包"/>
     </LinearLayout>
+    <View
+        style="@style/horizontal_line_style"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130pt"

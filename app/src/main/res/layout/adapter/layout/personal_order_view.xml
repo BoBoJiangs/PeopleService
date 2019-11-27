@@ -7,7 +7,8 @@
     android:orientation="vertical"
     app:bl_solid_color="@color/white"
     app:bl_corners_radius="5dp"
-    android:layout_margin="@dimen/space_default"
+    android:layout_marginStart="@dimen/space_default"
+    android:layout_marginEnd="@dimen/space_default"
     tools:ignore="MissingPrefix">
 
     <LinearLayout
@@ -19,6 +20,7 @@
         android:orientation="horizontal">
         <TextView
             style="@style/text_view_content_black"
+            android:textSize="@dimen/font_content_middle"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:text="我的订单"/>
@@ -27,6 +29,8 @@
             android:layout_height="20pt"
             android:src="@mipmap/icon_arrow_right"/>
     </LinearLayout>
+    <View
+        style="@style/horizontal_line_style"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130pt"
@@ -35,18 +39,22 @@
         <TextView
             android:id="@+id/payTV"
             android:text="待付款"
+            android:drawableTop="@mipmap/icon_persona1"
             style="@style/personal_text_style" />
         <TextView
             android:id="@+id/todoTV"
             style="@style/personal_text_style"
+            android:drawableTop="@mipmap/icon_persona2"
             android:text="进行中"/>
         <TextView
             android:id="@+id/finishTV"
             style="@style/personal_text_style"
+            android:drawableTop="@mipmap/icon_persona3"
             android:text="已完成"/>
         <TextView
             android:id="@+id/evaluateTV"
             style="@style/personal_text_style"
+            android:drawableTop="@mipmap/icon_persona4"
             android:text="待评价"/>
     </LinearLayout>
 

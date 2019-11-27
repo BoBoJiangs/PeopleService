@@ -13,9 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_title"
         android:orientation="horizontal"
-        app:bl_gradient_angle="0"
-        app:bl_gradient_endColor="#FF7E43"
-        app:bl_gradient_startColor="#FF5F00">
+        android:background="@color/base_text_color">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -31,7 +29,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/space_default"
                 android:layout_toLeftOf="@+id/msgTV"
-                android:background="@mipmap/icon_msg2" />
+                android:background="@mipmap/icon_persona5" />
 
             <ImageView
                 android:id="@+id/msgTV"
@@ -40,7 +38,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/space_default"
-                android:background="@mipmap/icon_msg2" />
+                android:background="@mipmap/icon_persona6" />
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>

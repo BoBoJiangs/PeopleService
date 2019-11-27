@@ -82,6 +82,7 @@ public class WelcomeActivity extends BaseActivity {
                 Manifest.permission.INSTALL_PACKAGES,
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                Manifest.permission.ACCESS_FINE_LOCATION,
         };
 
         if (PermissionUtils.isGranted(perms)) {

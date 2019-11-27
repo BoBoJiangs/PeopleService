@@ -12,6 +12,7 @@ import com.yb.peopleservice.R;
 import com.yb.peopleservice.view.base.BaseViewPagerActivity;
 import com.yb.peopleservice.view.fragment.ClassifyFragment;
 import com.yb.peopleservice.view.fragment.HomeFragment;
+import com.yb.peopleservice.view.fragment.LifeRadarMapFragment;
 import com.yb.peopleservice.view.fragment.PersonalFragment;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class MainActivity extends BaseViewPagerActivity {
 
     @Override
     protected void initData() {
-
+        viewPager.setOffscreenPageLimit(5);
     }
 
     @Override
@@ -83,6 +84,7 @@ public class MainActivity extends BaseViewPagerActivity {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(HomeFragment.getInstanceFragment());
         fragmentList.add(ClassifyFragment.getInstanceFragment());
+        fragmentList.add(LifeRadarMapFragment.getInstanceFragment());
         fragmentList.add(PersonalFragment.getInstanceFragment());
 //        fragmentList.add(HomeFragment.getInstanceFragment());
 //        fragmentList.add(HomeFragment.getInstanceFragment());
