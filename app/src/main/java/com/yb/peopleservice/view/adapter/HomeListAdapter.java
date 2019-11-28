@@ -1,10 +1,12 @@
 package com.yb.peopleservice.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,6 +16,7 @@ import com.gcssloop.widget.PagerGridLayoutManager;
 import com.gcssloop.widget.PagerGridSnapHelper;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.HomeListBean;
+import com.yb.peopleservice.view.activity.ServiceListActivity;
 import com.yb.peopleservice.view.weight.PageIndicatorView;
 
 import java.util.ArrayList;
@@ -100,6 +103,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                         ToastUtils.showLong(position+"");
+                        ActivityUtils.startActivity(new Intent(context, ServiceListActivity.class));
                     }
                 });
                 break;

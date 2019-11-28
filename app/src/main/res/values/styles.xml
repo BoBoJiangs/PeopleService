@@ -32,6 +32,12 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!--内容的TextView，黑色-->
+    <style name="text_view_14_black" parent="text_view_content">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/font_content_five</item>
+    </style>
+
 
     <!--内容的TextView-->
     <style name="text_view_content">

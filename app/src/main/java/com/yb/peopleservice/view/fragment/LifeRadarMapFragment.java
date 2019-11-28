@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -38,6 +39,8 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
         LocationSource {
     @BindView(R.id.mapView)
     TextureMapView mapView;
+    @BindView(R.id.locationName)
+    TextView locationName;
     private AMap aMap;
     private MyLocationStyle myLocationStyle;
     private OnLocationChangedListener mListener;
@@ -161,8 +164,7 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
     public void onLocationChanged(AMapLocation aMapLocation) {
         // 定位回调监听
         if(aMapLocation != null) {
-
-            ToastUtils.showLong(aMapLocation.getPoiName());
+            locationName.setText(String.format("%s%s", aMapLocation.getStreet(), aMapLocation.getStreetNum()));
 
         } else {
             Log.e("amap", "定位失败");
