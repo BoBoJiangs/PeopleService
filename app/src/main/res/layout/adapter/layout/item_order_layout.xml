@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_default"
+        android:layout_marginTop="@dimen/space_default"
+        android:layout_marginEnd="@dimen/space_default"
+        app:bl_corners_radius="@dimen/dp_10"
+        app:bl_solid_color="@color/white"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/topLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_default"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_order1" />
+
+            <TextView
+                android:id="@+id/nameTV"
+                style="@style/text_view_content_black"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_weight="1"
+                android:text="加载中"
+                android:textSize="@dimen/font_btn_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/stateTV"
+                style="@style/text_view_content_black"
+                android:layout_height="wrap_content"
+                android:text="加载中"
+                android:textSize="@dimen/font_btn_small" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150pt"
+            android:layout_height="150pt"
+            android:layout_margin="@dimen/space_default"
+            android:background="@color/color_f2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topLL" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_default"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <LinearLayout
+            android:id="@+id/priceLL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_default"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintRight_toRightOf="@+id/topLL"
+            app:layout_constraintTop_toTopOf="@+id/imageView">
+
+            <TextView
+                android:id="@+id/priceTV"
+                style="@style/text_view_content_gray"
+                android:text="0元" />
+
+            <TextView
+                android:id="@+id/priceTV2"
+                style="@style/text_view_content_gray"
+                android:text="50元"
+                android:textColor="@color/color_69" />
+
+            <TextView
+                android:id="@+id/numTV"
+                style="@style/text_view_content_black"
+                android:text="x1"
+                android:textSize="@dimen/font_content_five" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/text_view_content_black"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="共3件商品 合计：151.56元"
+            android:textSize="@dimen/font_content_five"
+            app:layout_constraintRight_toRightOf="@+id/priceLL"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:src="@mipmap/icon_dian"
+            app:layout_constraintBottom_toBottomOf="@+id/btnLL"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnLL" />
+
+        <LinearLayout
+            android:id="@+id/btnLL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal"
+            app:layout_constraintRight_toRightOf="@+id/textView1"
+            app:layout_constraintTop_toBottomOf="@+id/textView1">
+
+            <TextView
+                android:text="退款明细"
+                app:bl_corners_radius="12dp"
+                app:bl_solid_color="@color/white"
+                app:bl_stroke_color="@color/gray_66"
+                app:bl_stroke_width="1dp"
+                style="@style/button_style" />
+
+            <TextView
+                style="@style/button_style"
+                android:text="再来一单"
+                app:bl_corners_radius="12dp"
+                android:layout_marginStart="@dimen/dp_10"
+                app:bl_solid_color="@color/white"
+                app:bl_stroke_color="@color/base_text_color"
+                app:bl_stroke_width="1dp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/horizontal_line_style"
+            android:layout_marginTop="@dimen/dp_10"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLL" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

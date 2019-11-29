@@ -13,6 +13,7 @@ import com.yb.peopleservice.view.base.BaseViewPagerActivity;
 import com.yb.peopleservice.view.fragment.ClassifyFragment;
 import com.yb.peopleservice.view.fragment.HomeFragment;
 import com.yb.peopleservice.view.fragment.LifeRadarMapFragment;
+import com.yb.peopleservice.view.fragment.OrderListFragment;
 import com.yb.peopleservice.view.fragment.PersonalFragment;
 
 import java.util.ArrayList;
@@ -84,10 +85,10 @@ public class MainActivity extends BaseViewPagerActivity {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(HomeFragment.getInstanceFragment());
         fragmentList.add(ClassifyFragment.getInstanceFragment());
+        fragmentList.add(OrderListFragment.getInstanceFragment());
         fragmentList.add(LifeRadarMapFragment.getInstanceFragment());
         fragmentList.add(PersonalFragment.getInstanceFragment());
-//        fragmentList.add(HomeFragment.getInstanceFragment());
-//        fragmentList.add(HomeFragment.getInstanceFragment());
+
         return fragmentList;
     }
 }

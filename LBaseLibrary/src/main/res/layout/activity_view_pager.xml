@@ -6,18 +6,21 @@
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/base_lib_gray_line" />
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/commonTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_utility_view"
+        android:layout_height="@dimen/height_title"
         android:background="@android:color/white"
-        app:tl_iconHeight="30dp"
-        app:tl_iconWidth="30dp"
-        app:tl_indicator_height="0dp"
-        app:tl_textSelectColor="@color/theme_color"
+        app:tl_indicator_color="@color/base_text_color"
+        app:tl_indicator_corner_radius="1dp"
+        app:tl_indicator_height="3dp"
+        app:tl_textSelectColor="@color/base_text_color"
         app:tl_textUnselectColor="@color/base_lib_gray"
-        app:tl_textsize="@dimen/font_content_small"
+        app:tl_textsize="@dimen/font_content"
         app:tl_underline_height="0dp" />
 
     <View

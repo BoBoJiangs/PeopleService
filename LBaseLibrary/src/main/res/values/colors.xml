@@ -9,6 +9,7 @@
     <color name="base_lib_gray_line">#e2e4e4</color>
     <color name="base_lib_blue">#0878e6</color>
     <color name="base_lib_gray">#999999</color>
+    <color name="base_text_color">#FF5F00</color>
 
     <color name="base_white_alpha_10">#0AFFFFFF</color><!--白色半透明，数字为透明度-->
     <color name="base_white_alpha_55">#37FFFFFF</color><!--白色半透明，数字为透明度-->

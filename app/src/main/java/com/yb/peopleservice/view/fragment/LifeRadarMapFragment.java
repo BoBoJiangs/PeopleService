@@ -16,8 +16,13 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.TextureMapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
@@ -46,6 +51,8 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
     private OnLocationChangedListener mListener;
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
+    //自定义定位小蓝点的Marker
+    private Marker locationMarker;
 
     public static Fragment getInstanceFragment() {
         LifeRadarMapFragment fragment = new LifeRadarMapFragment();
@@ -69,7 +76,7 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
         myLocationStyle = new MyLocationStyle();
         aMap.setMyLocationStyle(myLocationStyle);
 //        aMap.setOnMyLocationChangeListener(this);
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
+        aMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationStyle(myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER));
     }
@@ -163,9 +170,24 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         // 定位回调监听
-        if(aMapLocation != null) {
+        if (aMapLocation != null) {
             locationName.setText(String.format("%s%s", aMapLocation.getStreet(), aMapLocation.getStreetNum()));
+            LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+            //展示自定义定位小蓝点
+            if(locationMarker == null) {
+                //首次定位
+                locationMarker = aMap.addMarker(new MarkerOptions().position(latLng)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_marker))
+                        .anchor(0.5f, 0.5f));
 
+                //首次定位,选择移动到地图中心点并修改级别到15级
+                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+            }else{
+                LatLng curLatlng = locationMarker.getPosition();
+                if(curLatlng == null || !curLatlng.equals(latLng)) {
+                    locationMarker.setPosition(latLng);
+                }
+            }
         } else {
             Log.e("amap", "定位失败");
         }
