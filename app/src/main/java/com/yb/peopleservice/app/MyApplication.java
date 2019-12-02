@@ -8,6 +8,7 @@ import androidx.multidex.MultiDexApplication;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
+import com.tencent.smtt.sdk.QbSdk;
 import com.yb.peopleservice.BuildConfig;
 
 import cn.sts.base.util.AppManageUtil;
@@ -40,6 +41,19 @@ public class MyApplication extends MultiDexApplication {
 
         initLog();
 //        AppManageUtil.APP_CODE = AppConstant.FILE_KEY;
+        //x5内核初始化接口
+        QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+                LogUtils.d(" onCoreInitFinished");
+            }
+
+            @Override
+            public void onViewInitFinished(boolean b) {
+                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+                LogUtils.d(" onViewInitFinished is " + b);
+            }
+        });
     }
 
 

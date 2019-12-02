@@ -32,12 +32,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".view.activity.ServiceDetailsActivity"></activity>
 
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
-
-        <!-- 沉浸式适配配置 -->
+            android:required="false" /> <!-- 沉浸式适配配置 -->
         <!-- 适配全面屏 -->
         <meta-data
             android:name="android.max_aspect"
@@ -48,13 +47,10 @@
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" /> <!-- 沉浸式适配配置 -->
-
-
         <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="f9e093bae9f503dfd7b5567b16b67d7a" />
-        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+            android:value="f9e093bae9f503dfd7b5567b16b67d7a" /> <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".view.WelcomeActivity">
@@ -69,6 +65,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.ServiceListActivity" />
+        <activity android:name=".view.activity.WebViewActivity" />
     </application>
 
 </manifest>

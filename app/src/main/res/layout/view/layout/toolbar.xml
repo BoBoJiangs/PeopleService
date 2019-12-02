@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/leftIV"
         style="@style/toolbar_image"
-        android:src="@drawable/base_icon_back" />
+        android:src="@mipmap/icon_back" />
 
     <TextView
         android:id="@+id/titleTV"

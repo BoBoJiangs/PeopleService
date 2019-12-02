@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <LinearLayout
+        style="@style/line_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_default"
+        app:bl_stroke_position="bottom">
+
+        <CheckBox
+            style="@style/text_view_content_black"
+            android:text="只看当前项目"
+            android:textColor="@color/gray_66"
+            android:textSize="@dimen/font_btn_small_best" />
+
+        <TextView
+            style="@style/text_view_content_black"
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:text="好评率98%"
+            android:textColor="@color/base_text_color"
+            android:textSize="@dimen/font_btn_small_best" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/line_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        app:bl_stroke_position="bottom">
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/evaluate_text_style"
+            android:text="全部\n0" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/evaluate_text_style"
+            android:text="好评\n0" />
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/evaluate_text_style"
+            android:text="中评\n0" />
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/evaluate_text_style"
+            android:text="差评\n0" />
+
+        <TextView
+            android:id="@+id/textView5"
+            style="@style/evaluate_text_style"
+            android:text="有图\n0" />
+    </LinearLayout>
+
+    <include
+        layout="@layout/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_default"
+        android:layout_marginEnd="@dimen/space_default" />
+</LinearLayout>

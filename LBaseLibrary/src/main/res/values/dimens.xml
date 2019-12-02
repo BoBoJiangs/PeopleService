@@ -38,7 +38,7 @@
     <!--内容默认字体大小-->
     <dimen name="font_content">15sp</dimen>
     <!--内容小号字体大小-->
-    <dimen name="font_content_small">12sp</dimen>
+    <dimen name="font_content_small">14sp</dimen>
 
     <!--标准按钮字体大小-->
     <dimen name="font_btn">18sp</dimen>

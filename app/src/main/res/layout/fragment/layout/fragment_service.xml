@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="580pt"
+            app:image_scale_type="center_crop"
+            app:indicator_drawable_selected="@drawable/e_circle_point_blue"
+            app:indicator_drawable_unselected="@drawable/e_circle_point_white"
+            app:indicator_margin="@dimen/space_small_best" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_default"
+            style="@style/line_style"
+            app:bl_stroke_position="top|bottom">
+
+            <TextView
+                android:id="@+id/nameTV"
+                style="@style/text_view_content_black"
+                android:layout_width="match_parent"
+                android:lines="1"
+                android:text="加载中"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/collectIV"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/collectIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_shoucan"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/nameTV" />
+
+            <TextView
+                android:id="@+id/priceTV"
+                style="@style/text_view_content_black"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/space_default"
+                android:lines="1"
+                android:text="加载中"
+                android:textColor="@color/base_text_color"
+                app:layout_constraintLeft_toLeftOf="@+id/nameTV"
+                app:layout_constraintRight_toLeftOf="@+id/soldTV"
+                app:layout_constraintTop_toBottomOf="@+id/nameTV" />
+
+            <TextView
+                android:id="@+id/soldTV"
+                style="@style/text_view_content_black"
+                android:layout_marginTop="@dimen/space_default"
+                android:text="加载中"
+                android:textColor="@color/color_69"
+                android:textSize="@dimen/font_content_small"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collectIV" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            style="@style/line_style"
+            android:padding="@dimen/space_default">
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:text="会员"
+                android:textColor="@color/gray_66"
+                android:textSize="@dimen/font_content_small" />
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="充值"
+                android:textColor="@color/base_text_color"
+                android:textSize="@dimen/font_content_small"
+                app:bl_corners_radius="3dp"
+                app:bl_solid_color="#FFDFCC" />
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_width="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:text="充500送50，充1000送150"
+                android:textColor="@color/gray_66"
+                android:textSize="@dimen/font_content_small" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            style="@style/line_style"
+            android:padding="@dimen/space_default">
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:text="保障"
+                android:textColor="@color/gray_66"
+                android:textSize="@dimen/font_content_small" />
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_marginStart="5dp"
+                android:text="未服务全额退、爽约包赔、不满意重服务"
+                android:textColor="@color/color_69"
+                android:textSize="@dimen/font_content_small" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            style="@style/line_style"
+            android:padding="@dimen/space_default">
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:text="选择"
+                android:textColor="@color/gray_66"
+                android:textSize="@dimen/font_content_small" />
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_width="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="@dimen/space_default"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="请选择项目"
+                android:textSize="@dimen/font_content_small" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            style="@style/line_style"
+            android:padding="@dimen/space_default">
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:text="服务时间"
+                android:textSize="@dimen/font_content_small" />
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_width="match_parent"
+                android:layout_marginStart="5dp"
+                android:gravity="right"
+                android:text="最近可约  明天10:00"
+                android:textSize="@dimen/font_content_small" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="@dimen/space_default">
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:text="服务内容"
+                android:textSize="@dimen/font_content_small" />
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:text="加载中"
+                android:textSize="@dimen/font_content_small" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
