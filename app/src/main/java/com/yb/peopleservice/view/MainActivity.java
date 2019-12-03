@@ -29,9 +29,9 @@ public class MainActivity extends BaseViewPagerActivity {
     private int[] mIconUnselectIds = {
             R.mipmap.tab_home_select, R.mipmap.tab_class_unselect,
             R.mipmap.tab_map_unselect, R.mipmap.tab_order_unselect, R.mipmap.tab_center_unselect};
-    //    private int[] mIconSelectIds = {
-//            R.mipmap.tab_home_select, R.mipmap.tab_class_select,
-//            R.mipmap.tab_map_select, R.mipmap.tab_order_select,R.mipmap.tab_center_select};
+        private int[] mIconSelectIds = {
+            R.mipmap.tab_home_select, R.mipmap.tab_class_select,
+            R.mipmap.tab_map_select, R.mipmap.tab_order_select,R.mipmap.tab_center_select};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;
 
@@ -75,7 +75,7 @@ public class MainActivity extends BaseViewPagerActivity {
     protected ArrayList<CustomTabEntity> getTabEntityList() {
         ArrayList<CustomTabEntity> mTabEntityList = new ArrayList<>();
         for (int i = 0; i < mTitles.length; i++) {
-            mTabEntityList.add(new TabEntity(mTitles[i], mIconUnselectIds[i], mIconUnselectIds[i]));
+            mTabEntityList.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
         return mTabEntityList;
     }

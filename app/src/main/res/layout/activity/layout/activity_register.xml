@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/space_default"
+    android:layout_marginRight="@dimen/space_default"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <ImageView
+        android:id="@+id/logoIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="120pt"
+        android:src="@mipmap/ic_launcher" />
+
+
+    <LinearLayout
+        android:id="@+id/inputLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/space_default">
+
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/phoneTV"
+            style="@style/login_utility"
+            android:layout_height="50dp"
+            app:text_content_hint="请输入手机号码"
+            app:text_content_size="@dimen/font_content_small" />
+
+        <FrameLayout
+            style="@style/line_style"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/space_default"
+            android:orientation="horizontal">
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/pwdUV"
+                style="@style/login_utility"
+                android:layout_height="match_parent"
+                app:info_padding_right="30dp"
+                app:text_content_hint="请输入验证码"
+                app:text_content_size="@dimen/font_content_small" />
+
+            <ImageView
+                android:id="@+id/seeIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:src="@mipmap/login_ps1" />
+        </FrameLayout>
+
+
+        <Button
+            android:id="@+id/loginBtn"
+            style="@style/login_btn_style"
+            android:text="登录" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

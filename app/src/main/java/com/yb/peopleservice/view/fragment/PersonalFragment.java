@@ -78,10 +78,8 @@ public class PersonalFragment extends BaseListFragment {
         initHeaderView();
         recyclerView.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.color_fa));
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
-        listData.add(new PersonalListBean(TITLE_TYPE, SPAN_SIZE_ONE));
-        listData.add(new PersonalListBean(PAGE_TYPE, SPAN_SIZE_ONE));
-//        adapter.setSpanSizeLookup((gridLayoutManager, position) ->
-//                listData.get(position).getSpanSize());
+        listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
+        listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         adapter.setNewData(listData);
         DraggableController mDraggableController = adapter.getDraggableController();
 

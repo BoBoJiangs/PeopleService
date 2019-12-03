@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.blankj.utilcode.util.PermissionUtils;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.view.activity.login.LoginActivity;
 import com.yb.peopleservice.view.base.BaseActivity;
 
 import java.util.List;
@@ -162,7 +163,7 @@ public class WelcomeActivity extends BaseActivity {
      * 跳转到登录的Activity
      */
     private void toMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

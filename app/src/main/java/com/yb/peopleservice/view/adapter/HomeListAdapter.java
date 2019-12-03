@@ -75,8 +75,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
                 mLayoutManager.setPageListener(new PagerGridLayoutManager.PageListener() {
                     @Override
                     public void onPageSizeChanged(int pageSize) {
-                        ToastUtils.showLong(pageSize+"");
-//                        indicator.initIndicator(pageSize);
+
                     }
 
                     @Override

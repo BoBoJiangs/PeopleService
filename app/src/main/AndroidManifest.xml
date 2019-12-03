@@ -66,6 +66,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.ServiceListActivity" />
         <activity android:name=".view.activity.WebViewActivity" />
+        <activity android:name=".view.activity.login.LoginActivity" />
     </application>
 
 </manifest>

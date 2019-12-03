@@ -44,9 +44,7 @@ public class PersonalListAdapter extends BaseMultiItemQuickAdapter<PersonalListB
     public PersonalListAdapter(List<PersonalListBean> data, Context context) {
         super(data);
         this.context = context;
-        addItemType(PersonalListBean.PAGE_TYPE, R.layout.personal_history_view);
-        addItemType(PersonalListBean.TITLE_TYPE, R.layout.personal_wallet_view);
-        addItemType(PersonalListBean.CONTENT_TYPE, R.layout.personal_order_view);
+        addItemType(PersonalListBean.CONTENT_TYPE, R.layout.personal_content_view);
         mDraggableController = new DraggableController(this);
 
         for (int i = 0; i < 5; i++) {
@@ -57,27 +55,7 @@ public class PersonalListAdapter extends BaseMultiItemQuickAdapter<PersonalListB
     @Override
     protected void convert(BaseViewHolder helper, PersonalListBean item) {
         mDraggableController.initView(helper);
-        switch (helper.getItemViewType()) {
-            case PersonalListBean.TITLE_TYPE:
 
-                break;
-            case PersonalListBean.PAGE_TYPE:
-                RecyclerView recyclerView = helper.getView(R.id.recyclerView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(context,RecyclerView.HORIZONTAL,false));
-                HomeContentAdapter contentAdapter = new HomeContentAdapter();
-                recyclerView.setAdapter(contentAdapter);
-                contentAdapter.setNewData(contentLis);
-                contentAdapter.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        ToastUtils.showLong(position+"");
-                    }
-                });
-                break;
-            case PersonalListBean.CONTENT_TYPE:
-
-                break;
-        }
 
     }
 

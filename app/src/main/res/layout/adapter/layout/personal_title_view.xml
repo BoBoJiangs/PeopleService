@@ -17,8 +17,7 @@
             android:id="@+id/userInfoRL"
             android:layout_width="match_parent"
             android:layout_height="370pt"
-            android:orientation="vertical"
-            android:layout_marginBottom="50pt"
+            android:layout_marginBottom="120pt"
             android:background="@mipmap/icon_personal_title_bg"
             android:padding="@dimen/space_default">
 
@@ -26,14 +25,15 @@
                 android:id="@+id/photoIV"
                 android:layout_width="@dimen/height_image_big"
                 android:layout_height="@dimen/height_image_big"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="80pt"
                 android:src="@drawable/base_icon_default" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/arrowTV"
-                android:layout_toRightOf="@+id/photoIV"
+                android:layout_toStartOf="@+id/arrowTV"
+                android:layout_toEndOf="@+id/photoIV"
+                android:layout_alignTop="@id/photoIV"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/space_small"
                 android:orientation="vertical">
@@ -63,85 +63,65 @@
                 android:id="@+id/arrowTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/photoIV"
+                android:layout_alignBottom="@+id/photoIV"
                 android:src="@mipmap/icon_arrow_right2" />
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="110pt"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_default"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:bl_corners_radius="5dp"
             android:layout_gravity="bottom"
             app:bl_solid_color="@color/white">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
+                android:layout_width="match_parent"
+                android:layout_height="80pt"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/space_default"
+                android:paddingEnd="@dimen/space_default"
+                android:orientation="horizontal">
                 <TextView
-                    style="@style/text_view_content_gray"
-                    android:text="999" />
-
-                <TextView
-                    style="@style/text_view_content_gray"
-                    android:text="购物车"
-                    android:textSize="@dimen/font_content_small" />
+                    style="@style/text_view_content_black"
+                    android:textSize="@dimen/font_content_middle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="我的订单"/>
+                <ImageView
+                    android:layout_width="20pt"
+                    android:layout_height="20pt"
+                    android:src="@mipmap/icon_arrow_right"/>
             </LinearLayout>
-
+            <View
+                style="@style/horizontal_line_style"/>
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="130pt"
                 android:gravity="center"
-                android:orientation="vertical">
-
+                android:orientation="horizontal">
                 <TextView
-                    style="@style/text_view_content_gray"
-                    android:text="999" />
-
+                    android:id="@+id/payTV"
+                    android:text="待付款"
+                    android:drawableTop="@mipmap/icon_persona1"
+                    style="@style/personal_text_style" />
                 <TextView
-                    style="@style/text_view_content_gray"
-                    android:text="关注服务"
-                    android:textSize="@dimen/font_content_small" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
+                    android:id="@+id/todoTV"
+                    style="@style/personal_text_style"
+                    android:drawableTop="@mipmap/icon_persona2"
+                    android:text="进行中"/>
                 <TextView
-                    style="@style/text_view_content_gray"
-                    android:text="999" />
-
+                    android:id="@+id/finishTV"
+                    style="@style/personal_text_style"
+                    android:drawableTop="@mipmap/icon_persona3"
+                    android:text="已完成"/>
                 <TextView
-                    style="@style/text_view_content_gray"
-                    android:text="关注技师"
-                    android:textSize="@dimen/font_content_small" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/text_view_content_gray"
-                    android:text="999" />
-
-                <TextView
-                    style="@style/text_view_content_gray"
-                    android:text="关注店铺"
-                    android:textSize="@dimen/font_content_small" />
+                    android:id="@+id/evaluateTV"
+                    style="@style/personal_text_style"
+                    android:drawableTop="@mipmap/icon_persona4"
+                    android:text="待评价"/>
             </LinearLayout>
 
         </LinearLayout>
