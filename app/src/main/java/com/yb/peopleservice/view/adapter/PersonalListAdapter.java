@@ -32,9 +32,12 @@ import java.util.List;
  * 修改描述:
  */
 public class PersonalListAdapter extends BaseMultiItemQuickAdapter<PersonalListBean, BaseViewHolder> {
+    private String[] title = {"领券中心", "我的优惠券", "收货地址", "我的收藏"};
+    private int[] imageID = {R.mipmap.icon_person1, R.mipmap.icon_person2,
+            R.mipmap.icon_person3, R.mipmap.icon_person4};
     private Context context;
     private DraggableController mDraggableController;
-    List<String> contentLis = new ArrayList<>();
+
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -47,16 +50,13 @@ public class PersonalListAdapter extends BaseMultiItemQuickAdapter<PersonalListB
         addItemType(PersonalListBean.CONTENT_TYPE, R.layout.personal_content_view);
         mDraggableController = new DraggableController(this);
 
-        for (int i = 0; i < 5; i++) {
-            contentLis.add("");
-        }
     }
 
     @Override
     protected void convert(BaseViewHolder helper, PersonalListBean item) {
         mDraggableController.initView(helper);
-
-
+        helper.setText(R.id.titleTV, title[helper.getAdapterPosition() - 1]);
+        helper.setImageResource(R.id.imageView, imageID[helper.getAdapterPosition() - 1]);
     }
 
 

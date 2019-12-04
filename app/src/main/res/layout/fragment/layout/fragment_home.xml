@@ -6,16 +6,60 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:descendantFocusability="blocksDescendants"
+    tools:ignore="MissingPrefix"
     tools:context=".view.MainActivity">
 
     <LinearLayout
         android:id="@+id/titleLL"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_title"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:paddingStart="@dimen/space_default"
+        android:paddingEnd="@dimen/space_default"
+        android:background="@color/base_text_color"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_location1"/>
+        <TextView
+            android:id="@+id/locationName"
+            style="@style/text_view_content_gray"
+            android:textColor="@color/white"
+            android:layout_width="70dp"
+            android:text="我的位置"
+            android:lines="1"
+            android:layout_marginStart="5dp"
+            android:textSize="@dimen/font_btn_small_best" />
+        <include
+            android:layout_width="0dp"
+            android:layout_height="60pt"
+            android:layout_weight="1"
+            app:bl_solid_color="@color/white"
+            layout="@layout/search_view"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp">
 
+            <ImageView
+                android:id="@+id/rightIV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10"
+                android:src="@mipmap/icon_msg"
+                android:visibility="visible" />
 
+            <com.flyco.tablayout.widget.MsgView
+                android:id="@+id/msgMV2"
+                android:text="1"
+                app:mv_backgroundColor="@color/white"
+                app:mv_isRadiusHalfHeight="true"
+                app:mv_strokeColor="@color/base_text_color"
+                app:mv_strokeWidth="1dp"
+                android:visibility="invisible"
+                style="@style/msg_tip_style" />
+        </FrameLayout>
     </LinearLayout>
 
 

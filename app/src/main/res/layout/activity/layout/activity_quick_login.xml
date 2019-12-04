@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/space_default"
+    android:layout_marginRight="@dimen/space_default"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <ImageView
+        android:id="@+id/logoIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="120pt"
+        android:src="@mipmap/ic_launcher" />
+
+
+    <LinearLayout
+        android:id="@+id/phoneLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/space_default">
+
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/phoneUV"
+            style="@style/login_utility"
+            android:layout_height="50dp"
+            app:text_content_hint="请输入手机号码"
+            app:text_content_size="@dimen/font_content_small" />
+
+
+        <Button
+            android:id="@+id/nextBtn"
+            style="@style/login_btn_style"
+            android:text="下一步" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loginLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/space_default"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/text_view_content_black"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/space_default"
+            android:text="验证电话号码"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/phoneTV"
+            style="@style/text_view_content_black"
+            android:layout_marginTop="@dimen/space_default"
+            android:text="我们刚刚向 +86 1234567895发送了一个验证码" />
+
+        <com.yb.peopleservice.view.weight.PasswordInputView
+            android:id="@+id/vcivCode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="@dimen/space_default"
+            android:background="@null"
+            android:padding="1dp"
+            app:pwv_maxLength="4"
+            app:pwv_borderColor="@color/gray_cc"
+            app:pwv_haveInputBorderColor="@color/base_text_color"
+            app:pwv_borderStyle="line"
+            app:pwv_pwdStyle="plaintext"
+            app:pwv_radius="10dp"
+            app:pwv_spacing="12dp" />
+
+        <Button
+            android:id="@+id/loginBtn"
+            style="@style/gray_btn_style"
+            android:text="立即登录" />
+
+        <LinearLayout
+            android:id="@+id/bottomLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_default"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_error" />
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:text="请输入验证码  未收到验证码？" />
+
+            <TextView
+                android:id="@+id/retryTV"
+                style="@style/text_view_content_black"
+                android:text="重试"
+                android:textColor="@color/base_text_color" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

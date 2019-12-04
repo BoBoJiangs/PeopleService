@@ -16,13 +16,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="80pt"
-        android:layout_height="80pt"
-        android:src="@mipmap/icon_person1"
-        app:bl_shape="oval"
-        app:bl_solid_color="@color/base_text_color" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_person1"/>
 
     <TextView
+        android:id="@+id/titleTV"
         style="@style/text_view_content_black"
         android:layout_width="0dp"
         android:layout_marginStart="@dimen/space_default"

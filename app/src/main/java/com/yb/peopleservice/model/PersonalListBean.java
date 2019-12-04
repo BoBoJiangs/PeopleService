@@ -21,6 +21,8 @@ public class PersonalListBean implements MultiItemEntity {
     private int itemType;
     private int spanSize;
 
+    public PersonalListBean() {
+    }
 
     public PersonalListBean(int itemType, int spanSize) {
         this.itemType = itemType;

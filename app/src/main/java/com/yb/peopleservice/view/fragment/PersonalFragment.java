@@ -80,6 +80,7 @@ public class PersonalFragment extends BaseListFragment {
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
+        listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         adapter.setNewData(listData);
         DraggableController mDraggableController = adapter.getDraggableController();
 

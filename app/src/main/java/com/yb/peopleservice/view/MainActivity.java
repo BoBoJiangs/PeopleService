@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.view.base.BaseViewPagerActivity;
 import com.yb.peopleservice.view.fragment.ClassifyFragment;
@@ -27,7 +28,7 @@ public class MainActivity extends BaseViewPagerActivity {
 
     private String[] mTitles = {"首页", "分类", "生活雷达", "订单", "个人中心"};
     private int[] mIconUnselectIds = {
-            R.mipmap.tab_home_select, R.mipmap.tab_class_unselect,
+            R.mipmap.tab_home_unselect, R.mipmap.tab_class_unselect,
             R.mipmap.tab_map_unselect, R.mipmap.tab_order_unselect, R.mipmap.tab_center_unselect};
         private int[] mIconSelectIds = {
             R.mipmap.tab_home_select, R.mipmap.tab_class_select,
@@ -44,11 +45,20 @@ public class MainActivity extends BaseViewPagerActivity {
     public void initToolView() {
         super.initToolView();
         toolbar.setVisibility(View.GONE);
+        ImmersionBar.with(this)
+                .fitsSystemWindows(true)
+                .statusBarDarkFont(false, 0.2f)
+                .statusBarColor(R.color.base_text_color).init();
     }
 
     @Override
     protected void initData() {
         viewPager.setOffscreenPageLimit(5);
+    }
+
+    @Override
+    public void onTabSelect(int position) {
+        viewPager.setCurrentItem(position,false);
     }
 
     @Override
@@ -90,5 +100,21 @@ public class MainActivity extends BaseViewPagerActivity {
         fragmentList.add(PersonalFragment.getInstanceFragment());
 
         return fragmentList;
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        super.onPageSelected(position);
+        if (position==0||position==4){
+            ImmersionBar.with(this)
+                    .fitsSystemWindows(true)
+                    .statusBarDarkFont(false, 0.2f)
+                    .statusBarColor(R.color.base_text_color).init();
+        }else{
+            ImmersionBar.with(this)
+                    .fitsSystemWindows(true)
+                    .statusBarDarkFont(true, 0.2f)
+                    .statusBarColor(R.color.white).init();
+        }
     }
 }

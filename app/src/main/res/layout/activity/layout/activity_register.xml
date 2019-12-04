@@ -18,44 +18,51 @@
         android:layout_marginTop="120pt"
         android:src="@mipmap/ic_launcher" />
 
+    <TextView
+        style="@style/text_view_content_black"
+        android:layout_marginTop="@dimen/space_default"
+        android:text="新用户快速注册"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/inputLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_default"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/space_default">
-
-        <cn.sts.base.view.widget.UtilityView
-            android:id="@+id/phoneTV"
-            style="@style/login_utility"
-            android:layout_height="50dp"
-            app:text_content_hint="请输入手机号码"
-            app:text_content_size="@dimen/font_content_small" />
+        android:orientation="vertical">
 
         <FrameLayout
             style="@style/line_style"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="@dimen/space_default"
             android:orientation="horizontal">
 
             <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/pwdUV"
                 style="@style/login_utility"
                 android:layout_height="match_parent"
-                app:info_padding_right="30dp"
-                app:text_content_hint="请输入验证码"
-                app:text_content_size="@dimen/font_content_small" />
+                app:info_padding_right="60dp"
+                app:text_content_hint="请输入手机号码"
+                app:text_content_size="@dimen/font_content_small"
+                app:right_image_res="@drawable/md_transparent"
+                app:right_image_show_by_input="false"/>
 
-            <ImageView
-                android:id="@+id/seeIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/getAuthCodeTV"
+                style="@style/text_view_content_black"
                 android:layout_gravity="right|center_vertical"
-                android:src="@mipmap/login_ps1" />
+                android:text="获取验证码"
+                android:textColor="@color/base_text_color" />
         </FrameLayout>
+
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/phoneTV"
+            style="@style/login_utility"
+            android:layout_height="50dp"
+            app:text_content_hint="请输入验证码"
+            app:text_content_input_type="TEXT"
+            app:text_content_size="@dimen/font_content_small" />
 
 
         <Button

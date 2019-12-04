@@ -19,7 +19,7 @@
         android:layout_weight="1"
         android:background="@color/transparent"
         app:content_gravity="start"
-        app:info_padding_left="0dp"
+        app:info_padding_left="10dp"
         app:line_show="false"
         app:text_content_hint="搜索"
         app:text_content_input_type="TEXT" />
