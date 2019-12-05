@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/space_default"
+    android:padding="@dimen/space_default"
     android:orientation="vertical"
+    style="@style/line_style"
     tools:ignore="MissingPrefix">
 
     <LinearLayout
@@ -23,13 +24,14 @@
 
         <TextView
             style="@style/text_view_content_black"
+            android:layout_marginStart="@dimen/dp_10"
             android:text="加载中" />
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/space_default"
+        android:layout_marginStart="@dimen/dp_10"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -38,14 +40,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:starCount="5"
-            app:starSpace="10dp"
-            app:starMaxProgress="120"
-            app:starProgress="60"/>
+            app:starSpace="4dp"
+            app:starSize="20dp"
+            app:starFillColor="@color/base_text_color"
+            app:starShowStroke="false"/>
 
         <TextView
             style="@style/text_view_content_black"
             android:layout_gravity="right"
             android:text="加载中" />
     </FrameLayout>
-
+    <TextView
+        style="@style/text_view_content_black"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="25pt"
+        android:text="加载中" />
 </LinearLayout>
