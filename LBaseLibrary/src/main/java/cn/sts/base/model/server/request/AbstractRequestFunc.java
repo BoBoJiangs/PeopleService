@@ -40,7 +40,7 @@ public abstract class AbstractRequestFunc<T> extends AbstractFunc<T, RequestResu
 
     @Override
     public RequestResult apply(@NonNull RequestResult requestResult) throws Exception {
-        if (!requestResult.getSuccess()) {
+        if (requestResult.getCode() != 200) {
             if (StringUtils.isNotBlank(requestResult.getMsg())) {
                 throw new RequestException(requestResult.getMsg());
             } else {

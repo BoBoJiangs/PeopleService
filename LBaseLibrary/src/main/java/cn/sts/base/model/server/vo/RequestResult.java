@@ -16,22 +16,22 @@ public class RequestResult<T> {
     /**
      * 返回的数据
      */
-    private T obj;
+    private T data;
 
     /**
      * 服务器错误信息
      */
-    private String msg;
+    private String message;
 
     /**
      * 返回码
      */
-    private Integer code;
+    private Integer status;
 
     private String jessionId;
 
     public String getMsg() {
-        return msg;
+        return message;
     }
 
 
@@ -40,11 +40,11 @@ public class RequestResult<T> {
     }
 
     public T getObj() {
-        return obj;
+        return data;
     }
 
     public Integer getCode() {
-        return code;
+        return status;
     }
 
     public String getJessionId() {

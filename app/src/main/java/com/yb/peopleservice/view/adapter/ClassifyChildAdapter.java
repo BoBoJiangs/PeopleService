@@ -22,6 +22,6 @@ public class ClassifyChildAdapter extends BaseQuickAdapter<ClassifyListBean, Bas
 
     @Override
     protected void convert(BaseViewHolder helper, ClassifyListBean item) {
-
+        helper.setText(R.id.titleTV,item.getCategoryName());
     }
 }

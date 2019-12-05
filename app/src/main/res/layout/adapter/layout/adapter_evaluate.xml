@@ -40,8 +40,7 @@
             app:starCount="5"
             app:starSpace="10dp"
             app:starMaxProgress="120"
-            app:starProgress="60"
-            app:starPointCount="5"/>
+            app:starProgress="60"/>
 
         <TextView
             style="@style/text_view_content_black"

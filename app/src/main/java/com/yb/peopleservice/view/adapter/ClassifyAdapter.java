@@ -35,9 +35,9 @@ public class ClassifyAdapter extends BaseQuickAdapter<ClassifyListBean, BaseView
     @Override
     protected void convert(BaseViewHolder helper, ClassifyListBean item) {
         TextView titleTV = helper.getView(R.id.titleTV);
-        helper.setText(R.id.titleTV, "一级分类" + item.getName());
-        helper.setVisible(R.id.lineTV, name.equals(item.getName()));
-        if (name.equals(item.getName())) {
+        helper.setText(R.id.titleTV, item.getCategoryName());
+        helper.setVisible(R.id.lineTV, name.equals(item.getCategoryName()));
+        if (name.equals(item.getCategoryName())) {
             titleTV.setTextColor(ContextCompat.getColor(mContext,R.color.base_text_color));
             titleTV.setTextSize(16);
         } else {

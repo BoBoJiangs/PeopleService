@@ -27,6 +27,10 @@ public abstract class BaseFragment<P extends AbstractPresenter> extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         Logs.i(TAG, "onCreateView");
+        //创建Presenter
+        if (presenter == null) {
+            presenter = createPresenter();
+        }
         if (view == null) {
             Logs.i(TAG, "onCreateView view == null");
             this.inflater = inflater;
@@ -36,10 +40,7 @@ public abstract class BaseFragment<P extends AbstractPresenter> extends Fragment
             initData();
         }
 
-        //创建Presenter
-        if (presenter == null) {
-            presenter = createPresenter();
-        }
+
         if (savedInstanceState != null) {
             //恢复之前保存的数据
             presenter.onCreate(savedInstanceState);
