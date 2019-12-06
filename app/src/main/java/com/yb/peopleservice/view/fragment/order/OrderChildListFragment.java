@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.flyco.tablayout.CommonTabLayout;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.view.adapter.order.OrderListAdapter;
 import com.yb.peopleservice.view.base.BaseViewPagerFragment;
 import com.yb.peopleservice.view.fragment.HomeFragment;
 
@@ -22,7 +23,7 @@ import cn.sts.base.view.fragment.BaseListFragment;
 
 public class OrderChildListFragment extends BaseListFragment {
 
-    private BaseQuickAdapter adapter;
+    private OrderListAdapter adapter;
 
     public static Fragment getInstanceFragment() {
         OrderChildListFragment fragment = new OrderChildListFragment();
@@ -31,12 +32,7 @@ public class OrderChildListFragment extends BaseListFragment {
 
     @Override
     public BaseQuickAdapter initAdapter() {
-        return adapter = new BaseQuickAdapter(R.layout.item_order_layout) {
-            @Override
-            protected void convert(@NonNull BaseViewHolder helper, Object item) {
-
-            }
-        };
+        return adapter = new OrderListAdapter(getActivity());
     }
 
     @Override

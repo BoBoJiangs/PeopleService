@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/icon_pop_bg"
+    android:gravity="center">
+
+
+    <TextView
+        android:id="@+id/deleteTV"
+        style="@style/text_view_content_black"
+        android:layout_marginTop="5dp"
+        android:text="删除订单" />
+
+
+</LinearLayout>

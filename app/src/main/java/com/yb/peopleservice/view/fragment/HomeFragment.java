@@ -1,11 +1,6 @@
 package com.yb.peopleservice.view.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Canvas;
-import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
@@ -16,19 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.DraggableController;
-import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
-import com.chad.library.adapter.base.listener.OnItemSwipeListener;
-import com.gcssloop.widget.PagerGridLayoutManager;
-import com.gcssloop.widget.PagerGridSnapHelper;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.BannerListVO;
 import com.yb.peopleservice.model.HomeListBean;
 import com.yb.peopleservice.utils.GlideImageLoader;
 import com.yb.peopleservice.view.adapter.HomeListAdapter;
-import com.yb.peopleservice.view.adapter.HomePageAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
-import com.yb.peopleservice.view.weight.PageIndicatorView;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
 
@@ -40,9 +29,7 @@ import butterknife.ButterKnife;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseListFragment;
 
-import static com.yb.peopleservice.model.HomeListBean.CONTENT_TYPE;
 import static com.yb.peopleservice.model.HomeListBean.PAGE_TYPE;
-import static com.yb.peopleservice.model.HomeListBean.SPAN_SIZE_FOUR;
 import static com.yb.peopleservice.model.HomeListBean.SPAN_SIZE_ONE;
 import static com.yb.peopleservice.model.HomeListBean.TITLE_TYPE;
 

@@ -105,9 +105,10 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_10"
+            android:id="@+id/moreIV"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:scaleType="center"
             android:src="@mipmap/icon_dian"
             app:layout_constraintBottom_toBottomOf="@+id/btnLL"
             app:layout_constraintLeft_toLeftOf="parent"
