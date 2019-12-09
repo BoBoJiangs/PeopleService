@@ -39,7 +39,7 @@
             android:orientation="horizontal">
 
             <cn.sts.base.view.widget.UtilityView
-                android:id="@+id/pwdUV"
+                android:id="@+id/phoneUV"
                 style="@style/login_utility"
                 android:layout_height="match_parent"
                 app:info_padding_right="60dp"
@@ -57,18 +57,48 @@
         </FrameLayout>
 
         <cn.sts.base.view.widget.UtilityView
-            android:id="@+id/phoneTV"
+            android:id="@+id/codeUV"
             style="@style/login_utility"
             android:layout_height="50dp"
             app:text_content_hint="请输入验证码"
             app:text_content_input_type="TEXT"
             app:text_content_size="@dimen/font_content_small" />
 
-
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/passWord"
+            style="@style/login_utility"
+            android:layout_height="50dp"
+            app:text_content_hint="请输入密码"
+            app:text_content_input_type="PASSWORD"
+            app:text_content_size="@dimen/font_content_small" />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_default"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rbl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="商家"/>
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="顾客"/>
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="服务人员"/>
+        </RadioGroup>
         <Button
-            android:id="@+id/loginBtn"
+            android:id="@+id/regisBtn"
             style="@style/login_btn_style"
-            android:text="登录" />
+            android:text="注册" />
 
 
     </LinearLayout>
