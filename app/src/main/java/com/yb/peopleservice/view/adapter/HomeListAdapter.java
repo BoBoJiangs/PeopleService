@@ -15,7 +15,7 @@ import com.chad.library.adapter.base.DraggableController;
 import com.gcssloop.widget.PagerGridLayoutManager;
 import com.gcssloop.widget.PagerGridSnapHelper;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.HomeListBean;
+import com.yb.peopleservice.model.bean.HomeListBean;
 import com.yb.peopleservice.view.activity.ServiceListActivity;
 import com.yb.peopleservice.view.weight.PageIndicatorView;
 

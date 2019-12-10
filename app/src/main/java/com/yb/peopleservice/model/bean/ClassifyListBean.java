@@ -1,4 +1,4 @@
-package com.yb.peopleservice.model;
+package com.yb.peopleservice.model.bean;
 
 import java.util.ArrayList;
 import java.util.List;

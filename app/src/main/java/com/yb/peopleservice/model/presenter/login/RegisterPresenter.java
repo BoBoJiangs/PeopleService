@@ -3,13 +3,9 @@ package com.yb.peopleservice.model.presenter.login;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.ClassifyListBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
-import com.yb.peopleservice.model.server.classify.ClassifyRequest;
 import com.yb.peopleservice.model.server.classify.LoginRequest;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
@@ -83,6 +79,44 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
     }
 
     /**
+     * 获取验证码
+     */
+    public void getCode(String phone) {
+        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<Object>() {
+            @Override
+            public void onRequestSuccess(Object data) {
+                try {
+                    getViewCallBack().codeSuccess(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRequestFailure(String error) {
+                ToastUtils.showLong(error);
+            }
+
+            @Override
+            public void onRequestCancel() {
+
+            }
+        }) {
+            @Override
+            public Observable getObservable(LoginRequest iRequestServer) {
+                return iRequestServer.getCode(phone);
+            }
+
+            @Override
+            public Class<LoginRequest> getRequestInterfaceClass() {
+                return LoginRequest.class;
+            }
+        };
+        requestFunc.setShowProgress(false);
+        BaseRequestServer.getInstance().request(requestFunc);
+    }
+
+    /**
      * 注册回调
      */
     public interface IRegisCallback extends IViewCallback {
@@ -91,5 +125,7 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
         void regisSuccess(Object data);
 
         void regisFail();
+
+        void codeSuccess(Object data);
     }
 }

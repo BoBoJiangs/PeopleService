@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.ClassifyListBean;
+import com.yb.peopleservice.model.bean.ClassifyListBean;
 import com.yb.peopleservice.model.presenter.ClassifyPresenter;
 import com.yb.peopleservice.view.adapter.ClassifyAdapter;
 import com.yb.peopleservice.view.adapter.ClassifyChildAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

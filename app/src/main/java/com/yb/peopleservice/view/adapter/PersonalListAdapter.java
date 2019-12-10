@@ -1,25 +1,13 @@
 package com.yb.peopleservice.view.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
-import android.view.View;
-import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.DraggableController;
-import com.gcssloop.widget.PagerGridLayoutManager;
-import com.gcssloop.widget.PagerGridSnapHelper;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.PersonalListBean;
-import com.yb.peopleservice.view.weight.PageIndicatorView;
+import com.yb.peopleservice.model.bean.PersonalListBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

@@ -3,7 +3,7 @@ package com.yb.peopleservice.view.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.ClassifyListBean;
+import com.yb.peopleservice.model.bean.ClassifyListBean;
 
 /**
  * 项目名称:PeopleService

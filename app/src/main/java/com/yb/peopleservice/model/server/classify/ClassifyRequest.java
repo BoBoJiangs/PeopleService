@@ -1,17 +1,13 @@
 package com.yb.peopleservice.model.server.classify;
 
 
-import com.yb.peopleservice.model.ClassifyListBean;
+import com.yb.peopleservice.model.bean.ClassifyListBean;
 
 import java.util.List;
-import java.util.Map;
 
 import cn.sts.base.model.server.vo.RequestResult;
 import io.reactivex.Observable;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
 /**

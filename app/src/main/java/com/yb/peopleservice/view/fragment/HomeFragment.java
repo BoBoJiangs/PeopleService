@@ -13,8 +13,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.DraggableController;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.BannerListVO;
-import com.yb.peopleservice.model.HomeListBean;
+import com.yb.peopleservice.model.bean.BannerListVO;
+import com.yb.peopleservice.model.bean.HomeListBean;
 import com.yb.peopleservice.utils.GlideImageLoader;
 import com.yb.peopleservice.view.adapter.HomeListAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
@@ -29,9 +29,9 @@ import butterknife.ButterKnife;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseListFragment;
 
-import static com.yb.peopleservice.model.HomeListBean.PAGE_TYPE;
-import static com.yb.peopleservice.model.HomeListBean.SPAN_SIZE_ONE;
-import static com.yb.peopleservice.model.HomeListBean.TITLE_TYPE;
+import static com.yb.peopleservice.model.bean.HomeListBean.PAGE_TYPE;
+import static com.yb.peopleservice.model.bean.HomeListBean.SPAN_SIZE_ONE;
+import static com.yb.peopleservice.model.bean.HomeListBean.TITLE_TYPE;
 
 /**
  * 类描述:首页

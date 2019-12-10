@@ -7,7 +7,6 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.ClassifyListBean;
 import com.yb.peopleservice.view.weight.CustomPopWindow;
 
 /**

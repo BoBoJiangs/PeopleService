@@ -43,7 +43,7 @@ public class BaseRequestServer extends AbstractRequestServer {
     /**
      * 测试外网
      */
-    public static final String DEBUG_URL = "http://123.56.249.114/sso";
+    public static final String DEBUG_URL = "http://123.56.249.114/sso/";
 
     /**
      * 正式服务器地址
@@ -148,7 +148,7 @@ public class BaseRequestServer extends AbstractRequestServer {
                         .method(original.method(), original.body())
                         .build();
                 //非文件上传统一设置
-                if (!isUploadFile) {
+                if (!isUploadFile && request.body() != null) {
                     MediaType mediaType = request.body().contentType();
                     if (mediaType != null) {
                         Field field = mediaType.getClass().getDeclaredField("mediaType");

@@ -1,14 +1,12 @@
-package com.yb.peopleservice.model.presenter;
+package com.yb.peopleservice.model.presenter.login;
 
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.bean.ClassifyListBean;
+import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
-import com.yb.peopleservice.model.server.classify.ClassifyRequest;
+import com.yb.peopleservice.model.server.classify.LoginRequest;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
@@ -19,16 +17,16 @@ import io.reactivex.Observable;
 
 /**
  * 项目名称:PeopleService
- * 类描述:
+ * 类描述: 登录
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/5 16:23
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class ClassifyPresenter extends AbstractPresenter<ClassifyPresenter.IClassCallback> {
+public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallback> {
 
-    public ClassifyPresenter(Context context, IClassCallback viewCallBack) {
+    public LoginPresenter(Context context, ILoginCallback viewCallBack) {
         super(context, viewCallBack);
 
     }
@@ -39,15 +37,14 @@ public class ClassifyPresenter extends AbstractPresenter<ClassifyPresenter.IClas
     }
 
     /**
-     * 获取分类列表
-     * @param parentId
+     * 登录
      */
-    public void getCategoryInfo(int parentId) {
-        AbstractRequestFunc<ClassifyRequest> requestFunc = new AbstractRequestFunc<ClassifyRequest>(context, new IRequestListener<List<ClassifyListBean>>() {
+    public void login(String phone,String password) {
+        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<LoginBean>() {
             @Override
-            public void onRequestSuccess(List<ClassifyListBean> data) {
+            public void onRequestSuccess(LoginBean data) {
                 try {
-                    getViewCallBack().getDataSuccess(data);
+                    getViewCallBack().loginSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -56,7 +53,7 @@ public class ClassifyPresenter extends AbstractPresenter<ClassifyPresenter.IClas
             @Override
             public void onRequestFailure(String error) {
                 try {
-                    getViewCallBack().getDataFail();
+                    getViewCallBack().loginFail();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -69,29 +66,31 @@ public class ClassifyPresenter extends AbstractPresenter<ClassifyPresenter.IClas
             }
         }) {
             @Override
-            public Observable getObservable(ClassifyRequest iRequestServer) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("parentId", parentId);
-                return iRequestServer.getCategoryInfo(parentId);
+            public Observable getObservable(LoginRequest iRequestServer) {
+                return iRequestServer.login(phone,"password",password);
             }
 
             @Override
-            public Class<ClassifyRequest> getRequestInterfaceClass() {
-                return ClassifyRequest.class;
+            public Class<LoginRequest> getRequestInterfaceClass() {
+                return LoginRequest.class;
             }
         };
         requestFunc.setShowProgress(false);
         BaseRequestServer.getInstance().request(requestFunc);
     }
 
+
+
     /**
-     * 分类列表回调
+     * 注册回调
      */
-    public interface IClassCallback extends IViewCallback {
+    public interface ILoginCallback extends IViewCallback {
 
 
-        void getDataSuccess(List<ClassifyListBean> data);
+        void loginSuccess(LoginBean data);
 
-        void getDataFail();
+        void loginFail();
+
+
     }
 }

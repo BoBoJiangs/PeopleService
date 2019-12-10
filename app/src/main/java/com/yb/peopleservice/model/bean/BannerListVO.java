@@ -1,4 +1,4 @@
-package com.yb.peopleservice.model;
+package com.yb.peopleservice.model.bean;
 
 /**
  * 项目名称:Exam

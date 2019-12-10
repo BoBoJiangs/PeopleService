@@ -3,26 +3,17 @@ package com.yb.peopleservice.view.fragment;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.flyco.tablayout.CommonTabLayout;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.ClassifyListBean;
-import com.yb.peopleservice.view.adapter.ClassifyAdapter;
-import com.yb.peopleservice.view.adapter.ClassifyChildAdapter;
 import com.yb.peopleservice.view.base.BaseViewPagerFragment;
 import com.yb.peopleservice.view.fragment.order.OrderChildListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import cn.sts.base.presenter.AbstractPresenter;
-import cn.sts.base.view.fragment.BaseFragment;
 import cn.sts.base.view.widget.ScrollViewPager;
 
 public class OrderListFragment extends BaseViewPagerFragment {

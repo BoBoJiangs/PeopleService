@@ -1,12 +1,10 @@
 package com.yb.peopleservice.view.fragment;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,27 +13,19 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.DraggableController;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.BannerListVO;
-import com.yb.peopleservice.model.PersonalListBean;
-import com.yb.peopleservice.utils.GlideImageLoader;
-import com.yb.peopleservice.view.adapter.HomeListAdapter;
+import com.yb.peopleservice.model.bean.PersonalListBean;
 import com.yb.peopleservice.view.adapter.PersonalListAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
-import com.youth.banner.Banner;
-import com.youth.banner.Transformer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseListFragment;
 
-import static com.yb.peopleservice.model.PersonalListBean.CONTENT_TYPE;
-import static com.yb.peopleservice.model.PersonalListBean.PAGE_TYPE;
-import static com.yb.peopleservice.model.PersonalListBean.SPAN_SIZE_ONE;
-import static com.yb.peopleservice.model.PersonalListBean.TITLE_TYPE;
+import static com.yb.peopleservice.model.bean.PersonalListBean.CONTENT_TYPE;
+import static com.yb.peopleservice.model.bean.PersonalListBean.SPAN_SIZE_ONE;
 
 /**
  * 项目名称:PeopleService
