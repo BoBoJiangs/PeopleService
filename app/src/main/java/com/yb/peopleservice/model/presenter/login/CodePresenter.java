@@ -16,37 +16,35 @@ import io.reactivex.Observable;
 
 /**
  * 项目名称:PeopleService
- * 类描述: 注册
+ * 类描述: 获取验证码
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/5 16:23
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegisCallback> implements CodePresenter.ICodeCallback {
+public class CodePresenter extends AbstractPresenter<CodePresenter.ICodeCallback> {
 
-    private CodePresenter codePresenter;
-
-    public RegisterPresenter(Context context, IRegisCallback viewCallBack) {
+    public CodePresenter(Context context, ICodeCallback viewCallBack) {
         super(context, viewCallBack);
-        codePresenter = new CodePresenter(context,this::codeSuccess);
+
     }
 
     @Override
     public void unbind() {
         super.unbind();
-        codePresenter.unbind();
     }
 
+
     /**
-     * 注册
+     * 获取验证码
      */
-    public void register(Map<String, Object> map) {
+    public void getCode(String phone) {
         AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
                 try {
-                    getViewCallBack().regisSuccess(data);
+                    getViewCallBack().codeSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -54,11 +52,6 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
 
             @Override
             public void onRequestFailure(String error) {
-                try {
-                    getViewCallBack().regisFail();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 ToastUtils.showLong(error);
             }
 
@@ -69,7 +62,7 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
         }) {
             @Override
             public Observable getObservable(LoginRequest iRequestServer) {
-                return iRequestServer.register(map);
+                return iRequestServer.getCode(phone);
             }
 
             @Override
@@ -82,30 +75,11 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
     }
 
     /**
-     * 获取验证码
+     * 验证码回调
      */
-    public void getCode(String phone) {
-        codePresenter.getCode(phone);
-    }
-
-    @Override
-    public void codeSuccess(Object data) {
-        try {
-            getViewCallBack().codeSuccess(data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 注册回调
-     */
-    public interface IRegisCallback extends IViewCallback {
+    public interface ICodeCallback extends IViewCallback {
 
 
-        void regisSuccess(Object data);
-
-        void regisFail();
 
         void codeSuccess(Object data);
     }

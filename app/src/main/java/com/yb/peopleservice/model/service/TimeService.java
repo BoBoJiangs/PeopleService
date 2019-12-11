@@ -1,5 +1,7 @@
 package com.yb.peopleservice.model.service;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,34 +9,74 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Message;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.czt.mp3recorder.MP3Recorder;
+import com.shuyu.waveview.FileUtils;
+import com.yb.peopleservice.model.eventbean.EventRecorderBean;
+import com.yb.peopleservice.utils.RxTimerUtil;
+import com.yb.peopleservice.view.MainActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.UUID;
 
 
 /**
- * 计时服务
- * Created by sts on 2018/7/6.
- *
- * @author daichao
+ * 类描述: 后台录音服务
+ * 创建人:yangbo_ QQ:819463350
+ * 创建时间: 2019/12/11  11:43
+ * 修改人:
+ * 修改时间:
+ * 修改描述:
  */
 
-public class TimeService extends Service {
+public class TimeService extends Service implements RxTimerUtil.IRxNext {
     public static final int GRAY_SERVICE_ID = 1001;
+    public static final int START_RECORD = 1002;
     public static final String CHANNEL_ID_STRING = "nyd001";
-    /**
-     * 当前时间
-     */
-    public static long currentTime = 0;
+    private MP3Recorder mRecorder;
+    private String filePath;
+    private boolean mIsRecord = false;
+    private MyHandler handler;
 
-    private Handler handler;
-    private TimeRunnable timeRunnable;
+    private static class MyHandler extends Handler {
+        WeakReference<TimeService> reference;
+
+        public MyHandler(TimeService service) {
+            reference = new WeakReference<>(service);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if(null!=reference)
+            {
+                TimeService timeService = (TimeService) reference.get();
+                if(null!=timeService) {
+                    switch (msg.what){
+                        case MP3Recorder.ERROR_TYPE:
+                            ToastUtils.showLong("没有麦克风权限");
+                            timeService.resolveError();
+                            break;
+                        case START_RECORD:
+                            timeService.resolveRecord();
+                            break;
+                    }
+                }
+            }
+        }
+    }
 
     @Nullable
     @Override
@@ -45,21 +87,62 @@ public class TimeService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        if (handler == null) {
-            HandlerThread handlerThread = new HandlerThread("TimeService");
-            handlerThread.start();
-
-            handler = new Handler(handlerThread.getLooper());
-        }
-
-        if (timeRunnable == null) {
-            timeRunnable = new TimeRunnable();
-            handler.post(timeRunnable);
-        }
-
+        handler = new MyHandler(this);
+        EventBus.getDefault().register(this);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventRecorderBean event) {
+        if (event.getMessage().equals(EventRecorderBean.START)) {
+            resolveRecord();
+        } else {
+            resolveStopRecord();
+        }
+    }
+
+    /**
+     * 开始录音
+     */
+    @SuppressLint("HandlerLeak")
+    private void resolveRecord() {
+        filePath = FileUtils.getAppPath();
+        File file = new File(filePath);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                ToastUtils.showLong("创建文件失败");
+                return;
+            }
+        }
+
+        filePath = FileUtils.getAppPath() + UUID.randomUUID().toString() + ".mp3";
+        mRecorder = new MP3Recorder(new File(filePath));
+
+
+        mRecorder.setErrorHandler(handler);
+
+
+        try {
+            mRecorder.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+            ToastUtils.showLong("录音出现异常");
+            resolveError();
+            return;
+        }
+        mIsRecord = true;
+        RxTimerUtil.timer(1000 * 60, this::doNext);
+    }
+
+    /**
+     * 停止录音
+     */
+    private void resolveStopRecord() {
+        if (mRecorder != null && mRecorder.isRecording()) {
+            mRecorder.setPause(false);
+            mRecorder.stop();
+        }
+        mIsRecord = false;
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -94,18 +177,24 @@ public class TimeService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private class TimeRunnable implements Runnable {
-
-        @Override
-        public void run() {
-
-            currentTime += 1000;
-
-
-            handler.postDelayed(timeRunnable, 1000);
-            LogUtils.i(TimeUtils.millis2String(currentTime));
+    @Override
+    public void doNext(long number) {
+        if (mIsRecord) {
+            resolveStopRecord();
         }
+        handler.sendEmptyMessageDelayed(START_RECORD,1000);
 
+    }
+
+    /**
+     * 录音异常
+     */
+    private void resolveError() {
+//        FileUtils.deleteFile(filePath);
+//        filePath = "";
+        if (mRecorder != null && mRecorder.isRecording()) {
+            mRecorder.stop();
+        }
     }
 
     /**
@@ -144,6 +233,7 @@ public class TimeService extends Service {
         super.onDestroy();
         // 停止前台服务
         stopForeground(true);
-        handler.removeCallbacks(timeRunnable);
+        resolveStopRecord();
+        EventBus.getDefault().unregister(this);
     }
 }

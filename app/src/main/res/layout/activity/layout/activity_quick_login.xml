@@ -84,6 +84,7 @@
         <Button
             android:id="@+id/loginBtn"
             style="@style/gray_btn_style"
+            android:enabled="false"
             android:text="立即登录" />
 
         <LinearLayout

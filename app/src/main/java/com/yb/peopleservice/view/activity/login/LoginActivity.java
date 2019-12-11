@@ -10,9 +10,13 @@ import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.model.eventbean.EventRecorderBean;
 import com.yb.peopleservice.model.presenter.login.LoginPresenter;
+import com.yb.peopleservice.model.service.TimeService;
 import com.yb.peopleservice.view.MainActivity;
 import com.yb.peopleservice.view.base.BaseActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +44,9 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
 
     @Override
     protected void initData() {
-
+        //注册时间服务
+        Intent intent = new Intent(this, TimeService.class);
+        startService(intent);
     }
 
     @Override
@@ -83,10 +89,10 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
     public void login() {
         String phone = phoneTV.getContentText();
         String pass = pwdUV.getContentText();
-//        if (!RegexUtils.isMobileExact(phone)) {
-//            ToastUtils.showLong("请输入正确的电话号码");
-//            return;
-//        }
+        if (!RegexUtils.isMobileExact(phone)) {
+            ToastUtils.showLong("请输入正确的电话号码");
+            return;
+        }
         if (StringUtils.isEmpty(pass)) {
             ToastUtils.showLong("请输入密码");
             return;

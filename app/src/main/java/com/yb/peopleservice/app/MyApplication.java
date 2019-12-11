@@ -83,4 +83,5 @@ public class MyApplication extends MultiDexApplication {
                 .setDir("")// 当自定义路径为空时，写入应用的/cache/log/目录中
                 .setFilePrefix("");// 当文件前缀为空时，默认为"util"，即写入文件为"util-MM-dd.txt"
     }
+
 }

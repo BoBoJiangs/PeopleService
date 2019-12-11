@@ -21,6 +21,11 @@
     <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 硬件加速对X5视频播放有利，建议开启 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- 录音权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
         android:name=".app.MyApplication"
@@ -52,7 +57,9 @@
             android:name="com.amap.api.v2.apikey"
             android:value="f9e093bae9f503dfd7b5567b16b67d7a" /> <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
-
+        <!-- 定时服务 -->
+        <service android:name=".model.service.TimeService" />
+        <service android:name=".model.service.TimeService$GrayInnerService" />
         <activity android:name=".view.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

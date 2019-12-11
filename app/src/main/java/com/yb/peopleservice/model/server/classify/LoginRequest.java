@@ -39,6 +39,21 @@ public interface LoginRequest {
 
 
     /**
+     * 快速登录（获取token）
+     */
+    @GET("oauth0/authorize/APP")
+    Observable<RequestResult<LoginBean>> quickLogin(@Query("phone") String phone, @Query("code") String code);
+
+    /**
+     *  快速登录获取登录凭证
+     * @param phone 手机号
+     * @param code 验证码
+     * @return
+     */
+    @GET("oauth0/code")
+    Observable<RequestResult<String>> getLoginVoucher(@Query("phone") String phone, @Query("code") String code);
+
+    /**
      * 获取验证码
      */
     @GET("code/phone")
