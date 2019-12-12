@@ -1,4 +1,4 @@
-package com.yb.peopleservice.model.server.classify;
+package com.yb.peopleservice.model.server.user;
 
 
 import com.yb.peopleservice.model.bean.ClassifyListBean;
@@ -11,7 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * 类描述:用户登录
+ * 类描述:用户相关
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/7/11  17:16
  * 修改人:
@@ -19,12 +19,12 @@ import retrofit2.http.Query;
  * 修改描述:
  */
 
-public interface ClassifyRequest {
+public interface UserRequest {
 
     /**
-     * 查询分类信息列表
+     * 顾客获取个人信息
      */
-    @GET("api/categories")
-    Observable<RequestResult<List<ClassifyListBean>>> getCategoryInfo(@Query("parentId") int parentId);
+    @GET("api/customers/self")
+    Observable<RequestResult<List<ClassifyListBean>>> getUserInfo(@Query("parentId") int parentId);
 
 }

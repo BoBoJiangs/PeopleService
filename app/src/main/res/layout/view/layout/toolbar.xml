@@ -69,7 +69,6 @@
                 app:mv_isRadiusHalfHeight="true"
                 app:mv_strokeColor="@color/base_text_color"
                 app:mv_strokeWidth="1dp"
-                android:visibility="invisible"
                 style="@style/msg_tip_style" />
         </FrameLayout>
     </LinearLayout>

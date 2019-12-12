@@ -1,10 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 def releaseTime() {
     return new Date().format("yyyy-MM-dd")
 }
 
-
+greendao {
+    schemaVersion 1   //指定数据库schema版本号，迁移等操作会用到;
+    daoPackage 'com.yb.peopleservice.model.database.dao'// dao的包名，包名默认是entity所在的包；
+    targetGenDir 'src/main/java' //生成数据库文件的目录;
+}
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -108,6 +113,9 @@ dependencies {
     implementation 'com.github.CB-ysx:CBRatingBar:3.0.1'
     //mp3录音
     implementation 'com.github.CarGuo:GSYRecordWave:2.0.1'
-
+    //eventbus
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //数据库
+    implementation 'org.greenrobot:greendao:3.2.2'
 }

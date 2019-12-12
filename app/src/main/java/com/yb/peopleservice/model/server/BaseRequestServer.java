@@ -43,7 +43,7 @@ public class BaseRequestServer extends AbstractRequestServer {
     /**
      * 测试外网
      */
-    public static final String DEBUG_URL = "http://123.56.249.114/sso/";
+    public static final String DEBUG_URL = "http://123.56.249.114/";
 
     /**
      * 正式服务器地址

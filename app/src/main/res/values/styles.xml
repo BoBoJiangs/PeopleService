@@ -69,6 +69,17 @@
         <item name="title_padding_right">0dp</item>
     </style>
 
+    <!--订单详情UtilityView-->
+    <style name="order_utility" parent="utility_view">
+        <item name="android:layout_height">@dimen/height_title</item>
+        <item name="title_padding_left">@dimen/space_default</item>
+        <item name="text_title_size">@dimen/font_btn_small</item>
+        <item name="text_content_size">@dimen/font_content_four</item>
+        <item name="info_padding_right">@dimen/space_default</item>
+        <item name="content_gravity">end</item>
+
+    </style>
+
     <!--搜索背景-->
     <style name="search_bg_style">
         <item name="bl_corners_radius">13dp</item>

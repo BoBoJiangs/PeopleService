@@ -26,14 +26,14 @@ public interface LoginRequest {
     /**
      * 注册
      */
-    @POST("register")
+    @POST("sso/register")
     Observable<RequestResult> register(@Body Map map);
 
 
     /**
      * 登录
      */
-    @GET("oauth0/authorize/APP")
+    @GET("sso/oauth0/authorize/APP")
     Observable<RequestResult<LoginBean>> login(@Query("username") String phone, @Query("grant_type") String grant_type,
                                                @Query("password") String password);
 
@@ -41,7 +41,7 @@ public interface LoginRequest {
     /**
      * 快速登录（获取token）
      */
-    @GET("oauth0/authorize/APP")
+    @GET("sso/oauth0/authorize/APP")
     Observable<RequestResult<LoginBean>> quickLogin(@Query("phone") String phone, @Query("code") String code);
 
     /**
@@ -50,13 +50,13 @@ public interface LoginRequest {
      * @param code 验证码
      * @return
      */
-    @GET("oauth0/code")
+    @GET("sso/oauth0/code")
     Observable<RequestResult<String>> getLoginVoucher(@Query("phone") String phone, @Query("code") String code);
 
     /**
      * 获取验证码
      */
-    @GET("code/phone")
+    @GET("sso/code/phone")
     Observable<RequestResult> getCode(@Query("phone") String phone);
 
 }
