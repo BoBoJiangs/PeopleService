@@ -1,18 +1,15 @@
 package com.yb.peopleservice.view.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.view.base.BaseActivity;
 import com.yb.peopleservice.view.base.BaseViewPagerActivity;
-import com.yb.peopleservice.view.fragment.details.EvaluateFragment;
-import com.yb.peopleservice.view.fragment.details.ServiceFragment;
-import com.yb.peopleservice.view.fragment.order.OrderChildListFragment;
+import com.yb.peopleservice.view.fragment.user.details.EvaluateFragment;
+import com.yb.peopleservice.view.fragment.user.details.ServiceFragment;
+import com.yb.peopleservice.view.fragment.user.order.OrderListFragment;
 
 import java.util.ArrayList;
 import java.util.List;

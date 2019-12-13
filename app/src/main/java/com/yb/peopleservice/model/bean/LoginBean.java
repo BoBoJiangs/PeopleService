@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class LoginBean {
 
+    public static final int USER_TYPE = 3;//用户
+    public static final int SERVICE_TYPE = 2;//服务人员
+    public static final int SHOP_TYPE = 1;//商家
     /**
      * access_token : ea346196c58868472429d564e91635ff4e48efc21e776a19039b48f8b6cbbd59
      * refresh_token : a482d18ff153ed587ee891d02de8e0297040e045823dbc9b4574e51fba4892a8

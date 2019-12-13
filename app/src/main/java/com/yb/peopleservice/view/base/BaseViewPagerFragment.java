@@ -2,6 +2,7 @@ package com.yb.peopleservice.view.base;
 
 import android.view.View;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -35,7 +36,8 @@ public abstract class BaseViewPagerFragment extends BaseFragment implements OnTa
     public View tabLayout;
 
     protected String[] mTitles;
-
+    @BindView(R.id.toolbar)
+    public Toolbar toolbar;
     /**
      * 获取TAB控件
      */
@@ -56,6 +58,7 @@ public abstract class BaseViewPagerFragment extends BaseFragment implements OnTa
 
     @Override
     protected void initView() {
+        toolbar.setVisibility(View.GONE);
         tabLayout = getTabLayout();
 
         mTitles = getTabTitles();

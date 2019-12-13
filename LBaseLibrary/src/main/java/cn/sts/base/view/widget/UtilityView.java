@@ -53,7 +53,10 @@ public class UtilityView extends LinearLayout {
      * 是否显示下划线
      */
     private boolean isShowLine;
-
+    /**
+     * 是否支持多行输入
+     */
+    private boolean isMultiLine;
     private int infoPaddingLeft;
     private int infoPaddingTop;
     private int infoPaddingRight;
@@ -176,7 +179,7 @@ public class UtilityView extends LinearLayout {
     private void initView(AttributeSet attrs) {
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.UtilityView);
-
+        isMultiLine = typedArray.getBoolean(R.styleable.UtilityView_multi_line, false);
         //标题
         CharSequence titleText = typedArray.getText(R.styleable.UtilityView_text_title);
         int titleColor = typedArray.getColor(R.styleable.UtilityView_text_title_color, Color.DKGRAY);
@@ -300,8 +303,14 @@ public class UtilityView extends LinearLayout {
                     } else {
                         textContentInputType = InputType.TYPE_CLASS_TEXT;
                     }
-
                     inputEditText.setInputType(textContentInputType);
+                    if (isMultiLine) {
+                        //设置EditText的显示方式为多行文本输入
+                        inputEditText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | textContentInputType);
+                        inputEditText.setGravity(Gravity.TOP);
+                        inputEditText.setSingleLine(false);
+                        inputEditText.setHorizontallyScrolling(false);
+                    }
 
                     infoLinearLayout.addView(inputEditText);
 

@@ -1,4 +1,4 @@
-package com.yb.peopleservice.view.fragment;
+package com.yb.peopleservice.view.fragment.user.order;
 
 import android.view.View;
 
@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import com.flyco.tablayout.CommonTabLayout;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.view.base.BaseViewPagerFragment;
-import com.yb.peopleservice.view.fragment.order.OrderChildListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,8 @@ import butterknife.BindView;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.ScrollViewPager;
 
-public class OrderListFragment extends BaseViewPagerFragment {
-    private String[] mTitles = {"全部", "代付款", "进行中", "已完成", "待评价"};
+public class OrderTabFragment extends BaseViewPagerFragment {
+    protected String[] mTitles = {"全部", "代付款", "进行中", "已完成", "待评价"};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;
     @BindView(R.id.viewPager)
@@ -29,7 +28,7 @@ public class OrderListFragment extends BaseViewPagerFragment {
     private Fragment evaluateFragment;
 
     public static Fragment getInstanceFragment() {
-        OrderListFragment fragment = new OrderListFragment();
+        OrderTabFragment fragment = new OrderTabFragment();
         return fragment;
     }
 
@@ -46,11 +45,11 @@ public class OrderListFragment extends BaseViewPagerFragment {
     @Override
     protected List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
-        allFragment = OrderChildListFragment.getInstanceFragment();
-        paymentFragment = OrderChildListFragment.getInstanceFragment();
-        doFragment = OrderChildListFragment.getInstanceFragment();
-        finishFragment = OrderChildListFragment.getInstanceFragment();
-        evaluateFragment = OrderChildListFragment.getInstanceFragment();
+        allFragment = OrderListFragment.getInstanceFragment();
+        paymentFragment = OrderListFragment.getInstanceFragment();
+        doFragment = OrderListFragment.getInstanceFragment();
+        finishFragment = OrderListFragment.getInstanceFragment();
+        evaluateFragment = OrderListFragment.getInstanceFragment();
         fragmentList.add(allFragment);
         fragmentList.add(paymentFragment);
         fragmentList.add(doFragment);

@@ -1,5 +1,7 @@
 package com.yb.peopleservice.constant;
 
+import com.blankj.utilcode.util.PathUtils;
+
 /**
  * 全局常量
  * Created by sts on 2018/5/7.
@@ -29,4 +31,9 @@ public class AppConstant {
      * 微信分享的SECRET
      */
     public static final String WECHAT_SECRET = "0b7dc133c77f4cd4d374352061274904";
+
+    /**
+     * 图片缓存路径
+     */
+    public static String FILE_PATH = PathUtils.getExternalAppFilesPath() + "/image";
 }

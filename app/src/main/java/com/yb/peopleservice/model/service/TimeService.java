@@ -1,7 +1,6 @@
 package com.yb.peopleservice.model.service;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -21,7 +20,6 @@ import com.czt.mp3recorder.MP3Recorder;
 import com.shuyu.waveview.FileUtils;
 import com.yb.peopleservice.model.eventbean.EventRecorderBean;
 import com.yb.peopleservice.utils.RxTimerUtil;
-import com.yb.peopleservice.view.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

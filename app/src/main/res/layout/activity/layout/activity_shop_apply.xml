@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView style="@style/horizontal_line_style" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_default"
+            android:layout_marginRight="@dimen/space_default"
+            android:orientation="vertical">
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/shopNameUV"
+                style="@style/utility_view"
+                android:layout_height="50dp"
+                app:line_show="true"
+                app:text_content_hint="请输入店铺名称"
+                app:type="INPUT"
+                app:text_title="店铺名称　" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/remakeUV"
+                style="@style/utility_view"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                app:line_show="true"
+                app:type="INPUT"
+                app:multi_line="true"
+                app:text_content_hint="请输入店铺描述"
+                app:text_title="店铺描述　" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/nameUV"
+                style="@style/utility_view"
+                android:layout_height="50dp"
+                app:line_show="true"
+                app:type="INPUT"
+                app:text_content_hint="请输入管理员姓名"
+                app:text_title="管理员姓名" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/idCardUV"
+                style="@style/utility_view"
+                android:layout_height="50dp"
+                app:line_show="true"
+                app:type="INPUT"
+                app:text_content_hint="请输入身份证号"
+                app:text_title="身份证号　" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/headUV"
+                style="@style/utility_view"
+                android:layout_height="220pt"
+                app:right_image_height="180pt"
+                app:right_image_res="@mipmap/default_head"
+                app:right_image_width="180pt"
+                app:text_content="(注：请上传真人面部照片)"
+                app:text_content_size="@dimen/font_btn_small_best"
+                app:text_content_color="@color/base_lib_gray"
+                app:text_title="头像" />
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="上传身份证明" />
+
+            <FrameLayout
+                android:id="@+id/cardFaceFL"
+                android:layout_width="match_parent"
+                android:layout_height="420pt"
+                android:background="@color/color_fa">
+
+                <ImageView
+                    android:id="@+id/cardFaceIV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/addFaceTV"
+                    style="@style/text_view_content_gray"
+                    android:layout_gravity="center"
+                    android:drawableTop="@mipmap/icon_xinzeng"
+                    android:drawablePadding="5dp"
+                    android:text="身份证人像面" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/cardBackFL"
+                android:layout_width="match_parent"
+                android:layout_height="420pt"
+                android:layout_marginTop="15dp"
+                android:background="@color/color_fa">
+
+                <ImageView
+                    android:id="@+id/cardBackIV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/addBackTV"
+                    style="@style/text_view_content_gray"
+                    android:layout_gravity="center"
+                    android:drawableTop="@mipmap/icon_xinzeng"
+                    android:drawablePadding="5dp"
+                    android:text="身份证国徽面" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="上传营业执照" />
+
+            <FrameLayout
+                android:id="@+id/licenseFL"
+                android:layout_width="match_parent"
+                android:layout_height="420pt"
+                android:background="@color/color_fa">
+
+                <ImageView
+                    android:id="@+id/licenseIV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/licenseTV"
+                    style="@style/text_view_content_gray"
+                    android:layout_gravity="center"
+                    android:drawableTop="@mipmap/icon_xinzeng"
+                    android:drawablePadding="5dp"
+                    android:text="上传营业执照" />
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

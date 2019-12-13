@@ -1,29 +1,21 @@
 package com.yb.peopleservice.view.activity.login;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.util.RegexUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.LoginBean;
-import com.yb.peopleservice.model.eventbean.EventRecorderBean;
 import com.yb.peopleservice.model.presenter.login.LoginPresenter;
 import com.yb.peopleservice.model.service.TimeService;
-import com.yb.peopleservice.view.MainActivity;
+import com.yb.peopleservice.view.activity.main.MainActivity;
+import com.yb.peopleservice.view.activity.main.ShopMainActivity;
 import com.yb.peopleservice.view.base.BaseActivity;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.UtilityView;
@@ -77,8 +69,22 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
 
     @Override
     public void loginSuccess(LoginBean data) {
-        ToastUtils.showLong("登陆成功"+data.getAccess_token());
-        startActivity(new Intent(this, MainActivity.class));
+        ToastUtils.showLong("登陆成功" + data.getAccess_token());
+        if (data.getScope() != null && !data.getScope().isEmpty()){
+            if (data.getScope().contains(LoginBean.USER_TYPE)) {
+                startActivity(new Intent(this, MainActivity.class));
+            } else if (data.getScope().contains(LoginBean.SHOP_TYPE)) {
+                startActivity(new Intent(this, ShopMainActivity.class));
+            } else if (data.getScope().contains(LoginBean.SERVICE_TYPE)) {
+                startActivity(new Intent(this, ShopMainActivity.class));
+            } else {
+                ToastUtils.showLong("未知的用户类型,请联系管理员！");
+            }
+        }else{
+            ToastUtils.showLong("未知的用户类型,请联系管理员！");
+        }
+
+
     }
 
     @Override
@@ -90,14 +96,14 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
     public void login() {
         String phone = phoneTV.getContentText();
         String pass = pwdUV.getContentText();
-        if (!RegexUtils.isMobileExact(phone)) {
-            ToastUtils.showLong("请输入正确的电话号码");
-            return;
-        }
+//        if (!RegexUtils.isMobileExact(phone)) {
+//            ToastUtils.showLong("请输入正确的电话号码");
+//            return;
+//        }
         if (StringUtils.isEmpty(pass)) {
             ToastUtils.showLong("请输入密码");
             return;
         }
-        loginPresenter.login(phone,pass);
+        loginPresenter.login(phone, pass);
     }
 }

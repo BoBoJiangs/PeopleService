@@ -1,6 +1,5 @@
-package com.yb.peopleservice.view.fragment;
+package com.yb.peopleservice.view.fragment.user;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +23,6 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 
 import butterknife.BindView;

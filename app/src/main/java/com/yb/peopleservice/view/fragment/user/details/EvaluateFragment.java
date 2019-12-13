@@ -1,4 +1,4 @@
-package com.yb.peopleservice.view.fragment.details;
+package com.yb.peopleservice.view.fragment.user.details;
 
 import androidx.fragment.app.Fragment;
 
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.sts.base.presenter.AbstractPresenter;
-import cn.sts.base.view.fragment.BaseFragment;
 import cn.sts.base.view.fragment.BaseListFragment;
 
 /**

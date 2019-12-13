@@ -14,7 +14,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.yb.peopleservice"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -118,4 +118,8 @@ dependencies {
 
     //数据库
     implementation 'org.greenrobot:greendao:3.2.2'
+    //图片选择
+    implementation 'com.ypx.yimagepicker:androidx:3.0.1'
+    //图片压缩
+    implementation 'top.zibin:Luban:1.1.8'
 }

@@ -1,9 +1,8 @@
-package com.yb.peopleservice.view.fragment.details;
+package com.yb.peopleservice.view.fragment.user.details;
 
 import androidx.fragment.app.Fragment;
 
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.view.fragment.ClassifyFragment;
 
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseFragment;

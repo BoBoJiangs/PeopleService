@@ -1,4 +1,4 @@
-package com.yb.peopleservice.view.fragment;
+package com.yb.peopleservice.view.fragment.user;
 
 import android.view.View;
 

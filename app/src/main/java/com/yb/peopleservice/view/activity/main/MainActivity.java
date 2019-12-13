@@ -1,9 +1,7 @@
-package com.yb.peopleservice.view;
+package com.yb.peopleservice.view.activity.main;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -13,15 +11,13 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
-import com.yb.peopleservice.view.base.BaseViewPagerActivity;
-import com.yb.peopleservice.view.fragment.ClassifyFragment;
-import com.yb.peopleservice.view.fragment.HomeFragment;
-import com.yb.peopleservice.view.fragment.LifeRadarMapFragment;
-import com.yb.peopleservice.view.fragment.OrderListFragment;
-import com.yb.peopleservice.view.fragment.PersonalFragment;
+import com.yb.peopleservice.view.fragment.user.ClassifyFragment;
+import com.yb.peopleservice.view.fragment.user.HomeFragment;
+import com.yb.peopleservice.view.fragment.user.LifeRadarMapFragment;
+import com.yb.peopleservice.view.fragment.user.order.OrderTabFragment;
+import com.yb.peopleservice.view.fragment.user.PersonalFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import cn.sts.base.model.entity.TabEntity;
@@ -92,7 +88,7 @@ public class MainActivity extends BaseToolbarActivity implements OnTabSelectList
         fragmentList.add(HomeFragment.getInstanceFragment());
         fragmentList.add(ClassifyFragment.getInstanceFragment());
         fragmentList.add(LifeRadarMapFragment.getInstanceFragment());
-        fragmentList.add(OrderListFragment.getInstanceFragment());
+        fragmentList.add(OrderTabFragment.getInstanceFragment());
         fragmentList.add(PersonalFragment.getInstanceFragment());
 
         return fragmentList;

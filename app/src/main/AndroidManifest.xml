@@ -68,7 +68,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.activity.main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.ServiceListActivity" />
@@ -76,6 +76,8 @@
         <activity android:name=".view.activity.login.LoginActivity" />
         <activity android:name=".view.activity.login.RegisterActivity" />
         <activity android:name=".view.activity.login.QuickLoginActivity" />
+        <activity android:name=".view.activity.main.ShopMainActivity" />
+        <activity android:name=".view.activity.shop.ApplyShopActivity" />
     </application>
 
 </manifest>

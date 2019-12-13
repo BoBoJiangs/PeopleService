@@ -1,11 +1,17 @@
 package com.yb.peopleservice.view.base;
 
 import android.content.res.Resources;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.AdaptScreenUtils;
+import com.flyco.tablayout.widget.MsgView;
 import com.gyf.immersionbar.ImmersionBar;
+import com.yb.peopleservice.R;
+
+import butterknife.BindView;
 
 /**
  * 基础类
@@ -13,6 +19,12 @@ import com.gyf.immersionbar.ImmersionBar;
  * @author weilin
  */
 public abstract class BaseToolbarActivity extends cn.sts.base.view.activity.BaseToolbarActivity {
+    @BindView(R.id.msgMV)
+    protected MsgView msgMV;
+    @BindView(R.id.msgMV2)
+    protected MsgView msgMV2;
+    @BindView(R.id.rightLL)
+    protected LinearLayout rightLL;
 
     @Override
     protected void initView() {
@@ -25,6 +37,9 @@ public abstract class BaseToolbarActivity extends cn.sts.base.view.activity.Base
         if (titleTV != null) {
             titleTV.setTextColor(ContextCompat.getColor(getApplicationContext(), cn.sts.base.R.color.black));
         }
+        setMsgText(0);
+        setMsg2Text(0);
+        rightLL.setVisibility(View.GONE);
     }
 
     protected void initImmersionBar() {
@@ -33,6 +48,22 @@ public abstract class BaseToolbarActivity extends cn.sts.base.view.activity.Base
                 .fitsSystemWindows(true)
                 .statusBarDarkFont(true, 0.2f)
                 .statusBarColor(cn.sts.base.R.color.white).init();
+    }
+
+    private void setMsgText(int index) {
+        if (index <= 0) {
+            msgMV.setVisibility(View.GONE);
+        } else {
+            msgMV.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setMsg2Text(int index) {
+        if (index <= 0) {
+            msgMV2.setVisibility(View.GONE);
+        } else {
+            msgMV2.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

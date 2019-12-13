@@ -24,6 +24,7 @@
         <attr name="title_padding_bottom" format="dimension" />
 
         <!--内容属性-->
+        <attr name="multi_line" format="boolean" />
         <attr name="text_content_visible" format="boolean" />
         <attr name="text_content_hint" format="string" />
         <attr name="text_content" format="string" />
