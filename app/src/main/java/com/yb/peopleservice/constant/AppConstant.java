@@ -35,5 +35,5 @@ public class AppConstant {
     /**
      * 图片缓存路径
      */
-    public static String FILE_PATH = PathUtils.getExternalAppFilesPath() + "/image";
+    public static String FILE_PATH = PathUtils.getExternalAppFilesPath() + "/imagePicker";
 }
