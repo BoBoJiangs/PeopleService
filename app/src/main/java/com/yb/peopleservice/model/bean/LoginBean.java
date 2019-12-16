@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class LoginBean {
 
-    public static final int USER_TYPE = 3;//用户
-    public static final int SERVICE_TYPE = 2;//服务人员
-    public static final int SHOP_TYPE = 1;//商家
+    public static final String USER_TYPE = "3";//用户
+    public static final String SERVICE_TYPE = "2";//服务人员
+    public static final String SHOP_TYPE = "1";//商家
     /**
      * access_token : ea346196c58868472429d564e91635ff4e48efc21e776a19039b48f8b6cbbd59
      * refresh_token : a482d18ff153ed587ee891d02de8e0297040e045823dbc9b4574e51fba4892a8
@@ -30,7 +30,7 @@ public class LoginBean {
     private String token_type;
     private int expires_in;
     private long timestamp;
-    private List<Integer> scope;
+    private List<String> scope;
 
     public String getAccess_token() {
         return access_token;
@@ -72,11 +72,11 @@ public class LoginBean {
         this.timestamp = timestamp;
     }
 
-    public List<Integer> getScope() {
+    public List<String> getScope() {
         return scope;
     }
 
-    public void setScope(List<Integer> scope) {
+    public void setScope(List<String> scope) {
         this.scope = scope;
     }
 }

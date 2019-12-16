@@ -10,6 +10,7 @@ import com.yb.peopleservice.model.server.file.UploadRequest;
 import com.yb.peopleservice.model.server.file.UploadRequestFunc;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.sts.base.callback.IViewCallback;
@@ -45,9 +46,9 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
     //上传文件
     public void uploadFile(MultipartBody.Builder builder, boolean isPublic) {
 
-        UploadRequestFunc requestFunc = new UploadRequestFunc(context, new IRequestListener<List<FileDetailVO>>() {
+        UploadRequestFunc requestFunc = new UploadRequestFunc(context, new IRequestListener<List<String>>() {
             @Override
-            public void onRequestSuccess(List<FileDetailVO> data) {
+            public void onRequestSuccess(List<String> data) {
                 try {
                     getViewCallBack().uploadSuccess(data);
                 } catch (Exception e) {
@@ -80,14 +81,19 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
         BaseRequestServer.getInstance().request(requestFunc);
     }
 
+    public void launchImage(String path, boolean isPublic) {
+        List<String> pathList = new ArrayList<>();
+        pathList.add(path);
+        launchImage(pathList, isPublic);
+    }
 
     /**
      * 压缩图片
      */
-    public void launchImage(String path,boolean isPublic) {
-
+    public void launchImage(List<String> paths, boolean isPublic) {
+        List<File> files = new ArrayList<>();
         Luban.with(context)
-                .load(path)                                   // 传人要压缩的图片列表
+                .load(paths)                                   // 传人要压缩的图片列表
                 .setTargetDir(AppConstant.FILE_PATH)                        // 设置压缩后文件存储位置
                 .setCompressListener(new OnCompressListener() { //设置回调
                     @Override
@@ -99,13 +105,17 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
                     public void onSuccess(File file) {
                         //删除原图保留压缩后的图片
 //                                FileUtil.deleteFile(images.get(0).path);
-                        MultipartBody.Builder builder = new MultipartBody.Builder();
-                        builder.setType(MultipartBody.FORM);
-                        builder.addFormDataPart(
-                                "file", "flower.jpg",
-                                RequestBody.create(MediaType.parse("application/octet-stream"), file)
-                        );
-                        uploadFile(builder,isPublic);
+                        files.add(file);
+                        if (files.size() == paths.size()) {
+//                            MultipartBody.Builder builder = new MultipartBody.Builder();
+//                            builder.setType(MultipartBody.FORM);
+//                            builder.addFormDataPart(
+//                                    "file", "flower.jpg",
+//                                    RequestBody.create(MediaType.parse("application/octet-stream"), file)
+//                            );
+                            uploadFile(getBuilder(files), isPublic);
+                        }
+
 
                     }
 
@@ -122,7 +132,7 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
         for (int i = 0; i < files.size(); i++) {
             File file = files.get(i);
             builder.addFormDataPart(
-                    "file", "flower.jpg",
+                    "files", file.getName(),
                     RequestBody.create(MediaType.parse("application/octet-stream"), file));
         }
         return builder;
@@ -131,7 +141,7 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
     public interface IViewUploadFile extends IViewCallback {
 
 
-        void uploadSuccess(List<FileDetailVO> files);
+        void uploadSuccess(List<String> files);
 
         void uploadFail();
     }

@@ -73,11 +73,6 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
 
     @Override
     public void loginSuccess(LoginBean data) {
-        User user = new User();
-        user.setAccess_token(data.getAccess_token());
-        user.setAccount(phone);
-        user.setPassword(pass);
-        ManagerFactory.getInstance().getUserManager().save(user);
         if (data.getScope() != null && !data.getScope().isEmpty()) {
             if (data.getScope().contains(LoginBean.USER_TYPE)) {
                 startActivity(new Intent(this, MainActivity.class));
@@ -91,8 +86,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
         } else {
             ToastUtils.showLong("未知的用户类型,请联系管理员！");
         }
-
-
+        finish();
     }
 
     @Override

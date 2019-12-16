@@ -5,6 +5,8 @@ import android.accounts.Account;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.yb.peopleservice.BuildConfig;
+import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -141,10 +143,16 @@ public class BaseRequestServer extends AbstractRequestServer {
             Request request = null;
             try {
                 Request original = chain.request();
-                String cookie = "";
+                String token = "";
+                User account = ManagerFactory.getInstance().getUserManager().getUser();
+                if (account != null) {
+                    token = account.getAccess_token();
+                }
+
 
                 request = original.newBuilder()
                         .addHeader("Content-Type", "application/json")
+                        .addHeader("Authorization","Bearer "+token)
                         .method(original.method(), original.body())
                         .build();
                 //非文件上传统一设置

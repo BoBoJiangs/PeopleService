@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.classify.LoginRequest;
 
@@ -91,6 +93,11 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
                     @Override
                     public void onRequestSuccess(LoginBean data) {
                         try {
+                            User user = new User();
+                            user.setAccess_token(data.getAccess_token());
+                            user.setAccount(phone);
+//                            user.set(password);
+                            ManagerFactory.getInstance().getUserManager().save(user);
                             getViewCallBack().loginSuccess(data);
                         } catch (Exception e) {
                             e.printStackTrace();

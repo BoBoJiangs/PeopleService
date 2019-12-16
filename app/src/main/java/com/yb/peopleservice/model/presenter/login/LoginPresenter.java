@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.classify.LoginRequest;
 
@@ -44,6 +46,12 @@ public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallb
             @Override
             public void onRequestSuccess(LoginBean data) {
                 try {
+                    User user = new User();
+                    user.setAccess_token(data.getAccess_token());
+                    user.setAccount(phone);
+                    user.setPassword(password);
+                    ManagerFactory.getInstance().getUserManager().deleteAll();
+                    ManagerFactory.getInstance().getUserManager().save(user);
                     getViewCallBack().loginSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();

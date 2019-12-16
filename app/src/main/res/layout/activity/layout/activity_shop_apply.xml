@@ -14,7 +14,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,6 +52,16 @@
                 app:type="INPUT"
                 app:text_content_hint="请输入管理员姓名"
                 app:text_title="管理员姓名" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/phoneUV"
+                style="@style/utility_view"
+                android:layout_height="50dp"
+                app:line_show="true"
+                app:type="INPUT"
+                app:text_content_input_type="NUMBER"
+                app:text_content_hint="请输入店铺电话"
+                app:text_title="店铺电话" />
 
             <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/idCardUV"
@@ -150,5 +161,8 @@
             </FrameLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
+    <Button
+        android:id="@+id/sureBtn"
+        style="@style/login_btn_style"
+        android:text="确定" />
 </LinearLayout>
