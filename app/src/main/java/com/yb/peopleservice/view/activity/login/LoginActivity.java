@@ -9,6 +9,8 @@ import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.presenter.login.LoginPresenter;
 import com.yb.peopleservice.model.service.TimeService;
 import com.yb.peopleservice.view.activity.main.MainActivity;
@@ -29,6 +31,8 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
     @BindView(R.id.seeIV)
     ImageView seeIV;
     private LoginPresenter loginPresenter;
+    private String phone;
+    private String pass;
 
     @Override
     protected int contentViewResID() {
@@ -69,8 +73,12 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
 
     @Override
     public void loginSuccess(LoginBean data) {
-        ToastUtils.showLong("登陆成功" + data.getAccess_token());
-        if (data.getScope() != null && !data.getScope().isEmpty()){
+        User user = new User();
+        user.setAccess_token(data.getAccess_token());
+        user.setAccount(phone);
+        user.setPassword(pass);
+        ManagerFactory.getInstance().getUserManager().save(user);
+        if (data.getScope() != null && !data.getScope().isEmpty()) {
             if (data.getScope().contains(LoginBean.USER_TYPE)) {
                 startActivity(new Intent(this, MainActivity.class));
             } else if (data.getScope().contains(LoginBean.SHOP_TYPE)) {
@@ -80,7 +88,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
             } else {
                 ToastUtils.showLong("未知的用户类型,请联系管理员！");
             }
-        }else{
+        } else {
             ToastUtils.showLong("未知的用户类型,请联系管理员！");
         }
 
@@ -94,8 +102,8 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
 
 
     public void login() {
-        String phone = phoneTV.getContentText();
-        String pass = pwdUV.getContentText();
+        phone = phoneTV.getContentText();
+        pass = pwdUV.getContentText();
 //        if (!RegexUtils.isMobileExact(phone)) {
 //            ToastUtils.showLong("请输入正确的电话号码");
 //            return;
