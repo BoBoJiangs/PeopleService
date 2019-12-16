@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.database.bean.ShopInfo;
 import com.yb.peopleservice.model.presenter.WeChatPresenter;
+import com.yb.peopleservice.model.presenter.shop.ApplyShopPresenter;
 import com.yb.peopleservice.model.presenter.uploadfile.UploadFilePresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
@@ -38,7 +39,7 @@ import cn.sts.base.view.widget.UtilityView;
  * 修改时间:
  * 修改描述:
  */
-public class ApplyShopActivity extends BaseToolbarActivity implements UploadFilePresenter.IViewUploadFile {
+public class ApplyShopActivity extends BaseToolbarActivity implements UploadFilePresenter.IViewUploadFile, ApplyShopPresenter.IApplyCallback {
     @BindView(R.id.headUV)
     UtilityView headUV;
     ImageView headIV;
@@ -77,6 +78,7 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
     private String licenseUrl;//营业执照
     private UploadFilePresenter uploadFilePresenter;
     private ShopInfo shopInfo;
+    private ApplyShopPresenter presenter;
 
     @Override
     public String getTitleName() {
@@ -97,7 +99,7 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
 
     @Override
     protected AbstractPresenter createPresenter() {
-        return null;
+        return presenter = new ApplyShopPresenter(this,this);
     }
 
 
@@ -106,6 +108,7 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
         switch (view.getId()) {
             case R.id.headUV:
                 ImagePicker.withMulti(new WeChatPresenter())
+                        .showCamera(true)//显示拍照
                         .setSelectMode(SelectMode.MODE_SINGLE)
                         .setCropRatio(1, 1)//设置剪裁比例   1：1
                         .cropSaveInDCIM(false)
@@ -123,13 +126,13 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
                             }
                         });
                 break;
-            case R.id.cardFaceIV:
+            case R.id.cardFaceFL:
                 choiceImg(cardFaceIV);
                 break;
-            case R.id.cardBackIV:
+            case R.id.cardBackFL:
                 choiceImg(cardBackIV);
                 break;
-            case R.id.licenseIV:
+            case R.id.licenseFL:
                 choiceImg(licenseIV);
                 break;
             case R.id.sureBtn:
@@ -200,6 +203,7 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
     private void choiceImg(ImageView imageView) {
         ImagePicker.withMulti(new WeChatPresenter())
                 .setSelectMode(SelectMode.MODE_SINGLE)
+                .showCamera(true)//显示拍照
                 .cropRectMinMargin(SizeUtils.dp2px(80))//设置剪裁边框间距
                 .pick(this, new OnImagePickCompleteListener() {
                     @Override
@@ -210,12 +214,15 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
                             switch (imageView.getId()) {
                                 case R.id.cardFaceIV:
                                     cardFaceUrl = url;
+                                    addFaceTV.setVisibility(View.GONE);
                                     break;
                                 case R.id.cardBackIV:
                                     cardBackUrl = url;
+                                    addBackTV.setVisibility(View.GONE);
                                     break;
                                 case R.id.licenseIV:
                                     licenseUrl = url;
+                                    licenseTV.setVisibility(View.GONE);
                                     break;
                             }
                         }
@@ -235,12 +242,22 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
         }
         if (!StringUtils.isEmpty(shopInfo.getHeadImg()) &&
                 !StringUtils.isEmpty(shopInfo.getBusinessLicenseImg())) {
-
+            presenter.applyShop(shopInfo);
         }
     }
 
     @Override
     public void uploadFail() {
+
+    }
+
+    @Override
+    public void ApplySuccess(ShopInfo data) {
+
+    }
+
+    @Override
+    public void ApplyFail() {
 
     }
 }
