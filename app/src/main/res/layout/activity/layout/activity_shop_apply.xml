@@ -32,7 +32,16 @@
                 app:text_content_hint="请输入店铺名称"
                 app:type="INPUT"
                 app:text_title="店铺名称　" />
-
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/addressUV"
+                style="@style/utility_view"
+                app:right_image_res="@mipmap/icon_location2"
+                app:right_image_height="35pt"
+                app:right_image_width="35pt"
+                android:layout_height="50dp"
+                app:line_show="true"
+                app:text_content_hint="请选择店铺地址"
+                app:text_title="店铺地址　" />
             <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/remakeUV"
                 style="@style/utility_view"
@@ -61,7 +70,7 @@
                 app:type="INPUT"
                 app:text_content_input_type="NUMBER"
                 app:text_content_hint="请输入店铺电话"
-                app:text_title="店铺电话" />
+                app:text_title="店铺电话　" />
 
             <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/idCardUV"
@@ -77,12 +86,12 @@
                 style="@style/utility_view"
                 android:layout_height="220pt"
                 app:right_image_height="180pt"
-                app:right_image_res="@mipmap/default_head"
+                app:right_image_res="@drawable/base_icon_default"
                 app:right_image_width="180pt"
-                app:text_content="(注：请上传真人面部照片)"
+                app:text_content=""
                 app:text_content_size="@dimen/font_btn_small_best"
                 app:text_content_color="@color/base_lib_gray"
-                app:text_title="头像" />
+                app:text_title="店铺图片" />
 
             <TextView
                 style="@style/text_view_content_black"

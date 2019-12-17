@@ -1,104 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     tools:ignore="MissingPrefix">
-
-
     <LinearLayout
-        android:id="@+id/userInfoRL"
         android:layout_width="match_parent"
-        android:layout_height="200pt"
-        android:background="@color/base_text_color"
-        android:gravity="center"
-        android:padding="@dimen/space_default">
-
-        <ImageView
-            android:id="@+id/photoIV"
-            android:layout_width="@dimen/height_image_big"
-            android:layout_height="@dimen/height_image_big"
-            android:src="@mipmap/default_head" />
-
-        <TextView
-            android:id="@+id/nameTV"
-            style="@style/text_view_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/dp_10"
-            android:textColor="@color/white"
-            android:lines="1"
-            android:text="店铺名称"
-            android:textSize="@dimen/font_content_four" />
-
-
-        <ImageView
-            android:id="@+id/arrowTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_arrow_right2" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/shopInfoLL"
-        style="@style/line_style"
-        android:layout_width="match_parent"
-        android:layout_height="120pt"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/space_default"
-        android:paddingEnd="@dimen/space_default"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         tools:ignore="MissingPrefix">
+        <LinearLayout
+            android:id="@+id/userInfoRL"
+            android:layout_width="match_parent"
+            android:layout_height="250pt"
+            android:background="@color/base_text_color"
+            android:gravity="center"
+            android:padding="@dimen/space_default">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/photoIV"
+                android:layout_width="@dimen/height_image_big"
+                android:layout_height="@dimen/height_image_big"
+                android:src="@mipmap/default_head" />
+
+            <TextView
+                android:id="@+id/nameTV"
+                style="@style/text_view_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textColor="@color/white"
+                android:lines="1"
+                android:text=""
+                android:textSize="@dimen/font_content_four" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/shopInfoLL"
+            style="@style/line_style"
+            android:layout_width="match_parent"
+            android:layout_height="120pt"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/space_default"
+            android:paddingEnd="@dimen/space_default"
+            tools:ignore="MissingPrefix">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_shop_info"/>
+
+            <TextView
+                android:id="@+id/titleTV"
+                style="@style/text_view_content_black"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/space_default"
+                android:layout_weight="1"
+                android:text="店铺信息" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/profitLL"
+            style="@style/line_style"
+            android:layout_width="match_parent"
+            android:layout_height="120pt"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/space_default"
+            android:paddingEnd="@dimen/space_default"
+            tools:ignore="MissingPrefix">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_shuju"/>
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/space_default"
+                android:layout_weight="1"
+                android:text="我的收益" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/emptyLL"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_person1"/>
-
-        <TextView
-            android:id="@+id/titleTV"
-            style="@style/text_view_content_black"
-            android:layout_width="0dp"
             android:layout_marginStart="@dimen/space_default"
-            android:layout_weight="1"
-            android:text="店铺信息" />
+            android:layout_marginEnd="@dimen/space_default"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_arrow_right" />
+            <Button
+                android:id="@+id/applyBtn"
+                style="@style/login_btn_style"
+                android:layout_width="390pt"
+                android:layout_height="78pt"
+                android:text="申请认证店铺" />
+
+            <TextView
+                android:id="@+id/remakeTV"
+                style="@style/text_view_content_gray"
+                android:layout_marginTop="@dimen/space_default"
+                android:textColor="@color/gray_66"
+                android:textSize="@dimen/font_title_small"
+                android:text="审核通过后即可发布服务" />
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/profitLL"
-        style="@style/line_style"
-        android:layout_width="match_parent"
-        android:layout_height="120pt"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/space_default"
-        android:paddingEnd="@dimen/space_default"
-        tools:ignore="MissingPrefix">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_person1"/>
 
-        <TextView
-            style="@style/text_view_content_black"
-            android:layout_width="0dp"
-            android:layout_marginStart="@dimen/space_default"
-            android:layout_weight="1"
-            android:text="我的收益" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_arrow_right" />
-    </LinearLayout>
-</LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

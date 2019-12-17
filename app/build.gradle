@@ -108,6 +108,7 @@ dependencies {
     //高德地图
     implementation 'com.amap.api:navi-3dmap:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:search:latest.integration'
     implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1072_43646.jar')
     //评分控件
     implementation 'com.github.CB-ysx:CBRatingBar:3.0.1'

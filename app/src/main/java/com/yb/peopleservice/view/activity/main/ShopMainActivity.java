@@ -76,7 +76,7 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
     private ArrayList<Fragment> getFragmentList() {
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
-        fragmentList.add(ShopFragment.getInstanceFragment());
+        fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
         fragmentList.add(ShopFragment.getInstanceFragment());
 
         return fragmentList;
@@ -91,6 +91,7 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
         } else if (position == 1){
             titleTV.setText("消息");
         }else{
+            titleTV.setText("店铺");
             rightLL.setVisibility(View.VISIBLE);
         }
     }

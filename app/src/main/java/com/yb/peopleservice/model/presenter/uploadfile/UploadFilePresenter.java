@@ -2,6 +2,7 @@ package com.yb.peopleservice.model.presenter.uploadfile;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.FileDetailVO;
@@ -16,6 +17,7 @@ import java.util.List;
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
 import cn.sts.base.presenter.AbstractPresenter;
+import cn.sts.base.util.FileUtil;
 import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -50,6 +52,7 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
             @Override
             public void onRequestSuccess(List<String> data) {
                 try {
+                    FileUtil.deleteFile(AppConstant.FILE_PATH);
                     getViewCallBack().uploadSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -91,9 +94,10 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
      * 压缩图片
      */
     public void launchImage(List<String> paths, boolean isPublic) {
+        FileUtils.createOrExistsDir(AppConstant.FILE_PATH);
         List<File> files = new ArrayList<>();
         Luban.with(context)
-                .load(paths)                                   // 传人要压缩的图片列表
+                .load(paths)                                   // 传入要压缩的图片列表
                 .setTargetDir(AppConstant.FILE_PATH)                        // 设置压缩后文件存储位置
                 .setCompressListener(new OnCompressListener() { //设置回调
                     @Override

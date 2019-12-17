@@ -78,6 +78,8 @@
         <activity android:name=".view.activity.login.QuickLoginActivity" />
         <activity android:name=".view.activity.main.ShopMainActivity" />
         <activity android:name=".view.activity.shop.ApplyShopActivity" />
+        <activity android:name=".view.activity.shop.SearchMapActivity" />
+        <activity android:name=".view.activity.shop.ShopDetailsActivity" />
     </application>
 
 </manifest>

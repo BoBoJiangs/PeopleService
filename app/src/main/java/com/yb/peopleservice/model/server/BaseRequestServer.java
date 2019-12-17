@@ -50,12 +50,12 @@ public class BaseRequestServer extends AbstractRequestServer {
     /**
      * 正式服务器地址
      */
-    public static final String SERVER_URL = "http://183.220.113.73:8087/";
+    public static final String SERVER_URL = "http://123.56.249.114/";
 
     /**
-     * 文件地址
+     * 公开文件地址
      */
-    public static String FILE_URL = "";
+    public static String FILE_URL = "platform/api/file?uri=";
 
     /**
      * 支付URL
@@ -84,9 +84,12 @@ public class BaseRequestServer extends AbstractRequestServer {
     /**
      * 文件地址
      */
-    public static String getFileUrl() {
-
-        return FILE_URL;
+    public static String getFileUrl(boolean isPublic) {
+        if (isPublic) {
+            return SERVER_URL;
+        } else {
+            return SERVER_URL + FILE_URL;
+        }
     }
 
 
@@ -152,7 +155,7 @@ public class BaseRequestServer extends AbstractRequestServer {
 
                 request = original.newBuilder()
                         .addHeader("Content-Type", "application/json")
-                        .addHeader("Authorization","Bearer "+token)
+                        .addHeader("Authorization", "Bearer " + token)
                         .method(original.method(), original.body())
                         .build();
                 //非文件上传统一设置

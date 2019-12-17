@@ -9,7 +9,7 @@ package com.yb.peopleservice.constant;
 
 public class ResponseCodeConstant {
     /**
-     * 选择标签的响应码
+     * 响应码
      */
-    public static final int SELECT_TAG_RESPONSE = 1002;
+    public static final int BASE_RESPONSE = 1002;
 }

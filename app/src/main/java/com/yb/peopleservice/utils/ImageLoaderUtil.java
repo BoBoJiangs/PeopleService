@@ -64,7 +64,7 @@ public class ImageLoaderUtil {
      */
     public static void loadServerCircleImage(final Context context, String url, final ImageView imageView) {
         if (!StringUtils.isEmpty(url) && !url.contains("http")) {
-            url = url + BaseRequestServer.getFileUrl();
+            url = BaseRequestServer.getFileUrl(true) + url;
         }
         Glide.with(context)
                 .asBitmap()
@@ -83,7 +83,9 @@ public class ImageLoaderUtil {
 
 
     }
-
+    public static void loadServerImage(Context context, String url, ImageView imageView) {
+        loadServerImage(context,url,imageView,true);
+    }
 
     /**
      * 加载服务器图片
@@ -91,7 +93,10 @@ public class ImageLoaderUtil {
      * @param url       图片地址
      * @param imageView view
      */
-    public static void loadServerImage(Context context, String url, ImageView imageView) {
+    public static void loadServerImage(Context context, String url, ImageView imageView,boolean isPublic) {
+        if (!StringUtils.isEmpty(url) && !url.contains("http")) {
+            url = BaseRequestServer.getFileUrl(isPublic) + url;
+        }
         Glide.with(context)
                 .load(url)
                 .apply(getOptions())

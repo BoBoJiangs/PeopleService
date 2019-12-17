@@ -1,5 +1,7 @@
 package com.yb.peopleservice.model.database.bean;
 
+import java.io.Serializable;
+
 /**
  * 项目名称:PeopleService
  * 类描述: 店铺信息
@@ -9,7 +11,7 @@ package com.yb.peopleservice.model.database.bean;
  * 修改时间:
  * 修改描述:
  */
-public class ShopInfo {
+public class ShopInfo implements Serializable {
 
     /**
      * address : string
@@ -43,8 +45,8 @@ public class ShopInfo {
     private String businessLicenseImg;//营业执照
     private String headImg;//头像
     private String introduction;//介绍
-    private String locationLatitude;//店铺位置纬度
-    private String locationLongitude;//店铺位置经度
+    private double locationLatitude;//店铺位置纬度
+    private double locationLongitude;//店铺位置经度
     private String managerIdcardImgBack;//管理员身份证背面(个人信息页面)
     private String managerIdcardImgFront;//管理员身份证正面(国徽页面)
     private String message;//平台给店铺的信息，当店铺被审核拒绝通过，或者拉黑以后，会有信息
@@ -94,19 +96,19 @@ public class ShopInfo {
         this.introduction = introduction;
     }
 
-    public String getLocationLatitude() {
-        return locationLatitude == null ? "" : locationLatitude;
+    public double getLocationLatitude() {
+        return locationLatitude;
     }
 
-    public void setLocationLatitude(String locationLatitude) {
+    public void setLocationLatitude(double locationLatitude) {
         this.locationLatitude = locationLatitude;
     }
 
-    public String getLocationLongitude() {
-        return locationLongitude == null ? "" : locationLongitude;
+    public double getLocationLongitude() {
+        return locationLongitude ;
     }
 
-    public void setLocationLongitude(String locationLongitude) {
+    public void setLocationLongitude(double locationLongitude) {
         this.locationLongitude = locationLongitude;
     }
 

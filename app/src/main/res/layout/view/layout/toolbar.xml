@@ -81,7 +81,7 @@
         android:layout_gravity="right"
         android:gravity="center"
         android:padding="@dimen/space_small"
-        android:textColor="@android:color/white"
+        android:textColor="@color/black"
         android:textSize="@dimen/font_title_small" />
 
 </androidx.appcompat.widget.Toolbar>

@@ -181,24 +181,7 @@ public class WeChatPresenter implements IPickerPresenter {
 
     @Override
     public boolean interceptCameraClick(@Nullable final Activity activity, final ICameraExecutor takePhoto) {
-        if (activity == null || activity.isDestroyed()) {
-            return false;
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setSingleChoiceItems(new String[]{"拍照", "录像"}, -1, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                if (which == 0) {
-                    takePhoto.takePhoto();
-                } else {
-                    takePhoto.takeVideo();
-                }
-            }
-        });
-        builder.show();
-        return true;
+        return false;
     }
 
 

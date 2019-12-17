@@ -15,7 +15,7 @@ public class RequestCodeConstant {
     public static final int SELECT_IMAGE = 1000;
 
     /**
-     * 选择标签的请求码
+     * 请求码
      */
-    public static final int SELECT_TAG_REQUEST = 1001;
+    public static final int BASE_REQUEST = 1001;
 }

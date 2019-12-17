@@ -15,16 +15,16 @@ import io.reactivex.Observable;
 
 /**
  * 项目名称:PeopleService
- * 类描述: 店铺认证
+ * 类描述: 获取店铺信息
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/5 16:23
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IApplyCallback> {
+public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShopInfoCallback> {
 
-    public ApplyShopPresenter(Context context, IApplyCallback viewCallBack) {
+    public ShopInfoPresenter(Context context, IShopInfoCallback viewCallBack) {
         super(context, viewCallBack);
 
     }
@@ -35,14 +35,14 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
     }
 
     /**
-     * 店铺认证
+     * 获取店铺信息
      */
-    public void applyShop(ShopInfo shopInfo) {
+    public void getShopInfo() {
         AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ShopInfo>() {
             @Override
             public void onRequestSuccess(ShopInfo data) {
                 try {
-                    getViewCallBack().ApplySuccess(data);
+                    getViewCallBack().shopInfoSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -51,7 +51,7 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
             @Override
             public void onRequestFailure(String error) {
                 try {
-                    getViewCallBack().ApplyFail();
+                    getViewCallBack().shopInfoFail();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -65,7 +65,7 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
         }) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
-                return iRequestServer.putShopInfo(shopInfo);
+                return iRequestServer.getShopInfo();
             }
 
             @Override
@@ -77,11 +77,11 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
         BaseRequestServer.getInstance().request(requestFunc);
     }
 
-    public interface IApplyCallback extends IViewCallback {
+    public interface IShopInfoCallback extends IViewCallback {
 
 
-        void ApplySuccess(ShopInfo data);
+        void shopInfoSuccess(ShopInfo data);
 
-        void ApplyFail();
+        void shopInfoFail();
     }
 }

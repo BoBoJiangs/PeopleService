@@ -30,4 +30,9 @@ public interface ShopRequest {
     @PUT("shop/api/shops")
     Observable<RequestResult<ShopInfo>> putShopInfo(@Body ShopInfo shopInfo);
 
+    /**
+     * 获取店铺信息
+     */
+    @GET("shop/api/shops")
+    Observable<RequestResult<ShopInfo>> getShopInfo();
 }

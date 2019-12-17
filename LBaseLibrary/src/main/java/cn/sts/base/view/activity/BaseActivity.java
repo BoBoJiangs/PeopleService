@@ -2,7 +2,8 @@ package cn.sts.base.view.activity;
 
 import android.os.Bundle;
 
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.trello.rxlifecycle3.components.RxActivity;
+import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
 import cn.sts.base.app.AppManager;
