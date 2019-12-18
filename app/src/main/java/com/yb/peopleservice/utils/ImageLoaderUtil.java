@@ -10,9 +10,13 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 
 
@@ -83,8 +87,9 @@ public class ImageLoaderUtil {
 
 
     }
+
     public static void loadServerImage(Context context, String url, ImageView imageView) {
-        loadServerImage(context,url,imageView,true);
+        loadServerImage(context, url, imageView, true);
     }
 
     /**
@@ -93,14 +98,30 @@ public class ImageLoaderUtil {
      * @param url       图片地址
      * @param imageView view
      */
-    public static void loadServerImage(Context context, String url, ImageView imageView,boolean isPublic) {
+    public static void loadServerImage(Context context, String url, ImageView imageView, boolean isPublic) {
         if (!StringUtils.isEmpty(url) && !url.contains("http")) {
             url = BaseRequestServer.getFileUrl(isPublic) + url;
         }
-        Glide.with(context)
-                .load(url)
-                .apply(getOptions())
-                .into(imageView);
+        if (!isPublic) {
+            User account = ManagerFactory.getInstance().getUserManager().getUser();
+            if (account != null) {
+                String token = account.getTokenType() + " " + account.getAccess_token();
+                GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder()
+                        .addHeader("Authorization", token)
+                        .build());
+                Glide.with(context)
+                        .load(glideUrl)
+                        .apply(getOptions())
+                        .into(imageView);
+            }
+
+        } else {
+            Glide.with(context)
+                    .load(url)
+                    .apply(getOptions())
+                    .into(imageView);
+        }
+
     }
 
 

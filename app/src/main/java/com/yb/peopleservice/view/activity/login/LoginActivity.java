@@ -12,6 +12,7 @@ import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.presenter.login.LoginPresenter;
+import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.service.TimeService;
 import com.yb.peopleservice.view.activity.main.MainActivity;
 import com.yb.peopleservice.view.activity.main.ShopMainActivity;

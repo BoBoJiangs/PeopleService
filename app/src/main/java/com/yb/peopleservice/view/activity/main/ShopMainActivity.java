@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.activity.main;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -10,6 +11,10 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
+import com.yb.peopleservice.view.activity.shop.ApplyShopActivity;
+import com.yb.peopleservice.view.activity.shop.ShopDetailsActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.fragment.shop.ShopFragment;
 import com.yb.peopleservice.view.fragment.shop.order.ShopOrderTabFragment;
@@ -18,9 +23,18 @@ import com.yb.peopleservice.view.fragment.user.order.OrderTabFragment;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
-
+import cn.sts.base.view.widget.AppDialog;
+/**
+ * 类描述:商家首页
+ * 创建人:yangbo_ QQ:819463350
+ * 创建时间: 2019/12/18  17:03
+ * 修改人:
+ * 修改时间:
+ * 修改描述:
+ */
 public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelectListener {
 
     private String[] mTitles = {"订单", "消息", "店铺"};
@@ -30,7 +44,7 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
     CommonTabLayout commonTabLayout;
     @BindView(R.id.frameLayout)
     FrameLayout frameLayout;
-
+    private LogoutPresenter logoutPresenter;
     @Override
     public int contentViewResID() {
         return R.layout.activity_main;
@@ -44,12 +58,40 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
 
     @Override
     protected void initData() {
+        logoutPresenter = new LogoutPresenter(this,null);
         commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
                 getFragmentList());
         commonTabLayout.setOnTabSelectListener(this);
+        rightIV2.setImageResource(R.mipmap.icon_logout);
     }
 
+    @OnClick({R.id.rightIV2})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.rightIV2:
+                AppDialog appDialog = new AppDialog(this);
+                appDialog.title("是否确认退出？")
+                        .positiveBtn(R.string.sure, new AppDialog.OnClickListener() {
+                            @Override
+                            public void onClick(AppDialog appDialog) {
+                                appDialog.dismiss();
+                                logoutPresenter.logout();
+                            }
+                        });
 
+                appDialog.negativeBtn(R.string.cancel, new AppDialog.OnClickListener() {
+                    @Override
+                    public void onClick(AppDialog appDialog) {
+                        appDialog.dismiss();
+                    }
+                });
+                appDialog.setCancelable(false);
+                appDialog.show();
+
+
+                break;
+        }
+    }
     @Override
     public void onTabReselect(int position) {
 

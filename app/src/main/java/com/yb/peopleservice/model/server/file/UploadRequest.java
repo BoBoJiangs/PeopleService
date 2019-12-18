@@ -26,14 +26,14 @@ public interface UploadRequest {
     /**
      * 上传私有文件
      */
-    @POST("shop/api/file/private/upload")
+    @POST("api/file/private/upload")
     Observable<RequestResult<List<String>>> upLoadPrivateFile(@Body MultipartBody multipartBody);
 
 
     /**
      * 上传公开数据
      */
-    @POST("shop/api/file/public/upload")
+    @POST("api/file/public/upload")
     Observable<RequestResult<List<String>>> upLoadPublicFile(@Body MultipartBody multipartBody);
 
 }

@@ -2,6 +2,7 @@ package com.yb.peopleservice.view.base;
 
 import android.content.res.Resources;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.core.content.ContextCompat;
@@ -23,6 +24,10 @@ public abstract class BaseToolbarActivity extends cn.sts.base.view.activity.Base
     protected MsgView msgMV;
     @BindView(R.id.msgMV2)
     protected MsgView msgMV2;
+    @BindView(R.id.rightIV)
+    protected ImageView rightIV;
+    @BindView(R.id.rightIV2)
+    protected ImageView rightIV2;
     @BindView(R.id.rightLL)
     protected LinearLayout rightLL;
 

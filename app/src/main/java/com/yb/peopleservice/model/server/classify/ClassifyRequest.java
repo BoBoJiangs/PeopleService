@@ -24,7 +24,7 @@ public interface ClassifyRequest {
     /**
      * 查询分类信息列表
      */
-    @GET("api/categories")
+    @GET("categories")
     Observable<RequestResult<List<ClassifyListBean>>> getCategoryInfo(@Query("parentId") int parentId);
 
 }

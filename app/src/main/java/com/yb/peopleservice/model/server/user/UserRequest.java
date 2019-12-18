@@ -24,7 +24,7 @@ public interface UserRequest {
     /**
      * 顾客获取个人信息
      */
-    @GET("api/customers/self")
+    @GET("customers/self")
     Observable<RequestResult<List<ClassifyListBean>>> getUserInfo(@Query("parentId") int parentId);
 
 }

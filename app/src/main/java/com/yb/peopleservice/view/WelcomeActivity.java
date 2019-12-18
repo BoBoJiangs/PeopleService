@@ -16,6 +16,7 @@ import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.presenter.login.LoginPresenter;
+import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
 import com.yb.peopleservice.view.activity.main.MainActivity;
 import com.yb.peopleservice.view.activity.main.ShopMainActivity;
@@ -220,15 +221,11 @@ public class WelcomeActivity extends BaseActivity implements LoginPresenter.ILog
 
     @Override
     public void loginSuccess(LoginBean data) {
-        if (account!=null){
-            account.setAccess_token(data.getAccess_token());
-            ManagerFactory.getInstance().getUserManager().update(account);
-        }
         toMainActivity(data);
     }
 
     @Override
     public void loginFail() {
-
+        toLoginActivity();
     }
 }

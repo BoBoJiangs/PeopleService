@@ -32,7 +32,8 @@ public class UserDao extends AbstractDao<User, String> {
         public final static Property Password = new Property(2, String.class, "password", false, "PASSWORD");
         public final static Property UserName = new Property(3, String.class, "userName", false, "USER_NAME");
         public final static Property QuickCode = new Property(4, String.class, "quickCode", false, "QUICK_CODE");
-        public final static Property AccountType = new Property(5, String.class, "accountType", false, "ACCOUNT_TYPE");
+        public final static Property TokenType = new Property(5, String.class, "tokenType", false, "TOKEN_TYPE");
+        public final static Property AccountType = new Property(6, String.class, "accountType", false, "ACCOUNT_TYPE");
     }
 
     private final StringConverter accountTypeConverter = new StringConverter();
@@ -54,7 +55,8 @@ public class UserDao extends AbstractDao<User, String> {
                 "\"PASSWORD\" TEXT," + // 2: password
                 "\"USER_NAME\" TEXT," + // 3: userName
                 "\"QUICK_CODE\" TEXT," + // 4: quickCode
-                "\"ACCOUNT_TYPE\" TEXT);"); // 5: accountType
+                "\"TOKEN_TYPE\" TEXT," + // 5: tokenType
+                "\"ACCOUNT_TYPE\" TEXT);"); // 6: accountType
     }
 
     /** Drops the underlying database table. */
@@ -92,9 +94,14 @@ public class UserDao extends AbstractDao<User, String> {
             stmt.bindString(5, quickCode);
         }
  
+        String tokenType = entity.getTokenType();
+        if (tokenType != null) {
+            stmt.bindString(6, tokenType);
+        }
+ 
         List accountType = entity.getAccountType();
         if (accountType != null) {
-            stmt.bindString(6, accountTypeConverter.convertToDatabaseValue(accountType));
+            stmt.bindString(7, accountTypeConverter.convertToDatabaseValue(accountType));
         }
     }
 
@@ -127,9 +134,14 @@ public class UserDao extends AbstractDao<User, String> {
             stmt.bindString(5, quickCode);
         }
  
+        String tokenType = entity.getTokenType();
+        if (tokenType != null) {
+            stmt.bindString(6, tokenType);
+        }
+ 
         List accountType = entity.getAccountType();
         if (accountType != null) {
-            stmt.bindString(6, accountTypeConverter.convertToDatabaseValue(accountType));
+            stmt.bindString(7, accountTypeConverter.convertToDatabaseValue(accountType));
         }
     }
 
@@ -146,7 +158,8 @@ public class UserDao extends AbstractDao<User, String> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // password
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // userName
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // quickCode
-            cursor.isNull(offset + 5) ? null : accountTypeConverter.convertToEntityProperty(cursor.getString(offset + 5)) // accountType
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // tokenType
+            cursor.isNull(offset + 6) ? null : accountTypeConverter.convertToEntityProperty(cursor.getString(offset + 6)) // accountType
         );
         return entity;
     }
@@ -158,7 +171,8 @@ public class UserDao extends AbstractDao<User, String> {
         entity.setPassword(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setUserName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setQuickCode(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setAccountType(cursor.isNull(offset + 5) ? null : accountTypeConverter.convertToEntityProperty(cursor.getString(offset + 5)));
+        entity.setTokenType(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setAccountType(cursor.isNull(offset + 6) ? null : accountTypeConverter.convertToEntityProperty(cursor.getString(offset + 6)));
      }
     
     @Override

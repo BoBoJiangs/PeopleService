@@ -1,12 +1,17 @@
 package com.yb.peopleservice.model.server;
 
 import android.accounts.Account;
+import android.content.Intent;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.BuildConfig;
+import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.view.activity.main.MainActivity;
+import com.yb.peopleservice.view.activity.main.ShopMainActivity;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -37,25 +42,24 @@ public class BaseRequestServer extends AbstractRequestServer {
 
     }
 
-    /**
-     * 服务器地址：邓杰本地
-     */
 //    public static final String DEBUG_URL = "http://10.1.10.90:8087/";
 //    public static final String DEBUG_URL = "http://10.1.10.99:8085/";
-    /**
-     * 测试外网
-     */
-    public static final String DEBUG_URL = "http://123.56.249.114/";
+//    /**
+//     * 测试外网
+//     */
+//    public static final String DEBUG_URL = "http://123.56.249.114/";
 
     /**
      * 正式服务器地址
      */
-    public static final String SERVER_URL = "http://123.56.249.114/";
+    public static String SERVER_URL = "http://123.56.249.114/";
+
+    public static String baseURL;
 
     /**
      * 公开文件地址
      */
-    public static String FILE_URL = "platform/api/file?uri=";
+    public static String FILE_URL = "shop/api/file?uri=";
 
     /**
      * 支付URL
@@ -86,22 +90,31 @@ public class BaseRequestServer extends AbstractRequestServer {
      */
     public static String getFileUrl(boolean isPublic) {
         if (isPublic) {
-            return SERVER_URL;
+            return baseURL;
         } else {
-            return SERVER_URL + FILE_URL;
+            return baseURL + FILE_URL;
         }
     }
 
 
     @Override
     public String getServerURL() {
-        if (BuildConfig.DEBUG) {
-            return DEBUG_URL;
-//            return SERVER_URL;
-        } else {
-            return SERVER_URL;
-        }
 
+        User data = ManagerFactory.getInstance().getUserManager().getUser();
+        if (data != null && !data.getAccountType().isEmpty()) {
+            if (data.getAccountType().contains(LoginBean.USER_TYPE)) {
+                baseURL = SERVER_URL + "api/";
+            } else if (data.getAccountType().contains(LoginBean.SHOP_TYPE)) {
+                baseURL = SERVER_URL + "shop/api/";
+            } else if (data.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
+                baseURL = SERVER_URL + "staff/api/";
+            } else {
+                baseURL = SERVER_URL + "sso/";
+            }
+        } else {
+            baseURL = SERVER_URL + "sso/";
+        }
+        return baseURL;
     }
 
     @Override
@@ -149,13 +162,13 @@ public class BaseRequestServer extends AbstractRequestServer {
                 String token = "";
                 User account = ManagerFactory.getInstance().getUserManager().getUser();
                 if (account != null) {
-                    token = account.getAccess_token();
+                    token = account.getTokenType() + " " + account.getAccess_token();
                 }
 
 
                 request = original.newBuilder()
                         .addHeader("Content-Type", "application/json")
-                        .addHeader("Authorization", "Bearer " + token)
+                        .addHeader("Authorization", token)
                         .method(original.method(), original.body())
                         .build();
                 //非文件上传统一设置

@@ -6,6 +6,7 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.converter.PropertyConverter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class User {
     private String password;//用户密码
     private String userName;
     private String quickCode;//快捷登录获取的凭证
+    private String tokenType;
     @Convert(converter = StringConverter.class, columnType = String.class)
     private List<String> accountType;//功能列表的URL(暂时用于编辑机组信息时是否显示控制器的选项)
 
@@ -27,14 +29,15 @@ public class User {
 
 
 
-    @Generated(hash = 739293463)
+    @Generated(hash = 909325673)
     public User(String account, String access_token, String password, String userName,
-            String quickCode, List<String> accountType) {
+            String quickCode, String tokenType, List<String> accountType) {
         this.account = account;
         this.access_token = access_token;
         this.password = password;
         this.userName = userName;
         this.quickCode = quickCode;
+        this.tokenType = tokenType;
         this.accountType = accountType;
     }
 
@@ -87,11 +90,22 @@ public class User {
     }
 
     public List<String> getAccountType() {
-        return this.accountType;
+        if (accountType == null) {
+            return new ArrayList<>();
+        }
+        return accountType;
     }
 
     public void setAccountType(List<String> accountType) {
         this.accountType = accountType;
+    }
+
+    public String getTokenType() {
+        return this.tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 
     public static class StringConverter implements PropertyConverter<List<String>, String> {

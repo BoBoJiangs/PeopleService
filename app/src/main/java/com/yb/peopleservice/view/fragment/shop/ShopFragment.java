@@ -13,6 +13,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.presenter.shop.ShopInfoPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.shop.ApplyShopActivity;
@@ -51,7 +52,6 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
     TextView remakeTV;
     private ShopInfoPresenter presenter;
     private ShopInfo shopInfo;
-
     public static Fragment getInstanceFragment() {
         ShopFragment fragment = new ShopFragment();
         return fragment;
@@ -69,8 +69,10 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
 
     @Override
     protected void initData() {
+
         swipeRefreshLayout.setRefreshing(true);
         presenter.getShopInfo();
+
     }
 
     /**

@@ -7,6 +7,7 @@ import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.server.BaseRequestServer;
+import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.classify.LoginRequest;
 
 import java.util.Map;
@@ -96,7 +97,10 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
                             User user = new User();
                             user.setAccess_token(data.getAccess_token());
                             user.setAccount(phone);
-//                            user.set(password);
+//                            user.setPassword(password);
+                            user.setTokenType(data.getToken_type());
+                            user.setAccountType(data.getScope());
+                            ManagerFactory.getInstance().getUserManager().deleteAll();
                             ManagerFactory.getInstance().getUserManager().save(user);
                             getViewCallBack().loginSuccess(data);
                         } catch (Exception e) {
@@ -130,7 +134,7 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
             }
         };
         requestFunc.setShowProgress(false);
-        BaseRequestServer.getInstance().request(requestFunc);
+        LoginRequestServer.getInstance().request(requestFunc);
     }
 
     /**

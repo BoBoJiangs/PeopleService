@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.server.BaseRequestServer;
+import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.classify.LoginRequest;
 
 import java.util.Map;
@@ -78,7 +79,7 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
             }
         };
         requestFunc.setShowProgress(false);
-        BaseRequestServer.getInstance().request(requestFunc);
+        LoginRequestServer.getInstance().request(requestFunc);
     }
 
     /**
