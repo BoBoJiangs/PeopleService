@@ -38,7 +38,7 @@ public class EntryListPresenter extends AbstractQueryListPresenter<ShopInfo> {
         AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, getRequestListener()) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
-                Map<String, Object> map = new HashMap<>();
+                Map<String, Integer> map = new HashMap<>();
                 map.put("current", pageIndex);
                 return iRequestServer.getShops(map);
 

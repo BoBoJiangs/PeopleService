@@ -56,5 +56,5 @@ public interface ShopRequest {
      * 服务人员认证
      */
     @GET("shops")
-    Observable<RequestResult<List<ShopInfo>>> getShops(@QueryMap Map parameter);
+    Observable<RequestResult<List<ShopInfo>>> getShops(@QueryMap Map<String, Integer> parameter);
 }

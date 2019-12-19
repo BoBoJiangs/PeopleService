@@ -90,7 +90,7 @@ public class BaseRequestServer extends AbstractRequestServer {
      */
     public static String getFileUrl(boolean isPublic) {
         if (isPublic) {
-            return baseURL;
+            return SERVER_URL;
         } else {
             return baseURL + FILE_URL;
         }
