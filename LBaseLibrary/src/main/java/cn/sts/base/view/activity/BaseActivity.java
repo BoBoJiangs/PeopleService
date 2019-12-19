@@ -27,7 +27,8 @@ public abstract class BaseActivity<P extends AbstractPresenter> extends RxAppCom
         ButterKnife.bind(this);
 
         AppManager.getAppManager().addActivity(this);
-
+        initView();
+        initData();
         //创建Presenter
         if (presenter == null) {
             presenter = createPresenter();
@@ -41,8 +42,7 @@ public abstract class BaseActivity<P extends AbstractPresenter> extends RxAppCom
             Logs.w(TAG, getClass().getName() + "------->Presenter为null，确定当前Activity是否需要调用API或者逻辑处理？");
         }
 
-        initView();
-        initData();
+
     }
 
     @Override

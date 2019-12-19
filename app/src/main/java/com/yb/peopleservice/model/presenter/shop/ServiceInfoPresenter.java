@@ -3,6 +3,7 @@ package com.yb.peopleservice.model.presenter.shop;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.model.bean.shop.ServiceInfo;
 import com.yb.peopleservice.model.database.bean.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
@@ -15,16 +16,16 @@ import io.reactivex.Observable;
 
 /**
  * 项目名称:PeopleService
- * 类描述: 获取店铺信息
+ * 类描述: 获取服务人员信息
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/5 16:23
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShopInfoCallback> {
+public class ServiceInfoPresenter extends AbstractPresenter<ServiceInfoPresenter.IServiceInfoCallback> {
 
-    public ShopInfoPresenter(Context context, IShopInfoCallback viewCallBack) {
+    public ServiceInfoPresenter(Context context, IServiceInfoCallback viewCallBack) {
         super(context, viewCallBack);
 
     }
@@ -34,15 +35,16 @@ public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShop
         super.unbind();
     }
 
+
     /**
      * 获取店铺信息
      */
-    public void getShopInfo() {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ShopInfo>() {
+    public void getServiceInfo() {
+        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ServiceInfo>() {
             @Override
-            public void onRequestSuccess(ShopInfo data) {
+            public void onRequestSuccess(ServiceInfo data) {
                 try {
-                    getViewCallBack().shopInfoSuccess(data);
+                    getViewCallBack().serviceInfoSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -51,7 +53,7 @@ public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShop
             @Override
             public void onRequestFailure(String error) {
                 try {
-                    getViewCallBack().shopInfoFail();
+                    getViewCallBack().serviceInfoFail();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -65,7 +67,7 @@ public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShop
         }) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
-                return iRequestServer.getShopInfo();
+                return iRequestServer.getServiceInfo();
 
             }
 
@@ -79,11 +81,11 @@ public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShop
     }
 
 
-    public interface IShopInfoCallback extends IViewCallback {
+    public interface IServiceInfoCallback extends IViewCallback {
 
 
-        void shopInfoSuccess(ShopInfo data);
+        void serviceInfoSuccess(ServiceInfo data);
 
-        void shopInfoFail();
+        void serviceInfoFail();
     }
 }

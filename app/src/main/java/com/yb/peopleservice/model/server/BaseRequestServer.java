@@ -59,7 +59,7 @@ public class BaseRequestServer extends AbstractRequestServer {
     /**
      * 公开文件地址
      */
-    public static String FILE_URL = "shop/api/file?uri=";
+    public static String FILE_URL = "/file?uri=";
 
     /**
      * 支付URL

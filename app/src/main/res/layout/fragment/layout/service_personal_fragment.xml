@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingPrefix">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingPrefix">
+        <LinearLayout
+            android:id="@+id/userInfoRL"
+            android:layout_width="match_parent"
+            android:layout_height="250pt"
+            android:background="@color/base_text_color"
+            android:gravity="center"
+            android:padding="@dimen/space_default">
+
+            <ImageView
+                android:id="@+id/photoIV"
+                android:layout_width="@dimen/height_image_big"
+                android:layout_height="@dimen/height_image_big"
+                android:src="@mipmap/default_head" />
+
+            <TextView
+                android:id="@+id/nameTV"
+                style="@style/text_view_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/dp_10"
+                android:textColor="@color/white"
+                android:lines="1"
+                android:text=""
+                android:textSize="@dimen/font_content_four" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/shopInfoLL"
+            style="@style/line_style"
+            android:layout_width="match_parent"
+            android:layout_height="120pt"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/space_default"
+            android:paddingEnd="@dimen/space_default"
+            android:visibility="invisible"
+            tools:ignore="MissingPrefix">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_shop_info"/>
+
+            <TextView
+                android:id="@+id/titleTV"
+                style="@style/text_view_content_black"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/space_default"
+                android:layout_weight="1"
+                android:text="个人信息" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/profitLL"
+            style="@style/line_style"
+            android:layout_width="match_parent"
+            android:layout_height="120pt"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/space_default"
+            android:paddingEnd="@dimen/space_default"
+            android:visibility="invisible"
+            tools:ignore="MissingPrefix">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_shuju"/>
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/space_default"
+                android:layout_weight="1"
+                android:text="我的收益" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/shopInLL"
+            style="@style/line_style"
+            android:layout_width="match_parent"
+            android:layout_height="120pt"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/space_default"
+            android:paddingEnd="@dimen/space_default"
+            tools:ignore="MissingPrefix">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_shuju"/>
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/space_default"
+                android:layout_weight="1"
+                android:text="入驻店铺" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_arrow_right" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/emptyLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_default"
+            android:layout_marginEnd="@dimen/space_default"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/applyBtn"
+                style="@style/login_btn_style"
+                android:layout_width="390pt"
+                android:layout_height="78pt"
+                android:text="申请认证服务人员" />
+
+            <TextView
+                android:id="@+id/remakeTV"
+                style="@style/text_view_content_gray"
+                android:layout_marginTop="@dimen/space_default"
+                android:textColor="@color/gray_66"
+                android:textSize="@dimen/font_title_small"
+                android:text="审核通过后选择店铺入驻后就可以接单了哟！" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

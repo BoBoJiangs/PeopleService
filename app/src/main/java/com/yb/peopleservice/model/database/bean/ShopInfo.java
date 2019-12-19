@@ -54,7 +54,16 @@ public class ShopInfo implements Serializable {
     private String managerName;//管理员名称
     private String name;//店铺名称
     private String phone;//店铺电话
-    private int status;//状态 0禁用 1正常 2新注册 3待审核 4审核不通过
+    private String level;
+    private int status;//状态 0禁用 1正常 2新注册 3待审核 4审核不通过 5申请解除入驻店铺（服务人员状态）
+
+    public String getLevel() {
+        return level == null ? "" : level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
 
     public String getId() {
         return id == null ? "" : id;

@@ -1,16 +1,11 @@
-package com.yb.peopleservice.view.activity.shop;
+package com.yb.peopleservice.view.activity.services;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
-import com.amap.api.services.core.PoiItem;
-import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -18,11 +13,13 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
+import com.yb.peopleservice.model.bean.shop.ServiceInfo;
 import com.yb.peopleservice.model.database.bean.ShopInfo;
 import com.yb.peopleservice.model.presenter.WeChatPresenter;
 import com.yb.peopleservice.model.presenter.shop.ApplyShopPresenter;
 import com.yb.peopleservice.model.presenter.uploadfile.UploadFilePresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
+import com.yb.peopleservice.view.activity.shop.SearchMapActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.ypx.imagepicker.ImagePicker;
 import com.ypx.imagepicker.bean.ImageItem;
@@ -30,26 +27,24 @@ import com.ypx.imagepicker.bean.MimeType;
 import com.ypx.imagepicker.bean.SelectMode;
 import com.ypx.imagepicker.data.OnImagePickCompleteListener;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.UtilityView;
 
 /**
  * 项目名称:PeopleService
- * 类描述: 店铺认证
+ * 类描述: 申请服务人员认证
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/13 14:59
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class ApplyShopActivity extends BaseToolbarActivity implements UploadFilePresenter.IViewUploadFile, ApplyShopPresenter.IApplyCallback {
+public class ApplyServiceActivity extends BaseToolbarActivity implements UploadFilePresenter.IViewUploadFile, ApplyShopPresenter.IApplyCallback {
     @BindView(R.id.headUV)
     UtilityView headUV;
     ImageView headIV;
@@ -82,6 +77,8 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
     ImageView licenseIV;
     @BindView(R.id.licenseTV)
     TextView licenseTV;
+    @BindView(R.id.titleLicenseTV)
+    TextView titleLicenseTV;
     @BindView(R.id.licenseFL)
     FrameLayout licenseFL;
     private String headUrl;//头像
@@ -89,12 +86,12 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
     private String cardBackUrl;//身份证背面
     private String licenseUrl;//营业执照
     private UploadFilePresenter uploadFilePresenter;
-    private ShopInfo shopInfo;
+    private ServiceInfo shopInfo;
     private ApplyShopPresenter presenter;
 
     @Override
     public String getTitleName() {
-        return "店铺认证";
+        return "服务人员认证";
     }
 
     @Override
@@ -104,7 +101,17 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
 
     @Override
     protected void initData() {
-        shopInfo = new ShopInfo();
+        shopNameUV.setVisibility(View.GONE);
+        remakeUV.setVisibility(View.GONE);
+        licenseFL.setVisibility(View.GONE);
+        titleLicenseTV.setVisibility(View.GONE);
+        addressUV.setVisibility(View.GONE);
+        nameUV.setTitleText("姓名　　　");
+        phoneUV.setTitleText("联系电话　");
+        phoneUV.setContentHintText("请输入联系电话");
+        headUV.setTitleText("头像");
+        headUV.setContentText("(请拍摄正面面部照片作为头像)");
+        shopInfo = new ServiceInfo();
         headIV = headUV.getRightImageView();
         headIV.setId(R.id.headImg);
         uploadFilePresenter = new UploadFilePresenter(this, this);
@@ -125,27 +132,25 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
                         RequestCodeConstant.BASE_REQUEST);
                 break;
             case R.id.headUV:
-                choiceImg(headIV);
 
-//                ImagePicker.withMulti(new WeChatPresenter())
-//                        .setMaxCount(1)
-//                        .showCamera(true)//显示拍照
-//                        .mimeTypes(MimeType.ofImage())
-//                        .setSelectMode(SelectMode.MODE_SINGLE)
-//                        .cropSaveInDCIM(false)
-//                        .cropAsCircle()
-//                        .cropRectMinMargin(SizeUtils.dp2px(80))//设置剪裁边框间距
-//                        //调用剪裁
-//                        .crop(this, new OnImagePickCompleteListener() {
-//                            @Override
-//                            public void onImagePickComplete(ArrayList<ImageItem> items) {
-//                                if (!items.isEmpty()) {
-//                                    headUrl = items.get(0).getPath();
-//                                    ImageLoaderUtil.loadLocalCircleImage(getApplicationContext(), headUrl, headIV);
-//                                    uploadFilePresenter.launchImage(headUrl, true);
-//                                }
-//                            }
-//                        });
+                ImagePicker.withMulti(new WeChatPresenter())
+                        .setMaxCount(1)
+                        .showCamera(true)//显示拍照
+                        .mimeTypes(MimeType.ofImage())
+                        .setSelectMode(SelectMode.MODE_SINGLE)
+                        .cropSaveInDCIM(false)
+                        .cropAsCircle()
+                        .cropRectMinMargin(SizeUtils.dp2px(80))//设置剪裁边框间距
+                        //调用剪裁
+                        .crop(this, new OnImagePickCompleteListener() {
+                            @Override
+                            public void onImagePickComplete(ArrayList<ImageItem> items) {
+                                if (!items.isEmpty()) {
+                                    headUrl = items.get(0).getPath();
+                                    ImageLoaderUtil.loadLocalCircleImage(getApplicationContext(), headUrl, headIV);
+                                }
+                            }
+                        });
                 break;
             case R.id.cardFaceFL:
                 choiceImg(cardFaceIV);
@@ -157,17 +162,6 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
                 choiceImg(licenseIV);
                 break;
             case R.id.sureBtn:
-                String shopName = shopNameUV.getContentText();
-                if (StringUtils.isEmpty(shopName)) {
-                    ToastUtils.showLong("店铺名称不能为空");
-                    return;
-                }
-
-                String remake = remakeUV.getContentText();
-                if (StringUtils.isEmpty(remake)) {
-                    ToastUtils.showLong("店铺描述不能为空");
-                    return;
-                }
 
                 String name = nameUV.getContentText();
                 if (StringUtils.isEmpty(name)) {
@@ -197,44 +191,20 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
                     ToastUtils.showLong("请上传身份证背面照");
                     return;
                 }
-                if (StringUtils.isEmpty(licenseUrl)) {
-                    ToastUtils.showLong("请上传营业执照");
-                    return;
-                }
-                shopInfo.setName(shopName);
-                shopInfo.setIntroduction(remake);
-                shopInfo.setManagerName(name);
-                shopInfo.setManagerIdcardNumber(idCard);
+//                shopInfo.setName(shopName);
+//                shopInfo.setIntroduction(remake);
+                shopInfo.setName(name);
+                shopInfo.setIdCardNumber(idCard);
 
                 List<String> list = new ArrayList<>();
                 list.add(cardFaceUrl);
                 list.add(cardBackUrl);
-                list.add(licenseUrl);
                 uploadFilePresenter.launchImage(headUrl, true);
                 uploadFilePresenter.launchImage(list, false);
                 break;
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == ResponseCodeConstant.BASE_RESPONSE) {
-            if (data != null) {
-                PoiItem poiItem = data.getParcelableExtra(PoiItem.class.getName());
-                if (poiItem != null) {
-                    String address = (poiItem.getCityName() + poiItem.getAdName() + poiItem.getSnippet())
-                            .replaceAll("null", "");
-                    addressUV.setContentText(address);
-                    shopInfo.setAddress(address);
-                    shopInfo.setLocationLongitude(poiItem.getLatLonPoint().getLongitude());
-                    shopInfo.setLocationLatitude(poiItem.getLatLonPoint().getLatitude());
-                }
-            }
-
-        }
-
-    }
 
     /**
      * 选择图片
@@ -281,14 +251,13 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
         if (files.size() == 1) {
             shopInfo.setHeadImg(files.get(0));
         }
-        if (files.size() == 3) {
-            shopInfo.setManagerIdcardImgFront(files.get(0));
-            shopInfo.setManagerIdcardImgBack(files.get(1));
-            shopInfo.setBusinessLicenseImg(files.get(2));
+        if (files.size() == 2) {
+            shopInfo.setIdCardImgFront(files.get(0));
+            shopInfo.setIdCardImgBack(files.get(1));
         }
         if (!StringUtils.isEmpty(shopInfo.getHeadImg()) &&
-                !StringUtils.isEmpty(shopInfo.getBusinessLicenseImg())) {
-            presenter.applyShop(shopInfo);
+                !StringUtils.isEmpty(shopInfo.getIdCardImgBack())) {
+            presenter.applyService(shopInfo);
         }
     }
 
@@ -300,8 +269,8 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
     @Override
     public void ApplySuccess(ShopInfo data) {
         ToastUtils.showLong("提交成功,等待管理员审核");
-        finish();
         setResult(ResponseCodeConstant.BASE_RESPONSE);
+        finish();
     }
 
     @Override

@@ -10,16 +10,12 @@ import androidx.fragment.app.Fragment;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
-import com.yb.peopleservice.view.activity.shop.ApplyShopActivity;
-import com.yb.peopleservice.view.activity.shop.ShopDetailsActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
+import com.yb.peopleservice.view.fragment.service.ServicePersonFragment;
 import com.yb.peopleservice.view.fragment.shop.ShopFragment;
 import com.yb.peopleservice.view.fragment.shop.order.ShopOrderTabFragment;
-import com.yb.peopleservice.view.fragment.user.order.OrderTabFragment;
 
 import java.util.ArrayList;
 
@@ -28,17 +24,18 @@ import butterknife.OnClick;
 import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.AppDialog;
+
 /**
- * 类描述:商家首页
+ * 类描述:服务人员首页
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/18  17:03
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelectListener {
+public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSelectListener {
 
-    private String[] mTitles = {"订单", "消息", "店铺"};
+    private String[] mTitles = {"订单", "消息", "我的"};
     private int[] mIconUnselectIds = {R.mipmap.tab_home_unselect, R.mipmap.tab_class_unselect,R.mipmap.tab_map_unselect};
     private int[] mIconSelectIds = {R.mipmap.tab_home_select, R.mipmap.tab_class_select,R.mipmap.tab_map_select};
     @BindView(R.id.commonTabLayout)
@@ -46,7 +43,7 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
     @BindView(R.id.frameLayout)
     FrameLayout frameLayout;
     private LogoutPresenter logoutPresenter;
-    private ShopFragment shopFragment;
+    private ServicePersonFragment servicePersonFragment;
     @Override
     public int contentViewResID() {
         return R.layout.activity_main;
@@ -118,11 +115,11 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
     }
 
     private ArrayList<Fragment> getFragmentList() {
-        shopFragment = (ShopFragment) ShopFragment.getInstanceFragment();
         ArrayList<Fragment> fragmentList = new ArrayList<>();
+        servicePersonFragment = (ServicePersonFragment) ServicePersonFragment.getInstanceFragment();
         fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
         fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
-        fragmentList.add(shopFragment);
+        fragmentList.add(servicePersonFragment);
 
         return fragmentList;
     }
@@ -130,19 +127,19 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
     @Override
     public void onTabSelect(int position) {
         leftIV.setVisibility(View.GONE);
-        rightLL.setVisibility(View.GONE);
+        rightLL.setVisibility(View.VISIBLE);
         if (position == 0) {
             titleTV.setText("订单");
         } else if (position == 1){
             titleTV.setText("消息");
         }else{
-            titleTV.setText("店铺");
-            rightLL.setVisibility(View.VISIBLE);
+            titleTV.setText("我的");
         }
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        shopFragment.onActivityResult(requestCode,resultCode,data);
-    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        servicePersonFragment.onActivityResult(requestCode,resultCode,data);
+//    }
 }

@@ -24,34 +24,7 @@
             android:layout_marginRight="@dimen/space_default"
             android:orientation="vertical">
 
-            <cn.sts.base.view.widget.UtilityView
-                android:id="@+id/shopNameUV"
-                style="@style/utility_view"
-                android:layout_height="50dp"
-                app:line_show="true"
-                app:text_content_hint="请输入店铺名称"
-                app:type="INPUT"
-                app:text_title="店铺名称　" />
-            <cn.sts.base.view.widget.UtilityView
-                android:id="@+id/addressUV"
-                style="@style/utility_view"
-                app:right_image_res="@mipmap/icon_location2"
-                app:right_image_height="35pt"
-                app:right_image_width="35pt"
-                android:layout_height="50dp"
-                app:line_show="true"
-                app:text_content_hint="请选择店铺地址"
-                app:text_title="店铺地址　" />
-            <cn.sts.base.view.widget.UtilityView
-                android:id="@+id/remakeUV"
-                style="@style/utility_view"
-                android:layout_height="wrap_content"
-                android:minHeight="50dp"
-                app:line_show="true"
-                app:type="INPUT"
-                app:multi_line="true"
-                app:text_content_hint="请输入店铺描述"
-                app:text_title="店铺描述　" />
+
 
             <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/nameUV"
@@ -80,7 +53,34 @@
                 app:type="INPUT"
                 app:text_content_hint="请输入身份证号"
                 app:text_title="身份证号　" />
-
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/shopNameUV"
+                style="@style/utility_view"
+                android:layout_height="50dp"
+                app:line_show="true"
+                app:text_content_hint="请输入店铺名称"
+                app:type="INPUT"
+                app:text_title="店铺名称　" />
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/addressUV"
+                style="@style/utility_view"
+                app:right_image_res="@mipmap/icon_location2"
+                app:right_image_height="35pt"
+                app:right_image_width="35pt"
+                android:layout_height="50dp"
+                app:line_show="true"
+                app:text_content_hint="请选择店铺地址"
+                app:text_title="店铺地址　" />
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/remakeUV"
+                style="@style/utility_view"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                app:line_show="true"
+                app:type="INPUT"
+                app:multi_line="true"
+                app:text_content_hint="请输入店铺描述"
+                app:text_title="店铺描述　" />
             <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/headUV"
                 style="@style/utility_view"
@@ -143,6 +143,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/titleLicenseTV"
                 style="@style/text_view_content_black"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"

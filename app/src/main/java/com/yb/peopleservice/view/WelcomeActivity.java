@@ -19,6 +19,7 @@ import com.yb.peopleservice.model.presenter.login.LoginPresenter;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
 import com.yb.peopleservice.view.activity.main.MainActivity;
+import com.yb.peopleservice.view.activity.main.ServiceMainActivity;
 import com.yb.peopleservice.view.activity.main.ShopMainActivity;
 import com.yb.peopleservice.view.base.BaseActivity;
 
@@ -209,7 +210,7 @@ public class WelcomeActivity extends BaseActivity implements LoginPresenter.ILog
             } else if (data.getScope().contains(LoginBean.SHOP_TYPE)) {
                 startActivity(new Intent(this, ShopMainActivity.class));
             } else if (data.getScope().contains(LoginBean.SERVICE_TYPE)) {
-                startActivity(new Intent(this, ShopMainActivity.class));
+                startActivity(new Intent(this, ServiceMainActivity.class));
             } else {
                 ToastUtils.showLong("未知的用户类型,请联系管理员！");
             }

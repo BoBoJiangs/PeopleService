@@ -25,6 +25,14 @@ public class QueryListUIPresenter<T> implements IQueryListCallback<T> {
      */
     private int pageRows;
 
+    public QueryListUIPresenter(BaseQuickAdapter baseQuickAdapter, SwipeRefreshLayout swipeRefreshLayout) {
+        this.baseQuickAdapter = baseQuickAdapter;
+        this.swipeRefreshLayout = swipeRefreshLayout;
+        this.pageRows = 10;
+        baseQuickAdapter.setEnableLoadMore(false);//关闭加载更多
+    }
+
+
     public QueryListUIPresenter(BaseQuickAdapter baseQuickAdapter, SwipeRefreshLayout swipeRefreshLayout, int pageRows) {
         this.baseQuickAdapter = baseQuickAdapter;
         this.swipeRefreshLayout = swipeRefreshLayout;

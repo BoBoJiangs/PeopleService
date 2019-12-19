@@ -80,6 +80,9 @@
         <activity android:name=".view.activity.shop.ApplyShopActivity" />
         <activity android:name=".view.activity.shop.SearchMapActivity" />
         <activity android:name=".view.activity.shop.ShopDetailsActivity" />
+        <activity android:name=".view.activity.main.ServiceMainActivity" />
+        <activity android:name=".view.activity.services.ApplyServiceActivity" />
+        <activity android:name=".view.activity.services.StoreEntryActivity" />
     </application>
 
 </manifest>

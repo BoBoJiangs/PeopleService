@@ -2,7 +2,9 @@ package com.yb.peopleservice.model.presenter.shop;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.model.bean.shop.ServiceInfo;
 import com.yb.peopleservice.model.database.bean.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
@@ -65,7 +67,54 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
         }) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
+                //店铺
                 return iRequestServer.putShopInfo(shopInfo);
+
+            }
+
+            @Override
+            public Class<ShopRequest> getRequestInterfaceClass() {
+                return ShopRequest.class;
+            }
+        };
+        requestFunc.setShowProgress(true);
+        BaseRequestServer.getInstance().request(requestFunc);
+    }
+
+    /**
+     * 服务人员认证
+     */
+    public void applyService(ServiceInfo serviceInfo) {
+        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ShopInfo>() {
+            @Override
+            public void onRequestSuccess(ShopInfo data) {
+                try {
+                    getViewCallBack().ApplySuccess(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRequestFailure(String error) {
+                try {
+                    getViewCallBack().ApplyFail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                ToastUtils.showLong(error);
+            }
+
+            @Override
+            public void onRequestCancel() {
+
+            }
+        }) {
+            @Override
+            public Observable getObservable(ShopRequest iRequestServer) {
+                //服务人员
+                return iRequestServer.putServiceInfo(serviceInfo);
+
             }
 
             @Override

@@ -31,7 +31,13 @@ public class ShopOrderTabFragment extends OrderTabFragment {
     @Override
     protected void initView() {
         super.initView();
+
+    }
+
+    @Override
+    protected String[] getTabTitles() {
         mTitles = new String[]{"全部", "代付款", "进行中", "已完成"};
+        return mTitles;
     }
 
     @Override
