@@ -2,7 +2,7 @@ package com.yb.peopleservice.model.presenter.shop;
 
 import android.content.Context;
 
-import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
@@ -12,7 +12,6 @@ import java.util.Map;
 import cn.sts.base.callback.IQueryListCallback;
 import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractQueryListPresenter;
-import cn.sts.base.presenter.QueryListUIPresenter;
 import io.reactivex.Observable;
 
 /**

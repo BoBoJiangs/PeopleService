@@ -1,15 +1,13 @@
-package com.yb.peopleservice.model.presenter.login;
+package com.yb.peopleservice.model.presenter.shop;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.model.bean.shop.ServiceInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestServer;
-import com.yb.peopleservice.model.server.classify.LoginRequest;
-import com.yb.peopleservice.view.activity.login.LoginActivity;
+import com.yb.peopleservice.model.server.shop.ShopRequest;
 
-import cn.sts.base.app.AppManager;
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
 import cn.sts.base.model.server.request.AbstractRequestFunc;
@@ -18,16 +16,16 @@ import io.reactivex.Observable;
 
 /**
  * 项目名称:PeopleService
- * 类描述: 退出
+ * 类描述: 申请取消申请入驻
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/5 16:23
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class LogoutPresenter extends AbstractPresenter<IViewCallback> {
+public class ApplyEntryPresenter extends AbstractPresenter<ApplyEntryPresenter.IApplyCallback> {
 
-    public LogoutPresenter(Context context, IViewCallback viewCallBack) {
+    public ApplyEntryPresenter(Context context, IApplyCallback viewCallBack) {
         super(context, viewCallBack);
 
     }
@@ -38,15 +36,14 @@ public class LogoutPresenter extends AbstractPresenter<IViewCallback> {
     }
 
     /**
-     * 退出
+     * 申请入驻
      */
-    public void logout() {
-        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<LoginBean>() {
+    public void applyEntry(ShopInfo shopInfo) {
+        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ShopInfo>() {
             @Override
-            public void onRequestSuccess(LoginBean data) {
+            public void onRequestSuccess(ShopInfo data) {
                 try {
-                    AppManager.getAppManager().finishAllActivity();
-                    context.startActivity(new Intent(context, LoginActivity.class));
+                    getViewCallBack().ApplySuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -55,6 +52,7 @@ public class LogoutPresenter extends AbstractPresenter<IViewCallback> {
             @Override
             public void onRequestFailure(String error) {
                 try {
+                    getViewCallBack().ApplyFail();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -67,19 +65,27 @@ public class LogoutPresenter extends AbstractPresenter<IViewCallback> {
             }
         }) {
             @Override
-            public Observable getObservable(LoginRequest iRequestServer) {
-                return iRequestServer.logout();
+            public Observable getObservable(ShopRequest iRequestServer) {
+                //店铺
+                return iRequestServer.putShopInfo(shopInfo);
+
             }
 
             @Override
-            public Class<LoginRequest> getRequestInterfaceClass() {
-                return LoginRequest.class;
+            public Class<ShopRequest> getRequestInterfaceClass() {
+                return ShopRequest.class;
             }
         };
-        requestFunc.setShowProgress(false);
+        requestFunc.setShowProgress(true);
         BaseRequestServer.getInstance().request(requestFunc);
     }
 
 
+    public interface IApplyCallback extends IViewCallback {
 
+
+        void ApplySuccess(ShopInfo data);
+
+        void ApplyFail();
+    }
 }

@@ -1,22 +1,17 @@
 package com.yb.peopleservice.view;
 
 import android.Manifest;
-import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.util.PermissionUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.google.gson.Gson;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.LoginBean;
-import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.presenter.login.LoginPresenter;
-import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
 import com.yb.peopleservice.view.activity.main.MainActivity;
 import com.yb.peopleservice.view.activity.main.ServiceMainActivity;

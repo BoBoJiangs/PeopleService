@@ -1,4 +1,4 @@
-package com.yb.peopleservice.model.database.bean;
+package com.yb.peopleservice.model.bean.shop;
 
 import java.io.Serializable;
 

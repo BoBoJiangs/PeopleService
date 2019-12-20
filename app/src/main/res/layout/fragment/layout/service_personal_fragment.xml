@@ -38,97 +38,27 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/shopInfoLL"
-            style="@style/line_style"
-            android:layout_width="match_parent"
-            android:layout_height="120pt"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/space_default"
-            android:paddingEnd="@dimen/space_default"
-            android:visibility="invisible"
-            tools:ignore="MissingPrefix">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_shop_info"/>
-
-            <TextView
-                android:id="@+id/titleTV"
-                style="@style/text_view_content_black"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/space_default"
-                android:layout_weight="1"
-                android:text="个人信息" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_arrow_right" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/profitLL"
-            style="@style/line_style"
-            android:layout_width="match_parent"
-            android:layout_height="120pt"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/space_default"
-            android:paddingEnd="@dimen/space_default"
-            android:visibility="invisible"
-            tools:ignore="MissingPrefix">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_shuju"/>
-
-            <TextView
-                style="@style/text_view_content_black"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/space_default"
-                android:layout_weight="1"
-                android:text="我的收益" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_arrow_right" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/shopInLL"
-            style="@style/line_style"
-            android:layout_width="match_parent"
-            android:layout_height="120pt"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/space_default"
-            android:paddingEnd="@dimen/space_default"
-            tools:ignore="MissingPrefix">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_shuju"/>
-
-            <TextView
-                style="@style/text_view_content_black"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/space_default"
-                android:layout_weight="1"
-                android:text="入驻店铺" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_arrow_right" />
-        </LinearLayout>
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/shopInfoUV"
+            style="@style/image_utility"
+            app:text_content="　个人信息"
+            app:content_image_width="35pt"
+            app:content_image_height="35pt"
+            app:content_image_res="@mipmap/icon_shop_info"/>
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/profitUV"
+            style="@style/image_utility"
+            app:text_content="　我的收益"
+            app:content_image_width="35pt"
+            app:content_image_height="35pt"
+            app:content_image_res="@mipmap/icon_shuju"/>
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/shopInUV"
+            style="@style/image_utility"
+            app:text_content="　入驻店铺"
+            app:content_image_width="35pt"
+            app:content_image_height="35pt"
+            app:content_image_res="@mipmap/icon_shuju"/>
         <LinearLayout
             android:id="@+id/emptyLL"
             android:layout_width="match_parent"

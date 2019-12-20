@@ -8,19 +8,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.RequestCodeConstant;
-import com.yb.peopleservice.constant.ResponseCodeConstant;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
-import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.presenter.shop.ShopInfoPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.shop.ApplyShopActivity;
-import com.yb.peopleservice.view.activity.shop.ShopDetailsActivity;
+import com.yb.peopleservice.view.activity.shop.ApplyDetailsActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -105,7 +102,7 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.shopInfoLL:
-                startActivity(new Intent(getContext(), ShopDetailsActivity.class)
+                startActivity(new Intent(getContext(), ApplyDetailsActivity.class)
                         .putExtra(ShopInfo.class.getName(), shopInfo));
 
                 break;

@@ -1,9 +1,6 @@
 package com.yb.peopleservice.model.database.helper;
 
-import android.app.Application;
-
 import com.yb.peopleservice.app.MyApplication;
-import com.yb.peopleservice.model.bean.User;
 import com.yb.peopleservice.model.database.manager.DaoManager;
 import com.yb.peopleservice.model.database.manager.UserManager;
 

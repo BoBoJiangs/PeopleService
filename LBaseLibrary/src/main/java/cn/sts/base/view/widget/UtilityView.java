@@ -264,6 +264,17 @@ public class UtilityView extends LinearLayout {
                 if (getOrientation() == VERTICAL) {
                     layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, 0, 1);
                 }
+                int imageWidth = (int) typedArray.getDimension(R.styleable.UtilityView_content_image_width, 40);
+                int imageHeight = (int) typedArray.getDimension(R.styleable.UtilityView_content_image_height, 30);
+                int imageResId = typedArray.getResourceId(R.styleable.UtilityView_content_image_res, 0);
+                if (imageResId != 0) {
+                    contentImageView = new ImageView(context);
+                    contentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    contentImageView.setLayoutParams(new LayoutParams(imageWidth, imageHeight));
+                    contentImageView.setImageResource(imageResId);
+                    infoLinearLayout.addView(contentImageView);
+                }
+
                 if (viewType == 0) {//显示内容
                     contentTextView = new TextView(context);
                     contentTextView.setGravity(contentGravity);
@@ -332,18 +343,19 @@ public class UtilityView extends LinearLayout {
                             }
                         }
                     });
-                } else if (viewType == 2) {//显示图片
-                    int width = (int) typedArray.getDimension(R.styleable.UtilityView_content_image_width, 40);
-                    int height = (int) typedArray.getDimension(R.styleable.UtilityView_content_image_height, 30);
-                    int imageResId = typedArray.getResourceId(R.styleable.UtilityView_content_image_res, 0);
-                    contentImageView = new ImageView(context);
-                    contentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    contentImageView.setLayoutParams(new LayoutParams(width, height));
-                    if (imageResId != 0) {
-                        contentImageView.setImageResource(imageResId);
-                    }
-                    infoLinearLayout.addView(contentImageView);
                 }
+//                else if (viewType == 2) {//显示图片
+//                    int width = (int) typedArray.getDimension(R.styleable.UtilityView_content_image_width, 40);
+//                    int height = (int) typedArray.getDimension(R.styleable.UtilityView_content_image_height, 30);
+//                    int imageResId = typedArray.getResourceId(R.styleable.UtilityView_content_image_res, 0);
+//                    contentImageView = new ImageView(context);
+//                    contentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    contentImageView.setLayoutParams(new LayoutParams(width, height));
+//                    if (imageResId != 0) {
+//                        contentImageView.setImageResource(imageResId);
+//                    }
+//                    infoLinearLayout.addView(contentImageView);
+//                }
 
                 if (rightImageResId != 0) {
                     //是否显示右侧图片

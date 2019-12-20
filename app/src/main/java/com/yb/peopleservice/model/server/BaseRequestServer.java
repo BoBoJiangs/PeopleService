@@ -1,17 +1,9 @@
 package com.yb.peopleservice.model.server;
 
-import android.accounts.Account;
-import android.content.Intent;
-
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.BuildConfig;
 import com.yb.peopleservice.model.bean.LoginBean;
-import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
-import com.yb.peopleservice.view.activity.main.MainActivity;
-import com.yb.peopleservice.view.activity.main.ShopMainActivity;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

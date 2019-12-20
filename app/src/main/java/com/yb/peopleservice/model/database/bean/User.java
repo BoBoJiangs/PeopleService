@@ -1,4 +1,4 @@
-package com.yb.peopleservice.model.bean;
+package com.yb.peopleservice.model.database.bean;
 
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;

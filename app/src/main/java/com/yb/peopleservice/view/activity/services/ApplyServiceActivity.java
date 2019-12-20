@@ -14,7 +14,7 @@ import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.presenter.WeChatPresenter;
 import com.yb.peopleservice.model.presenter.shop.ApplyShopPresenter;
 import com.yb.peopleservice.model.presenter.uploadfile.UploadFilePresenter;

@@ -1,8 +1,7 @@
 package com.yb.peopleservice.view.activity.services;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.presenter.shop.EntryListPresenter;
 import com.yb.peopleservice.view.adapter.shop.EntryListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;

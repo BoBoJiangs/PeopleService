@@ -1,6 +1,6 @@
 package com.yb.peopleservice.model.database.manager;
 
-import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.bean.User;
 
 import org.greenrobot.greendao.AbstractDao;
 

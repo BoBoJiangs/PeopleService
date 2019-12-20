@@ -3,7 +3,7 @@ package com.yb.peopleservice.model.presenter.shop;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 

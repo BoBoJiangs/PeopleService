@@ -1,36 +1,16 @@
 package com.yb.peopleservice.view.activity.shop;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
-import com.amap.api.services.core.PoiItem;
-import com.blankj.utilcode.util.RegexUtils;
-import com.blankj.utilcode.util.SizeUtils;
-import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.constant.RequestCodeConstant;
-import com.yb.peopleservice.constant.ResponseCodeConstant;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
-import com.yb.peopleservice.model.presenter.WeChatPresenter;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.presenter.shop.ApplyShopPresenter;
-import com.yb.peopleservice.model.presenter.uploadfile.UploadFilePresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
-import com.ypx.imagepicker.ImagePicker;
-import com.ypx.imagepicker.bean.ImageItem;
-import com.ypx.imagepicker.bean.MimeType;
-import com.ypx.imagepicker.bean.SelectMode;
-import com.ypx.imagepicker.data.OnImagePickCompleteListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,7 +26,7 @@ import cn.sts.base.view.widget.UtilityView;
  * 修改时间:
  * 修改描述:
  */
-public class ShopDetailsActivity extends BaseToolbarActivity {
+public class ApplyDetailsActivity extends BaseToolbarActivity {
     @BindView(R.id.headUV)
     UtilityView headUV;
     ImageView headIV;

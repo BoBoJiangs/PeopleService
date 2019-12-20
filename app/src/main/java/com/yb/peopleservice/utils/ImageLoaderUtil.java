@@ -15,7 +15,7 @@ import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 

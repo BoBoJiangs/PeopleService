@@ -10,16 +10,11 @@ import androidx.fragment.app.Fragment;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
-import com.yb.peopleservice.view.activity.shop.ApplyShopActivity;
-import com.yb.peopleservice.view.activity.shop.ShopDetailsActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.fragment.shop.ShopFragment;
 import com.yb.peopleservice.view.fragment.shop.order.ShopOrderTabFragment;
-import com.yb.peopleservice.view.fragment.user.order.OrderTabFragment;
 
 import java.util.ArrayList;
 

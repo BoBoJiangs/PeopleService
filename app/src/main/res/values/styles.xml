@@ -80,6 +80,18 @@
 
     </style>
 
+    <!--带箭头的UtilityView-->
+    <style name="image_utility" parent="utility_view">
+        <item name="android:layout_height">120pt</item>
+        <item name="text_content_size">@dimen/font_content_four</item>
+        <item name="info_padding_right">@dimen/space_default</item>
+        <item name="right_image_res">@mipmap/icon_arrow_right</item>
+        <item name="text_content_color">@color/black</item>
+        <item name="line_show">true</item>
+        <item name="right_image_width">40pt</item>
+        <item name="right_image_height">40pt</item>
+    </style>
+
     <!--搜索背景-->
     <style name="search_bg_style">
         <item name="bl_corners_radius">13dp</item>

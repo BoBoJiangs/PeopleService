@@ -5,8 +5,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.ClassifyListBean;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 
 /**

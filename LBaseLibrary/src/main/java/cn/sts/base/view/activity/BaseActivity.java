@@ -33,7 +33,7 @@ public abstract class BaseActivity<P extends AbstractPresenter> extends RxAppCom
         if (presenter == null) {
             presenter = createPresenter();
         }
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && presenter != null) {
             //恢复之前保存的数据
             presenter.onCreate(savedInstanceState);
         }

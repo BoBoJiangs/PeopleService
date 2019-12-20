@@ -1,8 +1,9 @@
 package com.yb.peopleservice.model.server.shop;
 
 
+import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,9 @@ import cn.sts.base.model.server.vo.RequestResult;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
@@ -37,14 +40,16 @@ public interface ShopRequest {
     @GET("shops")
     Observable<RequestResult<ShopInfo>> getShopInfo();
 
+
+
+
+    /***********************************服务人员相关接口 *******************************************/
+
     /**
      * 获取服务人员自己的所有信息
      */
     @GET("staffs/self")
     Observable<RequestResult<ServiceInfo>> getServiceInfo();
-
-
-    /***********************************服务人员相关接口 *******************************************/
 
     /**
      * 服务人员认证
@@ -53,8 +58,35 @@ public interface ShopRequest {
     Observable<RequestResult<ServiceInfo>> putServiceInfo(@Body ServiceInfo shopInfo);
 
     /**
-     * 服务人员认证
+     * 获取可以申请入驻店铺的信息
      */
     @GET("shops")
     Observable<RequestResult<List<ShopInfo>>> getShops(@QueryMap Map<String, Integer> parameter);
+
+    /**
+     * 获取自己入驻的店铺信息
+     */
+    @GET("shops/settledin")
+    Observable<RequestResult<MyShop>> getMyShop();
+
+    /**
+     * 申请入驻到店铺
+     */
+    @POST("shops/{id}/settledin")
+    Observable<RequestResult<Object>> applyEntryShop(@Path("id") String id);
+
+    /**
+     * 解除关联店铺
+     */
+    @POST("shops/{id}/unbound")
+    Observable<RequestResult<Object>> unboundShop(@Path("id") String id);
+
+
+    /**
+     *
+     * 取消申请入驻到店铺
+     */
+    @POST("shops/{id}/cancelsettledin")
+    Observable<RequestResult<Object>> cancelaShop(@Path("id") String id);
+
 }

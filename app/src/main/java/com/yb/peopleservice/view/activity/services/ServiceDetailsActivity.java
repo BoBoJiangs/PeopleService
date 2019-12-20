@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.presenter.shop.ApplyShopPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;

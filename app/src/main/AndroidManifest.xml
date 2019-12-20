@@ -79,10 +79,11 @@
         <activity android:name=".view.activity.main.ShopMainActivity" />
         <activity android:name=".view.activity.shop.ApplyShopActivity" />
         <activity android:name=".view.activity.shop.SearchMapActivity" />
-        <activity android:name=".view.activity.shop.ShopDetailsActivity" />
+        <activity android:name=".view.activity.shop.ApplyDetailsActivity" />
         <activity android:name=".view.activity.main.ServiceMainActivity" />
         <activity android:name=".view.activity.services.ApplyServiceActivity" />
         <activity android:name=".view.activity.services.StoreEntryActivity" />
+        <activity android:name=".view.activity.common.ShopDetailsActivity" />
     </application>
 
 </manifest>

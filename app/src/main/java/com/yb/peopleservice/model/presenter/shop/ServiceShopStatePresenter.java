@@ -3,8 +3,8 @@ package com.yb.peopleservice.model.presenter.shop;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
@@ -16,16 +16,16 @@ import io.reactivex.Observable;
 
 /**
  * 项目名称:PeopleService
- * 类描述: 店铺认证
+ * 类描述:服务人员更改入驻店铺的状态
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/5 16:23
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IApplyCallback> {
+public class ServiceShopStatePresenter extends AbstractPresenter<ServiceShopStatePresenter.IServiceInfoCallback> {
 
-    public ApplyShopPresenter(Context context, IApplyCallback viewCallBack) {
+    public ServiceShopStatePresenter(Context context, IServiceInfoCallback viewCallBack) {
         super(context, viewCallBack);
 
     }
@@ -35,15 +35,18 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
         super.unbind();
     }
 
+
     /**
-     * 店铺认证
+     * 解除关联店铺
+     *
+     * @param id 店铺ID
      */
-    public void applyShop(ShopInfo shopInfo) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ShopInfo>() {
+    public void unboundShop(String id) {
+        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
             @Override
-            public void onRequestSuccess(ShopInfo data) {
+            public void onRequestSuccess(Object data) {
                 try {
-                    getViewCallBack().ApplySuccess(data);
+                    getViewCallBack().onSuccess();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -52,7 +55,7 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
             @Override
             public void onRequestFailure(String error) {
                 try {
-                    getViewCallBack().ApplyFail();
+                    getViewCallBack().onFail();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -66,8 +69,7 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
         }) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
-                //店铺
-                return iRequestServer.putShopInfo(shopInfo);
+                return iRequestServer.unboundShop(id);
 
             }
 
@@ -81,14 +83,16 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
     }
 
     /**
-     * 服务人员认证
+     * 取消入驻申请店铺
+     *
+     * @param id 店铺ID
      */
-    public void applyService(ServiceInfo serviceInfo) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ShopInfo>() {
+    public void cancelaShop(String id) {
+        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
             @Override
-            public void onRequestSuccess(ShopInfo data) {
+            public void onRequestSuccess(Object data) {
                 try {
-                    getViewCallBack().ApplySuccess(data);
+                    getViewCallBack().onSuccess();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -97,7 +101,7 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
             @Override
             public void onRequestFailure(String error) {
                 try {
-                    getViewCallBack().ApplyFail();
+                    getViewCallBack().onFail();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -111,8 +115,7 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
         }) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
-                //服务人员
-                return iRequestServer.putServiceInfo(serviceInfo);
+                return iRequestServer.cancelaShop(id);
 
             }
 
@@ -125,11 +128,10 @@ public class ApplyShopPresenter extends AbstractPresenter<ApplyShopPresenter.IAp
         BaseRequestServer.getInstance().request(requestFunc);
     }
 
-    public interface IApplyCallback extends IViewCallback {
+    public interface IServiceInfoCallback extends IViewCallback {
 
+        void onSuccess();
 
-        void ApplySuccess(ShopInfo data);
-
-        void ApplyFail();
+        void onFail();
     }
 }

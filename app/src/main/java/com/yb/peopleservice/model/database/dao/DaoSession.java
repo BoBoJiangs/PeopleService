@@ -8,7 +8,7 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
-import com.yb.peopleservice.model.bean.User;
+import com.yb.peopleservice.model.database.bean.User;
 
 import com.yb.peopleservice.model.database.dao.UserDao;
 

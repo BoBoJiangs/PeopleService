@@ -3,8 +3,9 @@ package com.yb.peopleservice.model.presenter.shop;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
@@ -37,7 +38,7 @@ public class ServiceInfoPresenter extends AbstractPresenter<ServiceInfoPresenter
 
 
     /**
-     * 获取店铺信息
+     * 获取服务人员认证信息
      */
     public void getServiceInfo() {
         AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ServiceInfo>() {
@@ -80,9 +81,53 @@ public class ServiceInfoPresenter extends AbstractPresenter<ServiceInfoPresenter
         BaseRequestServer.getInstance().request(requestFunc);
     }
 
+    /**
+     * 获取服务人员入驻的店铺信息
+     */
+    public void getServiceMyShop() {
+        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<MyShop>() {
+            @Override
+            public void onRequestSuccess(MyShop data) {
+                try {
+                    getViewCallBack().getMyShopSuccess(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onRequestFailure(String error) {
+                try {
+                    getViewCallBack().getMyShopFail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                ToastUtils.showLong(error);
+            }
+
+            @Override
+            public void onRequestCancel() {
+
+            }
+        }) {
+            @Override
+            public Observable getObservable(ShopRequest iRequestServer) {
+                return iRequestServer.getMyShop();
+
+            }
+
+            @Override
+            public Class<ShopRequest> getRequestInterfaceClass() {
+                return ShopRequest.class;
+            }
+        };
+        requestFunc.setShowProgress(true);
+        BaseRequestServer.getInstance().request(requestFunc);
+    }
     public interface IServiceInfoCallback extends IViewCallback {
+        void getMyShopSuccess(MyShop info);
 
+        void getMyShopFail();
 
         void serviceInfoSuccess(ServiceInfo data);
 

@@ -15,20 +15,20 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
+import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.database.bean.ShopInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.presenter.shop.ServiceInfoPresenter;
-import com.yb.peopleservice.model.presenter.shop.ShopInfoPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
+import com.yb.peopleservice.view.activity.common.ShopDetailsActivity;
 import com.yb.peopleservice.view.activity.services.ApplyServiceActivity;
 import com.yb.peopleservice.view.activity.services.StoreEntryActivity;
-import com.yb.peopleservice.view.activity.shop.ApplyShopActivity;
-import com.yb.peopleservice.view.activity.shop.ShopDetailsActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseFragment;
+import cn.sts.base.view.widget.UtilityView;
 
 /**
  * 项目名称:PeopleService
@@ -46,12 +46,12 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
     ImageView photoIV;
     @BindView(R.id.nameTV)
     TextView nameTV;
-    @BindView(R.id.shopInfoLL)
-    LinearLayout shopInfoLL;
-    @BindView(R.id.profitLL)
-    LinearLayout profitLL;
-    @BindView(R.id.shopInLL)
-    LinearLayout shopInLL;
+    @BindView(R.id.shopInfoUV)
+    UtilityView shopInfoUV;
+    @BindView(R.id.profitUV)
+    UtilityView profitUV;
+    @BindView(R.id.shopInUV)
+    UtilityView shopInUV;
     @BindView(R.id.emptyLL)
     LinearLayout emptyLL;
     @BindView(R.id.applyBtn)
@@ -59,7 +59,7 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
     @BindView(R.id.remakeTV)
     TextView remakeTV;
     private ServiceInfoPresenter presenter;
-    private ServiceInfo shopInfo;
+    private MyShop myShop;
 
     public static Fragment getInstanceFragment() {
         ServicePersonFragment fragment = new ServicePersonFragment();
@@ -81,6 +81,7 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
 
         swipeRefreshLayout.setRefreshing(true);
         presenter.getServiceInfo();
+        presenter.getServiceMyShop();
     }
 
     /**
@@ -94,6 +95,7 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
                 @Override
                 public void onRefresh() {
                     presenter.getServiceInfo();
+                    presenter.getServiceMyShop();
                 }
             });
             //设置下拉刷新旋转颜色
@@ -106,40 +108,59 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
         return presenter = new ServiceInfoPresenter(getContext(), this);
     }
 
-    @OnClick({R.id.shopInfoLL, R.id.profitLL, R.id.applyBtn, R.id.shopInLL})
+    @OnClick({R.id.shopInfoUV, R.id.profitUV, R.id.applyBtn, R.id.shopInUV})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.shopInfoLL:
+            case R.id.shopInfoUV:
 
                 break;
-            case R.id.profitLL:
+            case R.id.profitUV:
                 break;
             case R.id.applyBtn:
                 startActivityForResult(new Intent(getContext(), ApplyServiceActivity.class),
                         RequestCodeConstant.BASE_REQUEST);
                 break;
-            case R.id.shopInLL:
-                startActivity(new Intent(getContext(), StoreEntryActivity.class));
+            case R.id.shopInUV:
+                if (shopInUV.getContentText().contains("我的店铺")) {
+                    startActivityForResult(new Intent(getContext(), ShopDetailsActivity.class)
+                            .putExtra(MyShop.class.getName(), myShop),RequestCodeConstant.BASE_REQUEST);
+                } else {
+                    startActivity(new Intent(getContext(), StoreEntryActivity.class));
+                }
+
                 break;
         }
+    }
+
+    @Override
+    public void getMyShopSuccess(MyShop info) {
+        myShop = info;
+        shopInUV.setContentText("　入驻店铺");
+        if (info != null) {
+            shopInUV.setContentText("　我的店铺");
+        }
+    }
+
+    @Override
+    public void getMyShopFail() {
+        shopInUV.setContentText("　入驻店铺");
     }
 
     @Override
     public void serviceInfoSuccess(ServiceInfo data) {
         swipeRefreshLayout.setRefreshing(false);
         if (data != null) {
-            shopInfo = data;
             ImageLoaderUtil.loadServerCircleImage(getContext(), data.getHeadImg(), photoIV);
             nameTV.setText(data.getName());
             if (data.getStatus() == 1) {
-                shopInfoLL.setVisibility(View.VISIBLE);
-                profitLL.setVisibility(View.VISIBLE);
-                shopInLL.setVisibility(View.VISIBLE);
+                shopInfoUV.setVisibility(View.VISIBLE);
+                profitUV.setVisibility(View.VISIBLE);
+                shopInUV.setVisibility(View.VISIBLE);
                 emptyLL.setVisibility(View.GONE);
             } else {
-                shopInfoLL.setVisibility(View.INVISIBLE);
-                profitLL.setVisibility(View.INVISIBLE);
-                shopInLL.setVisibility(View.INVISIBLE);
+                shopInfoUV.setVisibility(View.INVISIBLE);
+                profitUV.setVisibility(View.INVISIBLE);
+                shopInUV.setVisibility(View.INVISIBLE);
                 emptyLL.setVisibility(View.VISIBLE);
             }
             switch (data.getStatus()) {
@@ -159,7 +180,7 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
                 case 4:
                     applyBtn.setVisibility(View.VISIBLE);
                     applyBtn.setText("申请认证服务人员");
-                    remakeTV.setText("审核意见：" + data.getMessage());
+                    remakeTV.setText("审核不通过：" + data.getMessage());
                     break;
             }
         }
@@ -173,8 +194,9 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == ResponseCodeConstant.BASE_RESPONSE){
+        if (resultCode == ResponseCodeConstant.BASE_RESPONSE) {
             presenter.getServiceInfo();
+            presenter.getServiceMyShop();
         }
     }
 }
