@@ -3,9 +3,12 @@ package com.yb.peopleservice.model.presenter.user;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.model.bean.BannerListVO;
 import com.yb.peopleservice.model.bean.ClassifyListBean;
+import com.yb.peopleservice.model.bean.HomeListBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
-import com.yb.peopleservice.model.server.classify.ClassifyRequest;
+import com.yb.peopleservice.model.server.classify.HomeRequest;
+import com.yb.peopleservice.model.server.classify.HomeRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,12 +43,11 @@ public class BannerPresenter extends AbstractPresenter<BannerPresenter.IBannerCa
 
     /**
      * 获取轮播图列表
-     * @param parentId
      */
-    public void getBannerList(int parentId) {
-        AbstractRequestFunc<ClassifyRequest> requestFunc = new AbstractRequestFunc<ClassifyRequest>(context, new IRequestListener<List<ClassifyListBean>>() {
+    public void getBannerList() {
+        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<List<BannerListVO>>() {
             @Override
-            public void onRequestSuccess(List<ClassifyListBean> data) {
+            public void onRequestSuccess(List<BannerListVO> data) {
                 try {
                     getViewCallBack().getDataSuccess(data);
                 } catch (Exception e) {
@@ -69,15 +71,13 @@ public class BannerPresenter extends AbstractPresenter<BannerPresenter.IBannerCa
             }
         }) {
             @Override
-            public Observable getObservable(ClassifyRequest iRequestServer) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("parentId", parentId);
-                return iRequestServer.getCategoryInfo(parentId);
+            public Observable getObservable(HomeRequest iRequestServer) {
+                return iRequestServer.getBannerList();
             }
 
             @Override
-            public Class<ClassifyRequest> getRequestInterfaceClass() {
-                return ClassifyRequest.class;
+            public Class<HomeRequest> getRequestInterfaceClass() {
+                return HomeRequest.class;
             }
         };
         requestFunc.setShowProgress(false);
@@ -90,7 +90,7 @@ public class BannerPresenter extends AbstractPresenter<BannerPresenter.IBannerCa
     public interface IBannerCallback extends IViewCallback {
 
 
-        void getDataSuccess(List<ClassifyListBean> data);
+        void getDataSuccess(List<BannerListVO> data);
 
         void getDataFail();
     }

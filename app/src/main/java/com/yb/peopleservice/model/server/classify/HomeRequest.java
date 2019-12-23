@@ -19,13 +19,8 @@ import retrofit2.http.Query;
  * 修改描述:
  */
 
-public interface ClassifyRequest {
+public interface HomeRequest {
 
-    /**
-     * 查询分类信息列表
-     */
-    @GET("categories")
-    Observable<RequestResult<List<ClassifyListBean>>> getCategoryInfo(@Query("parentId") int parentId);
 
     /**
      * 获取首页的大图

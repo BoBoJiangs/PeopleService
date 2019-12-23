@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.BannerListVO;
 import com.yb.peopleservice.model.bean.HomeListBean;
+import com.yb.peopleservice.model.presenter.user.BannerPresenter;
 import com.yb.peopleservice.utils.GlideImageLoader;
 import com.yb.peopleservice.view.adapter.HomeListAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
@@ -41,10 +42,11 @@ import static com.yb.peopleservice.model.bean.HomeListBean.TITLE_TYPE;
  * 修改时间:
  * 修改描述:
  */
-public class HomeFragment extends BaseListFragment {
+public class HomeFragment extends BaseListFragment implements BannerPresenter.IBannerCallback {
     private HomeListAdapter adapter;
     private HeaderViewHolder headerViewHolder;
     List<HomeListBean> listData = new ArrayList<>();
+    private BannerPresenter presenter;
 
     public static Fragment getInstanceFragment() {
         HomeFragment fragment = new HomeFragment();
@@ -104,11 +106,12 @@ public class HomeFragment extends BaseListFragment {
         mDraggableController.enableDragItem(mItemTouchHelper);
         mDraggableController.setOnItemDragListener(listener);
 
-
+        presenter.getBannerList();
     }
 
     @Override
     protected AbstractPresenter createPresenter() {
+        presenter = new BannerPresenter(getContext(),this);
         return null;
     }
 
@@ -127,7 +130,7 @@ public class HomeFragment extends BaseListFragment {
         //设置轮播时间
         headerViewHolder.banner.setDelayTime(3000);
         //banner设置方法全部调用完毕时最后调用
-        headerViewHolder.banner.update(images);
+        headerViewHolder.banner.update(bannerListVO);
     }
 
     /**
@@ -141,6 +144,16 @@ public class HomeFragment extends BaseListFragment {
         setBannerList(new ArrayList<>());
     }
 
+    @Override
+    public void getDataSuccess(List<BannerListVO> data) {
+
+    }
+
+    @Override
+    public void getDataFail() {
+
+    }
+
     static class HeaderViewHolder {
         private Context context;
         @BindView(R.id.banner)
@@ -152,43 +165,11 @@ public class HomeFragment extends BaseListFragment {
             initBanner();
         }
 
-//        private void initPageView() {
-//            List<String> listData = new ArrayList<>();
-//            for (int i = 1; i <= 15; i++) {
-//                listData.add(i + "");
-//            }
-//            mLayoutManager = new PagerGridLayoutManager(2, 5, PagerGridLayoutManager
-//                    .HORIZONTAL);
-//            mLayoutManager.setPageListener(this);    // 设置页面变化监听器
-//            mRecyclerView.setLayoutManager(mLayoutManager);
-//
-//            // 设置滚动辅助工具
-//            PagerGridSnapHelper pageSnapHelper = new PagerGridSnapHelper();
-//            pageSnapHelper.attachToRecyclerView(mRecyclerView);
-//            pageAdapter = new HomePageAdapter();
-//            mRecyclerView.setAdapter(pageAdapter);
-//            pageAdapter.setNewData(listData);
-//        }
 
         public void initBanner() {
             //设置图片加载器
             banner.setImageLoader(new GlideImageLoader());
             banner.setBannerAnimation(Transformer.Accordion);
-            banner.setOnBannerListener(position -> {
-//            String url;
-//            if (TextUtils.isEmpty(bannerListVO.get(position).getDetails())) {
-//                url = (bannerListVO.get(position).getLink());
-//            } else {
-//                url = (bannerListVO.get(position).getDetails());
-//            }
-//            if (!TextUtils.isEmpty(url)) {
-//                startActivity(new Intent(getContext(), WebViewActivity.class)
-//                        .putExtra(IntentKeyConstant.WEB_VIEW_URL, url)
-//                        .putExtra(IntentKeyConstant.WEB_VIEW_TITLE,
-//                                bannerListVO.get(position).getTitle()));
-//            }
-
-            });
         }
 
 //        @Override
