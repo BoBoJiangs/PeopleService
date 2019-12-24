@@ -1,6 +1,9 @@
-package com.yb.peopleservice.model.bean;
+package com.yb.peopleservice.model.bean.user;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 项目名称:Exam
@@ -20,11 +23,23 @@ public class HomeListBean implements MultiItemEntity{
     public static final int SPAN_SIZE_ONE = 3;
     private int itemType;
     private int spanSize;
+    private List<ClassifyListBean> classList;//首页需要显示的类目
 
 
     public HomeListBean(int itemType, int spanSize) {
         this.itemType = itemType;
         this.spanSize = spanSize;
+    }
+
+    public List<ClassifyListBean> getClassList() {
+        if (classList == null) {
+            return new ArrayList<>();
+        }
+        return classList;
+    }
+
+    public void setClassList(List<ClassifyListBean> classList) {
+        this.classList = classList;
     }
 
     public void setItemType(int itemType) {

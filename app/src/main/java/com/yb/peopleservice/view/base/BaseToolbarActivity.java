@@ -55,7 +55,7 @@ public abstract class BaseToolbarActivity extends cn.sts.base.view.activity.Base
                 .statusBarColor(cn.sts.base.R.color.white).init();
     }
 
-    private void setMsgText(int index) {
+    protected void setMsgText(int index) {
         if (index <= 0) {
             msgMV.setVisibility(View.GONE);
         } else {
@@ -63,7 +63,7 @@ public abstract class BaseToolbarActivity extends cn.sts.base.view.activity.Base
         }
     }
 
-    private void setMsg2Text(int index) {
+    protected void setMsg2Text(int index) {
         if (index <= 0) {
             msgMV2.setVisibility(View.GONE);
         } else {

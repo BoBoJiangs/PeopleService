@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
-import com.yb.peopleservice.model.server.classify.LoginRequest;
+import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
 
 import cn.sts.base.app.AppManager;

@@ -1,14 +1,13 @@
-package com.yb.peopleservice.model.server.classify;
+package com.yb.peopleservice.model.server.user.classify;
 
 
-import com.yb.peopleservice.model.bean.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 
 import java.util.List;
 
 import cn.sts.base.model.server.vo.RequestResult;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 /**
  * 类描述:用户登录
@@ -19,13 +18,13 @@ import retrofit2.http.Query;
  * 修改描述:
  */
 
-public interface HomeRequest {
-
+public interface ClassifyRequest {
 
     /**
-     * 获取首页的大图
+     * 查询分类信息列表
      */
-    @GET("mainpage/bannerimgs")
-    Observable<RequestResult<List<ClassifyListBean>>> getBannerList();
+    @GET("categories/all")
+    Observable<RequestResult<List<ClassifyListBean>>> getCategoryInfo();
+
 
 }

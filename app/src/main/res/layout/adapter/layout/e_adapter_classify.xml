@@ -24,7 +24,6 @@
             android:layout_width="match_parent"
             android:lines="2"
             android:gravity="center"
-            android:text="一级分类"
-            android:textSize="@dimen/font_content_small" />
+            android:text="一级分类"/>
     </LinearLayout>
 </LinearLayout>

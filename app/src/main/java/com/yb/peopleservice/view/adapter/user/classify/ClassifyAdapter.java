@@ -1,4 +1,4 @@
-package com.yb.peopleservice.view.adapter;
+package com.yb.peopleservice.view.adapter.user.classify;
 
 import android.graphics.Color;
 import android.widget.TextView;
@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 
 /**
  * 项目名称:PeopleService
@@ -35,9 +35,9 @@ public class ClassifyAdapter extends BaseQuickAdapter<ClassifyListBean, BaseView
     @Override
     protected void convert(BaseViewHolder helper, ClassifyListBean item) {
         TextView titleTV = helper.getView(R.id.titleTV);
-        helper.setText(R.id.titleTV, item.getCategoryName());
-        helper.setVisible(R.id.lineTV, name.equals(item.getCategoryName()));
-        if (name.equals(item.getCategoryName())) {
+        helper.setText(R.id.titleTV, item.getName());
+        helper.setVisible(R.id.lineTV, name.equals(item.getName()));
+        if (name.equals(item.getName())) {
             titleTV.setTextColor(ContextCompat.getColor(mContext,R.color.base_text_color));
             titleTV.setTextSize(16);
         } else {

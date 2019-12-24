@@ -1,4 +1,4 @@
-package com.yb.peopleservice.model.server.classify;
+package com.yb.peopleservice.model.server.user.classify;
 
 
 import com.yb.peopleservice.model.bean.LoginBean;

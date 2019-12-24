@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.fragment.user;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
@@ -9,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.ClassifyListBean;
-import com.yb.peopleservice.model.presenter.ClassifyPresenter;
-import com.yb.peopleservice.view.adapter.ClassifyAdapter;
-import com.yb.peopleservice.view.adapter.ClassifyChildAdapter;
+import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.presenter.user.ClassifyPresenter;
+import com.yb.peopleservice.view.activity.ServiceListActivity;
+import com.yb.peopleservice.view.adapter.user.classify.ClassifyAdapter;
+import com.yb.peopleservice.view.adapter.user.classify.ClassifyChildAdapter;
 
 import java.util.List;
 
@@ -55,7 +57,18 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
     @Override
     protected void initData() {
         //获取一级分类
-        presenter.getCategoryInfo(0);
+        presenter.getCategoryInfo("0");
+        childAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ClassifyListBean classifyListBean = childAdapter.getItem(position);
+                if (classifyListBean != null) {
+                    startActivity(new Intent(getContext(), ServiceListActivity.class)
+                            .putExtra(ClassifyListBean.class.getName(),classifyListBean));
+                }
+
+            }
+        });
 //        for (int i = 0; i < 5; i++) {
 //            ClassifyListBean bean = new ClassifyListBean();
 //            List<ClassifyListBean> childList = new ArrayList<>();
@@ -80,10 +93,10 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
         clickIndex = position;
         ClassifyListBean bean = adapter.getItem(position);
         if (bean != null) {
-            adapter.setName(bean.getCategoryName());
+            adapter.setName(bean.getName());
             if (bean.getChildList().isEmpty()) {
-                presenter.getCategoryInfo(bean.getCategoryId());
-            }else{
+                presenter.getCategoryInfo(bean.getParentId());
+            } else {
                 childAdapter.setNewData(bean.getChildList());
             }
         }
@@ -96,9 +109,9 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
         if (!data.isEmpty()) {
             if (isFirst) {
                 isFirst = false;
-                adapter.setName(data.get(0).getCategoryName());
+                adapter.setName(data.get(0).getName());
                 adapter.setNewData(data);
-                presenter.getCategoryInfo(data.get(0).getCategoryId());
+                presenter.getCategoryInfo(data.get(0).getParentId());
             } else {
                 adapter.getData().get(clickIndex).setChildList(data);
                 childAdapter.setNewData(data);

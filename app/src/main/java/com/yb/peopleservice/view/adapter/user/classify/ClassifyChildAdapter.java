@@ -1,9 +1,12 @@
-package com.yb.peopleservice.view.adapter;
+package com.yb.peopleservice.view.adapter.user.classify;
+
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.utils.ImageLoaderUtil;
 
 /**
  * 项目名称:PeopleService
@@ -22,6 +25,8 @@ public class ClassifyChildAdapter extends BaseQuickAdapter<ClassifyListBean, Bas
 
     @Override
     protected void convert(BaseViewHolder helper, ClassifyListBean item) {
-        helper.setText(R.id.titleTV,item.getCategoryName());
+        ImageView imageView = helper.getView(R.id.imageView);
+        ImageLoaderUtil.loadServerImage(mContext,item.getImg(),imageView);
+        helper.setText(R.id.titleTV,item.getName());
     }
 }

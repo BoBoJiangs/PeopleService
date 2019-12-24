@@ -1,15 +1,13 @@
-package com.yb.peopleservice.model.presenter;
+package com.yb.peopleservice.model.presenter.user;
 
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.bean.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
-import com.yb.peopleservice.model.server.classify.ClassifyRequest;
+import com.yb.peopleservice.model.server.user.classify.ClassifyRequest;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
@@ -42,7 +40,7 @@ public class ClassifyPresenter extends AbstractPresenter<ClassifyPresenter.IClas
      * 获取分类列表
      * @param parentId
      */
-    public void getCategoryInfo(int parentId) {
+    public void getCategoryInfo(String parentId) {
         AbstractRequestFunc<ClassifyRequest> requestFunc = new AbstractRequestFunc<ClassifyRequest>(context, new IRequestListener<List<ClassifyListBean>>() {
             @Override
             public void onRequestSuccess(List<ClassifyListBean> data) {
@@ -70,9 +68,9 @@ public class ClassifyPresenter extends AbstractPresenter<ClassifyPresenter.IClas
         }) {
             @Override
             public Observable getObservable(ClassifyRequest iRequestServer) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("parentId", parentId);
-                return iRequestServer.getCategoryInfo(parentId);
+//                Map<String, Object> map = new HashMap<>();
+//                map.put("parentId", parentId);
+                return iRequestServer.getCategoryInfo();
             }
 
             @Override

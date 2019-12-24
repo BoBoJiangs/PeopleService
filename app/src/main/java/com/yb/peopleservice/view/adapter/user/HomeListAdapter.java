@@ -1,13 +1,10 @@
-package com.yb.peopleservice.view.adapter;
+package com.yb.peopleservice.view.adapter.user;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -15,8 +12,8 @@ import com.chad.library.adapter.base.DraggableController;
 import com.gcssloop.widget.PagerGridLayoutManager;
 import com.gcssloop.widget.PagerGridSnapHelper;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.HomeListBean;
-import com.yb.peopleservice.view.activity.ServiceListActivity;
+import com.yb.peopleservice.model.bean.user.HomeListBean;
+import com.yb.peopleservice.view.adapter.HomeContentAdapter;
 import com.yb.peopleservice.view.weight.PageIndicatorView;
 
 import java.util.ArrayList;
@@ -38,6 +35,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
     private Context context;
     private DraggableController mDraggableController;
     List<String> contentLis = new ArrayList<>();
+    private HomePageAdapter pageAdapter;
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -64,33 +62,34 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
             case HomeListBean.PAGE_TYPE:
                 RecyclerView mRecyclerView = helper.getView(R.id.pageRecyclerView);
                 PageIndicatorView indicator = helper.getView(R.id.indicator);
-//                initPageView(mRecyclerView,indicator);
-                List<String> listData = new ArrayList<>();
-                for (int i = 1; i <= 15; i++) {
-                    listData.add(i + "");
+                pageAdapter = (HomePageAdapter) mRecyclerView.getAdapter();
+                if (pageAdapter==null){
+                    indicator.initIndicator(2);
+                    PagerGridLayoutManager mLayoutManager = new PagerGridLayoutManager(2, 5, PagerGridLayoutManager
+                            .HORIZONTAL);
+                    mLayoutManager.setPageListener(new PagerGridLayoutManager.PageListener() {
+                        @Override
+                        public void onPageSizeChanged(int pageSize) {
+
+                        }
+
+                        @Override
+                        public void onPageSelect(int pageIndex) {
+                            indicator.setSelectedPage(pageIndex);
+                        }
+                    });    // 设置页面变化监听器
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+
+                    // 设置滚动辅助工具
+                    PagerGridSnapHelper pageSnapHelper = new PagerGridSnapHelper();
+                    pageSnapHelper.attachToRecyclerView(mRecyclerView);
+                    HomePageAdapter pageAdapter = new HomePageAdapter();
+                    mRecyclerView.setAdapter(pageAdapter);
+                    pageAdapter.setNewData(item.getClassList());
+                }else{
+                    pageAdapter.setNewData(item.getClassList());
                 }
-                indicator.initIndicator(2);
-                PagerGridLayoutManager mLayoutManager = new PagerGridLayoutManager(2, 5, PagerGridLayoutManager
-                        .HORIZONTAL);
-                mLayoutManager.setPageListener(new PagerGridLayoutManager.PageListener() {
-                    @Override
-                    public void onPageSizeChanged(int pageSize) {
 
-                    }
-
-                    @Override
-                    public void onPageSelect(int pageIndex) {
-                        indicator.setSelectedPage(pageIndex);
-                    }
-                });    // 设置页面变化监听器
-                mRecyclerView.setLayoutManager(mLayoutManager);
-
-                // 设置滚动辅助工具
-                PagerGridSnapHelper pageSnapHelper = new PagerGridSnapHelper();
-                pageSnapHelper.attachToRecyclerView(mRecyclerView);
-                HomePageAdapter pageAdapter = new HomePageAdapter();
-                mRecyclerView.setAdapter(pageAdapter);
-                pageAdapter.setNewData(listData);
                 break;
             case HomeListBean.TITLE_TYPE:
                 RecyclerView recyclerView = helper.getView(R.id.recyclerView);
@@ -101,8 +100,6 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
                 contentAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        ToastUtils.showLong(position+"");
-                        ActivityUtils.startActivity(new Intent(context, ServiceListActivity.class));
                     }
                 });
                 break;
@@ -114,33 +111,6 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
 
     }
 
-    private void initPageView(RecyclerView mRecyclerView,PageIndicatorView indicator) {
-        List<String> listData = new ArrayList<>();
-        for (int i = 1; i <= 15; i++) {
-            listData.add(i + "");
-        }
-        PagerGridLayoutManager mLayoutManager = new PagerGridLayoutManager(2, 5, PagerGridLayoutManager
-                .HORIZONTAL);
-        mLayoutManager.setPageListener(new PagerGridLayoutManager.PageListener() {
-            @Override
-            public void onPageSizeChanged(int pageSize) {
-                indicator.initIndicator(pageSize);
-            }
-
-            @Override
-            public void onPageSelect(int pageIndex) {
-                indicator.setSelectedPage(pageIndex);
-            }
-        });    // 设置页面变化监听器
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // 设置滚动辅助工具
-        PagerGridSnapHelper pageSnapHelper = new PagerGridSnapHelper();
-        pageSnapHelper.attachToRecyclerView(mRecyclerView);
-        HomePageAdapter pageAdapter = new HomePageAdapter();
-        mRecyclerView.setAdapter(pageAdapter);
-        pageAdapter.setNewData(listData);
-    }
 
 
     public DraggableController getDraggableController() {

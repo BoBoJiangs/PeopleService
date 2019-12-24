@@ -3,7 +3,7 @@ package com.yb.peopleservice.model.presenter.user;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.bean.user.BannerListVO;
+import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
 
@@ -17,16 +17,16 @@ import io.reactivex.Observable;
 
 /**
  * 项目名称:PeopleService
- * 类描述: 轮播图接口
+ * 类描述:
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/5 16:23
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class BannerPresenter extends AbstractPresenter<BannerPresenter.IBannerCallback> {
+public class HomePresenter extends AbstractPresenter<HomePresenter.IHomeCallback> {
 
-    public BannerPresenter(Context context, IBannerCallback viewCallBack) {
+    public HomePresenter(Context context, IHomeCallback viewCallBack) {
         super(context, viewCallBack);
 
     }
@@ -37,14 +37,14 @@ public class BannerPresenter extends AbstractPresenter<BannerPresenter.IBannerCa
     }
 
     /**
-     * 获取轮播图列表
+     * 获取首页热门服务
      */
-    public void getBannerList() {
-        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<List<BannerListVO>>() {
+    public void getHotList() {
+        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<List<ClassifyListBean>>() {
             @Override
-            public void onRequestSuccess(List<BannerListVO> data) {
+            public void onRequestSuccess(List<ClassifyListBean> data) {
                 try {
-                    getViewCallBack().getDataSuccess(data);
+                    getViewCallBack().getHotSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -52,11 +52,11 @@ public class BannerPresenter extends AbstractPresenter<BannerPresenter.IBannerCa
 
             @Override
             public void onRequestFailure(String error) {
-                try {
-                    getViewCallBack().getDataFail();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    getViewCallBack().getDataFail();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
                 ToastUtils.showLong(error);
             }
 
@@ -67,7 +67,9 @@ public class BannerPresenter extends AbstractPresenter<BannerPresenter.IBannerCa
         }) {
             @Override
             public Observable getObservable(HomeRequest iRequestServer) {
-                return iRequestServer.getBannerList();
+//                Map<String, Object> map = new HashMap<>();
+//                map.put("parentId", parentId);
+                return iRequestServer.getHotList();
             }
 
             @Override
@@ -82,11 +84,9 @@ public class BannerPresenter extends AbstractPresenter<BannerPresenter.IBannerCa
     /**
      * 分类列表回调
      */
-    public interface IBannerCallback extends IViewCallback {
+    public interface IHomeCallback extends IViewCallback {
 
+        void getHotSuccess(List<ClassifyListBean> data);
 
-        void getDataSuccess(List<BannerListVO> data);
-
-        void getDataFail();
     }
 }

@@ -3,11 +3,16 @@ package cn.sts.base.view.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.flyco.tablayout.widget.MsgView;
+
+import butterknife.BindView;
 import cn.sts.base.R;
+import cn.sts.base.R2;
 
 /**
  * 基础类
@@ -64,6 +69,8 @@ public abstract class BaseToolbarActivity extends BaseActivity {
             rightTV.setVisibility(View.GONE);
             titleTV.setText(getTitleName());
 
+
+
             leftIV.setOnClickListener(onClickListener);
             rightIV.setOnClickListener(onClickListener);
             rightTV.setOnClickListener(onClickListener);
@@ -96,5 +103,6 @@ public abstract class BaseToolbarActivity extends BaseActivity {
     public void clickRightListener() {
 
     }
+
 
 }

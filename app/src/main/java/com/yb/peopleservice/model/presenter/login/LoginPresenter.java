@@ -7,7 +7,7 @@ import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.server.LoginRequestServer;
-import com.yb.peopleservice.model.server.classify.LoginRequest;
+import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;

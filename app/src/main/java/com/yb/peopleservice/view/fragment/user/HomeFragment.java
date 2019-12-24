@@ -13,11 +13,14 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.DraggableController;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.BannerListVO;
-import com.yb.peopleservice.model.bean.HomeListBean;
+import com.yb.peopleservice.model.bean.user.BannerListVO;
+import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.HomeListBean;
 import com.yb.peopleservice.model.presenter.user.BannerPresenter;
+import com.yb.peopleservice.model.presenter.user.HomePresenter;
+import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.GlideImageLoader;
-import com.yb.peopleservice.view.adapter.HomeListAdapter;
+import com.yb.peopleservice.view.adapter.user.HomeListAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
@@ -27,12 +30,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseListFragment;
 
-import static com.yb.peopleservice.model.bean.HomeListBean.PAGE_TYPE;
-import static com.yb.peopleservice.model.bean.HomeListBean.SPAN_SIZE_ONE;
-import static com.yb.peopleservice.model.bean.HomeListBean.TITLE_TYPE;
+import static com.yb.peopleservice.model.bean.user.HomeListBean.PAGE_TYPE;
+import static com.yb.peopleservice.model.bean.user.HomeListBean.SPAN_SIZE_ONE;
+import static com.yb.peopleservice.model.bean.user.HomeListBean.TITLE_TYPE;
 
 /**
  * 类描述:首页
@@ -42,11 +44,12 @@ import static com.yb.peopleservice.model.bean.HomeListBean.TITLE_TYPE;
  * 修改时间:
  * 修改描述:
  */
-public class HomeFragment extends BaseListFragment implements BannerPresenter.IBannerCallback {
+public class HomeFragment extends BaseListFragment implements BannerPresenter.IBannerCallback, HomePresenter.IHomeCallback {
     private HomeListAdapter adapter;
     private HeaderViewHolder headerViewHolder;
     List<HomeListBean> listData = new ArrayList<>();
     private BannerPresenter presenter;
+    private HomePresenter homePresenter;
 
     public static Fragment getInstanceFragment() {
         HomeFragment fragment = new HomeFragment();
@@ -107,12 +110,14 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
         mDraggableController.setOnItemDragListener(listener);
 
         presenter.getBannerList();
+        homePresenter.getHotList();
     }
 
     @Override
-    protected AbstractPresenter createPresenter() {
-        presenter = new BannerPresenter(getContext(),this);
-        return null;
+    protected HomePresenter createPresenter() {
+        presenter = new BannerPresenter(getContext(), this);
+        homePresenter = new HomePresenter(getContext(), this);
+        return homePresenter;
     }
 
     /**
@@ -123,14 +128,15 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
     public void setBannerList(List<BannerListVO> bannerListVO) {
         //设置图片集合
         List<String> images = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            images.add("https://static.daojia.com/changsha/website-m/baomu-pc/res/baomu-index/banner.png?v=201811071456");
+        for (BannerListVO banner : bannerListVO) {
+            images.add(BaseRequestServer.getFileUrl(true) + banner.getMobileImg());
         }
+
 
         //设置轮播时间
         headerViewHolder.banner.setDelayTime(3000);
         //banner设置方法全部调用完毕时最后调用
-        headerViewHolder.banner.update(bannerListVO);
+        headerViewHolder.banner.update(images);
     }
 
     /**
@@ -141,18 +147,28 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
         View headerView = View.inflate(getActivity(), R.layout.e_banner, null);
         headerViewHolder = new HeaderViewHolder(headerView, getActivity());
         adapter.addHeaderView(headerView);
-        setBannerList(new ArrayList<>());
     }
 
     @Override
     public void getDataSuccess(List<BannerListVO> data) {
-
+        setBannerList(data);
     }
 
     @Override
     public void getDataFail() {
 
     }
+
+    @Override
+    public void getHotSuccess(List<ClassifyListBean> data) {
+        HomeListBean homeListBean = adapter.getItem(0);
+        if (data != null && homeListBean != null) {
+            homeListBean.setClassList(data.size() > 20 ? data.subList(0, 20) : data);
+            adapter.setData(0, homeListBean);
+        }
+
+    }
+
 
     static class HeaderViewHolder {
         private Context context;

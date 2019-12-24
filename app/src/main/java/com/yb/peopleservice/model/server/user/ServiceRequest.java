@@ -2,16 +2,17 @@ package com.yb.peopleservice.model.server.user;
 
 
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
 import java.util.List;
 
 import cn.sts.base.model.server.vo.RequestResult;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.Path;
 
 /**
- * 类描述:用户相关
+ * 类描述:服务相关
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/7/11  17:16
  * 修改人:
@@ -19,12 +20,13 @@ import retrofit2.http.Query;
  * 修改描述:
  */
 
-public interface UserRequest {
+public interface ServiceRequest {
 
     /**
-     * 顾客获取个人信息
+     * 查询服务列表
      */
-    @GET("customers/self")
-    Observable<RequestResult<List<ClassifyListBean>>> getUserInfo(@Query("parentId") int parentId);
+    @GET("categories/{id}/commodities")
+    Observable<RequestResult<List<ServiceListBean>>> getServiceList(@Path("id") String id);
+
 
 }
