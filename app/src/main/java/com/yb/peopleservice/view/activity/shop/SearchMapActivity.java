@@ -72,7 +72,7 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
 
-    private String[] items = {"住宅区", "学校", "楼宇", "商场" };
+    private String[] items = {"住宅区", "学校", "楼宇", "商场"};
 
     private Marker locationMarker;
 
@@ -113,7 +113,7 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
 
     @Override
     public String getTitleName() {
-        return "点图选点";
+        return "选择地址";
     }
 
     @Override
@@ -132,16 +132,16 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 searchType = items[0];
                 switch (checkedId) {
-                    case R.id.radio0 :
+                    case R.id.radio0:
                         searchType = items[0];
                         break;
-                    case R.id.radio1 :
+                    case R.id.radio1:
                         searchType = items[1];
                         break;
-                    case R.id.radio2 :
+                    case R.id.radio2:
                         searchType = items[2];
                         break;
-                    case R.id.radio3 :
+                    case R.id.radio3:
                         searchType = items[3];
                         break;
                 }
@@ -149,7 +149,7 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
             }
         });
 
-        searchText = (AutoCompleteTextView) findViewById(R.id.keyWord);
+        searchText = findViewById(R.id.keyWord);
         searchText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -196,8 +196,8 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
     public void clickRightListener() {
         PoiItem poiItem = searchResultAdapter.getItem(searchResultAdapter.getSelectedPosition());
         Intent intent = new Intent();
-        intent.putExtra(PoiItem.class.getName(),poiItem);
-        setResult(ResponseCodeConstant.BASE_RESPONSE,intent);
+        intent.putExtra(PoiItem.class.getName(), poiItem);
+        setResult(ResponseCodeConstant.BASE_RESPONSE, intent);
         finish();
     }
 
@@ -291,7 +291,7 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        if(null != mlocationClient){
+        if (null != mlocationClient) {
             mlocationClient.onDestroy();
         }
     }
@@ -323,8 +323,8 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
                 searchText.setText("");
 
             } else {
-                String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
-                Log.e("AmapErr",errText);
+                String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
+                Log.e("AmapErr", errText);
             }
         }
     }
@@ -374,7 +374,7 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
 //        Log.i("MY", "geoAddress"+ searchLatlonPoint.toString());
         showDialog();
         searchText.setText("");
-        if (searchLatlonPoint != null){
+        if (searchLatlonPoint != null) {
             RegeocodeQuery query = new RegeocodeQuery(searchLatlonPoint, 200, GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
             geocoderSearch.getFromLocationAsyn(query);
         }
@@ -424,7 +424,8 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
 
     /**
      * POI搜索结果回调
-     * @param poiResult 搜索结果
+     *
+     * @param poiResult  搜索结果
      * @param resultCode 错误码
      */
     @Override
@@ -447,6 +448,7 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
 
     /**
      * 更新列表中的item
+     *
      * @param poiItems
      */
     private void updateListview(List<PoiItem> poiItems) {
@@ -500,10 +502,10 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
         LatLng latLng = aMap.getCameraPosition().target;
         Point screenPosition = aMap.getProjection().toScreenLocation(latLng);
         locationMarker = aMap.addMarker(new MarkerOptions()
-                .anchor(0.5f,0.5f)
+                .anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.purple_pin)));
         //设置Marker在屏幕上,不跟随地图移动
-        locationMarker.setPositionByPixels(screenPosition.x,screenPosition.y);
+        locationMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
         locationMarker.setZIndex(1);
 
     }
@@ -513,11 +515,11 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
      */
     public void startJumpAnimation() {
 
-        if (locationMarker != null ) {
+        if (locationMarker != null) {
             //根据屏幕距离计算需要移动的目标点
             final LatLng latLng = locationMarker.getPosition();
-            Point point =  aMap.getProjection().toScreenLocation(latLng);
-            point.y -= dip2px(this,125);
+            Point point = aMap.getProjection().toScreenLocation(latLng);
+            point.y -= dip2px(this, 125);
             LatLng target = aMap.getProjection()
                     .fromScreenLocation(point);
             //使用TranslateAnimation,填写一个需要移动的目标点
@@ -526,10 +528,10 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
                 @Override
                 public float getInterpolation(float input) {
                     // 模拟重加速度的interpolator
-                    if(input <= 0.5) {
+                    if (input <= 0.5) {
                         return (float) (0.5f - 2 * (0.5 - input) * (0.5 - input));
                     } else {
-                        return (float) (0.5f - Math.sqrt((input - 0.5f)*(1.5f - input)));
+                        return (float) (0.5f - Math.sqrt((input - 0.5f) * (1.5f - input)));
                     }
                 }
             });
@@ -541,7 +543,7 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
             locationMarker.startAnimation();
 
         } else {
-            Log.e("ama","screenMarker is null");
+            Log.e("ama", "screenMarker is null");
         }
     }
 
@@ -571,13 +573,14 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
                     searchText.showDropDown();
                 }
             } else {
-                Toast.makeText(SearchMapActivity.this, "erroCode " + rCode , Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchMapActivity.this, "erroCode " + rCode, Toast.LENGTH_SHORT).show();
             }
         }
     };
 
     private boolean isInputKeySearch;
     private String inputSearchKey;
+
     private void searchPoi(Tip result) {
         isInputKeySearch = true;
         inputSearchKey = result.getName();//getAddress(); // + result.getRegeocodeAddress().getCity() + result.getRegeocodeAddress().getDistrict() + result.getRegeocodeAddress().getTownship();
@@ -597,7 +600,7 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
 
     private void hideSoftKey(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);
+        imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 

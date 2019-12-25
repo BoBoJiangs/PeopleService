@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLL"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <View style="@style/horizontal_line_style"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        android:orientation="vertical">
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/nameUV"
+            style="@style/utility_view"
+            app:type="INPUT"
+            app:text_content_hint="请填写"
+            app:text_title="姓名　　"/>
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/phoneUV"
+            style="@style/utility_view"
+            app:type="INPUT"
+            app:text_content_hint="请填写"
+            app:text_title="手机号码"/>
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/regionUV"
+            style="@style/image_utility"
+            app:text_content_hint="请选择"
+            app:text_title="所在地区"/>
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/addressUV"
+            style="@style/utility_view"
+            app:type="INPUT"
+            app:text_content_hint="【详细地址，例：1栋101】"
+            app:text_title="门牌号　"/>
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/emptyUV"
+            style="@style/set_utility_view_message"
+            app:text_title="设置为默认地址"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/addressBtn"
+        style="@style/button_red_style"
+        android:text="保存并使用"
+        tools:ignore="MissingPrefix" />
+</LinearLayout>

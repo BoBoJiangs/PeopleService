@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLL"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <View style="@style/horizontal_line_style"/>
+
+    <include layout="@layout/recycler_view" />
+    <Button
+        android:id="@+id/addressBtn"
+        style="@style/text_view_content_black"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_title"
+        app:bl_pressed_drawable="@color/press_red"
+        app:bl_unPressed_drawable="@color/base_text_color"
+        android:textColor="@color/white"
+        android:text="新建收货地址"
+        tools:ignore="MissingPrefix" />
+</LinearLayout>

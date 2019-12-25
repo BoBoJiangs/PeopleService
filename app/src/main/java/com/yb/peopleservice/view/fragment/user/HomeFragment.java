@@ -77,8 +77,6 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
     protected void initData() {
         initHeaderView();
         listData.add(new HomeListBean(PAGE_TYPE, SPAN_SIZE_ONE));
-        listData.add(new HomeListBean(TITLE_TYPE, SPAN_SIZE_ONE));
-        listData.add(new HomeListBean(TITLE_TYPE, SPAN_SIZE_ONE));
         adapter.setSpanSizeLookup((gridLayoutManager, position) ->
                 listData.get(position).getSpanSize());
         adapter.setNewData(listData);
@@ -111,6 +109,7 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
 
         presenter.getBannerList();
         homePresenter.getHotList();
+        homePresenter.getHotService();
     }
 
     @Override
@@ -167,6 +166,15 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
             adapter.setData(0, homeListBean);
         }
 
+    }
+
+    @Override
+    public void getHotShopSuccess(List<HomeListBean> data) {
+        for (HomeListBean bean : data) {
+            bean.setItemType(TITLE_TYPE);
+            bean.setSpanSize(SPAN_SIZE_ONE);
+        }
+        adapter.addData(data);
     }
 
 

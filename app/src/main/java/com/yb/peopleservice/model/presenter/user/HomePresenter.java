@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.HomeListBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
 
@@ -37,7 +38,7 @@ public class HomePresenter extends AbstractPresenter<HomePresenter.IHomeCallback
     }
 
     /**
-     * 获取首页热门服务
+     * 获取首页热门服务分类
      */
     public void getHotList() {
         AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<List<ClassifyListBean>>() {
@@ -82,11 +83,62 @@ public class HomePresenter extends AbstractPresenter<HomePresenter.IHomeCallback
     }
 
     /**
+     * 获取首页热门服务
+     */
+    public void getHotService() {
+        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<List<HomeListBean>>() {
+            @Override
+            public void onRequestSuccess(List<HomeListBean> data) {
+                try {
+                    getViewCallBack().getHotShopSuccess(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRequestFailure(String error) {
+//                try {
+//                    getViewCallBack().getDataFail();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+                ToastUtils.showLong(error);
+            }
+
+            @Override
+            public void onRequestCancel() {
+
+            }
+        }) {
+            @Override
+            public Observable getObservable(HomeRequest iRequestServer) {
+//                Map<String, Object> map = new HashMap<>();
+//                map.put("parentId", parentId);
+                return iRequestServer.getHotService();
+            }
+
+            @Override
+            public Class<HomeRequest> getRequestInterfaceClass() {
+                return HomeRequest.class;
+            }
+        };
+        requestFunc.setShowProgress(false);
+        BaseRequestServer.getInstance().request(requestFunc);
+    }
+
+    /**
      * 分类列表回调
      */
     public interface IHomeCallback extends IViewCallback {
 
         void getHotSuccess(List<ClassifyListBean> data);
+
+        /**
+         * 获取热销服务
+         * @param data
+         */
+        void getHotShopSuccess(List<HomeListBean> data);
 
     }
 }

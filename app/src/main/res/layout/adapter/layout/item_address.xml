@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    style="@style/item_bg"
+    android:paddingLeft="@dimen/space_default"
+    android:paddingTop="@dimen/space_default"
+    android:paddingRight="@dimen/space_default"
+    android:id="@+id/addressCL"
+    tools:ignore="MissingPrefix">
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        style="@style/text_view_content_gray"
+        android:paddingStart="5dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/addressTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nameTV" />
+
+    <TextView
+        android:id="@+id/nameTV"
+        style="@style/text_view_content_black"
+        android:layout_marginStart="@dimen/dp_10"
+        android:text="张三 13800138000"
+        android:textSize="@dimen/font_btn_small"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/checkbox"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/emptyTV"
+        style="@style/text_view_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:text="默认"
+        android:layout_width="70pt"
+        android:layout_height="34pt"
+        android:gravity="center"
+        android:textSize="11sp"
+        app:bl_corners_radius="@dimen/dp_10"
+        app:bl_solid_color="@color/red"
+        android:visibility="gone"
+        app:layout_constraintLeft_toRightOf="@+id/nameTV"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/addressTV"
+        style="@style/text_view_content_black"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/space_default"
+        android:text="四川省成都市高新区科园南二路1号大 一高新孵化园7栋4楼A座"
+        app:layout_constraintLeft_toLeftOf="@+id/nameTV"
+        app:layout_constraintRight_toLeftOf="@+id/editIV"
+        app:layout_constraintTop_toBottomOf="@+id/nameTV" />
+
+    <ImageView
+        android:id="@+id/editIV"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:src="@mipmap/icon_bianji"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/horizontal_line_style"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/space_default"
+        app:layout_constraintTop_toBottomOf="@+id/addressTV" />
+</androidx.constraintlayout.widget.ConstraintLayout>

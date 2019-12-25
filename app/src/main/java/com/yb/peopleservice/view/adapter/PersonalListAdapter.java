@@ -20,7 +20,7 @@ import java.util.List;
  * 修改描述:
  */
 public class PersonalListAdapter extends BaseMultiItemQuickAdapter<PersonalListBean, BaseViewHolder> {
-    private String[] title = {"领券中心", "我的优惠券", "收货地址", "我的收藏"};
+    private String[] title = {"领券中心", "我的优惠券", "地址管理", "我的收藏"};
     private int[] imageID = {R.mipmap.icon_person1, R.mipmap.icon_person2,
             R.mipmap.icon_person3, R.mipmap.icon_person4};
     private Context context;

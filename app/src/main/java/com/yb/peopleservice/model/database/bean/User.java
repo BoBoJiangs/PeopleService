@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 用户信息
+ * 用户登录的用户信息
  */
 @Entity
 public class User {
@@ -23,7 +23,7 @@ public class User {
     private String quickCode;//快捷登录获取的凭证
     private String tokenType;
     @Convert(converter = StringConverter.class, columnType = String.class)
-    private List<String> accountType;//功能列表的URL(暂时用于编辑机组信息时是否显示控制器的选项)
+    private List<String> accountType;
 
 
 

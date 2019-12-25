@@ -84,6 +84,8 @@
         <activity android:name=".view.activity.services.ApplyServiceActivity" />
         <activity android:name=".view.activity.services.StoreEntryActivity" />
         <activity android:name=".view.activity.common.ShopDetailsActivity" />
+        <activity android:name=".view.activity.address.CreateAddressActivity" />
+        <activity android:name=".view.activity.address.AddressListActivity" />
     </application>
 
 </manifest>

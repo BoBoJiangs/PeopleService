@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center" >
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/space_default"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/height_title"
+        android:drawableTop="@mipmap/icon_wsj"
+        android:text="暂无数据"
+        android:textColor="@color/base_lib_gray"
+        android:textSize="@dimen/font_btn_small" >
+
+    </TextView>
+</LinearLayout>

@@ -24,7 +24,7 @@
             style="@style/text_view_content_black"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:text="考试练习"
+            android:text="加载中"
             android:textSize="@dimen/font_content_middle"
             android:textStyle="bold" />
 

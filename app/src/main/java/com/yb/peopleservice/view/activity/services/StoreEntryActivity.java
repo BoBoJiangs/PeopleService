@@ -2,6 +2,7 @@ package com.yb.peopleservice.view.activity.services;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.shop.EntryListPresenter;
 import com.yb.peopleservice.view.adapter.shop.EntryListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
@@ -56,8 +57,8 @@ public class StoreEntryActivity extends BaseListActivity {
      * 初始化下拉或者加载更多的UI统一操作
      */
     private void initQueryListUI() {
-        QueryListUIPresenter<ShopInfo> queryListUI =
-                new QueryListUIPresenter<>(adapter, swipeRefreshLayout);
+        ServiceListUIPresenter<ShopInfo> queryListUI =
+                new ServiceListUIPresenter(adapter, swipeRefreshLayout,this);
 
         presenter = new EntryListPresenter(this, queryListUI);
         presenter.refreshList(true);

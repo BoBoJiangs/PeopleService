@@ -14,7 +14,7 @@ import java.util.List;
  * 修改时间:
  * 修改描述:
  */
-public class HomeListBean implements MultiItemEntity{
+public class HomeListBean extends ClassifyListBean implements MultiItemEntity {
     public static final int PAGE_TYPE = 3;//分类
     public static final int CONTENT_TYPE = 1;//内容
     public static final int TITLE_TYPE = 2;//标题
@@ -23,7 +23,6 @@ public class HomeListBean implements MultiItemEntity{
     public static final int SPAN_SIZE_ONE = 3;
     private int itemType;
     private int spanSize;
-    private List<ClassifyListBean> classList;//首页需要显示的类目
 
 
     public HomeListBean(int itemType, int spanSize) {
@@ -31,16 +30,6 @@ public class HomeListBean implements MultiItemEntity{
         this.spanSize = spanSize;
     }
 
-    public List<ClassifyListBean> getClassList() {
-        if (classList == null) {
-            return new ArrayList<>();
-        }
-        return classList;
-    }
-
-    public void setClassList(List<ClassifyListBean> classList) {
-        this.classList = classList;
-    }
 
     public void setItemType(int itemType) {
         this.itemType = itemType;

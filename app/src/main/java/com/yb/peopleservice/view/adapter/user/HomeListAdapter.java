@@ -36,6 +36,8 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
     private DraggableController mDraggableController;
     List<String> contentLis = new ArrayList<>();
     private HomePageAdapter pageAdapter;
+    private HomeContentAdapter contentAdapter;
+
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -63,7 +65,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
                 RecyclerView mRecyclerView = helper.getView(R.id.pageRecyclerView);
                 PageIndicatorView indicator = helper.getView(R.id.indicator);
                 pageAdapter = (HomePageAdapter) mRecyclerView.getAdapter();
-                if (pageAdapter==null){
+                if (pageAdapter == null) {
                     indicator.initIndicator(2);
                     PagerGridLayoutManager mLayoutManager = new PagerGridLayoutManager(2, 5, PagerGridLayoutManager
                             .HORIZONTAL);
@@ -86,22 +88,29 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
                     HomePageAdapter pageAdapter = new HomePageAdapter();
                     mRecyclerView.setAdapter(pageAdapter);
                     pageAdapter.setNewData(item.getClassList());
-                }else{
+                } else {
                     pageAdapter.setNewData(item.getClassList());
                 }
 
                 break;
             case HomeListBean.TITLE_TYPE:
+                helper.setText(R.id.titleTV,item.getName());
                 RecyclerView recyclerView = helper.getView(R.id.recyclerView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(context,RecyclerView.HORIZONTAL,false));
-                HomeContentAdapter contentAdapter = new HomeContentAdapter();
-                recyclerView.setAdapter(contentAdapter);
-                contentAdapter.setNewData(contentLis);
-                contentAdapter.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    }
-                });
+                contentAdapter = (HomeContentAdapter) recyclerView.getAdapter();
+                if (contentAdapter == null) {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+                    HomeContentAdapter contentAdapter = new HomeContentAdapter();
+                    recyclerView.setAdapter(contentAdapter);
+                    contentAdapter.setNewData(item.getCommodities());
+                    contentAdapter.setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        }
+                    });
+                } else {
+                    contentAdapter.setNewData(item.getCommodities());
+                }
+
                 break;
             case HomeListBean.CONTENT_TYPE:
                 TextView textView = helper.getView(R.id.priceTV2);
@@ -110,7 +119,6 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
         }
 
     }
-
 
 
     public DraggableController getDraggableController() {

@@ -21,31 +21,14 @@ public class IntentKeyConstant {
 
 
     /**
-     * 预览图片
+     * 请求码
      */
-    public static final String PREVIEW_IMAGE = "preview_image";
-    /**
-     * 编辑用户信息
-     */
-    public static final String EDIT_USER_INFO = "edit_user_info";
-    /**
-     * 编辑用户信息的内容
-     */
-    public static final String EDIT_USER_INFO_CONTENT = "edit_user_info_content";
-    /**
-     * 当前页
-     */
-    public static final String EXAM_CURRENT_INDEX = "exam_current_index";
+    public static final int REQUEST_CODE = 1001;
 
     /**
-     * 当前页
+     * 响应码
      */
-    public static final String SCORE_EXAM_NAME = "score_exam_name";
-
-    /**
-     * 用户
-     */
-    public static final String USER_ACCOUNT = "user_account";
+    public static final int RESULT_CODE = 1002;
 }
 
 

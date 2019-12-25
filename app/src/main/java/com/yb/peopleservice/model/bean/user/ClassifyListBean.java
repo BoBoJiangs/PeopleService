@@ -3,6 +3,8 @@ package com.yb.peopleservice.model.bean.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import java.util.List;
  */
 public class ClassifyListBean implements Parcelable {
     private List<ClassifyListBean> categories;
+    private List<ShopInfo> commodities;
+    private List<ClassifyListBean> classList;
     /**
      * id : bcb7282d-25d4-4bb6-8c27-175928d250b8
      * name : 代驾服务
@@ -40,6 +44,28 @@ public class ClassifyListBean implements Parcelable {
     private int serialNumber;
     private int onMainPage;
     private int calculatedDistance;
+
+    public List<ClassifyListBean> getClassList() {
+        if (classList == null) {
+            return new ArrayList<>();
+        }
+        return classList;
+    }
+
+    public void setClassList(List<ClassifyListBean> classList) {
+        this.classList = classList;
+    }
+
+    public List<ShopInfo> getCommodities() {
+        if (commodities == null) {
+            return new ArrayList<>();
+        }
+        return commodities;
+    }
+
+    public void setCommodities(List<ShopInfo> commodities) {
+        this.commodities = commodities;
+    }
 
     /**
      * categoryId : 123

@@ -110,6 +110,9 @@ dependencies {
     implementation 'com.amap.api:location:latest.integration'
     implementation 'com.amap.api:search:latest.integration'
     implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1072_43646.jar')
+
+    //城市选择
+    implementation 'liji.library.dev:citypickerview:4.3.2'
     //评分控件
     implementation 'com.github.CB-ysx:CBRatingBar:3.0.1'
     //mp3录音

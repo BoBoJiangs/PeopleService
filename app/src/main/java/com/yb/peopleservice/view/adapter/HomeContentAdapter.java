@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 
 /**
  * 项目名称:PeopleService
@@ -16,14 +17,14 @@ import com.yb.peopleservice.R;
  * 修改时间:
  * 修改描述:
  */
-public class HomeContentAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class HomeContentAdapter extends BaseQuickAdapter<ShopInfo, BaseViewHolder> {
 
     public HomeContentAdapter() {
         super(R.layout.e_adapter_home_shop);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, ShopInfo item) {
 
     }
 }

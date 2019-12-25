@@ -16,7 +16,11 @@
         <item name="bl_stroke_width">1px</item>
         <item name="bl_stroke_position">bottom</item>
     </style>
-
+    <!--通用点击效果(白变灰)-->
+    <style name="item_bg">
+        <item name="bl_pressed_drawable">@color/gray_cc</item>
+        <item name="bl_unPressed_drawable">@color/white</item>
+    </style>
     <style name="horizontal_line_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
@@ -78,6 +82,14 @@
         <item name="info_padding_right">@dimen/space_default</item>
         <item name="content_gravity">end</item>
 
+    </style>
+
+    <!--设置功能里的新消息提醒的多功能UtilityView-->
+    <style name="set_utility_view_message" parent="utility_view">
+        <item name="right_image_height">80dp</item>
+        <item name="right_image_res">@mipmap/icon_close_news</item>
+        <item name="right_image_width">46dp</item>
+        <item name="info_padding_right">@dimen/space_default</item>
     </style>
 
     <!--带箭头的UtilityView-->
@@ -163,5 +175,14 @@
         <item name="bl_corners_radius">20dp</item>
         <item name="text_content_size">@dimen/font_content_small</item>
         <item name="bl_solid_color">@color/gray_cc</item>
+    </style>
+
+    <!--通用红色按钮-->
+    <style name="button_red_style" parent="text_view_content_black">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_title</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="bl_pressed_drawable">#FF5D30</item>
+        <item name="bl_unPressed_drawable">@color/base_text_color</item>
     </style>
 </resources>
