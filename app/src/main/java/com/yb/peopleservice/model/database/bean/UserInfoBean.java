@@ -1,5 +1,9 @@
 package com.yb.peopleservice.model.database.bean;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * 项目名称:PeopleService
  * 类描述:用户详细信息
@@ -9,6 +13,7 @@ package com.yb.peopleservice.model.database.bean;
  * 修改时间:
  * 修改描述:
  */
+@Entity
 public class UserInfoBean {
 
     /**
@@ -20,7 +25,7 @@ public class UserInfoBean {
      * member : 0
      * timestamp : 2019-12-19 14:47:21
      */
-
+    @Id
     private String id;
     private String name;
     private String nickname;//昵称
@@ -29,6 +34,23 @@ public class UserInfoBean {
     private int member;//是否为会员 1是 0否
     private String headImg;//头像
     private String phone;//电话号码
+
+    @Generated(hash = 1423685025)
+    public UserInfoBean(String id, String name, String nickname, int totalPoints,
+            int level, int member, String headImg, String phone) {
+        this.id = id;
+        this.name = name;
+        this.nickname = nickname;
+        this.totalPoints = totalPoints;
+        this.level = level;
+        this.member = member;
+        this.headImg = headImg;
+        this.phone = phone;
+    }
+
+    @Generated(hash = 1818808915)
+    public UserInfoBean() {
+    }
 
     public String getHeadImg() {
         return headImg == null ? "" : headImg;

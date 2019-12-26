@@ -16,6 +16,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -82,4 +83,10 @@ public interface HomeRequest {
      */
     @GET("customers/self")
     Observable<RequestResult<UserInfoBean>> getUserInfo();
+
+    /**
+     * 用户详情
+     */
+    @PUT("customers/self")
+    Observable<RequestResult<UserInfoBean>> setUserInfo(@Body UserInfoBean parameter);
 }

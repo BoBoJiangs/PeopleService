@@ -2,7 +2,7 @@ package com.yb.peopleservice.model.bean.user.service;
 
 /**
  * 项目名称:PeopleService
- * 类描述:
+ * 类描述: 服务详情
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/24 15:46
  * 修改人:

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class ClassifyListBean implements Parcelable {
     private List<ClassifyListBean> categories;
-    private List<ShopInfo> commodities;
+    private List<ServiceListBean> commodities;
     private List<ClassifyListBean> classList;
     /**
      * id : bcb7282d-25d4-4bb6-8c27-175928d250b8
@@ -56,14 +57,14 @@ public class ClassifyListBean implements Parcelable {
         this.classList = classList;
     }
 
-    public List<ShopInfo> getCommodities() {
+    public List<ServiceListBean> getCommodities() {
         if (commodities == null) {
             return new ArrayList<>();
         }
         return commodities;
     }
 
-    public void setCommodities(List<ShopInfo> commodities) {
+    public void setCommodities(List<ServiceListBean> commodities) {
         this.commodities = commodities;
     }
 

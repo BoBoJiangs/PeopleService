@@ -25,13 +25,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:gravity="center_vertical">
+        android:gravity="center">
 
         <TextView
             android:id="@+id/priceTV1"
             style="@style/text_view_content_black"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:lines="1"
             android:text="¥200"
             android:textColor="@color/base_text_color"
@@ -41,10 +40,9 @@
         <TextView
             android:id="@+id/priceTV2"
             style="@style/text_view_content_black"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_marginStart="5dp"
             android:textColor="@color/gray_cc"
-            android:layout_weight="2"
             android:lines="1"
             android:text="原件：¥200"
             android:textSize="12sp" />

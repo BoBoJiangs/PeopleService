@@ -18,10 +18,15 @@ import com.chad.library.adapter.base.DraggableController;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.PersonalListBean;
+import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.database.manager.UserInfoManager;
+import com.yb.peopleservice.model.database.manager.UserManager;
 import com.yb.peopleservice.model.presenter.user.PersonalPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
+import com.yb.peopleservice.view.activity.personal.EditUserInfoActivity;
 import com.yb.peopleservice.view.adapter.PersonalListAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
 
@@ -51,6 +56,8 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
     private HeaderViewHolder headerViewHolder;
     List<PersonalListBean> listData = new ArrayList<>();
     private PersonalPresenter presenter;
+    private UserManager userManager;
+    private UserInfoManager infoManager;
 
     public static Fragment getInstanceFragment() {
         PersonalFragment fragment = new PersonalFragment();
@@ -76,6 +83,8 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
 
     @Override
     protected void initData() {
+        userManager = ManagerFactory.getInstance().getUserManager();
+        infoManager = ManagerFactory.getInstance().getUserInfoManager();
         presenter.getUserInfo();
         initHeaderView();
         recyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_fa));
@@ -141,6 +150,14 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
 
     @Override
     public void getDataSuccess(UserInfoBean data) {
+        if (data != null) {
+            User user = userManager.getUser();
+            user.setUserId(data.getId());
+            userManager.update(user);
+            headerViewHolder.setUserInfoData(data);
+            infoManager.deleteAll();
+            infoManager.save(data);
+        }
 
     }
 
@@ -179,10 +196,10 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
         private void setUserInfoData(UserInfoBean userInfo) {
             nameTV.setText(userInfo.getNickname());
             memberTV.setVisibility(userInfo.getMember() == 0 ? View.GONE : View.VISIBLE);
-            ImageLoaderUtil.loadServerCircleImage(context,userInfo.getHeadImg(),photoIV);
+            ImageLoaderUtil.loadServerCircleImage(context, userInfo.getHeadImg(), photoIV);
         }
 
-        @OnClick({R.id.payTV, R.id.todoTV, R.id.finishTV, R.id.evaluateTV})
+        @OnClick({R.id.payTV, R.id.todoTV, R.id.finishTV, R.id.evaluateTV, R.id.userInfoRL})
         public void onViewClicked(View view) {
             switch (view.getId()) {
                 case R.id.payTV:
@@ -192,6 +209,9 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
                 case R.id.finishTV:
                     break;
                 case R.id.evaluateTV:
+                    break;
+                case R.id.userInfoRL:
+                    context.startActivity(new Intent(context, EditUserInfoActivity.class));
                     break;
             }
         }

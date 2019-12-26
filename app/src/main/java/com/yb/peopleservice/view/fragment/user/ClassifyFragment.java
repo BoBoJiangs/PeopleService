@@ -107,18 +107,18 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
     @Override
     public void getDataSuccess(List<ClassifyListBean> data) {
         if (!data.isEmpty()) {
-            if (isFirst) {
-                isFirst = false;
-                adapter.setName(data.get(0).getName());
-                adapter.setNewData(data);
-                presenter.getCategoryInfo(data.get(0).getParentId());
-            } else {
-                adapter.getData().get(clickIndex).setChildList(data);
-                childAdapter.setNewData(data);
-            }
+            adapter.setName(data.get(0).getName());
+            adapter.setNewData(data);
+            childAdapter.setNewData(data.get(0).getChildList());
+//            if (isFirst) {
+//                isFirst = false;
+//                adapter.setName(data.get(0).getName());
+//                adapter.setNewData(data);
+//            } else {
+//                adapter.getData().get(clickIndex).setChildList(data);
+//                childAdapter.setNewData(data);
+//            }
 
-        } else {
-            childAdapter.setNewData(data);
         }
 
     }

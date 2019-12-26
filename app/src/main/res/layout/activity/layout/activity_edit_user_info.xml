@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activity.personal.EditUserInfoActivity">
+
+    <include
+        style="@style/line_style"
+        layout="@layout/toolbar" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/headUV"
+        style="@style/utility_view"
+        android:layout_height="180pt"
+        app:right_image_height="150pt"
+        app:right_image_res="@mipmap/default_head"
+        app:right_image_width="150pt"
+        app:text_content=""
+        app:text_content_color="@color/base_lib_gray"
+        app:text_content_size="@dimen/font_btn_small_best"
+        app:text_title="头像" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/nameUV"
+        style="@style/utility_view"
+        android:layout_height="50dp"
+        app:line_show="true"
+        app:type="INPUT"
+        app:text_content_hint="请输入昵称"
+        app:text_title="昵称" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/phoneUV"
+        style="@style/utility_view"
+        android:layout_height="50dp"
+        app:line_show="true"
+        app:type="INPUT"
+        app:text_content_input_type="NUMBER"
+        app:text_content_hint="请输入电话号码"
+        app:text_title="电话号码　" />
+</LinearLayout>

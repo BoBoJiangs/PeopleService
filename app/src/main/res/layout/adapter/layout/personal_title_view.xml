@@ -23,18 +23,20 @@
 
             <ImageView
                 android:id="@+id/photoIV"
-                android:layout_width="@dimen/height_image_big"
-                android:layout_height="@dimen/height_image_big"
+                android:layout_width="@dimen/height_image_icon"
+                android:layout_height="@dimen/height_image_icon"
                 android:layout_marginTop="80pt"
                 android:src="@mipmap/default_head" />
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_toStartOf="@+id/arrowTV"
                 android:layout_toEndOf="@+id/photoIV"
                 android:layout_alignTop="@id/photoIV"
+                android:layout_alignBottom="@+id/photoIV"
                 android:layout_centerVertical="true"
+                android:gravity="center_vertical"
                 android:layout_marginStart="@dimen/space_small"
                 android:orientation="vertical">
 

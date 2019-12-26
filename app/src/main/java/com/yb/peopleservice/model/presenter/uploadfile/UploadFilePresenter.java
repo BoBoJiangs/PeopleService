@@ -111,12 +111,6 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
 //                                FileUtil.deleteFile(images.get(0).path);
                         files.add(file);
                         if (files.size() == paths.size()) {
-//                            MultipartBody.Builder builder = new MultipartBody.Builder();
-//                            builder.setType(MultipartBody.FORM);
-//                            builder.addFormDataPart(
-//                                    "file", "flower.jpg",
-//                                    RequestBody.create(MediaType.parse("application/octet-stream"), file)
-//                            );
                             uploadFile(getBuilder(files), isPublic);
                         }
 

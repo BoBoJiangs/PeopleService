@@ -59,6 +59,7 @@
         <item name="text_title_size">@dimen/font_content_middle</item>
         <item name="text_title_color">@color/black</item>
         <item name="title_padding_right">@dimen/space</item>
+        <item name="title_padding_left">@dimen/space</item>
         <item name="line_color_checked">@color/black</item>
         <item name="line_color">@color/base_lib_gray_line</item>
     </style>
