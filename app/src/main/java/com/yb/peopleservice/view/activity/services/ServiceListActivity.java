@@ -1,10 +1,15 @@
-package com.yb.peopleservice.view.activity;
+package com.yb.peopleservice.view.activity.services;
+
+import android.content.Intent;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
+import com.yb.peopleservice.view.activity.ServiceDetailsActivity;
 import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
 
@@ -57,6 +62,12 @@ public class ServiceListActivity extends BaseListActivity {
         presenter.loadMoreList();
     }
 
+    @Override
+    public void onClickItem(BaseQuickAdapter a, View view, int position) {
+        ServiceListBean serviceListBean = adapter.getItem(position);
+        startActivity(new Intent(this, ServiceDetailsActivity.class)
+                .putExtra(ServiceListBean.class.getName(),serviceListBean));
+    }
 
     /**
      * 初始化下拉或者加载更多的UI统一操作

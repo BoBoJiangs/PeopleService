@@ -10,6 +10,7 @@
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="290pt"
+        android:layout_marginTop="@dimen/dp_10"
         app:image_scale_type="center_crop"
         app:indicator_drawable_selected="@drawable/e_circle_point_blue"
         app:indicator_drawable_unselected="@drawable/e_circle_point_white"

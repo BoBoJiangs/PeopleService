@@ -1,6 +1,7 @@
 package com.yb.peopleservice.view.activity.login;
 
 import android.content.Intent;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -31,7 +32,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
     private LoginPresenter loginPresenter;
     private String phone;
     private String pass;
-
+    private boolean isShowPwd = false;//是否显示密码
     @Override
     protected int contentViewResID() {
         return R.layout.activity_login;
@@ -54,6 +55,15 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.seeIV:
+                if (isShowPwd) {
+                    isShowPwd = false;
+                    seeIV.setImageResource(R.mipmap.login_ps1);
+                    pwdUV.getInputEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                    isShowPwd = true;
+                    seeIV.setImageResource(R.mipmap.login_ps);
+                    pwdUV.getInputEditText().setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
                 break;
             case R.id.forgetPwdTV:
                 break;

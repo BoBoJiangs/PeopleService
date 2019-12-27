@@ -24,14 +24,22 @@ import io.reactivex.Observable;
  */
 public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
     private String classId;//分类ID
+    private boolean isShop;
+
+    public ServiceListPresenter(String classId, Context context,
+                                IQueryListCallback<ShopInfo> IQueryListCallback) {
+        this(classId,context,IQueryListCallback,false);
+    }
 
     /**
      * @param context            上下文
      * @param IQueryListCallback 列表操作接口
      */
-    public ServiceListPresenter(String classId, Context context, IQueryListCallback<ShopInfo> IQueryListCallback) {
+    public ServiceListPresenter(String classId, Context context,
+                                IQueryListCallback<ShopInfo> IQueryListCallback,boolean isShop) {
         super(context, IQueryListCallback);
         this.classId = classId;
+        this.isShop = isShop;
     }
 
     @Override
@@ -41,7 +49,12 @@ public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
             public Observable getObservable(ServiceRequest iRequestServer) {
                 Map<String, Integer> map = new HashMap<>();
                 map.put("current", pageIndex);
-                return iRequestServer.getServiceList(classId);
+                if (isShop){
+                    return iRequestServer.getShopList(classId);
+                }else {
+                    return iRequestServer.getServiceList(classId);
+                }
+
 
             }
 

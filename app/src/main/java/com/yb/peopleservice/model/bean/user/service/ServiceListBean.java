@@ -1,5 +1,15 @@
 package com.yb.peopleservice.model.bean.user.service;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.blankj.utilcode.util.GsonUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 项目名称:PeopleService
  * 类描述: 服务详情
@@ -9,7 +19,7 @@ package com.yb.peopleservice.model.bean.user.service;
  * 修改时间:
  * 修改描述:
  */
-public class ServiceListBean  {
+public class ServiceListBean implements Parcelable {
 
     /**
      * id : b4272549-fd34-4afe-8d91-c0a7db740719
@@ -106,14 +116,30 @@ public class ServiceListBean  {
         return mainImgs;
     }
 
+    public List<String> getMainImg() {
+        List<String> imags = GsonUtils.fromJson(mainImgs, new TypeToken<List<String>>() {
+        }.getType());
+        if (imags != null) {
+            return imags;
+        } else {
+            return new ArrayList<>();
+        }
+
+    }
+
     public void setMainImgs(String mainImgs) {
         this.mainImgs = mainImgs;
     }
 
-    public String getContentImgs() {
-        return contentImgs;
+    public List<String>  getContentImgs() {
+        List<String> imags = GsonUtils.fromJson(contentImgs, new TypeToken<List<String>>() {
+        }.getType());
+        if (imags != null) {
+            return imags;
+        } else {
+            return new ArrayList<>();
+        }
     }
-
     public void setContentImgs(String contentImgs) {
         this.contentImgs = contentImgs;
     }
@@ -213,4 +239,71 @@ public class ServiceListBean  {
     public void setPriceUnit(String priceUnit) {
         this.priceUnit = priceUnit;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.categoryId);
+        dest.writeString(this.shopId);
+        dest.writeInt(this.price);
+        dest.writeInt(this.priceType);
+        dest.writeString(this.priceUnit);
+        dest.writeString(this.mainImgs);
+        dest.writeString(this.contentImgs);
+        dest.writeString(this.contentText);
+        dest.writeInt(this.status);
+        dest.writeInt(this.selfSupport);
+        dest.writeInt(this.lastMonthSold);
+        dest.writeInt(this.totalSold);
+        dest.writeString(this.timestamp);
+        dest.writeInt(this.favorite);
+        dest.writeInt(this.calculatedDistance);
+        dest.writeInt(this.startPrice);
+        dest.writeInt(this.startDistance);
+        dest.writeInt(this.groupBuy);
+    }
+
+    public ServiceListBean() {
+    }
+
+    protected ServiceListBean(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.categoryId = in.readString();
+        this.shopId = in.readString();
+        this.price = in.readInt();
+        this.priceType = in.readInt();
+        this.priceUnit = in.readString();
+        this.mainImgs = in.readString();
+        this.contentImgs = in.readString();
+        this.contentText = in.readString();
+        this.status = in.readInt();
+        this.selfSupport = in.readInt();
+        this.lastMonthSold = in.readInt();
+        this.totalSold = in.readInt();
+        this.timestamp = in.readString();
+        this.favorite = in.readInt();
+        this.calculatedDistance = in.readInt();
+        this.startPrice = in.readInt();
+        this.startDistance = in.readInt();
+        this.groupBuy = in.readInt();
+    }
+
+    public static final Creator<ServiceListBean> CREATOR = new Creator<ServiceListBean>() {
+        @Override
+        public ServiceListBean createFromParcel(Parcel source) {
+            return new ServiceListBean(source);
+        }
+
+        @Override
+        public ServiceListBean[] newArray(int size) {
+            return new ServiceListBean[size];
+        }
+    };
 }

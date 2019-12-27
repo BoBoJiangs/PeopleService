@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.presenter.user.ClassifyPresenter;
-import com.yb.peopleservice.view.activity.ServiceListActivity;
+import com.yb.peopleservice.view.activity.services.ServiceListActivity;
 import com.yb.peopleservice.view.adapter.user.classify.ClassifyAdapter;
 import com.yb.peopleservice.view.adapter.user.classify.ClassifyChildAdapter;
 

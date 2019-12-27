@@ -20,14 +20,14 @@ import cn.sts.base.view.widget.UtilityView;
 
 /**
  * 项目名称:PeopleService
- * 类描述: 店铺详情
+ * 类描述: 认证详情
  * 创建人:yangbo_ QQ:819463350
  * 创建时间: 2019/12/13 14:59
  * 修改人:
  * 修改时间:
  * 修改描述:
  */
-public class ServiceDetailsActivity extends BaseToolbarActivity {
+public class CertificationDetailsActivity extends BaseToolbarActivity {
     @BindView(R.id.headUV)
     UtilityView headUV;
     ImageView headIV;
@@ -85,7 +85,7 @@ public class ServiceDetailsActivity extends BaseToolbarActivity {
 
     @Override
     protected void initData() {
-        shopInfo = (ServiceInfo) getIntent().getSerializableExtra(ShopInfo.class.getName());
+        shopInfo = getIntent().getParcelableExtra(ServiceInfo.class.getName());
         addressUV.getRightImageView().setVisibility(View.INVISIBLE);
         headIV = headUV.getRightImageView();
         shopNameUV.setVisibility(View.GONE);

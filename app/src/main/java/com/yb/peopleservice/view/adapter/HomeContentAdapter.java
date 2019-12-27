@@ -12,6 +12,8 @@ import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 
+import java.util.List;
+
 /**
  * 项目名称:PeopleService
  * 类描述:
@@ -39,6 +41,7 @@ public class HomeContentAdapter extends BaseQuickAdapter<ServiceListBean, BaseVi
         helper.setText(R.id.titleTV, item.getName());
         helper.setGone(R.id.priceTV2,false);
         helper.setText(R.id.priceTV1, item.getPrice() + priceUnit);
-        ImageLoaderUtil.loadServerImage(mContext,item.getMainImgs(),imageView);
+        List<String> images = item.getMainImg();
+        ImageLoaderUtil.loadServerImage(mContext, images.isEmpty() ? "" : images.get(0), imageView);
     }
 }

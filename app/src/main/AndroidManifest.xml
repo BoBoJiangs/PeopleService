@@ -71,7 +71,7 @@
             android:name=".view.activity.main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.ServiceListActivity" />
+        <activity android:name=".view.activity.services.ServiceListActivity" />
         <activity android:name=".view.activity.WebViewActivity" />
         <activity android:name=".view.activity.login.LoginActivity" />
         <activity android:name=".view.activity.login.RegisterActivity" />
@@ -86,6 +86,8 @@
         <activity android:name=".view.activity.common.ShopDetailsActivity" />
         <activity android:name=".view.activity.address.CreateAddressActivity" />
         <activity android:name=".view.activity.address.AddressListActivity" />
+        <activity android:name=".view.activity.services.ShopListActivity" />
+        <activity android:name=".view.activity.services.CertificationDetailsActivity" />
     </application>
 
 </manifest>

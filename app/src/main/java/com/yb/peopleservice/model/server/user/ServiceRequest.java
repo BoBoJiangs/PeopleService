@@ -1,6 +1,7 @@
 package com.yb.peopleservice.model.server.user;
 
 
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
@@ -28,5 +29,15 @@ public interface ServiceRequest {
     @GET("categories/{id}/commodities")
     Observable<RequestResult<List<ServiceListBean>>> getServiceList(@Path("id") String id);
 
+    /**
+     * 获取店铺下的所有商品
+     */
+    @GET("shops/{id}/commodities")
+    Observable<RequestResult<List<ServiceListBean>>> getShopList(@Path("id") String id);
 
+    /**
+     * 获取店铺下的所有商品
+     */
+    @GET("shops/{id}")
+    Observable<RequestResult<ShopInfo>> getShopDetails(@Path("id") String id);
 }

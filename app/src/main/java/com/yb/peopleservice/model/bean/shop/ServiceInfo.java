@@ -1,5 +1,8 @@
 package com.yb.peopleservice.model.bean.shop;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
@@ -11,7 +14,7 @@ import java.io.Serializable;
  * 修改时间:
  * 修改描述:
  */
-public class ServiceInfo implements Serializable {
+public class ServiceInfo implements Parcelable {
 
 
     /**
@@ -133,4 +136,53 @@ public class ServiceInfo implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.headImg);
+        dest.writeString(this.id);
+        dest.writeString(this.idCardImgBack);
+        dest.writeString(this.idCardImgFront);
+        dest.writeString(this.idCardNumber);
+        dest.writeString(this.introduction);
+        dest.writeString(this.message);
+        dest.writeString(this.name);
+        dest.writeString(this.nickname);
+        dest.writeString(this.phone);
+        dest.writeInt(this.status);
+    }
+
+    public ServiceInfo() {
+    }
+
+    protected ServiceInfo(Parcel in) {
+        this.headImg = in.readString();
+        this.id = in.readString();
+        this.idCardImgBack = in.readString();
+        this.idCardImgFront = in.readString();
+        this.idCardNumber = in.readString();
+        this.introduction = in.readString();
+        this.message = in.readString();
+        this.name = in.readString();
+        this.nickname = in.readString();
+        this.phone = in.readString();
+        this.status = in.readInt();
+    }
+
+    public static final Creator<ServiceInfo> CREATOR = new Creator<ServiceInfo>() {
+        @Override
+        public ServiceInfo createFromParcel(Parcel source) {
+            return new ServiceInfo(source);
+        }
+
+        @Override
+        public ServiceInfo[] newArray(int size) {
+            return new ServiceInfo[size];
+        }
+    };
 }

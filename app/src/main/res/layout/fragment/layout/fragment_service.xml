@@ -16,6 +16,7 @@
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="580pt"
+            android:layout_margin="@dimen/dp_10"
             app:image_scale_type="center_crop"
             app:indicator_drawable_selected="@drawable/e_circle_point_blue"
             app:indicator_drawable_unselected="@drawable/e_circle_point_white"
@@ -75,6 +76,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             style="@style/line_style"
+            android:visibility="gone"
             android:padding="@dimen/space_default">
 
             <TextView
@@ -138,6 +140,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             style="@style/line_style"
+            android:visibility="gone"
             android:padding="@dimen/space_default">
 
             <TextView
@@ -167,6 +170,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             style="@style/line_style"
+            android:visibility="gone"
             android:padding="@dimen/space_default">
 
             <TextView
@@ -187,6 +191,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="vertical"
+            android:visibility="gone"
             android:padding="@dimen/space_default">
 
             <TextView
