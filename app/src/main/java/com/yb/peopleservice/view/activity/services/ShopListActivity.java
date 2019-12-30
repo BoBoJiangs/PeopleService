@@ -1,6 +1,7 @@
 package com.yb.peopleservice.view.activity.services;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -61,6 +62,11 @@ public class ShopListActivity extends BaseListActivity implements ShopDetailsPre
     }
 
     @Override
+    public void initToolView() {
+        super.initToolView();
+    }
+
+    @Override
     protected void initData() {
         bean = getIntent().getParcelableExtra(ServiceListBean.class.getName());
         if (bean == null) {
@@ -113,6 +119,7 @@ public class ShopListActivity extends BaseListActivity implements ShopDetailsPre
 
     @Override
     public void getDataSuccess(ShopInfo data) {
+        titleTV.setText(data.getName());
         nameTV.setText(data.getName());
         ImageLoaderUtil.loadServerImage(this,data.getHeadImg(),imageView);
     }

@@ -17,7 +17,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="190pt"
-        android:background="#707070"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/dp_10"
@@ -44,6 +43,10 @@
             android:gravity="center"
             android:text="收藏" />
     </LinearLayout>
+
+    <TextView
+        style="@style/horizontal_line_style"
+        android:layout_height="5dp" />
 
     <include layout="@layout/recycler_view" />
 
