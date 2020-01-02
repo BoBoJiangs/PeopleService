@@ -1,4 +1,4 @@
-package com.yb.peopleservice.view.activity;
+package com.yb.peopleservice.view.activity.services;
 
 import androidx.fragment.app.Fragment;
 

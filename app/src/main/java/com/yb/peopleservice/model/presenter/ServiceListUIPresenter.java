@@ -60,10 +60,14 @@ public class ServiceListUIPresenter<T> extends QueryListUIPresenter<T> {
     @Override
     public void refreshListSuccess(List<T> list) {
         super.refreshListSuccess(list);
+        if (list == null) {
+            baseQuickAdapter.setEmptyView(emptyView);
+            return;
+        }
         if (list.size() < ROWS) {
             if (baseQuickAdapter.getData().isEmpty()) {
                 baseQuickAdapter.setEmptyView(emptyView);
-            }else{
+            } else {
                 baseQuickAdapter.setFooterView(footerView);
             }
 

@@ -27,6 +27,7 @@ import com.yb.peopleservice.model.presenter.user.PersonalPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
 import com.yb.peopleservice.view.activity.personal.EditUserInfoActivity;
+import com.yb.peopleservice.view.activity.personal.MyFavoriteActivity;
 import com.yb.peopleservice.view.adapter.PersonalListAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
 
@@ -83,6 +84,7 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
 
     @Override
     protected void initData() {
+        presenter = new PersonalPresenter(getContext(), this);
         userManager = ManagerFactory.getInstance().getUserManager();
         infoManager = ManagerFactory.getInstance().getUserInfoManager();
         presenter.getUserInfo();
@@ -93,39 +95,39 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         adapter.setNewData(listData);
-        DraggableController mDraggableController = adapter.getDraggableController();
-
-        OnItemDragListener listener = new OnItemDragListener() {
-            @Override
-            public void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos) {
-                BaseViewHolder holder = ((BaseViewHolder) viewHolder);
-//                holder.setTextColor(R.id.tv, Color.WHITE);
-            }
-
-            @Override
-            public void onItemDragMoving(RecyclerView.ViewHolder source, int from, RecyclerView.ViewHolder target, int to) {
-            }
-
-            @Override
-            public void onItemDragEnd(RecyclerView.ViewHolder viewHolder, int pos) {
-            }
-        };
-
-
-        ItemDragCallback mItemDragAndSwipeCallback = new ItemDragCallback(mDraggableController);
-
-        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(mItemDragAndSwipeCallback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
-
-        mDraggableController.enableDragItem(mItemTouchHelper);
-        mDraggableController.setOnItemDragListener(listener);
+//        DraggableController mDraggableController = adapter.getDraggableController();
+//
+//        OnItemDragListener listener = new OnItemDragListener() {
+//            @Override
+//            public void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos) {
+//                BaseViewHolder holder = ((BaseViewHolder) viewHolder);
+////                holder.setTextColor(R.id.tv, Color.WHITE);
+//            }
+//
+//            @Override
+//            public void onItemDragMoving(RecyclerView.ViewHolder source, int from, RecyclerView.ViewHolder target, int to) {
+//            }
+//
+//            @Override
+//            public void onItemDragEnd(RecyclerView.ViewHolder viewHolder, int pos) {
+//            }
+//        };
+//
+//
+//        ItemDragCallback mItemDragAndSwipeCallback = new ItemDragCallback(mDraggableController);
+//
+//        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(mItemDragAndSwipeCallback);
+//        mItemTouchHelper.attachToRecyclerView(recyclerView);
+//
+//        mDraggableController.enableDragItem(mItemTouchHelper);
+//        mDraggableController.setOnItemDragListener(listener);
 
 
     }
 
     @Override
     protected AbstractPresenter createPresenter() {
-        return presenter = new PersonalPresenter(getContext(), this);
+        return presenter;
     }
 
     @Override
@@ -134,6 +136,10 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
             case 2://地址管理
                 startActivity(new Intent(getContext(), AddressListActivity.class));
                 break;
+            case 3://地址管理
+                startActivity(new Intent(getContext(), MyFavoriteActivity.class));
+                break;
+
         }
 
     }

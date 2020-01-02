@@ -1,26 +1,25 @@
 package com.yb.peopleservice.view.activity.services;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
+import com.yb.peopleservice.model.presenter.user.service.CollectPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ShopDetailsPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
-import com.yb.peopleservice.view.activity.ServiceDetailsActivity;
+import com.yb.peopleservice.view.activity.common.ShopDetailsActivity;
 import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 
@@ -33,7 +32,8 @@ import cn.sts.base.presenter.AbstractPresenter;
  * 修改时间:
  * 修改描述:
  */
-public class ShopListActivity extends BaseListActivity implements ShopDetailsPresenter.IShopCallback {
+public class ShopListActivity extends BaseListActivity implements
+        ShopDetailsPresenter.IShopCallback, CollectPresenter.ICollectCallback {
 
     @BindView(R.id.imageView)
     ImageView imageView;
@@ -45,6 +45,8 @@ public class ShopListActivity extends BaseListActivity implements ShopDetailsPre
     private ServiceListAdapter adapter;
     private ServiceListBean bean;
     private ShopDetailsPresenter detailsPresenter;
+    private CollectPresenter collectPresenter;
+    private MyShop myShop;
 
     @Override
     public BaseQuickAdapter initAdapter() {
@@ -74,7 +76,8 @@ public class ShopListActivity extends BaseListActivity implements ShopDetailsPre
         }
         setOnRefreshListener();
         setLoadMoreListener();
-        initQueryListUI();
+        collectPresenter = new CollectPresenter(this, this);
+
     }
 
     @Override
@@ -110,18 +113,39 @@ public class ShopListActivity extends BaseListActivity implements ShopDetailsPre
 
     @Override
     protected AbstractPresenter createPresenter() {
+
         detailsPresenter = new ShopDetailsPresenter(this, this);
         detailsPresenter.getShopDetails(bean.getShopId());
         initQueryListUI();
         return presenter;
     }
 
+    @Override
+    public void collectSuccess() {
+
+    }
+
+    @Override
+    public void cancelSuccess() {
+
+    }
+
+    @Override
+    public void isCollect() {
+
+    }
 
     @Override
     public void getDataSuccess(ShopInfo data) {
-        titleTV.setText(data.getName());
-        nameTV.setText(data.getName());
-        ImageLoaderUtil.loadServerImage(this,data.getHeadImg(),imageView);
+        if (data != null) {
+            myShop = new MyShop();
+            myShop.setShop(data);
+            titleTV.setText(data.getName());
+            nameTV.setText(data.getName());
+            ImageLoaderUtil.loadServerImage(this, data.getHeadImg(), imageView);
+            collectPresenter.getFavorite(data.getId());
+        }
+
     }
 
     @Override
@@ -130,7 +154,18 @@ public class ShopListActivity extends BaseListActivity implements ShopDetailsPre
     }
 
 
-    @OnClick(R.id.collectTV)
-    public void onViewClicked() {
+    @OnClick({R.id.collectTV, R.id.shopLL})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.collectTV:
+                //        collectPresenter.addFavorite();
+                break;
+            case R.id.shopLL:
+                myShop.setType(MyShop.USER_DETAILS);
+                startActivity(new Intent(this, ShopDetailsActivity.class)
+                        .putExtra(MyShop.class.getName(), myShop));
+                break;
+        }
+
     }
 }

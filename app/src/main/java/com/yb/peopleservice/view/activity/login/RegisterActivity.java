@@ -33,7 +33,7 @@ public class RegisterActivity extends BaseActivity implements RegisterPresenter.
     UtilityView passWord;
     private MyTimer myTimer;
     private RegisterPresenter presenter;
-
+    private String phone;
     @Override
     protected int contentViewResID() {
         return R.layout.activity_register;
@@ -60,6 +60,12 @@ public class RegisterActivity extends BaseActivity implements RegisterPresenter.
     }
 
     @Override
+    public void checkSuccess(Object data) {
+        myTimer.start();
+        presenter.getCode(phone);
+    }
+
+    @Override
     public void regisSuccess(Object data) {
         ToastUtils.showLong("注册成功");
         finish();
@@ -78,7 +84,7 @@ public class RegisterActivity extends BaseActivity implements RegisterPresenter.
 
     @OnClick({R.id.regisBtn, R.id.getAuthCodeTV})
     public void onViewClicked(View view) {
-        String phone = phoneUV.getContentText();
+        phone = phoneUV.getContentText();
 
         if (!RegexUtils.isMobileExact(phone)) {
             ToastUtils.showLong("请输入正确的电话号码");
@@ -105,8 +111,7 @@ public class RegisterActivity extends BaseActivity implements RegisterPresenter.
                 presenter.register(map);
                 break;
             case R.id.getAuthCodeTV:
-                myTimer.start();
-                presenter.getCode(phone);
+                presenter.checkUserName(phone);
                 break;
         }
 

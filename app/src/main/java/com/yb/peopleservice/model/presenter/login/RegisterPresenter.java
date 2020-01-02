@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
@@ -82,6 +83,46 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
     }
 
     /**
+     * 验证手机号(是否已被注册)
+     */
+    public void checkUserName(String phone) {
+        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<Object>() {
+            @Override
+            public void onRequestSuccess(Object data) {
+                try {
+                    getViewCallBack().checkSuccess(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRequestFailure(String error) {
+                ToastUtils.showLong(error);
+            }
+
+            @Override
+            public void onRequestCancel() {
+
+            }
+        }) {
+            @Override
+            public Observable getObservable(LoginRequest iRequestServer) {
+                Map<String, String> map = new HashMap<>();
+                map.put("phone",phone);
+                return iRequestServer.checkUserName(phone);
+            }
+
+            @Override
+            public Class<LoginRequest> getRequestInterfaceClass() {
+                return LoginRequest.class;
+            }
+        };
+        requestFunc.setShowProgress(false);
+        LoginRequestServer.getInstance().request(requestFunc);
+    }
+
+    /**
      * 获取验证码
      */
     public void getCode(String phone) {
@@ -102,6 +143,7 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
      */
     public interface IRegisCallback extends IViewCallback {
 
+        void checkSuccess(Object data);
 
         void regisSuccess(Object data);
 

@@ -80,6 +80,7 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
     protected void initData() {
 
         swipeRefreshLayout.setRefreshing(true);
+        presenter = new ServiceInfoPresenter(getContext(), this);
         presenter.getServiceInfo();
         presenter.getServiceMyShop();
     }
@@ -105,7 +106,7 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
 
     @Override
     protected AbstractPresenter createPresenter() {
-        return presenter = new ServiceInfoPresenter(getContext(), this);
+        return presenter;
     }
 
     @OnClick({R.id.shopInfoUV, R.id.profitUV, R.id.applyBtn, R.id.shopInUV})
@@ -122,6 +123,7 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
                 break;
             case R.id.shopInUV:
                 if (shopInUV.getContentText().contains("我的店铺")) {
+                    myShop.setType(MyShop.SHOP_DETAILS);
                     startActivityForResult(new Intent(getContext(), ShopDetailsActivity.class)
                             .putExtra(MyShop.class.getName(), myShop),RequestCodeConstant.BASE_REQUEST);
                 } else {

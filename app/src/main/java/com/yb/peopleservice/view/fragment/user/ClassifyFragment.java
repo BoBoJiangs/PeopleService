@@ -57,6 +57,7 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
     @Override
     protected void initData() {
         //获取一级分类
+        presenter = new ClassifyPresenter(getContext(), this);
         presenter.getCategoryInfo("0");
         childAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -85,7 +86,7 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
 
     @Override
     protected ClassifyPresenter createPresenter() {
-        return presenter = new ClassifyPresenter(getContext(), this);
+        return presenter;
     }
 
     @Override

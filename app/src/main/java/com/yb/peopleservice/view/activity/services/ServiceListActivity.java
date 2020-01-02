@@ -9,12 +9,10 @@ import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
-import com.yb.peopleservice.view.activity.ServiceDetailsActivity;
 import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
 
 import cn.sts.base.presenter.AbstractPresenter;
-import cn.sts.base.presenter.QueryListUIPresenter;
 
 /**
  * 类描述:服务列表

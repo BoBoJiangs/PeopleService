@@ -8,6 +8,8 @@ import java.util.Map;
 import cn.sts.base.model.server.vo.RequestResult;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -28,6 +30,12 @@ public interface LoginRequest {
      */
     @POST("register")
     Observable<RequestResult> register(@Body Map map);
+
+    /**
+     * 验证手机号(是否已被注册)
+     */
+    @POST("register/checkusername")
+    Observable<RequestResult> checkUserName(@Query("phone") String phone);
 
 
     /**

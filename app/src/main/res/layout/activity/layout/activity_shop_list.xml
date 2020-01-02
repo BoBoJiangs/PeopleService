@@ -15,6 +15,7 @@
         android:background="#707070" />
 
     <LinearLayout
+        android:id="@+id/shopLL"
         android:layout_width="match_parent"
         android:layout_height="190pt"
         android:gravity="center_vertical"

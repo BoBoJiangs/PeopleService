@@ -71,6 +71,7 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
     protected void initData() {
 
         swipeRefreshLayout.setRefreshing(true);
+        presenter = new ShopInfoPresenter(getContext(), this);
         presenter.getShopInfo();
 
     }
@@ -95,7 +96,7 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
 
     @Override
     protected AbstractPresenter createPresenter() {
-        return presenter = new ShopInfoPresenter(getContext(), this);
+        return presenter;
     }
 
     @OnClick({R.id.shopInfoLL, R.id.profitLL, R.id.applyBtn})

@@ -107,6 +107,8 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
         mDraggableController.enableDragItem(mItemTouchHelper);
         mDraggableController.setOnItemDragListener(listener);
 
+        presenter = new BannerPresenter(getContext(), this);
+        homePresenter = new HomePresenter(getContext(), this);
         presenter.getBannerList();
         homePresenter.getHotList();
         homePresenter.getHotService();
@@ -114,8 +116,7 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
 
     @Override
     protected HomePresenter createPresenter() {
-        presenter = new BannerPresenter(getContext(), this);
-        homePresenter = new HomePresenter(getContext(), this);
+
         return homePresenter;
     }
 

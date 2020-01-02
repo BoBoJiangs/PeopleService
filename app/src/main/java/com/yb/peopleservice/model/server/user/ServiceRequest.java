@@ -6,11 +6,15 @@ import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.sts.base.model.server.vo.RequestResult;
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * 类描述:服务相关
@@ -40,4 +44,28 @@ public interface ServiceRequest {
      */
     @GET("shops/{id}")
     Observable<RequestResult<ShopInfo>> getShopDetails(@Path("id") String id);
+
+    /**
+     * 增加一个收藏
+     */
+    @POST("favorites")
+    Observable<RequestResult<ShopInfo>> addFavorite(@Body Map map);
+
+    /**
+     * 获取对象是否已收藏
+     */
+    @POST("favorites/check/{id}")
+    Observable<RequestResult<ShopInfo>> getFavorite(@Path("id") String id);
+
+    /**
+     * 获取收藏的商品
+     */
+    @GET("favorites?type=1")
+    Observable<RequestResult<ServiceListBean>> getFavoriteService();
+
+    /**
+     * 获取收藏的店铺
+     */
+    @GET("favorites?type=2")
+    Observable<RequestResult<ShopInfo>> getFavoriteShop();
 }

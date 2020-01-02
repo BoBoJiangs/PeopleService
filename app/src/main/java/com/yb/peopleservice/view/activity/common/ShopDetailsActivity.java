@@ -2,6 +2,7 @@ package com.yb.peopleservice.view.activity.common;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -10,6 +11,7 @@ import com.yb.peopleservice.constant.ResponseCodeConstant;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.presenter.shop.ServiceShopStatePresenter;
+import com.yb.peopleservice.model.presenter.user.service.CollectPresenter;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import butterknife.BindView;
@@ -25,7 +27,8 @@ import cn.sts.base.presenter.AbstractPresenter;
  * 修改时间:
  * 修改描述:
  */
-public class ShopDetailsActivity extends BaseToolbarActivity implements ServiceShopStatePresenter.IServiceInfoCallback {
+public class ShopDetailsActivity extends BaseToolbarActivity implements
+        ServiceShopStatePresenter.IServiceInfoCallback{
 
     @BindView(R.id.companyNameTV)
     TextView companyNameTV;
@@ -39,6 +42,8 @@ public class ShopDetailsActivity extends BaseToolbarActivity implements ServiceS
     TextView sureTV;
     @BindView(R.id.sureBtn)
     Button sureBtn;
+    @BindView(R.id.stateLL)
+    LinearLayout stateLL;
     private ServiceShopStatePresenter presenter;
     private MyShop myShop;
 
@@ -58,6 +63,7 @@ public class ShopDetailsActivity extends BaseToolbarActivity implements ServiceS
         myShop = (MyShop) getIntent().getSerializableExtra(MyShop.class.getName());
         if (myShop != null) {
             setViewText(myShop);
+
         }
 
     }
@@ -69,6 +75,7 @@ public class ShopDetailsActivity extends BaseToolbarActivity implements ServiceS
 
     @Override
     protected AbstractPresenter createPresenter() {
+
         return presenter = new ServiceShopStatePresenter(this, this);
     }
 
@@ -89,6 +96,11 @@ public class ShopDetailsActivity extends BaseToolbarActivity implements ServiceS
     }
 
     private void setViewText(MyShop myShop) {
+        if (myShop.getType()==MyShop.SHOP_DETAILS){
+            stateLL.setVisibility(View.VISIBLE);
+        }else{
+            stateLL.setVisibility(View.GONE);
+        }
         ShopInfo shopInfo = myShop.getShop();
         if (shopInfo != null) {
             titleTV.setText(shopInfo.getName());
@@ -116,6 +128,8 @@ public class ShopDetailsActivity extends BaseToolbarActivity implements ServiceS
                 break;
         }
     }
+
+
 
     @Override
     public void onSuccess() {
