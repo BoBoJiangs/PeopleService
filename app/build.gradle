@@ -126,4 +126,6 @@ dependencies {
     implementation 'com.ypx.yimagepicker:androidx:3.0.1'
     //图片压缩
     implementation 'top.zibin:Luban:1.1.8'
+    //滑动删除
+    implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
 }

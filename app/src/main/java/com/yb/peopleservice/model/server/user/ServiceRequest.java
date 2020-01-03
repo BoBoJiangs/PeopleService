@@ -3,6 +3,7 @@ package com.yb.peopleservice.model.server.user;
 
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
 import java.util.List;
@@ -11,10 +12,12 @@ import java.util.Map;
 import cn.sts.base.model.server.vo.RequestResult;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * 类描述:服务相关
@@ -49,23 +52,29 @@ public interface ServiceRequest {
      * 增加一个收藏
      */
     @POST("favorites")
-    Observable<RequestResult<ShopInfo>> addFavorite(@Body Map map);
+    Observable<RequestResult<FavoriteBean>> addFavorite(@Body Map map);
 
     /**
      * 获取对象是否已收藏
      */
     @POST("favorites/check/{id}")
-    Observable<RequestResult<ShopInfo>> getFavorite(@Path("id") String id);
+    Observable<RequestResult<FavoriteBean>> getFavorite(@Path("id") String id);
 
     /**
      * 获取收藏的商品
      */
-    @GET("favorites?type=1")
-    Observable<RequestResult<ServiceListBean>> getFavoriteService();
+    @GET("favorites")
+    Observable<RequestResult<List<FavoriteBean>>> getFavoriteService(@QueryMap Map<String,String> map);
 
     /**
      * 获取收藏的店铺
      */
     @GET("favorites?type=2")
     Observable<RequestResult<ShopInfo>> getFavoriteShop();
+
+    /**
+     * 删除收藏
+     */
+    @DELETE("favorites/{id}")
+    Observable<RequestResult<ShopInfo>> deleteFavorite(@Path("id") String id);
 }

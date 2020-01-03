@@ -4,11 +4,13 @@ import androidx.fragment.app.Fragment;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.user.service.FavoritePresenter;
 import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
 import com.yb.peopleservice.view.adapter.order.OrderListAdapter;
+import com.yb.peopleservice.view.adapter.user.FavoriteShopAdapter;
 import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 
 import java.util.ArrayList;
@@ -27,8 +29,8 @@ import cn.sts.base.view.fragment.BaseListFragment;
  */
 public class FavoriteServiceFragment extends BaseListFragment {
 
-    private ServiceListAdapter adapter;
-    private FavoritePresenter<ServiceListBean> presenter;
+    private FavoriteShopAdapter adapter;
+    private FavoritePresenter<FavoriteBean> presenter;
 
     public static Fragment getInstanceFragment() {
         FavoriteServiceFragment fragment = new FavoriteServiceFragment();
@@ -37,7 +39,7 @@ public class FavoriteServiceFragment extends BaseListFragment {
 
     @Override
     public BaseQuickAdapter initAdapter() {
-        return adapter = new ServiceListAdapter();
+        return adapter = new FavoriteShopAdapter();
     }
 
     @Override
@@ -69,10 +71,10 @@ public class FavoriteServiceFragment extends BaseListFragment {
      */
     private void initQueryListUI() {
 
-        ServiceListUIPresenter<ServiceListBean> queryListUI =
-                new ServiceListUIPresenter<ServiceListBean>(adapter, swipeRefreshLayout, getContext());
+        ServiceListUIPresenter<FavoriteBean> queryListUI =
+                new ServiceListUIPresenter<FavoriteBean>(adapter, swipeRefreshLayout, getContext());
 
-        presenter = new FavoritePresenter<ServiceListBean>(getContext(), queryListUI, "1");
+        presenter = new FavoritePresenter<FavoriteBean>(getContext(), queryListUI, "2");
         presenter.refreshList(true);
 
     }

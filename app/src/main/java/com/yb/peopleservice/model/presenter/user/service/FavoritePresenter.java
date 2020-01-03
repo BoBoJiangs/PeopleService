@@ -41,7 +41,9 @@ public class FavoritePresenter<T> extends AbstractQueryListPresenter<T> {
         AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, getRequestListener()) {
             @Override
             public Observable getObservable(ServiceRequest iRequestServer) {
-                return iRequestServer.getFavoriteService();
+                Map<String,String> map = new HashMap<>();
+                map.put("type",type);
+                return iRequestServer.getFavoriteService(map);
             }
 
             @Override

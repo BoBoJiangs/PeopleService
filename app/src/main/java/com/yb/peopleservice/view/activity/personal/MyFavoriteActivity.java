@@ -70,7 +70,7 @@ public class MyFavoriteActivity extends BaseViewPagerActivity {
 
     @Override
     protected void initData() {
-
+        viewPager.setScroll(true);
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.user.service.CollectPresenter;
@@ -47,6 +48,7 @@ public class ShopListActivity extends BaseListActivity implements
     private ShopDetailsPresenter detailsPresenter;
     private CollectPresenter collectPresenter;
     private MyShop myShop;
+    private FavoriteBean favoriteBean;
 
     @Override
     public BaseQuickAdapter initAdapter() {
@@ -77,7 +79,7 @@ public class ShopListActivity extends BaseListActivity implements
         setOnRefreshListener();
         setLoadMoreListener();
         collectPresenter = new CollectPresenter(this, this);
-
+        collectTV.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -121,18 +123,27 @@ public class ShopListActivity extends BaseListActivity implements
     }
 
     @Override
-    public void collectSuccess() {
-
+    public void collectSuccess(FavoriteBean favoriteBean) {
+        if (favoriteBean!=null){
+            this.favoriteBean = favoriteBean;
+            collectTV.setText("已收藏");
+        }
     }
 
     @Override
     public void cancelSuccess() {
-
+        collectTV.setText("收藏");
     }
 
     @Override
-    public void isCollect() {
-
+    public void isCollect(FavoriteBean data) {
+        collectTV.setVisibility(View.VISIBLE);
+        favoriteBean = data;
+        if (data == null) {
+            collectTV.setText("收藏");
+        } else {
+            collectTV.setText("已收藏");
+        }
     }
 
     @Override
@@ -158,7 +169,15 @@ public class ShopListActivity extends BaseListActivity implements
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.collectTV:
-                //        collectPresenter.addFavorite();
+                if (collectTV.getText().equals("收藏")) {
+                    collectPresenter.addFavorite(myShop.getShop().getId(), 2);
+                } else {
+                    if (favoriteBean != null) {
+                        collectPresenter.addFavorite(favoriteBean.getId(), 3);
+                    }
+
+                }
+
                 break;
             case R.id.shopLL:
                 myShop.setType(MyShop.USER_DETAILS);

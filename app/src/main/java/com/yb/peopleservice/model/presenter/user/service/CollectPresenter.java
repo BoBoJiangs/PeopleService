@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
 
@@ -37,20 +38,20 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
     }
 
     /**
-     * 获取店铺详情
+     * 添加收藏
      *
      * @param targetId 收藏对象的ID
      * @param type     1:商品 2：店铺 3取消收藏
      */
     public void addFavorite(String targetId, int type) {
-        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<ShopInfo>() {
+        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<FavoriteBean>() {
             @Override
-            public void onRequestSuccess(ShopInfo data) {
+            public void onRequestSuccess(FavoriteBean favoriteBean) {
                 try {
                     if (type == 3) {
                         getViewCallBack().cancelSuccess();
                     }else{
-                        getViewCallBack().collectSuccess();
+                        getViewCallBack().collectSuccess(favoriteBean);
                     }
 
                 } catch (Exception e) {
@@ -73,7 +74,12 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
                 Map<String, Object> map = new HashMap<>();
                 map.put("targetId", targetId);
                 map.put("type", type);
-                return iRequestServer.addFavorite(map);
+                if (type==3){
+                    return iRequestServer.deleteFavorite(targetId);
+                }else{
+                    return iRequestServer.addFavorite(map);
+                }
+
             }
 
             @Override
@@ -81,7 +87,7 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
                 return ServiceRequest.class;
             }
         };
-        requestFunc.setShowProgress(false);
+        requestFunc.setShowProgress(true);
         BaseRequestServer.getInstance().request(requestFunc);
     }
 
@@ -91,11 +97,12 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
      * @param targetId 收藏对象的ID
      */
     public void getFavorite(String targetId) {
-        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<ShopInfo>() {
+        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context,
+                new IRequestListener<FavoriteBean>() {
             @Override
-            public void onRequestSuccess(ShopInfo data) {
+            public void onRequestSuccess(FavoriteBean data) {
                 try {
-                    getViewCallBack().isCollect();
+                    getViewCallBack().isCollect(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -138,7 +145,7 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
         /**
          * 收藏成功
          */
-        void collectSuccess();
+        void collectSuccess(FavoriteBean favoriteBean);
 
         /**
          * 取消收藏成功
@@ -148,6 +155,6 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
         /**
          * 获取是否已收藏
          */
-        void isCollect();
+        void isCollect(FavoriteBean data);
     }
 }

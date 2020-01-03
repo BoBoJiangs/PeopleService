@@ -45,7 +45,7 @@ public abstract class AbstractRequestFunc<T> extends AbstractFunc<T, RequestResu
                 throw new RequestException(requestResult.getMsg());
             } else {
                 if (getContextSoftReference() != null) {
-                    throw new RequestException(getContextSoftReference().getString(R.string.exception_check_network));
+                    throw new RequestException(getContextSoftReference().getString(R.string.exception_error));
                 } else {
                     throw new RequestException("Request failed!");
                 }
