@@ -19,6 +19,7 @@ import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.common.ShopDetailsActivity;
 import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
+import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +50,8 @@ public class ShopListActivity extends BaseListActivity implements
     private CollectPresenter collectPresenter;
     private MyShop myShop;
     private FavoriteBean favoriteBean;
+    private ShopInfo shopInfo;
+    private String shopId;
 
     @Override
     public BaseQuickAdapter initAdapter() {
@@ -68,17 +71,26 @@ public class ShopListActivity extends BaseListActivity implements
     @Override
     public void initToolView() {
         super.initToolView();
+        if (shopInfo != null) {
+            titleTV.setText(shopInfo.getName());
+        }
+
     }
 
     @Override
     protected void initData() {
+        collectPresenter = new CollectPresenter(this, this);
         bean = getIntent().getParcelableExtra(ServiceListBean.class.getName());
-        if (bean == null) {
-            return;
+        if (bean != null) {
+            shopId = bean.getShopId();
+        }
+        shopInfo = (ShopInfo) getIntent().getSerializableExtra(ShopInfo.class.getName());
+        if (shopInfo != null) {
+            shopId = shopInfo.getId();
+            getDataSuccess(shopInfo);
         }
         setOnRefreshListener();
         setLoadMoreListener();
-        collectPresenter = new CollectPresenter(this, this);
         collectTV.setVisibility(View.INVISIBLE);
     }
 
@@ -108,7 +120,7 @@ public class ShopListActivity extends BaseListActivity implements
         ServiceListUIPresenter<ShopInfo> queryListUI =
                 new ServiceListUIPresenter(adapter, swipeRefreshLayout, this);
 
-        presenter = new ServiceListPresenter(bean.getShopId(), this, queryListUI, true);
+        presenter = new ServiceListPresenter(shopId, this, queryListUI, true);
         presenter.refreshList(true);
 
     }
@@ -117,14 +129,14 @@ public class ShopListActivity extends BaseListActivity implements
     protected AbstractPresenter createPresenter() {
 
         detailsPresenter = new ShopDetailsPresenter(this, this);
-        detailsPresenter.getShopDetails(bean.getShopId());
+        detailsPresenter.getShopDetails(shopId);
         initQueryListUI();
         return presenter;
     }
 
     @Override
     public void collectSuccess(FavoriteBean favoriteBean) {
-        if (favoriteBean!=null){
+        if (favoriteBean != null) {
             this.favoriteBean = favoriteBean;
             collectTV.setText("已收藏");
         }
@@ -149,9 +161,12 @@ public class ShopListActivity extends BaseListActivity implements
     @Override
     public void getDataSuccess(ShopInfo data) {
         if (data != null) {
+            shopInfo = data;
             myShop = new MyShop();
             myShop.setShop(data);
-            titleTV.setText(data.getName());
+            if (titleTV != null) {
+                titleTV.setText(shopInfo.getName());
+            }
             nameTV.setText(data.getName());
             ImageLoaderUtil.loadServerImage(this, data.getHeadImg(), imageView);
             collectPresenter.getFavorite(data.getId());
@@ -170,10 +185,10 @@ public class ShopListActivity extends BaseListActivity implements
         switch (view.getId()) {
             case R.id.collectTV:
                 if (collectTV.getText().equals("收藏")) {
-                    collectPresenter.addFavorite(myShop.getShop().getId(), 2);
+                    collectPresenter.addFavorite(myShop.getShop().getId(), FavoriteServiceFragment.SHOP_TYPE);
                 } else {
                     if (favoriteBean != null) {
-                        collectPresenter.addFavorite(favoriteBean.getId(), 3);
+                        collectPresenter.addFavorite(favoriteBean.getId(), FavoriteServiceFragment.CANCEL_TYPE);
                     }
 
                 }

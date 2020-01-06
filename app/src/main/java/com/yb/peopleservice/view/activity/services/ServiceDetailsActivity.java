@@ -9,6 +9,7 @@ import com.flyco.tablayout.CommonTabLayout;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.view.activity.services.ShopListActivity;
+import com.yb.peopleservice.view.activity.services.order.ConfirmOrderActivity;
 import com.yb.peopleservice.view.base.BaseViewPagerActivity;
 import com.yb.peopleservice.view.fragment.user.details.EvaluateFragment;
 import com.yb.peopleservice.view.fragment.user.details.ServiceContentFragment;
@@ -75,9 +76,19 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
         return null;
     }
 
-    @OnClick({R.id.shopTV})
+    @OnClick({R.id.shopTV,R.id.orderBtn})
     public void onClick(View view){
-        startActivity(new Intent(this, ShopListActivity.class)
-                .putExtra(ServiceListBean.class.getName(),serviceInfo));
+        switch (view.getId()){
+            case R.id.shopTV:
+                startActivity(new Intent(this, ShopListActivity.class)
+                        .putExtra(ServiceListBean.class.getName(),serviceInfo));
+                break;
+            case R.id.orderBtn:
+                startActivity(new Intent(this, ConfirmOrderActivity.class)
+                        .putExtra(ServiceListBean.class.getName(),serviceInfo));
+                break;
+        }
+
+
     }
 }

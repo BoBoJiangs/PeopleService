@@ -29,7 +29,7 @@ public class FavoriteBean implements Serializable {
     private int type;
     private String targetId;
     private ShopInfo shop;
-    private ServiceListBean data;
+    private ServiceListBean commodity;
 
     public ShopInfo getShop() {
         return shop;
@@ -40,11 +40,11 @@ public class FavoriteBean implements Serializable {
     }
 
     public ServiceListBean getData() {
-        return data;
+        return commodity;
     }
 
     public void setData(ServiceListBean data) {
-        this.data = data;
+        this.commodity = data;
     }
 
     public String getId() {

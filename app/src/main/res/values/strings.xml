@@ -5,4 +5,5 @@
     <string name="sure">确定</string>
     <string name="permissions_required">权限获取提示</string>
     <string name="permissions_required_info">没有该权限应用程序可能无法正常工作, 请打开应用所需的权限</string>
+    <string name="is_cancel_collect">是否确定取消收藏？</string>
 </resources>

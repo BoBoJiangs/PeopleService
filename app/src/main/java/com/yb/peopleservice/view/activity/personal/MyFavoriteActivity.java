@@ -56,8 +56,8 @@ public class MyFavoriteActivity extends BaseViewPagerActivity {
     @Override
     protected List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
-        fragment1 = FavoriteServiceFragment.getInstanceFragment();
-        fragment2 = FavoriteServiceFragment.getInstanceFragment();
+        fragment1 = FavoriteServiceFragment.getInstanceFragment(FavoriteServiceFragment.SERVICE_TYPE);
+        fragment2 = FavoriteServiceFragment.getInstanceFragment(FavoriteServiceFragment.SHOP_TYPE);
         fragmentList.add(fragment1);
         fragmentList.add(fragment2);
         return fragmentList;

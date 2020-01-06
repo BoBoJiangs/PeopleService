@@ -7,6 +7,7 @@ import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
+import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,12 +44,12 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
      * @param targetId 收藏对象的ID
      * @param type     1:商品 2：店铺 3取消收藏
      */
-    public void addFavorite(String targetId, int type) {
+    public void addFavorite(String targetId, String type) {
         AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<FavoriteBean>() {
             @Override
             public void onRequestSuccess(FavoriteBean favoriteBean) {
                 try {
-                    if (type == 3) {
+                    if (type.equals(FavoriteServiceFragment.CANCEL_TYPE)) {
                         getViewCallBack().cancelSuccess();
                     }else{
                         getViewCallBack().collectSuccess(favoriteBean);
@@ -74,7 +75,7 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
                 Map<String, Object> map = new HashMap<>();
                 map.put("targetId", targetId);
                 map.put("type", type);
-                if (type==3){
+                if (type.equals(FavoriteServiceFragment.CANCEL_TYPE)){
                     return iRequestServer.deleteFavorite(targetId);
                 }else{
                     return iRequestServer.addFavorite(map);

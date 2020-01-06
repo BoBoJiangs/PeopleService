@@ -2,15 +2,19 @@ package com.yb.peopleservice.view.fragment.user.details;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.model.presenter.user.service.CollectPresenter;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.GlideImageLoader;
+import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
 
@@ -31,7 +35,7 @@ import cn.sts.base.view.fragment.BaseFragment;
  * 修改时间:
  * 修改描述:
  */
-public class ServiceFragment extends BaseFragment {
+public class ServiceFragment extends BaseFragment implements CollectPresenter.ICollectCallback {
     @BindView(R.id.banner)
     Banner banner;
 
@@ -45,6 +49,9 @@ public class ServiceFragment extends BaseFragment {
     @BindView(R.id.soldTV)
     TextView soldTV;
     ServiceListBean serviceInfo;
+    private CollectPresenter collectPresenter;
+    private FavoriteBean favoriteBean;
+
     public static Fragment getInstanceFragment(ServiceListBean serviceInfo) {
         ServiceFragment fragment = new ServiceFragment();
         if (serviceInfo != null) {
@@ -93,15 +100,47 @@ public class ServiceFragment extends BaseFragment {
             priceTV.setText(serviceInfo.getPrice() + priceUnit);
             soldTV.setText("已售：" + serviceInfo.getTotalSold());
         }
-
+        collectPresenter = new CollectPresenter(getContext(), this);
+        collectPresenter.getFavorite(serviceInfo.getId());
     }
 
     @Override
     protected AbstractPresenter createPresenter() {
-        return null;
+        return collectPresenter;
     }
 
     @OnClick(R.id.collectIV)
     public void onViewClicked() {
+        if (favoriteBean == null) {
+            collectPresenter.addFavorite(serviceInfo.getId(), FavoriteServiceFragment.SERVICE_TYPE);
+        } else {
+            collectPresenter.addFavorite(favoriteBean.getId(), FavoriteServiceFragment.CANCEL_TYPE);
+
+        }
+    }
+
+    @Override
+    public void collectSuccess(FavoriteBean favoriteBean) {
+        if (favoriteBean != null) {
+            this.favoriteBean = favoriteBean;
+            collectIV.setBackgroundResource(R.mipmap.icon_favorite1);
+        }
+    }
+
+    @Override
+    public void cancelSuccess() {
+        collectIV.setBackgroundResource(R.mipmap.icon_favorite);
+        favoriteBean = null;
+    }
+
+    @Override
+    public void isCollect(FavoriteBean data) {
+        collectIV.setVisibility(View.VISIBLE);
+        favoriteBean = data;
+        if (data == null) {
+            collectIV.setBackgroundResource(R.mipmap.icon_favorite);
+        } else {
+            collectIV.setBackgroundResource(R.mipmap.icon_favorite1);
+        }
     }
 }

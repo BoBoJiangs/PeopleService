@@ -2,7 +2,7 @@ package com.yb.peopleservice.model.server.user;
 
 
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
-import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
@@ -16,7 +16,6 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
@@ -77,4 +76,12 @@ public interface ServiceRequest {
      */
     @DELETE("favorites/{id}")
     Observable<RequestResult<ShopInfo>> deleteFavorite(@Path("id") String id);
+
+    /********************************** 订单相关 **************************************/
+
+    /**
+     * 获取默认地址
+     */
+    @GET("api/addresses/default")
+    Observable<RequestResult<AddressListVO>> getDefaultAddress();
 }
