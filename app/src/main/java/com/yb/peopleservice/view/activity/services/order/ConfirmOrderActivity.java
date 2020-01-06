@@ -59,7 +59,7 @@ public class ConfirmOrderActivity extends BaseToolbarActivity {
         bean = getIntent().getParcelableExtra(ServiceListBean.class.getName());
         if (bean != null) {
             nameTV.setText(bean.getName());
-
+            priceTV.setText("¥ "+bean.getPrice());
         }
     }
 
