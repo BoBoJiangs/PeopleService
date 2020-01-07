@@ -34,7 +34,7 @@ public class AddressListActivity extends BaseListActivity implements BaseQuickAd
 
     private BaseQuickAdapter<AddressListVO, BaseViewHolder> adapter;
     private AddressListPresenter presenter;
-
+    private boolean isSelect;
     @Override
     public int contentViewResID() {
         return R.layout.activity_address_list;
@@ -80,7 +80,7 @@ public class AddressListActivity extends BaseListActivity implements BaseQuickAd
         setOnRefreshListener();
         setLoadMoreListener();
         initQueryListUI();
-
+        isSelect = getIntent().getBooleanExtra("isSelect",false);
     }
 
     @Override
@@ -123,11 +123,13 @@ public class AddressListActivity extends BaseListActivity implements BaseQuickAd
 
     @Override
     public void onClickItem(BaseQuickAdapter a, View view, int position) {
-        AddressListVO addressListVO = adapter.getItem(position);
-        Intent intent = new Intent();
-        intent.putExtra(AddressListVO.class.getName(), addressListVO);
-        setResult(RESULT_CODE, intent);
-        finish();
+        if (isSelect){
+            AddressListVO addressListVO = adapter.getItem(position);
+            Intent intent = new Intent();
+            intent.putExtra(AddressListVO.class.getName(), addressListVO);
+            setResult(RESULT_CODE, intent);
+            finish();
+        }
     }
 
     @Override

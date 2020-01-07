@@ -15,18 +15,18 @@ import android.os.Parcelable;
 public class AddressListVO implements Parcelable {
     private String id;
     private String consigneeName;
-    private String isDefault;// Y/N
-    private String houseNum;//门牌号
+    private String defaultAddress;// Y/N
+    private String houseNumber;//门牌号
     private String consigneePhone;
     private String detailAddress;
 
 
     public String getHouseNum() {
-        return houseNum == null ? "" : houseNum;
+        return houseNumber == null ? "" : houseNumber;
     }
 
     public void setHouseNum(String houseNum) {
-        this.houseNum = houseNum;
+        this.houseNumber = houseNum;
     }
 
     public String getId() {
@@ -46,11 +46,11 @@ public class AddressListVO implements Parcelable {
     }
 
     public String getIsDefault() {
-        return isDefault == null ? "" : isDefault;
+        return defaultAddress == null ? "" : defaultAddress;
     }
 
     public void setIsDefault(String isDefault) {
-        this.isDefault = isDefault;
+        this.defaultAddress = isDefault;
     }
 
     public String getConsigneePhone() {
@@ -81,19 +81,19 @@ public class AddressListVO implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeString(this.consigneeName);
-        dest.writeString(this.isDefault);
+        dest.writeString(this.defaultAddress);
+        dest.writeString(this.houseNumber);
         dest.writeString(this.consigneePhone);
         dest.writeString(this.detailAddress);
-        dest.writeString(this.houseNum);
     }
 
     protected AddressListVO(Parcel in) {
         this.id = in.readString();
         this.consigneeName = in.readString();
-        this.isDefault = in.readString();
+        this.defaultAddress = in.readString();
+        this.houseNumber = in.readString();
         this.consigneePhone = in.readString();
         this.detailAddress = in.readString();
-        this.houseNum = in.readString();
     }
 
     public static final Creator<AddressListVO> CREATOR = new Creator<AddressListVO>() {

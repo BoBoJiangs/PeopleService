@@ -69,7 +69,7 @@ public interface HomeRequest {
     /**
      * 修改收货地址
      */
-    @POST("UserController/updateAddress")
+    @PUT("addresses")
     Observable<RequestResult> updateAddress(@Body AddressListVO parameter);
 
     /**

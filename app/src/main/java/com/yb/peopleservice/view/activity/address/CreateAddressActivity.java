@@ -84,8 +84,8 @@ public class CreateAddressActivity extends BaseToolbarActivity implements
             nameUV.setContentText(addressListVO.getConsigneeName());
             phoneUV.setContentText(addressListVO.getConsigneePhone());
             regionUV.setContentText(addressListVO.getDetailAddress());
-//            regionUV.setContentText(addressListVO.getArea());
-            if ("Y".equals(addressListVO.getIsDefault())){
+            addressUV.setContentText(addressListVO.getHouseNum());
+            if ("0".equals(addressListVO.getIsDefault())){
                 emptyIV.setImageResource(R.mipmap.icon_open_news);
             }else{
                 emptyIV.setImageResource(R.mipmap.icon_close_news);
@@ -124,10 +124,10 @@ public class CreateAddressActivity extends BaseToolbarActivity implements
             @Override
             public void onClick(View v) {
                 if ("Y".equals(isDefault)) {
-                    isDefault = "N";
+                    isDefault = "1";
                     emptyIV.setImageResource(R.mipmap.icon_close_news);
                 } else {
-                    isDefault = "Y";
+                    isDefault = "0";
                     emptyIV.setImageResource(R.mipmap.icon_open_news);
                 }
             }

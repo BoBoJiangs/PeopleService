@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SizeUtils;
+
 import cn.sts.base.R;
 import cn.sts.base.util.StringUtils;
 
@@ -268,9 +270,11 @@ public class UtilityView extends LinearLayout {
                 int imageHeight = (int) typedArray.getDimension(R.styleable.UtilityView_content_image_height, 30);
                 int imageResId = typedArray.getResourceId(R.styleable.UtilityView_content_image_res, 0);
                 if (imageResId != 0) {
+                    LayoutParams params = new  LayoutParams(imageWidth, imageHeight);
+                    params.rightMargin = SizeUtils.dp2px(10);
                     contentImageView = new ImageView(context);
                     contentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    contentImageView.setLayoutParams(new LayoutParams(imageWidth, imageHeight));
+                    contentImageView.setLayoutParams(params);
                     contentImageView.setImageResource(imageResId);
                     infoLinearLayout.addView(contentImageView);
                 }

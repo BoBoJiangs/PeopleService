@@ -47,7 +47,7 @@ public class ServiceListBean implements Parcelable {
     private String name;
     private String categoryId;
     private String shopId;
-    private int price;
+    private float price;
     private int priceType;
     private String priceUnit;
     private String mainImgs;
@@ -96,11 +96,11 @@ public class ServiceListBean implements Parcelable {
         this.shopId = shopId;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -240,6 +240,9 @@ public class ServiceListBean implements Parcelable {
         this.priceUnit = priceUnit;
     }
 
+    public ServiceListBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -251,7 +254,7 @@ public class ServiceListBean implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.categoryId);
         dest.writeString(this.shopId);
-        dest.writeInt(this.price);
+        dest.writeFloat(this.price);
         dest.writeInt(this.priceType);
         dest.writeString(this.priceUnit);
         dest.writeString(this.mainImgs);
@@ -269,15 +272,12 @@ public class ServiceListBean implements Parcelable {
         dest.writeInt(this.groupBuy);
     }
 
-    public ServiceListBean() {
-    }
-
     protected ServiceListBean(Parcel in) {
         this.id = in.readString();
         this.name = in.readString();
         this.categoryId = in.readString();
         this.shopId = in.readString();
-        this.price = in.readInt();
+        this.price = in.readFloat();
         this.priceType = in.readInt();
         this.priceUnit = in.readString();
         this.mainImgs = in.readString();

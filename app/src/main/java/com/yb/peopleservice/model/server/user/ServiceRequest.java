@@ -4,6 +4,7 @@ package com.yb.peopleservice.model.server.user;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
+import com.yb.peopleservice.model.bean.user.order.CouponBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
 import java.util.List;
@@ -82,6 +83,12 @@ public interface ServiceRequest {
     /**
      * 获取默认地址
      */
-    @GET("api/addresses/default")
+    @GET("addresses/default")
     Observable<RequestResult<AddressListVO>> getDefaultAddress();
+
+    /**
+     * 查询某个商品的优惠券
+     */
+    @GET("coupons/commodities/{id}")
+    Observable<RequestResult<List<CouponBean>>> getCouponList(@Path("id") String id);
 }
