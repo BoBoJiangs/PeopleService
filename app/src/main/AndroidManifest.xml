@@ -36,7 +36,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.activity.personal.EditUserInfoActivity"></activity>
+        <activity android:name=".view.activity.common.MyIncomeActivity"></activity>
+        <activity android:name=".view.activity.personal.EditUserInfoActivity" />
         <activity android:name=".view.activity.services.ServiceDetailsActivity" />
 
         <uses-library

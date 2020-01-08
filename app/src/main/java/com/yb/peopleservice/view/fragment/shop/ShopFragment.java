@@ -16,6 +16,7 @@ import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.presenter.shop.ShopInfoPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
+import com.yb.peopleservice.view.activity.common.MyIncomeActivity;
 import com.yb.peopleservice.view.activity.shop.ApplyShopActivity;
 import com.yb.peopleservice.view.activity.shop.ApplyDetailsActivity;
 
@@ -108,6 +109,7 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
 
                 break;
             case R.id.profitLL:
+                startActivity(new Intent(getContext(), MyIncomeActivity.class));
                 break;
             case R.id.applyBtn:
                 startActivityForResult(new Intent(getContext(), ApplyShopActivity.class),
