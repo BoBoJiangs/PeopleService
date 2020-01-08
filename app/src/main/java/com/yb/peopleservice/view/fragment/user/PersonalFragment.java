@@ -23,6 +23,8 @@ import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.database.manager.UserInfoManager;
 import com.yb.peopleservice.model.database.manager.UserManager;
+import com.yb.peopleservice.model.presenter.login.LoginPresenter;
+import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.presenter.user.PersonalPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
@@ -39,6 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseListFragment;
+import cn.sts.base.view.widget.AppDialog;
 
 import static com.yb.peopleservice.model.bean.PersonalListBean.CONTENT_TYPE;
 import static com.yb.peopleservice.model.bean.PersonalListBean.SPAN_SIZE_ONE;
@@ -59,6 +62,7 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
     private PersonalPresenter presenter;
     private UserManager userManager;
     private UserInfoManager infoManager;
+
 
     public static Fragment getInstanceFragment() {
         PersonalFragment fragment = new PersonalFragment();
@@ -133,11 +137,31 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
     @Override
     public void onClickItem(BaseQuickAdapter adapter, View view, int position) {
         switch (position) {
-            case 2://地址管理
+            case 1://地址管理
                 startActivity(new Intent(getContext(), AddressListActivity.class));
                 break;
-            case 3://地址管理
+            case 2://我的优惠券
                 startActivity(new Intent(getContext(), MyFavoriteActivity.class));
+                break;
+            case 3:
+                AppDialog appDialog = new AppDialog(getActivity());
+                appDialog.title("是否确认退出？")
+                        .positiveBtn(R.string.sure, new AppDialog.OnClickListener() {
+                            @Override
+                            public void onClick(AppDialog appDialog) {
+                                appDialog.dismiss();
+                                presenter.logout();
+                            }
+                        });
+
+                appDialog.negativeBtn(R.string.cancel, new AppDialog.OnClickListener() {
+                    @Override
+                    public void onClick(AppDialog appDialog) {
+                        appDialog.dismiss();
+                    }
+                });
+                appDialog.setCancelable(false);
+                appDialog.show();
                 break;
 
         }

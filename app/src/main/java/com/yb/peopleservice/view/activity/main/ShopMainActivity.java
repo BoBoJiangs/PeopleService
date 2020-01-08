@@ -50,7 +50,9 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
     @Override
     public void initToolView() {
         super.initToolView();
-
+        rightLL.setVisibility(View.VISIBLE);
+        rightIV2.setVisibility(View.VISIBLE);
+        rightIV2.setImageResource(R.mipmap.icon_logout);
     }
 
     @Override
@@ -59,7 +61,7 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
         commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
                 getFragmentList());
         commonTabLayout.setOnTabSelectListener(this);
-        rightIV2.setImageResource(R.mipmap.icon_logout);
+
     }
 
     @OnClick({R.id.rightIV2})

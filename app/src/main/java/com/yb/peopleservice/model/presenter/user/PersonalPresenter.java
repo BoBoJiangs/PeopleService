@@ -5,6 +5,7 @@ import android.content.Context;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
+import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
@@ -26,16 +27,25 @@ import io.reactivex.Observable;
  * 修改时间:
  * 修改描述:
  */
-public class PersonalPresenter extends AbstractPresenter<PersonalPresenter.IUserCallback> {
-
+public class PersonalPresenter extends AbstractPresenter<PersonalPresenter.IUserCallback>  {
+    private LogoutPresenter logoutPresenter;
     public PersonalPresenter(Context context, IUserCallback viewCallBack) {
         super(context, viewCallBack);
+        logoutPresenter = new LogoutPresenter(context,null);
 
     }
 
     @Override
     public void unbind() {
+        logoutPresenter.unbind();
         super.unbind();
+    }
+
+    /**
+     * 退出登录
+     */
+    public void logout(){
+        logoutPresenter.logout();
     }
 
     /**

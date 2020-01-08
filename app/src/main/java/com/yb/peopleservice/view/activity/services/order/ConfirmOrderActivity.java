@@ -1,22 +1,19 @@
 package com.yb.peopleservice.view.activity.services.order;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
+import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.presenter.user.service.order.ConfirmOrderPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
@@ -24,10 +21,11 @@ import com.yb.peopleservice.view.activity.address.AddressListActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.fragment.user.order.CouponDialogFragment;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.UtilityView;
@@ -68,6 +66,8 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
     private int num = 1;
     private ConfirmOrderPresenter presenter;
     private AddressListVO addressListVO;//用户选择的地址
+    private OrderBean orderBean = new OrderBean();
+
     @Override
     public String getTitleName() {
         return null;
@@ -85,9 +85,12 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
 
     @Override
     protected void initData() {
+
         presenter = new ConfirmOrderPresenter(this, this);
         bean = getIntent().getParcelableExtra(ServiceListBean.class.getName());
         if (bean != null) {
+            orderBean.setAmount(num);
+            orderBean.setCommodityId(bean.getId());
             presenter.getCouponList(bean.getId());
             nameTV.setText(bean.getName());
             priceTV.setText("¥ " + bean.getPrice());
@@ -129,9 +132,16 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
                 updatePrice();
                 break;
             case R.id.payBtn:
-                //根据状态不同显示隐藏
-                CouponDialogFragment couponDialogFragment = new CouponDialogFragment();
-                couponDialogFragment.show(getSupportFragmentManager(), CouponDialogFragment.class.getSimpleName());
+                if (addressListVO == null) {
+                    ToastUtils.showLong("请选择地址信息");
+                    return;
+                }
+                Map<String, Object> childMap = new HashMap<>();
+                childMap.put("order", orderBean);
+                presenter.placeOrder(childMap);
+//                //根据状态不同显示隐藏
+//                CouponDialogFragment couponDialogFragment = new CouponDialogFragment();
+//                couponDialogFragment.show(getSupportFragmentManager(), CouponDialogFragment.class.getSimpleName());
                 break;
             case R.id.addressUV:
                 startActivityForResult(new Intent(getApplicationContext(), AddressListActivity.class)
@@ -142,6 +152,7 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
     }
 
     private void updatePrice() {
+        orderBean.setAmount(num);
         numTV.setText(num + "");
         totalUV.setContentText("¥ " + num * bean.getPrice());
         moneyTV.setText("¥ " + num * bean.getPrice());
@@ -154,8 +165,15 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
 
     @Override
     public void addressSuccess(AddressListVO data) {
+        addressListVO = data;
+        orderBean.setAddressBean(data);
         addressUV.setContentText(data.getConsigneeName() + " " + data.getConsigneePhone()
-                + data.getDetailAddress() + data.getHouseNum());
+                + "\n" + data.getDetailAddress() + data.getHouseNum());
+    }
+
+    @Override
+    public void orderSuccess(OrderBean data) {
+        ToastUtils.showLong("下单成功");
     }
 
     @Override

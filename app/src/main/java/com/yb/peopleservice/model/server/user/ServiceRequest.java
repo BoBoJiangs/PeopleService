@@ -5,6 +5,7 @@ import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
+import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
 import java.util.List;
@@ -91,4 +92,10 @@ public interface ServiceRequest {
      */
     @GET("coupons/commodities/{id}")
     Observable<RequestResult<List<CouponBean>>> getCouponList(@Path("id") String id);
+
+    /**
+     * 获取默认地址
+     */
+    @POST("orders")
+    Observable<RequestResult<OrderBean>> placeOrder(@Body Map map);
 }

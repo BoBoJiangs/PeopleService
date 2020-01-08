@@ -52,7 +52,9 @@ public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSel
     @Override
     public void initToolView() {
         super.initToolView();
-
+        rightLL.setVisibility(View.VISIBLE);
+        rightIV2.setVisibility(View.VISIBLE);
+        rightIV2.setImageResource(R.mipmap.icon_logout);
     }
 
     @Override
@@ -61,7 +63,6 @@ public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSel
         commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
                 getFragmentList());
         commonTabLayout.setOnTabSelectListener(this);
-        rightIV2.setImageResource(R.mipmap.icon_logout);
     }
 
     @OnClick({R.id.rightIV2})

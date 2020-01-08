@@ -41,7 +41,7 @@ public abstract class BaseFragment<P extends AbstractPresenter> extends Fragment
             presenter = createPresenter();
         }
 
-        if (savedInstanceState != null) {
+        if (presenter != null && savedInstanceState != null) {
             //恢复之前保存的数据
             presenter.onCreate(savedInstanceState);
         }

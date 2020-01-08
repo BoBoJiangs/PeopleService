@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
+import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
@@ -48,10 +49,10 @@ public class ConfirmOrderPresenter extends AbstractPresenter<ConfirmOrderPresent
             @Override
             public void onRequestSuccess(Object data) {
                 try {
-                    if(data instanceof List){
+                    if (data instanceof List) {
                         getViewCallBack().couponSuccess((List<CouponBean>) data);
-                    }else if(data instanceof AddressListVO){
-                        getViewCallBack().addressSuccess((AddressListVO)data);
+                    } else if (data instanceof AddressListVO) {
+                        getViewCallBack().addressSuccess((AddressListVO) data);
                     }
 
                 } catch (Exception e) {
@@ -83,11 +84,53 @@ public class ConfirmOrderPresenter extends AbstractPresenter<ConfirmOrderPresent
         BaseRequestServer.getInstance().request(requestFunc);
     }
 
+    /**
+     * 获取优惠券
+     */
+    public void placeOrder(Map<String, Object> map) {
+        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<OrderBean>() {
+            @Override
+            public void onRequestSuccess(OrderBean data) {
+                try {
+                    getViewCallBack().orderSuccess(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRequestFailure(String error) {
+                ToastUtils.showLong(error);
+            }
+
+            @Override
+            public void onRequestCancel() {
+
+            }
+        }) {
+            @Override
+            public Observable getObservable(ServiceRequest iRequestServer) {
+                return iRequestServer.placeOrder(map);
+            }
+
+            @Override
+            public Class<ServiceRequest> getRequestInterfaceClass() {
+                return ServiceRequest.class;
+            }
+        };
+        requestFunc.setShowProgress(true);
+        BaseRequestServer.getInstance().request(requestFunc);
+    }
 
     /**
      * 确认订单
      */
     public interface IConfirmCallback extends IViewCallback {
+
+        /**
+         * 获取优惠券列表
+         */
+        void orderSuccess(OrderBean data);
 
         /**
          * 获取优惠券列表
