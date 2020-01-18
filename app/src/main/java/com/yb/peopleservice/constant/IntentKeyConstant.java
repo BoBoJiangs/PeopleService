@@ -29,6 +29,11 @@ public class IntentKeyConstant {
      * 响应码
      */
     public static final int RESULT_CODE = 1002;
+
+    /**
+     * Intent传值的Key
+     */
+    public static final String DATA_KEY = "DATA_KEY";
 }
 
 

@@ -11,6 +11,7 @@ import com.yb.peopleservice.view.fragment.user.details.EvaluateFragment;
 import com.yb.peopleservice.view.fragment.user.details.ServiceContentFragment;
 import com.yb.peopleservice.view.fragment.user.details.ServiceFragment;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
+import com.yb.peopleservice.view.fragment.user.favorite.FavoriteShopFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class MyFavoriteActivity extends BaseViewPagerActivity {
     protected List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
         fragment1 = FavoriteServiceFragment.getInstanceFragment(FavoriteServiceFragment.SERVICE_TYPE);
-        fragment2 = FavoriteServiceFragment.getInstanceFragment(FavoriteServiceFragment.SHOP_TYPE);
+        fragment2 = FavoriteShopFragment.getInstanceFragment(FavoriteServiceFragment.SHOP_TYPE);
         fragmentList.add(fragment1);
         fragmentList.add(fragment2);
         return fragmentList;

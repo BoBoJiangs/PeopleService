@@ -90,6 +90,7 @@
         <activity android:name=".view.activity.services.CertificationDetailsActivity" />
         <activity android:name=".view.activity.personal.MyFavoriteActivity" />
         <activity android:name=".view.activity.services.order.ConfirmOrderActivity" />
+        <activity android:name=".view.adapter.order.PayActivity" />
     </application>
 
 </manifest>

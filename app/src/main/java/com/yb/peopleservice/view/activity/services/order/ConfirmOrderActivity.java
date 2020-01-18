@@ -18,6 +18,7 @@ import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.presenter.user.service.order.ConfirmOrderPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
+import com.yb.peopleservice.view.adapter.order.PayActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.fragment.user.order.CouponDialogFragment;
 
@@ -29,6 +30,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.UtilityView;
+
+import static com.yb.peopleservice.view.adapter.order.PayActivity.ORDER_ID;
 
 /**
  * 项目名称:PeopleService
@@ -174,6 +177,10 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
     @Override
     public void orderSuccess(OrderBean data) {
         ToastUtils.showLong("下单成功");
+        startActivity(new Intent(getApplicationContext(), PayActivity.class)
+                .putExtra(AddressListVO.class.getName(), addressListVO)
+                .putExtra(ORDER_ID, data.getId() + "")
+                .putExtra(IntentKeyConstant.DATA_KEY, num * bean.getPrice()));
     }
 
     @Override

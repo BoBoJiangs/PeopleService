@@ -1,15 +1,22 @@
 package com.yb.peopleservice.model.server;
 
+import android.text.TextUtils;
+
 import com.blankj.utilcode.util.LogUtils;
+import com.yb.peopleservice.R;
+import com.yb.peopleservice.app.MyApplication;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 
+import cn.sts.base.model.server.request.AbstractHttpsRequestServer;
 import cn.sts.base.model.server.request.AbstractRequestServer;
 import cn.sts.base.util.Logs;
+import cn.sts.platform.util.PayUtil;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -24,7 +31,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * 修改时间:
  * 修改描述:
  */
-public class BaseRequestServer extends AbstractRequestServer {
+public class BaseRequestServer extends AbstractHttpsRequestServer {
 
     private static final String TAG = "BaseRequestServer";
 
@@ -44,7 +51,7 @@ public class BaseRequestServer extends AbstractRequestServer {
     /**
      * 正式服务器地址
      */
-    public static String SERVER_URL = "http://123.56.249.114/";
+    public static String SERVER_URL = "https://www.shenghuoleida.com/";
 
     public static String baseURL;
 
@@ -56,7 +63,7 @@ public class BaseRequestServer extends AbstractRequestServer {
     /**
      * 支付URL
      */
-    public static String PAY_URL = "https://pay.sts603322.com:9443/";
+    public static String PAY_URL;
 
     /**
      * 分享地址
@@ -106,6 +113,10 @@ public class BaseRequestServer extends AbstractRequestServer {
         } else {
             baseURL = SERVER_URL + "sso/";
         }
+        if (TextUtils.isEmpty(PayUtil.getPayUrl())) {
+            PayUtil.setPayUrl(baseURL);
+        }
+
         return baseURL;
     }
 
@@ -133,6 +144,16 @@ public class BaseRequestServer extends AbstractRequestServer {
     @Override
     public Interceptor getResponseInterceptor() {
         return null;
+    }
+
+    @Override
+    public InputStream getCertificateResource() {
+        return MyApplication.getAppContext().getResources().openRawResource(R.raw.daojia);
+    }
+
+    @Override
+    public String getCertificatePassword() {
+        return "123456";
     }
 
     /**

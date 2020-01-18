@@ -36,4 +36,14 @@ public class AppConstant {
      * 图片缓存路径
      */
     public static String FILE_PATH = PathUtils.getExternalAppFilesPath() + "/imagePicker";
+
+    /**
+     * 微信支付
+     */
+    public static final int WECHAT_TYPE = 1;
+
+    /**
+     * 支付宝支付
+     */
+    public static final int ALIPAY_TYPE = 2;
 }

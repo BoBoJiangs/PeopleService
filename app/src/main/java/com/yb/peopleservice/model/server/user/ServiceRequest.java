@@ -64,14 +64,14 @@ public interface ServiceRequest {
     /**
      * 获取收藏的商品
      */
-    @GET("favorites")
-    Observable<RequestResult<List<FavoriteBean>>> getFavoriteService(@QueryMap Map<String,String> map);
+    @GET("favorites?type=1")
+    Observable<RequestResult<List<ServiceListBean>>> getFavoriteService();
 
     /**
      * 获取收藏的店铺
      */
     @GET("favorites?type=2")
-    Observable<RequestResult<ShopInfo>> getFavoriteShop();
+    Observable<RequestResult<List<ShopInfo>>> getFavoriteShop();
 
     /**
      * 删除收藏

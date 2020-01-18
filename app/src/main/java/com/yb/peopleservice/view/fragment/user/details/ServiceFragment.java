@@ -114,7 +114,7 @@ public class ServiceFragment extends BaseFragment implements CollectPresenter.IC
         if (favoriteBean == null) {
             collectPresenter.addFavorite(serviceInfo.getId(), FavoriteServiceFragment.SERVICE_TYPE);
         } else {
-            collectPresenter.addFavorite(favoriteBean.getId(), FavoriteServiceFragment.CANCEL_TYPE);
+            collectPresenter.addFavorite(serviceInfo.getId(), FavoriteServiceFragment.CANCEL_TYPE);
 
         }
     }

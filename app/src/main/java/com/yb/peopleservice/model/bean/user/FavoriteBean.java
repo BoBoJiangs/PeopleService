@@ -1,9 +1,16 @@
 package com.yb.peopleservice.model.bean.user;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.blankj.utilcode.util.GsonUtils;
+import com.google.gson.reflect.TypeToken;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 项目名称:PeopleService
@@ -17,65 +24,210 @@ import java.io.Serializable;
 public class FavoriteBean implements Serializable {
 
     /**
-     * id : 0f2e37b7-bb91-464c-8e1a-d869c692d857
-     * customerId : 9541869a-5c14-4b0f-b10d-4df0bc36c6f0
-     * type : 2
-     * targetId : 2aee461e-eccc-4f66-b80a-ddf1bf9b0f37
-     * timestamp : 2019-12-21 17:56:20
+     * id : b4272549-fd34-4afe-8d91-c0a7db740719
+     * name : 家庭保洁
+     * categoryId : 7cfce586-6494-42cc-b7a0-01f3068b3d66
+     * shopId : 2aee461e-eccc-4f66-b80a-ddf1bf9b0f37
+     * price : 50
+     * priceType : 2
+     * mainImgs : ["/imgs/2019/12/22/6ff6aeca-7063-4081-8504-c501205b65ad.png"]
+     * contentImgs : ["/imgs/2019/12/22/7e6a92f7-27d9-4b87-b837-edf312623f37.png"]
+     * contentText : 家庭是否灰尘太多了呢？没关系，有我们保洁人员来为你服务。
+     * status : 1
+     * selfSupport : 1
+     * lastMonthSold : 0
+     * totalSold : 0
+     * timestamp : 2019-12-22 13:04:42
+     * favorite : 0
+     * calculatedDistance : 0
+     * startPrice : 0
+     * startDistance : 0
+     * groupBuy : 0
      */
 
-    private String id;
-    private String customerId;
-    private int type;
-    private String targetId;
-    private ShopInfo shop;
-    private ServiceListBean commodity;
+    private String categoryId;
+    private String shopId;
+    private float price;
+    private int priceType;
+    private String priceUnit;
+    private String mainImgs;
+    private String contentImgs;
+    private String contentText;
+    private int status;//状态 1正常，2店铺下架，4删除
+    private int selfSupport;
+    private int lastMonthSold;
+    private int totalSold;//累计已售数量
+    private String timestamp;
+    private int favorite;
+    private int calculatedDistance;
+    private int startPrice;//起步价
+    private int startDistance;//起步距离 整数
+    private int groupBuy;
 
-    public ShopInfo getShop() {
-        return shop;
+
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public void setShop(ShopInfo shop) {
-        this.shop = shop;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public ServiceListBean getData() {
-        return commodity;
+    public String getShopId() {
+        return shopId;
     }
 
-    public void setData(ServiceListBean data) {
-        this.commodity = data;
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 
-    public String getId() {
-        return id;
+    public float getPrice() {
+        return price;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public int getPriceType() {
+        return priceType;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setPriceType(int priceType) {
+        this.priceType = priceType;
     }
 
-    public int getType() {
-        return type;
+    public String getMainImgs() {
+        return mainImgs;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public List<String> getMainImg() {
+        List<String> imags = GsonUtils.fromJson(mainImgs, new TypeToken<List<String>>() {
+        }.getType());
+        if (imags != null) {
+            return imags;
+        } else {
+            return new ArrayList<>();
+        }
+
     }
 
-    public String getTargetId() {
-        return targetId;
+    public void setMainImgs(String mainImgs) {
+        this.mainImgs = mainImgs;
     }
 
-    public void setTargetId(String targetId) {
-        this.targetId = targetId;
+    public List<String> getContentImgs() {
+        List<String> imags = GsonUtils.fromJson(contentImgs, new TypeToken<List<String>>() {
+        }.getType());
+        if (imags != null) {
+            return imags;
+        } else {
+            return new ArrayList<>();
+        }
     }
+
+    public void setContentImgs(String contentImgs) {
+        this.contentImgs = contentImgs;
+    }
+
+    public String getContentText() {
+        return contentText;
+    }
+
+    public void setContentText(String contentText) {
+        this.contentText = contentText;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getSelfSupport() {
+        return selfSupport;
+    }
+
+    public void setSelfSupport(int selfSupport) {
+        this.selfSupport = selfSupport;
+    }
+
+    public int getLastMonthSold() {
+        return lastMonthSold;
+    }
+
+    public void setLastMonthSold(int lastMonthSold) {
+        this.lastMonthSold = lastMonthSold;
+    }
+
+    public int getTotalSold() {
+        return totalSold;
+    }
+
+    public void setTotalSold(int totalSold) {
+        this.totalSold = totalSold;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public int getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
+    }
+
+    public int getCalculatedDistance() {
+        return calculatedDistance;
+    }
+
+    public void setCalculatedDistance(int calculatedDistance) {
+        this.calculatedDistance = calculatedDistance;
+    }
+
+    public int getStartPrice() {
+        return startPrice;
+    }
+
+    public void setStartPrice(int startPrice) {
+        this.startPrice = startPrice;
+    }
+
+    public int getStartDistance() {
+        return startDistance;
+    }
+
+    public void setStartDistance(int startDistance) {
+        this.startDistance = startDistance;
+    }
+
+    public int getGroupBuy() {
+        return groupBuy;
+    }
+
+    public void setGroupBuy(int groupBuy) {
+        this.groupBuy = groupBuy;
+    }
+
+    public String getPriceUnit() {
+        return priceUnit == null ? "" : priceUnit;
+    }
+
+    public void setPriceUnit(String priceUnit) {
+        this.priceUnit = priceUnit;
+    }
+
+    public FavoriteBean() {
+    }
+
+
 }

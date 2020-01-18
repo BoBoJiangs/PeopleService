@@ -1,6 +1,5 @@
 package com.yb.peopleservice.view.adapter.user;
 
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,7 +9,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.presenter.user.service.CollectPresenter;
@@ -30,26 +28,30 @@ import cn.sts.base.view.widget.AppDialog;
  * 修改时间:
  * 修改描述:
  */
-public class FavoriteShopAdapter extends BaseQuickAdapter<ShopInfo, BaseViewHolder>
+public class FavoriteServiceAdapter extends BaseQuickAdapter<ServiceListBean, BaseViewHolder>
         implements CollectPresenter.ICollectCallback {
 
     private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
     private CollectPresenter presenter;
     private int position;
 
-    public FavoriteShopAdapter() {
+    public FavoriteServiceAdapter() {
         super(R.layout.adapter_shop_favorite);
         viewBinderHelper.setOpenOnlyOne(true);
         presenter = new CollectPresenter(mContext, this);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ShopInfo item) {
+    protected void convert(BaseViewHolder helper, ServiceListBean item) {
         ImageView imageView = helper.getView(R.id.imageView);
         SwipeRevealLayout swipeRevealLayout = helper.getView(R.id.swipe_layout);
         helper.setText(R.id.nameTV, item.getName());
-        if (!TextUtils.isEmpty(item.getHeadImg())) {
-            ImageLoaderUtil.loadServerImage(mContext, item.getHeadImg(), imageView);
+        if (!TextUtils.isEmpty(item.getMainImgs())) {
+            List<String> imags = item.getMainImg();
+            if (!imags.isEmpty()) {
+                ImageLoaderUtil.loadServerImage(mContext, imags.get(0), imageView);
+            }
+
         }
         helper.addOnClickListener(R.id.front_layout);
         viewBinderHelper.bind(swipeRevealLayout, item.getId());

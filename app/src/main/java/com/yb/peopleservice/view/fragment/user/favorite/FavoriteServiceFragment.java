@@ -16,6 +16,7 @@ import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
 import com.yb.peopleservice.view.activity.services.ServiceDetailsActivity;
 import com.yb.peopleservice.view.activity.services.ShopListActivity;
 import com.yb.peopleservice.view.adapter.order.OrderListAdapter;
+import com.yb.peopleservice.view.adapter.user.FavoriteServiceAdapter;
 import com.yb.peopleservice.view.adapter.user.FavoriteShopAdapter;
 import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 
@@ -37,8 +38,8 @@ public class FavoriteServiceFragment extends BaseListFragment {
     public final static String SERVICE_TYPE = "1";//服务
     public final static String SHOP_TYPE = "2";//店铺
     public final static String CANCEL_TYPE = "3";
-    private FavoriteShopAdapter adapter;
-    private FavoritePresenter<FavoriteBean> presenter;
+    private FavoriteServiceAdapter adapter;
+    private FavoritePresenter<ServiceListBean> presenter;
     private String type;// 收藏类型 1:服务 2：店铺
 
     public static Fragment getInstanceFragment(String type) {
@@ -51,7 +52,7 @@ public class FavoriteServiceFragment extends BaseListFragment {
 
     @Override
     public BaseQuickAdapter initAdapter() {
-        return adapter = new FavoriteShopAdapter();
+        return adapter = new FavoriteServiceAdapter();
     }
 
     @Override
@@ -66,16 +67,11 @@ public class FavoriteServiceFragment extends BaseListFragment {
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter a, View view, int position) {
-                FavoriteBean favoriteBean = adapter.getItem(position);
-                ShopInfo shopInfo = favoriteBean.getShop();
-                ServiceListBean serviceListBean = favoriteBean.getData();
-                if (shopInfo != null) {
-                    startActivity(new Intent(getActivity(), ShopListActivity.class)
-                            .putExtra(ShopInfo.class.getName(),shopInfo));
-                }
+                ServiceListBean serviceListBean = adapter.getItem(position);
+
                 if (serviceListBean != null) {
                     startActivity(new Intent(getActivity(), ServiceDetailsActivity.class)
-                            .putExtra(ServiceListBean.class.getName(),shopInfo));
+                            .putExtra(ServiceListBean.class.getName(), serviceListBean));
                 }
             }
         });
@@ -108,10 +104,10 @@ public class FavoriteServiceFragment extends BaseListFragment {
      */
     private void initQueryListUI() {
 
-        ServiceListUIPresenter<FavoriteBean> queryListUI =
-                new ServiceListUIPresenter<FavoriteBean>(adapter, swipeRefreshLayout, getContext());
+        ServiceListUIPresenter<ServiceListBean> queryListUI =
+                new ServiceListUIPresenter<ServiceListBean>(adapter, swipeRefreshLayout, getContext());
 
-        presenter = new FavoritePresenter<FavoriteBean>(getContext(), queryListUI, type);
+        presenter = new FavoritePresenter<ServiceListBean>(getContext(), queryListUI, type);
         presenter.refreshList(true);
 
     }

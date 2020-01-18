@@ -188,7 +188,7 @@ public class ShopListActivity extends BaseListActivity implements
                     collectPresenter.addFavorite(myShop.getShop().getId(), FavoriteServiceFragment.SHOP_TYPE);
                 } else {
                     if (favoriteBean != null) {
-                        collectPresenter.addFavorite(favoriteBean.getId(), FavoriteServiceFragment.CANCEL_TYPE);
+                        collectPresenter.addFavorite(shopInfo.getId(), FavoriteServiceFragment.CANCEL_TYPE);
                     }
 
                 }

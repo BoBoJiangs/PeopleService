@@ -8,6 +8,8 @@ import cn.sts.platform.server.pay.bean.WxPayParam;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 /**
  * 支付接口
@@ -25,7 +27,7 @@ public interface IPayRequest {
     /**
      * 支付宝支付
      */
-    @POST("app/order/getZfb")
-    Observable<RequestResult<String>> getAliPayInfo(@Body Map parameter);
+    @PUT("orders/{id}/pay")
+    Observable<RequestResult<String>> getAliPayInfo(@Path("id") String id);
 
 }

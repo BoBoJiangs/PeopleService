@@ -184,10 +184,10 @@ public class PayPresenter {
         }) {
             @Override
             public Observable getObservable(IPayRequest iRequestServer) {
-                Map<String, Object> map = new HashMap<>(2);
-                map.put("id", orderId);
-                map.put("title", title);
-                return iRequestServer.getAliPayInfo(map);
+//                Map<String, Object> map = new HashMap<>(2);
+//                map.put("id", orderId);
+//                map.put("title", title);
+                return iRequestServer.getAliPayInfo(orderId);
             }
         };
         requestFunc.setShowProgress(false);
