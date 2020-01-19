@@ -519,7 +519,7 @@ public class SearchMapActivity extends BaseToolbarActivity implements LocationSo
             //根据屏幕距离计算需要移动的目标点
             final LatLng latLng = locationMarker.getPosition();
             Point point = aMap.getProjection().toScreenLocation(latLng);
-            point.y -= dip2px(this, 125);
+            point.y -= dip2px(this, 90);
             LatLng target = aMap.getProjection()
                     .fromScreenLocation(point);
             //使用TranslateAnimation,填写一个需要移动的目标点

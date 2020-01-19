@@ -15,7 +15,11 @@ import com.yb.peopleservice.model.bean.user.AddressListVO;
  * 修改描述:
  */
 public class OrderBean implements Parcelable {
-
+    public static final int ALL = -1;//全部订单
+    public static final int WAITING = -1;//待付款
+    public static final int DOING = -1;//进行中
+    public static final int COMPLETED = -1;//已完成
+    public static final int ASSESS = -1;//待评价
     /**
      * amount : 0
      * calculatedDistance : 0

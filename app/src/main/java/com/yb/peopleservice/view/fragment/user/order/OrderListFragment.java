@@ -1,8 +1,14 @@
 package com.yb.peopleservice.view.fragment.user.order;
 
+import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.yb.peopleservice.constant.IntentKeyConstant;
+import com.yb.peopleservice.model.bean.user.order.OrderBean;
+import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
+import com.yb.peopleservice.model.presenter.user.order.OrderListPresenter;
 import com.yb.peopleservice.view.adapter.order.OrderListAdapter;
 
 import java.util.ArrayList;
@@ -14,9 +20,14 @@ import cn.sts.base.view.fragment.BaseListFragment;
 public class OrderListFragment extends BaseListFragment {
 
     private OrderListAdapter adapter;
+    private OrderListPresenter presenter;
+    private int status;
 
-    public static Fragment getInstanceFragment() {
+    public static Fragment getInstanceFragment(int status) {
         OrderListFragment fragment = new OrderListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(IntentKeyConstant.DATA_KEY,status);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -27,15 +38,41 @@ public class OrderListFragment extends BaseListFragment {
 
     @Override
     protected void initData() {
-        List<String> listData = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            listData.add("");
+        if (getArguments()!=null){
+            status = getArguments().getInt(IntentKeyConstant.DATA_KEY);
         }
-        adapter.setNewData(listData);
+        setOnRefreshListener();
+        setLoadMoreListener();
+        initQueryListUI();
+
     }
 
     @Override
     protected AbstractPresenter createPresenter() {
         return null;
+    }
+
+    /**
+     * 初始化下拉或者加载更多的UI统一操作
+     */
+    private void initQueryListUI() {
+        ServiceListUIPresenter<OrderBean> queryListUI =
+                new ServiceListUIPresenter<OrderBean>(adapter, swipeRefreshLayout, getContext());
+
+        presenter = new OrderListPresenter(getContext(),status, queryListUI);
+        presenter.refreshList(true);
+
+    }
+
+    @Override
+    public void onPullRefresh() {
+        super.onPullRefresh();
+        presenter.refreshList(false);
+    }
+
+    @Override
+    public void onLoadMoreRequest() {
+        super.onLoadMoreRequest();
+        presenter.loadMoreList();
     }
 }

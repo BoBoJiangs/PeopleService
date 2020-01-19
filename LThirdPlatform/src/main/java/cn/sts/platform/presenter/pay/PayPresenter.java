@@ -110,7 +110,7 @@ public class PayPresenter {
      * @param orderId 订单id
      * @param title   订单标题
      */
-    public void aliPay(String orderId, String title) {
+    public void aliPay(String orderId, String id) {
 
         // TODO: 2019-07-12 还未完成
 
@@ -184,10 +184,11 @@ public class PayPresenter {
         }) {
             @Override
             public Observable getObservable(IPayRequest iRequestServer) {
-//                Map<String, Object> map = new HashMap<>(2);
-//                map.put("id", orderId);
+                Map<String, String> map = new HashMap<>(2);
+                map.put("orderId", orderId);
+                map.put("id", id);
 //                map.put("title", title);
-                return iRequestServer.getAliPayInfo(orderId);
+                return iRequestServer.getAliPayInfo(map);
             }
         };
         requestFunc.setShowProgress(false);

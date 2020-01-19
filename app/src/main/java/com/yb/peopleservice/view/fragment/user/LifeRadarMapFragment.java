@@ -1,10 +1,12 @@
 package com.yb.peopleservice.view.fragment.user;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,10 +21,15 @@ import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.animation.Animation;
+import com.amap.api.maps.model.animation.TranslateAnimation;
+import com.amap.api.services.core.LatLonPoint;
+import com.blankj.utilcode.util.SizeUtils;
 import com.yb.peopleservice.R;
 
 import butterknife.BindView;
@@ -52,6 +59,8 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
     //自定义定位小蓝点的Marker
     private Marker locationMarker;
 
+    private Marker moveMarker;//移动的定位marker
+
     public static Fragment getInstanceFragment() {
         LifeRadarMapFragment fragment = new LifeRadarMapFragment();
         return fragment;
@@ -78,6 +87,25 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
         aMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationStyle(myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER));
+
+        aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+
+            }
+
+            @Override
+            public void onCameraChangeFinish(CameraPosition cameraPosition) {
+                startJumpAnimation();
+            }
+        });
+
+        aMap.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
+            @Override
+            public void onMapLoaded() {
+                addMarkerInScreenCenter(null);
+            }
+        });
     }
 
     @Override
@@ -92,6 +120,55 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
 
     @Override
     protected void initData() {
+
+    }
+
+    /**
+     * 屏幕中心marker 跳动
+     */
+    public void startJumpAnimation() {
+
+        if (moveMarker != null) {
+            //根据屏幕距离计算需要移动的目标点
+            final LatLng latLng = moveMarker.getPosition();
+            Point point = aMap.getProjection().toScreenLocation(latLng);
+            point.y -= SizeUtils.dp2px(60);
+            LatLng target = aMap.getProjection()
+                    .fromScreenLocation(point);
+            //使用TranslateAnimation,填写一个需要移动的目标点
+            Animation animation = new TranslateAnimation(target);
+            animation.setInterpolator(new Interpolator() {
+                @Override
+                public float getInterpolation(float input) {
+                    // 模拟重加速度的interpolator
+                    if (input <= 0.5) {
+                        return (float) (0.5f - 2 * (0.5 - input) * (0.5 - input));
+                    } else {
+                        return (float) (0.5f - Math.sqrt((input - 0.5f) * (1.5f - input)));
+                    }
+                }
+            });
+            //整个移动所需要的时间
+            animation.setDuration(600);
+            //设置动画
+            moveMarker.setAnimation(animation);
+            //开始动画
+            moveMarker.startAnimation();
+
+        } else {
+            Log.e("ama", "screenMarker is null");
+        }
+    }
+
+    private void addMarkerInScreenCenter(LatLng locationLatLng) {
+        LatLng latLng = aMap.getCameraPosition().target;
+        Point screenPosition = aMap.getProjection().toScreenLocation(latLng);
+        moveMarker = aMap.addMarker(new MarkerOptions()
+                .anchor(0.5f, 0.5f)
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.purple_pin)));
+        //设置Marker在屏幕上,不跟随地图移动
+        moveMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
+        moveMarker.setZIndex(1);
 
     }
 

@@ -179,7 +179,7 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
         ToastUtils.showLong("下单成功");
         startActivity(new Intent(getApplicationContext(), PayActivity.class)
                 .putExtra(AddressListVO.class.getName(), addressListVO)
-                .putExtra(ORDER_ID, data.getId() + "")
+                .putExtra(OrderBean.class.getName(), data)
                 .putExtra(IntentKeyConstant.DATA_KEY, num * bean.getPrice()));
     }
 

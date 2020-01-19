@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.view.base.BaseViewPagerFragment;
 
 import java.util.ArrayList;
@@ -45,11 +46,11 @@ public class OrderTabFragment extends BaseViewPagerFragment {
     @Override
     protected List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
-        allFragment = OrderListFragment.getInstanceFragment();
-        paymentFragment = OrderListFragment.getInstanceFragment();
-        doFragment = OrderListFragment.getInstanceFragment();
-        finishFragment = OrderListFragment.getInstanceFragment();
-        evaluateFragment = OrderListFragment.getInstanceFragment();
+        allFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
+        paymentFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
+        doFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
+        finishFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
+        evaluateFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
         fragmentList.add(allFragment);
         fragmentList.add(paymentFragment);
         fragmentList.add(doFragment);

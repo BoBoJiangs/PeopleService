@@ -7,6 +7,7 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.view.weight.CustomPopWindow;
 
 /**
@@ -18,7 +19,7 @@ import com.yb.peopleservice.view.weight.CustomPopWindow;
  * 修改时间:
  * 修改描述:
  */
-public class OrderListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class OrderListAdapter extends BaseQuickAdapter<OrderBean, BaseViewHolder> {
     private Context context;
 
     public OrderListAdapter(Context context) {
@@ -27,7 +28,7 @@ public class OrderListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, OrderBean item) {
         helper.getView(R.id.moreIV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

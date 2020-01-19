@@ -14,6 +14,7 @@ import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
+import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import butterknife.BindView;
@@ -44,7 +45,7 @@ public class PayActivity extends BaseToolbarActivity {
     CheckBox checkbox2;
     private float payPrice = 0;//实际支付的费用
     private int payType;//支付方式 默认微信支付
-    private String orderId;//订单号
+    private OrderBean orderBean;//订单号
     private PayPresenter presenter;
     private WeChatPayReceiver receiver;//微信登录的广播
     private AddressListVO addressVO;//地址
@@ -65,7 +66,7 @@ public class PayActivity extends BaseToolbarActivity {
     @Override
     protected void initData() {
         presenter = new PayPresenter(this);
-        orderId = getIntent().getStringExtra(ORDER_ID);
+        orderBean = getIntent().getParcelableExtra(OrderBean.class.getName());
         payPrice = getIntent().getFloatExtra(IntentKeyConstant.DATA_KEY, 0);
         priceTV.setText("¥ " + payPrice);
         setPayType();
@@ -104,9 +105,9 @@ public class PayActivity extends BaseToolbarActivity {
                     return;
                 }
                 if (payType == AppConstant.ALIPAY_TYPE) {
-                    presenter.aliPay(orderId, "订单支付");
+                    presenter.aliPay(orderBean.getId(), orderBean.getCommodityId());
                 } else {
-                    presenter.wxPay(orderId, "订单支付", "flowerWorld");
+                    presenter.wxPay(orderBean.getId(), "订单支付", "flowerWorld");
                 }
 
                 break;

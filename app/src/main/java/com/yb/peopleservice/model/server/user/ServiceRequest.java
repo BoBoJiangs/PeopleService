@@ -32,6 +32,18 @@ import retrofit2.http.QueryMap;
 public interface ServiceRequest {
 
     /**
+     * 查询附近服务列表
+     */
+    @GET("staffs/nearby")
+    Observable<RequestResult<List<ServiceListBean>>> getNearbyServiceList(@QueryMap Map<String, Integer> parameter);
+
+    /**
+     * 查询附近店铺列表
+     */
+    @GET("staffs/nearby")
+    Observable<RequestResult<List<ShopInfo>>> getNearbyShopList(@QueryMap Map<String, Integer> parameter);
+
+    /**
      * 查询服务列表
      */
     @GET("categories/{id}/commodities")
@@ -94,8 +106,14 @@ public interface ServiceRequest {
     Observable<RequestResult<List<CouponBean>>> getCouponList(@Path("id") String id);
 
     /**
-     * 获取默认地址
+     * 下单
      */
     @POST("orders")
     Observable<RequestResult<OrderBean>> placeOrder(@Body Map map);
+
+    /**
+     * 获取可以申请入驻店铺的信息
+     */
+    @GET("orders")
+    Observable<RequestResult<List<OrderBean>>> getOrders(@QueryMap Map<String, Integer> parameter);
 }
