@@ -15,6 +15,7 @@ import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
+import com.yb.peopleservice.model.presenter.user.order.PayPresenter;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import butterknife.BindView;
@@ -23,7 +24,6 @@ import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.platform.constant.ThirdPlatformBroadcastConstant;
 import cn.sts.platform.constant.ThirdPlatformIntentKeyConstant;
 import cn.sts.platform.constant.ThirdPlatformStatusConstant;
-import cn.sts.platform.presenter.pay.PayPresenter;
 
 /**
  * 类描述: 支付页面

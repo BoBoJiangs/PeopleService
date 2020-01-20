@@ -35,13 +35,13 @@ public interface ServiceRequest {
      * 查询附近服务列表
      */
     @GET("staffs/nearby")
-    Observable<RequestResult<List<ServiceListBean>>> getNearbyServiceList(@QueryMap Map<String, Integer> parameter);
+    Observable<RequestResult<List<ServiceListBean>>> getNearbyServiceList(@QueryMap Map<String, Double> parameter);
 
     /**
      * 查询附近店铺列表
      */
     @GET("staffs/nearby")
-    Observable<RequestResult<List<ShopInfo>>> getNearbyShopList(@QueryMap Map<String, Integer> parameter);
+    Observable<RequestResult<List<ShopInfo>>> getNearbyShopList(@QueryMap Map<String, Double> parameter);
 
     /**
      * 查询服务列表

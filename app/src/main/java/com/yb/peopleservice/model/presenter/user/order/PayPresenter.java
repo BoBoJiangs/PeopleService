@@ -1,4 +1,4 @@
-package cn.sts.platform.presenter.pay;
+package com.yb.peopleservice.model.presenter.user.order;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.yb.peopleservice.model.server.BaseRequestServer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,7 +109,6 @@ public class PayPresenter {
      * 支付宝支付
      *
      * @param orderId 订单id
-     * @param title   订单标题
      */
     public void aliPay(String orderId, String id) {
 
@@ -192,7 +192,7 @@ public class PayPresenter {
             }
         };
         requestFunc.setShowProgress(false);
-        PayRequestServer.getInstance().request(requestFunc);
+        BaseRequestServer.getInstance().request(requestFunc);
     }
 
     /**

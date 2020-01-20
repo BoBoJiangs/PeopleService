@@ -25,14 +25,23 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.MultiPointItem;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.TranslateAnimation;
 import com.amap.api.services.core.LatLonPoint;
 import com.blankj.utilcode.util.SizeUtils;
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.AppConstant;
+import com.yb.peopleservice.model.presenter.user.service.MapPresenter;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
+import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseFragment;
 
@@ -46,11 +55,13 @@ import cn.sts.base.view.fragment.BaseFragment;
  * 修改描述:
  */
 public class LifeRadarMapFragment extends BaseFragment implements AMapLocationListener,
-        LocationSource {
+        LocationSource, MapPresenter.INearbyCallback, OnTabSelectListener {
     @BindView(R.id.mapView)
     TextureMapView mapView;
     @BindView(R.id.locationName)
     TextView locationName;
+    @BindView(R.id.commonTabLayout)
+    CommonTabLayout commonTabLayout;
     private AMap aMap;
     private MyLocationStyle myLocationStyle;
     private OnLocationChangedListener mListener;
@@ -60,6 +71,10 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
     private Marker locationMarker;
 
     private Marker moveMarker;//移动的定位marker
+
+    private MapPresenter presenter;
+    ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
+    private LatLng latLng;
 
     public static Fragment getInstanceFragment() {
         LifeRadarMapFragment fragment = new LifeRadarMapFragment();
@@ -106,6 +121,7 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
                 addMarkerInScreenCenter(null);
             }
         });
+
     }
 
     @Override
@@ -120,6 +136,11 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
 
     @Override
     protected void initData() {
+        mTabEntities.add(new TabEntity("个人", 0, 0));
+        mTabEntities.add(new TabEntity("商家", 0, 0));
+        commonTabLayout.setTabData(mTabEntities);
+        commonTabLayout.setOnTabSelectListener(this);
+        presenter = new MapPresenter(getContext(),this);
 
     }
 
@@ -174,7 +195,7 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
 
     @Override
     protected AbstractPresenter createPresenter() {
-        return null;
+        return presenter;
     }
 
     /**
@@ -248,7 +269,7 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
         // 定位回调监听
         if (aMapLocation != null) {
             locationName.setText(String.format("%s%s", aMapLocation.getStreet(), aMapLocation.getStreetNum()));
-            LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+            latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
             //展示自定义定位小蓝点
             if(locationMarker == null) {
                 //首次定位
@@ -258,6 +279,7 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
 
                 //首次定位,选择移动到地图中心点并修改级别到15级
                 aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                presenter.getNearbyData(latLng, AppConstant.SERVICE_TYPE);
             }else{
                 LatLng curLatlng = locationMarker.getPosition();
                 if(curLatlng == null || !curLatlng.equals(latLng)) {
@@ -267,5 +289,29 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
         } else {
             Log.e("amap", "定位失败");
         }
+    }
+
+    @Override
+    public void onSuccess(Object object) {
+
+    }
+
+    @Override
+    public void onFail() {
+
+    }
+
+    @Override
+    public void onTabSelect(int position) {
+        if (position==0){
+            presenter.getNearbyData(latLng, AppConstant.SERVICE_TYPE);
+        }else{
+            presenter.getNearbyData(latLng, AppConstant.SHOP_TYPE);
+        }
+    }
+
+    @Override
+    public void onTabReselect(int position) {
+
     }
 }

@@ -46,4 +46,15 @@ public class AppConstant {
      * 支付宝支付
      */
     public static final int ALIPAY_TYPE = 2;
+
+
+    /**
+     * 服务人员
+     */
+    public static final int SERVICE_TYPE = 1;
+
+    /**
+     * 店铺
+     */
+    public static final int SHOP_TYPE = 2;
 }

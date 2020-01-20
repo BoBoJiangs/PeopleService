@@ -35,6 +35,7 @@
         android:layout_height="@dimen/height_title"
         android:gravity="center"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:paddingStart="@dimen/space_default"
         android:paddingEnd="@dimen/space_default">
 
@@ -57,49 +58,17 @@
             android:src="@drawable/arrow_down" />
     </LinearLayout>
 
-    <LinearLayout
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/commonTabLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_title"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                style="@style/text_view_content_gray"
-                android:textSize="@dimen/font_btn_small_best"
-                android:gravity="center"
-                android:layout_height="match_parent"
-                android:text="个人"/>
-            <TextView
-                android:id="@+id/line1"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/base_text_color"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                style="@style/text_view_content_gray"
-                android:textSize="@dimen/font_btn_small_best"
-                android:gravity="center"
-                android:layout_height="match_parent"
-                android:text="商家"/>
-            <TextView
-                android:id="@+id/line2"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/base_text_color"
-                android:visibility="invisible"/>
-        </LinearLayout>
-    </LinearLayout>
+        android:background="@color/white"
+        app:tl_indicator_color="@color/base_text_color"
+        app:tl_indicator_height="3dp"
+        app:tl_tab_padding="@dimen/space_small_best"
+        app:tl_textSelectColor="@color/base_text_color"
+        app:tl_textUnselectColor="@color/base_lib_gray"
+        app:tl_textsize="@dimen/font_content" />
 
 
     <com.amap.api.maps.TextureMapView
