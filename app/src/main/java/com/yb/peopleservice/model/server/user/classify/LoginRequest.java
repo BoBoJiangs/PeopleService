@@ -45,6 +45,12 @@ public interface LoginRequest {
     Observable<RequestResult<LoginBean>> login(@Query("username") String phone, @Query("grant_type") String grant_type,
                                                @Query("password") String password);
 
+    /**
+     * 登录
+     */
+    @POST("oauth0/authorize/APP")
+    Observable<RequestResult<LoginBean>> login(@Body Map map);
+
 
     /**
      * 登录

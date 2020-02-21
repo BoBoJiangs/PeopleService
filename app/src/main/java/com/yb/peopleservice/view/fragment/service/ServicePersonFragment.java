@@ -15,11 +15,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
+import com.yb.peopleservice.model.bean.shop.BalanceBean;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.presenter.shop.ServiceInfoPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
+import com.yb.peopleservice.view.activity.common.MyIncomeActivity;
 import com.yb.peopleservice.view.activity.common.ShopDetailsActivity;
 import com.yb.peopleservice.view.activity.services.ApplyServiceActivity;
 import com.yb.peopleservice.view.activity.services.StoreEntryActivity;
@@ -116,6 +118,8 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
 
                 break;
             case R.id.profitUV:
+                startActivity(new Intent(getContext(), MyIncomeActivity.class)
+                        .putExtra("type", BalanceBean.PRRSONAL));
                 break;
             case R.id.applyBtn:
                 startActivityForResult(new Intent(getContext(), ApplyServiceActivity.class),

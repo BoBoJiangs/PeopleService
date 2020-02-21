@@ -1,11 +1,14 @@
 package com.yb.peopleservice.model.server.user;
 
 
+import android.accounts.Account;
+
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
+import com.yb.peopleservice.model.bean.user.order.OrderListBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
 import java.util.List;
@@ -32,6 +35,12 @@ import retrofit2.http.QueryMap;
 public interface ServiceRequest {
 
     /**
+     *定时刷新服务人员位置
+     */
+    @POST("staffs/location")
+    Observable<RequestResult<Object>> addGps(@Body Map map);
+
+    /**
      * 查询附近服务列表
      */
     @GET("staffs/nearby")
@@ -43,11 +52,25 @@ public interface ServiceRequest {
     @GET("staffs/nearby")
     Observable<RequestResult<List<ShopInfo>>> getNearbyShopList(@QueryMap Map<String, Double> parameter);
 
+
+    /**
+     * 搜索商品
+     */
+    @GET("commodities")
+    Observable<RequestResult<List<ServiceListBean>>> searchData(@QueryMap Map<String, String> parameter);
+
     /**
      * 查询服务列表
      */
     @GET("categories/{id}/commodities")
-    Observable<RequestResult<List<ServiceListBean>>> getServiceList(@Path("id") String id);
+    Observable<RequestResult<List<ServiceListBean>>> getServiceList(@Path("id") String id,
+                                                                    @QueryMap Map<String, String> parameter);
+
+    /**
+     * 查询团购服务列表
+     */
+    @GET("commodities/groupbuy")
+    Observable<RequestResult<List<ServiceListBean>>> groupBuyList(@QueryMap Map<String, String> parameter);
 
     /**
      * 获取店铺下的所有商品
@@ -112,8 +135,8 @@ public interface ServiceRequest {
     Observable<RequestResult<OrderBean>> placeOrder(@Body Map map);
 
     /**
-     * 获取可以申请入驻店铺的信息
+     * 获取订单状态列表
      */
     @GET("orders")
-    Observable<RequestResult<List<OrderBean>>> getOrders(@QueryMap Map<String, Integer> parameter);
+    Observable<RequestResult<List<OrderListBean>>> getOrders(@QueryMap Map<String, Integer> parameter);
 }

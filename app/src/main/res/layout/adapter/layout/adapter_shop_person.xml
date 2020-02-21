@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/space_default"
+    android:orientation="vertical"
+    style="@style/line_style"
+    tools:ignore="MissingPrefix">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/headImg"
+            android:layout_width="70pt"
+            android:layout_height="70pt"
+
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/titleTV"
+            style="@style/text_view_content_black"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="加载中" />
+
+        <TextView
+            android:id="@+id/button"
+            style="@style/login_btn_style"
+            android:layout_width="120pt"
+            android:layout_height="55pt"
+            android:gravity="center"
+            android:text="指派"/>
+    </LinearLayout>
+
+
+</LinearLayout>

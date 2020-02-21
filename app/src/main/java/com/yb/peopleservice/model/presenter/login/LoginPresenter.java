@@ -9,6 +9,9 @@ import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
 import cn.sts.base.model.server.request.AbstractRequestFunc;
@@ -65,7 +68,7 @@ public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallb
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                ToastUtils.showLong(error);
+                ToastUtils.showLong("用户名或密码错误");
             }
 
             @Override
@@ -75,7 +78,11 @@ public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallb
         }) {
             @Override
             public Observable getObservable(LoginRequest iRequestServer) {
-                return iRequestServer.login(phone,"password",password);
+                Map<String,Object> map = new HashMap<>();
+                map.put("username",phone);
+                map.put("grant_type","password");
+                map.put("password",password);
+                return iRequestServer.login(map);
             }
 
             @Override

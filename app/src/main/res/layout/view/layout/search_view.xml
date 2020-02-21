@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/searchLL"
     android:layout_width="match_parent"
     android:layout_height="50pt"
     android:layout_margin="@dimen/dp_10"
@@ -11,7 +12,7 @@
 
     <cn.sts.base.view.widget.UtilityView
         android:id="@+id/searchUV"
-        style="@style/login_utility"
+        style="@style/utility_view"
         app:text_content_size="@dimen/font_btn_small_best"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -19,9 +20,11 @@
         android:layout_weight="1"
         android:background="@color/transparent"
         app:content_gravity="start"
+        app:title_padding_left="0dp"
         app:info_padding_left="10dp"
         app:line_show="false"
         app:text_content_hint="搜索"
+        app:type="CHOICE"
         app:text_content_input_type="TEXT" />
 
     <ImageView

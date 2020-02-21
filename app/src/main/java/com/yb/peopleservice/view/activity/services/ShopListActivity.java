@@ -84,7 +84,7 @@ public class ShopListActivity extends BaseListActivity implements
         if (bean != null) {
             shopId = bean.getShopId();
         }
-        shopInfo = (ShopInfo) getIntent().getSerializableExtra(ShopInfo.class.getName());
+        shopInfo = (ShopInfo) getIntent().getParcelableExtra(ShopInfo.class.getName());
         if (shopInfo != null) {
             shopId = shopInfo.getId();
             getDataSuccess(shopInfo);
@@ -120,7 +120,7 @@ public class ShopListActivity extends BaseListActivity implements
         ServiceListUIPresenter<ShopInfo> queryListUI =
                 new ServiceListUIPresenter(adapter, swipeRefreshLayout, this);
 
-        presenter = new ServiceListPresenter(shopId, this, queryListUI, true);
+        presenter = new ServiceListPresenter(shopId, this, queryListUI, ServiceListPresenter.SHOP_TYPE);
         presenter.refreshList(true);
 
     }

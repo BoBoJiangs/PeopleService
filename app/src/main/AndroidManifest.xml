@@ -61,6 +61,39 @@
         <service android:name=".model.service.TimeService" />
         <service android:name=".model.service.TimeService$GrayInnerService" />
 
+        <!-- Since JCore2.0.0 Required SDK核心功能-->
+        <!-- 这个Service要继承JCommonService -->
+        <service
+            android:name="com.yb.peopleservice.push.PushService"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
+
+
+        <!-- User defined.  For test only  用户自定义的广播接收器-->
+        <receiver
+            android:name="com.yb.peopleservice.push.MyReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="com.yb.peopleservice" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.yb.peopleservice.push.MyJPushMessageReceiver">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                <category android:name="com.yb.peopleservice"></category>
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".view.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,26 +105,75 @@
             android:name=".view.activity.main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.services.ServiceListActivity" />
-        <activity android:name=".view.activity.WebViewActivity" />
-        <activity android:name=".view.activity.login.LoginActivity" />
-        <activity android:name=".view.activity.login.RegisterActivity" />
-        <activity android:name=".view.activity.login.QuickLoginActivity" />
-        <activity android:name=".view.activity.main.ShopMainActivity" />
-        <activity android:name=".view.activity.shop.ApplyShopActivity" />
-        <activity android:name=".view.activity.shop.SearchMapActivity" />
-        <activity android:name=".view.activity.shop.ApplyDetailsActivity" />
-        <activity android:name=".view.activity.main.ServiceMainActivity" />
-        <activity android:name=".view.activity.services.ApplyServiceActivity" />
-        <activity android:name=".view.activity.services.StoreEntryActivity" />
-        <activity android:name=".view.activity.common.ShopDetailsActivity" />
-        <activity android:name=".view.activity.address.CreateAddressActivity" />
-        <activity android:name=".view.activity.address.AddressListActivity" />
-        <activity android:name=".view.activity.services.ShopListActivity" />
-        <activity android:name=".view.activity.services.CertificationDetailsActivity" />
-        <activity android:name=".view.activity.personal.MyFavoriteActivity" />
-        <activity android:name=".view.activity.services.order.ConfirmOrderActivity" />
-        <activity android:name=".view.adapter.order.PayActivity" />
+        <activity
+            android:name=".view.activity.services.ServiceListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.login.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.login.QuickLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.main.ShopMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.shop.ApplyShopActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.shop.SearchMapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.shop.ApplyDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.main.ServiceMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.ApplyServiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.StoreEntryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.common.ShopDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.address.CreateAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.address.AddressListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.ShopListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.CertificationDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.personal.MyFavoriteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.order.ConfirmOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.adapter.order.PayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.shop.ShopPersonActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.classify.ClassifyTabActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.search.SearchActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -11,6 +11,8 @@ import com.blankj.utilcode.util.PathUtils;
 
 public class AppConstant {
 
+    public static final String BEFORE_TIME = "BEFORE_TIMES";
+
     /**
      * 分页加载行数
      */

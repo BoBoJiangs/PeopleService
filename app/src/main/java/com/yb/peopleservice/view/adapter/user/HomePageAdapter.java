@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.adapter.user;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,6 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
+import com.yb.peopleservice.view.activity.classify.ClassifyTabActivity;
 
 import java.util.List;
 
@@ -32,13 +34,18 @@ public class HomePageAdapter extends BaseQuickAdapter<ClassifyListBean, BaseView
     @Override
     protected void convert(BaseViewHolder helper, ClassifyListBean item) {
         ImageView imageView = helper.getView(R.id.imageView);
-        helper.setText(R.id.titleTV,item.getName());
-        ImageLoaderUtil.loadServerImage(mContext,item.getImg(),imageView);
-//        helper.getView(R.id.imageView).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ToastUtils.showLong(helper.getAdapterPosition()+"");
-//            }
-//        });
+        helper.setText(R.id.titleTV, item.getName());
+        ImageLoaderUtil.loadServerImage(mContext, item.getIcon(), imageView);
+        helper.getView(R.id.imageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (item.getChildList().isEmpty()) {
+                    ToastUtils.showLong("无分类数据");
+                    return;
+                }
+                mContext.startActivity(new Intent(mContext, ClassifyTabActivity.class)
+                        .putExtra(ClassifyListBean.class.getName(), item));
+            }
+        });
     }
 }

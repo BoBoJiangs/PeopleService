@@ -5,6 +5,9 @@ import android.content.Intent;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.model.database.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.database.manager.UserInfoManager;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
@@ -46,6 +49,9 @@ public class LogoutPresenter extends AbstractPresenter<IViewCallback> {
             public void onRequestSuccess(LoginBean data) {
                 try {
                     AppManager.getAppManager().finishAllActivity();
+                    User user = ManagerFactory.getInstance().getUserManager().getUser();
+                    user.setPassword("");
+                    ManagerFactory.getInstance().getUserManager().saveOrUpdate(user);
                     context.startActivity(new Intent(context, LoginActivity.class));
                 } catch (Exception e) {
                     e.printStackTrace();

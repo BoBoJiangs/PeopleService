@@ -7,9 +7,16 @@ import androidx.fragment.app.Fragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
+import com.yb.peopleservice.model.bean.user.order.OrderListBean;
+import com.yb.peopleservice.model.eventbean.EventOrderBean;
+import com.yb.peopleservice.model.eventbean.EventRecorderBean;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.user.order.OrderListPresenter;
 import com.yb.peopleservice.view.adapter.order.OrderListAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +39,12 @@ public class OrderListFragment extends BaseListFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public BaseQuickAdapter initAdapter() {
         return adapter = new OrderListAdapter(getActivity());
     }
@@ -44,7 +57,12 @@ public class OrderListFragment extends BaseListFragment {
         setOnRefreshListener();
         setLoadMoreListener();
         initQueryListUI();
+        EventBus.getDefault().register(this);
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventOrderBean event) {
+        presenter.refreshList(false);
     }
 
     @Override
@@ -56,8 +74,8 @@ public class OrderListFragment extends BaseListFragment {
      * 初始化下拉或者加载更多的UI统一操作
      */
     private void initQueryListUI() {
-        ServiceListUIPresenter<OrderBean> queryListUI =
-                new ServiceListUIPresenter<OrderBean>(adapter, swipeRefreshLayout, getContext());
+        ServiceListUIPresenter<OrderListBean> queryListUI =
+                new ServiceListUIPresenter<OrderListBean>(adapter, swipeRefreshLayout, getContext());
 
         presenter = new OrderListPresenter(getContext(),status, queryListUI);
         presenter.refreshList(true);

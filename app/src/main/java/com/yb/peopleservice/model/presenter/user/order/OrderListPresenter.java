@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
+import com.yb.peopleservice.model.bean.user.order.OrderListBean;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
 
@@ -23,14 +24,14 @@ import io.reactivex.Observable;
  * 修改时间:
  * 修改描述:
  */
-public class OrderListPresenter extends AbstractQueryListPresenter<OrderBean> {
+public class OrderListPresenter extends AbstractQueryListPresenter<OrderListBean> {
     private int status;
 
     /**
      * @param context            上下文
      * @param IQueryListCallback 列表操作接口
      */
-    public OrderListPresenter(Context context, int status, IQueryListCallback<OrderBean> IQueryListCallback) {
+    public OrderListPresenter(Context context, int status, IQueryListCallback<OrderListBean> IQueryListCallback) {
         super(context, IQueryListCallback);
         this.status = status;
     }
@@ -42,7 +43,9 @@ public class OrderListPresenter extends AbstractQueryListPresenter<OrderBean> {
             public Observable getObservable(ServiceRequest iRequestServer) {
                 Map<String, Integer> map = new HashMap<>();
                 map.put("current", pageIndex);
-//                map.put("status", status);
+                if (status != OrderBean.ALL) {
+                    map.put("status", status);
+                }
                 return iRequestServer.getOrders(map);
 
             }

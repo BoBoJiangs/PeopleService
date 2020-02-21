@@ -60,7 +60,7 @@ public class ServiceListBean implements Parcelable {
     private String timestamp;
     private int favorite;
     private int calculatedDistance;
-    private int startPrice;//起步价
+    private float startPrice;//起步价
     private int startDistance;//起步距离 整数
     private int groupBuy;
 
@@ -208,11 +208,11 @@ public class ServiceListBean implements Parcelable {
         this.calculatedDistance = calculatedDistance;
     }
 
-    public int getStartPrice() {
+    public float getStartPrice() {
         return startPrice;
     }
 
-    public void setStartPrice(int startPrice) {
+    public void setStartPrice(float startPrice) {
         this.startPrice = startPrice;
     }
 
@@ -267,7 +267,7 @@ public class ServiceListBean implements Parcelable {
         dest.writeString(this.timestamp);
         dest.writeInt(this.favorite);
         dest.writeInt(this.calculatedDistance);
-        dest.writeInt(this.startPrice);
+        dest.writeFloat(this.startPrice);
         dest.writeInt(this.startDistance);
         dest.writeInt(this.groupBuy);
     }
@@ -290,7 +290,7 @@ public class ServiceListBean implements Parcelable {
         this.timestamp = in.readString();
         this.favorite = in.readInt();
         this.calculatedDistance = in.readInt();
-        this.startPrice = in.readInt();
+        this.startPrice = in.readFloat();
         this.startDistance = in.readInt();
         this.groupBuy = in.readInt();
     }

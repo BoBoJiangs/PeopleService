@@ -9,7 +9,6 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:ignore="MissingPrefix">
-
     <ImageView
         android:id="@+id/logoIV"
         android:layout_width="wrap_content"

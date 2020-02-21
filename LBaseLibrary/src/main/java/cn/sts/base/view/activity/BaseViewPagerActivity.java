@@ -62,7 +62,6 @@ public abstract class BaseViewPagerActivity extends BaseToolbarActivity implemen
                 CommonTabLayout commonTabLayout = (CommonTabLayout) tabLayout;
                 commonTabLayout.setTabData(getTabEntityList());
                 commonTabLayout.setOnTabSelectListener(this);
-
             } else if (tabLayout instanceof SegmentTabLayout) {
 
                 SegmentTabLayout segmentTabLayout = (SegmentTabLayout) tabLayout;

@@ -1,5 +1,8 @@
 package com.yb.peopleservice.model.bean.shop;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
@@ -11,7 +14,7 @@ import java.io.Serializable;
  * 修改时间:
  * 修改描述:
  */
-public class MyShop implements Serializable {
+public class MyShop implements Parcelable {
     public static final int USER_DETAILS = 1;
     public static final int SHOP_DETAILS = 2;
     private String status;//状态: 1正常服务，店铺可以派单给他 3服务人员申请入驻店铺 4申请入驻拒绝 5申请离职
@@ -50,4 +53,39 @@ public class MyShop implements Serializable {
     public void setShop(ShopInfo shop) {
         this.shop = shop;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.status);
+        dest.writeString(this.message);
+        dest.writeParcelable(this.shop, flags);
+        dest.writeInt(this.type);
+    }
+
+    public MyShop() {
+    }
+
+    protected MyShop(Parcel in) {
+        this.status = in.readString();
+        this.message = in.readString();
+        this.shop = in.readParcelable(ShopInfo.class.getClassLoader());
+        this.type = in.readInt();
+    }
+
+    public static final Creator<MyShop> CREATOR = new Creator<MyShop>() {
+        @Override
+        public MyShop createFromParcel(Parcel source) {
+            return new MyShop(source);
+        }
+
+        @Override
+        public MyShop[] newArray(int size) {
+            return new MyShop[size];
+        }
+    };
 }

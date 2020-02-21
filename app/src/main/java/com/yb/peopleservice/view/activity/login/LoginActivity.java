@@ -5,6 +5,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.amap.api.services.poisearch.PoiSearch;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;

@@ -1,5 +1,8 @@
 package com.yb.peopleservice.model.bean.shop;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
@@ -11,7 +14,7 @@ import java.io.Serializable;
  * 修改时间:
  * 修改描述:
  */
-public class ShopInfo implements Serializable {
+public class ShopInfo implements Parcelable {
 
     /**
      * address : string
@@ -184,4 +187,63 @@ public class ShopInfo implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.address);
+        dest.writeString(this.businessLicenseImg);
+        dest.writeString(this.headImg);
+        dest.writeString(this.introduction);
+        dest.writeDouble(this.locationLatitude);
+        dest.writeDouble(this.locationLongitude);
+        dest.writeString(this.managerIdcardImgBack);
+        dest.writeString(this.managerIdcardImgFront);
+        dest.writeString(this.message);
+        dest.writeString(this.managerIdcardNumber);
+        dest.writeString(this.managerName);
+        dest.writeString(this.name);
+        dest.writeString(this.phone);
+        dest.writeString(this.level);
+        dest.writeInt(this.status);
+    }
+
+    public ShopInfo() {
+    }
+
+    protected ShopInfo(Parcel in) {
+        this.id = in.readString();
+        this.address = in.readString();
+        this.businessLicenseImg = in.readString();
+        this.headImg = in.readString();
+        this.introduction = in.readString();
+        this.locationLatitude = in.readDouble();
+        this.locationLongitude = in.readDouble();
+        this.managerIdcardImgBack = in.readString();
+        this.managerIdcardImgFront = in.readString();
+        this.message = in.readString();
+        this.managerIdcardNumber = in.readString();
+        this.managerName = in.readString();
+        this.name = in.readString();
+        this.phone = in.readString();
+        this.level = in.readString();
+        this.status = in.readInt();
+    }
+
+    public static final Creator<ShopInfo> CREATOR = new Creator<ShopInfo>() {
+        @Override
+        public ShopInfo createFromParcel(Parcel source) {
+            return new ShopInfo(source);
+        }
+
+        @Override
+        public ShopInfo[] newArray(int size) {
+            return new ShopInfo[size];
+        }
+    };
 }

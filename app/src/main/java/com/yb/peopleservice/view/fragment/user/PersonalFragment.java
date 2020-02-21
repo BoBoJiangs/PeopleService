@@ -26,6 +26,7 @@ import com.yb.peopleservice.model.database.manager.UserManager;
 import com.yb.peopleservice.model.presenter.login.LoginPresenter;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.presenter.user.PersonalPresenter;
+import com.yb.peopleservice.push.TagAliasOperatorHelper;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
 import com.yb.peopleservice.view.activity.personal.EditUserInfoActivity;
@@ -45,6 +46,7 @@ import cn.sts.base.view.widget.AppDialog;
 
 import static com.yb.peopleservice.model.bean.PersonalListBean.CONTENT_TYPE;
 import static com.yb.peopleservice.model.bean.PersonalListBean.SPAN_SIZE_ONE;
+import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
 
 /**
  * 项目名称:PeopleService
@@ -187,6 +189,12 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
             headerViewHolder.setUserInfoData(data);
             infoManager.deleteAll();
             infoManager.save(data);
+
+//            TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+//            tagAliasBean.action = ACTION_SET;
+//            tagAliasBean.alias = data.getId();
+//            tagAliasBean.isAliasAction = true;
+//            TagAliasOperatorHelper.getInstance().handleAction(getContext(),1,tagAliasBean);
         }
 
     }

@@ -47,6 +47,7 @@
                 android:id="@+id/stateTV"
                 style="@style/text_view_content_black"
                 android:layout_height="wrap_content"
+                android:textColor="@color/base_text_color"
                 android:text="加载中"
                 android:textSize="@dimen/font_btn_small" />
         </LinearLayout>
@@ -60,6 +61,14 @@
             android:background="@color/color_f2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topLL" />
+
+        <TextView
+            android:id="@+id/serviceName"
+            style="@style/text_view_content_black"
+            android:layout_margin="@dimen/space_default"
+            android:text="加载中"
+            app:layout_constraintLeft_toRightOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView" />
 
         <TextView
             android:layout_width="match_parent"
@@ -80,6 +89,7 @@
             <TextView
                 android:id="@+id/priceTV"
                 style="@style/text_view_content_gray"
+                android:visibility="gone"
                 android:text="0元" />
 
             <TextView
@@ -124,18 +134,20 @@
             app:layout_constraintTop_toBottomOf="@+id/textView1">
 
             <TextView
+                android:id="@+id/bottomTV1"
+                style="@style/button_style"
                 android:text="退款明细"
-                app:bl_corners_radius="12dp"
+                app:bl_corners_radius="25dp"
                 app:bl_solid_color="@color/white"
                 app:bl_stroke_color="@color/gray_66"
-                app:bl_stroke_width="1dp"
-                style="@style/button_style" />
+                app:bl_stroke_width="1dp" />
 
             <TextView
+                android:id="@+id/bottomTV2"
                 style="@style/button_style"
-                android:text="再来一单"
-                app:bl_corners_radius="12dp"
                 android:layout_marginStart="@dimen/dp_10"
+                android:text="再来一单"
+                app:bl_corners_radius="25dp"
                 app:bl_solid_color="@color/white"
                 app:bl_stroke_color="@color/base_text_color"
                 app:bl_stroke_width="1dp" />

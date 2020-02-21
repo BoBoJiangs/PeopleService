@@ -27,7 +27,10 @@ android {
                 //AS4J247WTLZG 属于应用"拔苗助长(考试系统)"独有的 Android AppKey, 用于配置SDK
                 MTA_APPKEY : "AS4J247WTLZG",
                 //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
-                MTA_CHANNEL: "到家"
+                MTA_CHANNEL: "到家",
+                JPUSH_PKGNAME : "com.yb.peopleservice",
+                JPUSH_APPKEY : "2016fa17df9b1e19a1ba9d27", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
         ]
     }
     //配置签名文件
@@ -128,5 +131,15 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.8'
     //滑动删除
     implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
+    //Popwindow
+    implementation 'com.lxj:xpopup:1.8.10-x'
 
+    //流式布局
+    implementation 'com.github.1002326270xc:LayoutManager-FlowLayout:v1.8'
+
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
+
+    //极光推送
+    implementation 'cn.jiguang.sdk:jpush:3.5.6'
+    implementation 'cn.jiguang.sdk:jcore:2.2.8'
 }

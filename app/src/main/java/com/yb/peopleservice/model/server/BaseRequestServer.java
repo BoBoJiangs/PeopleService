@@ -133,6 +133,7 @@ public class BaseRequestServer extends AbstractHttpsRequestServer {
             public void log(String message) {
 //                if (message.contains("jessionId")) {
                 LogUtils.a(message);
+
 //                }
 
             }

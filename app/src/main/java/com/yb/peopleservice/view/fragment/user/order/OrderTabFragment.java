@@ -17,7 +17,7 @@ import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.ScrollViewPager;
 
 public class OrderTabFragment extends BaseViewPagerFragment {
-    protected String[] mTitles = {"全部", "代付款", "进行中", "已完成", "待评价"};
+    protected String[] mTitles = {"全部", "代付款", "进行中", "待评价", "已完成"};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;
     @BindView(R.id.viewPager)
@@ -46,16 +46,16 @@ public class OrderTabFragment extends BaseViewPagerFragment {
     @Override
     protected List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
-        allFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
-        paymentFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
-        doFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
-        finishFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
-        evaluateFragment = OrderListFragment.getInstanceFragment(OrderBean.WAITING);
+        allFragment = OrderListFragment.getInstanceFragment(OrderBean.ALL);
+        paymentFragment = OrderListFragment.getInstanceFragment(OrderBean.NO_PAY);
+        doFragment = OrderListFragment.getInstanceFragment(OrderBean.UNDER_WAY);
+        evaluateFragment = OrderListFragment.getInstanceFragment(OrderBean.ASSESS);
+        finishFragment = OrderListFragment.getInstanceFragment(OrderBean.COMPLETED);
         fragmentList.add(allFragment);
         fragmentList.add(paymentFragment);
         fragmentList.add(doFragment);
-        fragmentList.add(finishFragment);
         fragmentList.add(evaluateFragment);
+        fragmentList.add(finishFragment);
         return fragmentList;
     }
 

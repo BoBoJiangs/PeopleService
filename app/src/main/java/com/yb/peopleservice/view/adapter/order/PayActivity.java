@@ -44,7 +44,7 @@ public class PayActivity extends BaseToolbarActivity {
     @BindView(R.id.checkbox2)
     CheckBox checkbox2;
     private float payPrice = 0;//实际支付的费用
-    private int payType;//支付方式 默认微信支付
+    private int payType = AppConstant.ALIPAY_TYPE;//支付方式 默认微信支付
     private OrderBean orderBean;//订单号
     private PayPresenter presenter;
     private WeChatPayReceiver receiver;//微信登录的广播

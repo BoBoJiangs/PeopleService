@@ -7,11 +7,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.yb.peopleservice.GlideApp;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 
 import java.util.List;
@@ -43,13 +47,14 @@ public class ServiceContentFragment extends BaseListFragment {
         return fragment;
     }
 
+
     @Override
     public BaseQuickAdapter initAdapter() {
         return adapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.adapter_image) {
             @Override
             protected void convert(@NonNull BaseViewHolder helper, String item) {
                 ImageView imageView = helper.getView(R.id.imageView);
-                ImageLoaderUtil.loadServerImage(mContext, item, imageView);
+                ImageLoaderUtil.loadPiblicImage(mContext, item, imageView);
             }
         };
     }

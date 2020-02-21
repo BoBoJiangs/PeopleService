@@ -14,6 +14,7 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.yb.peopleservice.GlideApp;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
@@ -126,18 +127,32 @@ public class ImageLoaderUtil {
 
 
     /**
+     * 加载服务器图片（不需要权限）
+     *
+     * @param url       图片地址
+     * @param imageView view
+     */
+    public static void loadPiblicImage(Context context, String url, ImageView imageView) {
+        url = BaseRequestServer.getFileUrl(true) + url;
+        GlideApp.with(context)
+                .load(url)
+                .centerInside()
+                .into(imageView);
+    }
+
+    /**
      * 加载服务器图片
      *
      * @param url       图片地址
      * @param imageView view
      */
-    public static void loadServerImage(Context context, String url, ImageView imageView,
-                                       RequestOptions options) {
+    public static void loadImageView(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
                 .apply(options)
                 .into(imageView);
     }
+
 
     /**
      * 加载本地图片

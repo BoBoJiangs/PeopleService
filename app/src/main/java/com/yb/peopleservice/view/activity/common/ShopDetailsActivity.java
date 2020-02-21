@@ -60,7 +60,7 @@ public class ShopDetailsActivity extends BaseToolbarActivity implements
     @Override
     public void initToolView() {
         super.initToolView();
-        myShop = (MyShop) getIntent().getSerializableExtra(MyShop.class.getName());
+        myShop = (MyShop) getIntent().getParcelableExtra(MyShop.class.getName());
         if (myShop != null) {
             setViewText(myShop);
 

@@ -1,5 +1,7 @@
 package cn.sts.base.view.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import com.trello.rxlifecycle3.components.RxActivity;
@@ -19,12 +21,19 @@ public abstract class BaseActivity<P extends AbstractPresenter> extends RxAppCom
 
     private static final String TAG = "BaseActivity";
     private P presenter;
+    /**
+     * 等待对话框
+     */
+    private ProgressDialog progDialog;
+    private Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(contentViewResID());
         ButterKnife.bind(this);
+        context = this;
+
 
         AppManager.getAppManager().addActivity(this);
         initView();
@@ -45,6 +54,33 @@ public abstract class BaseActivity<P extends AbstractPresenter> extends RxAppCom
 
     }
 
+    public void showProgressDialog(){
+        showProgressDialog("加载中");
+    }
+
+    /**
+     * 显示进度框
+     */
+    public void showProgressDialog(String msg) {
+        if (progDialog == null) {
+            progDialog = new ProgressDialog(this);
+        }
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setIndeterminate(false);
+        progDialog.setCancelable(true);
+        progDialog.setMessage(msg);
+        progDialog.show();
+    }
+
+    /**
+     * 隐藏进度框
+     */
+    public void dissmissProgressDialog() {
+        if (progDialog != null) {
+            progDialog.dismiss();
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -61,6 +97,7 @@ public abstract class BaseActivity<P extends AbstractPresenter> extends RxAppCom
         if (presenter != null) {
             presenter.unbind();
         }
+        dissmissProgressDialog();
     }
 
     /**

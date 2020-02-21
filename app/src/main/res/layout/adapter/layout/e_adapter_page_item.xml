@@ -8,14 +8,14 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="60pt"
-        android:layout_height="60pt"
+        android:layout_width="70pt"
+        android:layout_height="70pt"
         android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/titleTV"
         style="@style/text_view_content_black"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="5dp"
         android:lines="1"
         android:text="推荐商品"
         android:textSize="@dimen/font_content_small" />

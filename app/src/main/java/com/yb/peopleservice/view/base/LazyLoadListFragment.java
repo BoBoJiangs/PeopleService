@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import cn.sts.base.view.fragment.BaseFragment;
+import cn.sts.base.view.fragment.BaseListFragment;
 
 /**
  * 项目名称:Exam
@@ -15,7 +16,7 @@ import cn.sts.base.view.fragment.BaseFragment;
  * 修改时间:
  * 修改描述:
  */
-public abstract class LazyLoadListFragment extends BaseFragment {
+public abstract class LazyLoadListFragment extends BaseListFragment {
     /**
      * 是否初始化过布局
      */

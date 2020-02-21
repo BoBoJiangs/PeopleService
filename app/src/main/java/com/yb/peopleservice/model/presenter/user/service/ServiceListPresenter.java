@@ -23,12 +23,31 @@ import io.reactivex.Observable;
  * 修改描述:
  */
 public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
-    private String classId;//分类ID
-    private boolean isShop;
+    public static final int SERVICE_TYPE = 1;//服务类型
+    public static final int SHOP_TYPE = 2;//店铺类型
+    public static final int GRUOP_TYPE = 3;//团购类型
 
-    public ServiceListPresenter(String classId, Context context,
-                                IQueryListCallback<ShopInfo> IQueryListCallback) {
-        this(classId,context,IQueryListCallback,false);
+    public static final String DEFAULT = "0";//默认排序
+    public static final String NUMBER = "1";//销量
+    public static final String PRICE_LESS = "2";//价格由低到高
+    public static final String PRICE_MORE = "3";//价格由高到低
+    private String classId;//分类ID
+    private int type;
+    private String order = DEFAULT;
+
+
+//    public ServiceListPresenter(String classId, Context context,
+//                                IQueryListCallback<ShopInfo> IQueryListCallback) {
+//        this(classId, context, IQueryListCallback, false);
+//    }
+
+    public void setOrder(String order) {
+        pageIndex = 1;
+        this.order = order;
+    }
+
+    public String getOrder() {
+        return order;
     }
 
     /**
@@ -36,10 +55,10 @@ public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
      * @param IQueryListCallback 列表操作接口
      */
     public ServiceListPresenter(String classId, Context context,
-                                IQueryListCallback<ShopInfo> IQueryListCallback,boolean isShop) {
+                                IQueryListCallback<ShopInfo> IQueryListCallback, int type) {
         super(context, IQueryListCallback);
         this.classId = classId;
-        this.isShop = isShop;
+        this.type = type;
     }
 
     @Override
@@ -47,12 +66,16 @@ public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
         AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, getRequestListener()) {
             @Override
             public Observable getObservable(ServiceRequest iRequestServer) {
-                Map<String, Integer> map = new HashMap<>();
-                map.put("current", pageIndex);
-                if (isShop){
-                    return iRequestServer.getShopList(classId);
-                }else {
-                    return iRequestServer.getServiceList(classId);
+                Map<String, String> map = new HashMap<>();
+                map.put("current", pageIndex + "");
+                switch (type) {
+                    case SERVICE_TYPE:
+                        map.put("order", order);
+                        return iRequestServer.getServiceList(classId, map);
+                    case SHOP_TYPE:
+                        return iRequestServer.getShopList(classId);
+                    default:
+                        return iRequestServer.groupBuyList(map);
                 }
 
 

@@ -1,21 +1,30 @@
 package com.yb.peopleservice.view.activity.main;
 
 import android.content.Intent;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.amap.api.location.AMapLocation;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.app.MyApplication;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
+import com.yb.peopleservice.model.presenter.shop.RealTimeLocationPresenter;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.fragment.service.ServicePersonFragment;
 import com.yb.peopleservice.view.fragment.shop.ShopFragment;
 import com.yb.peopleservice.view.fragment.shop.order.ShopOrderTabFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -44,9 +53,15 @@ public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSel
     FrameLayout frameLayout;
     private LogoutPresenter logoutPresenter;
     private ServicePersonFragment servicePersonFragment;
+    private RealTimeLocationPresenter presenter;
     @Override
     public int contentViewResID() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -55,10 +70,17 @@ public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSel
         rightLL.setVisibility(View.VISIBLE);
         rightIV2.setVisibility(View.VISIBLE);
         rightIV2.setImageResource(R.mipmap.icon_logout);
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AMapLocation location) {
+        presenter.addGps(location);
     }
 
     @Override
     protected void initData() {
+        presenter = new RealTimeLocationPresenter(this,null);
         logoutPresenter = new LogoutPresenter(this,null);
         commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
                 getFragmentList());
@@ -99,7 +121,7 @@ public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSel
 
     @Override
     protected AbstractPresenter createPresenter() {
-        return null;
+        return presenter;
     }
 
     @Override
@@ -138,9 +160,16 @@ public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSel
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        servicePersonFragment.onActivityResult(requestCode,resultCode,data);
-//    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //启动一个意图,回到桌面
+            Intent backHome = new Intent(Intent.ACTION_MAIN);
+            backHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            backHome.addCategory(Intent.CATEGORY_HOME);
+            startActivity(backHome);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

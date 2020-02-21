@@ -41,7 +41,7 @@ public interface HomeRequest {
     /**
      * 获取首页的热门服务
      */
-    @GET("mainpage/categories")
+    @GET("categories/all")
     Observable<RequestResult<List<ClassifyListBean>>> getHotList();
 
     /**

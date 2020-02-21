@@ -1,6 +1,7 @@
 package com.yb.peopleservice.view.activity.main;
 
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -141,5 +142,18 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         shopFragment.onActivityResult(requestCode,resultCode,data);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //启动一个意图,回到桌面
+            Intent backHome = new Intent(Intent.ACTION_MAIN);
+            backHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            backHome.addCategory(Intent.CATEGORY_HOME);
+            startActivity(backHome);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -17,6 +17,7 @@
         android:padding="@dimen/dp_10">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -24,6 +25,7 @@
                 android:id="@+id/linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10"
                 android:orientation="vertical"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -44,27 +46,32 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/cashOutTV"
-                style="@style/login_btn_style"
+                android:id="@+id/cashOutBtn"
+                style="@style/gray_btn_style"
                 android:layout_width="140pt"
                 android:layout_height="40dp"
                 android:layout_margin="@dimen/dp_10"
                 android:text="提现"
+                android:textColor="@color/base_text_color"
+                app:bl_solid_color="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/linear"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/linear"
                 tools:ignore="MissingPrefix" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
+            android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/dp_10">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -77,13 +84,17 @@
 
                 <TextView
                     style="@style/text_view_content_black"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:text="待结算（元）"
                     android:textColor="@color/white" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextView
@@ -96,13 +107,17 @@
 
                 <TextView
                     style="@style/text_view_content_black"
-                    android:text="待结算（元）"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="总结算金额（元）"
                     android:textColor="@color/white" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -115,11 +130,253 @@
 
                 <TextView
                     style="@style/text_view_content_black"
-                    android:text="待结算（元）"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="不可用金额（元）"
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardMaxElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="70pt"
+                android:layout_height="70pt"
+                android:src="@mipmap/income4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        style="@style/text_view_content_black"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_weight="1"
+                        android:text="交易数量"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tradeNumTV"
+                        style="@style/text_view_content_black"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:text="0"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tradeTV"
+                        style="@style/text_view_content_gray"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:text="交易金额：0"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardMaxElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10">
+
+            <ImageView
+                android:id="@+id/headImg"
+                android:layout_width="70pt"
+                android:layout_height="70pt"
+                android:src="@mipmap/income1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        style="@style/text_view_content_black"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_weight="1"
+                        android:text="支付数量"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/payNumTV"
+                        style="@style/text_view_content_black"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:text="0"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/payTV"
+                        style="@style/text_view_content_gray"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:text="支付金额：0"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="70pt"
+                android:layout_height="70pt"
+                android:src="@mipmap/income2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        style="@style/text_view_content_black"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_weight="1"
+                        android:text="订单数量"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/orderNumTV"
+                        style="@style/text_view_content_black"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:text="0"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/orderTV"
+                        style="@style/text_view_content_gray"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:text="订单金额：0"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="70pt"
+                android:layout_height="70pt"
+                android:src="@mipmap/incom3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        style="@style/text_view_content_black"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_weight="1"
+                        android:text="退款数量"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/refundNumTV"
+                        style="@style/text_view_content_black"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:text="0"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/refundTV"
+                    style="@style/text_view_content_gray"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="退款金额：0"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

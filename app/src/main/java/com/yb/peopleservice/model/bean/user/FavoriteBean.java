@@ -60,7 +60,7 @@ public class FavoriteBean implements Serializable {
     private String timestamp;
     private int favorite;
     private int calculatedDistance;
-    private int startPrice;//起步价
+    private float startPrice;//起步价
     private int startDistance;//起步距离 整数
     private int groupBuy;
 
@@ -194,11 +194,11 @@ public class FavoriteBean implements Serializable {
         this.calculatedDistance = calculatedDistance;
     }
 
-    public int getStartPrice() {
+    public float getStartPrice() {
         return startPrice;
     }
 
-    public void setStartPrice(int startPrice) {
+    public void setStartPrice(float startPrice) {
         this.startPrice = startPrice;
     }
 

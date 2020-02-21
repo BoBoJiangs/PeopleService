@@ -1,6 +1,7 @@
 package com.yb.peopleservice.view.fragment.user;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import com.yb.peopleservice.model.presenter.user.BannerPresenter;
 import com.yb.peopleservice.model.presenter.user.HomePresenter;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.GlideImageLoader;
+import com.yb.peopleservice.view.activity.search.SearchActivity;
 import com.yb.peopleservice.view.adapter.user.HomeListAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
 import com.youth.banner.Banner;
@@ -30,8 +32,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.sts.base.view.fragment.BaseListFragment;
 
+import static com.yb.peopleservice.model.bean.user.HomeListBean.CONTENT_TYPE;
 import static com.yb.peopleservice.model.bean.user.HomeListBean.PAGE_TYPE;
 import static com.yb.peopleservice.model.bean.user.HomeListBean.SPAN_SIZE_ONE;
 import static com.yb.peopleservice.model.bean.user.HomeListBean.TITLE_TYPE;
@@ -77,11 +81,11 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
     protected void initData() {
         initHeaderView();
         listData.add(new HomeListBean(PAGE_TYPE, SPAN_SIZE_ONE));
+        listData.add(new HomeListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         adapter.setSpanSizeLookup((gridLayoutManager, position) ->
                 listData.get(position).getSpanSize());
         adapter.setNewData(listData);
         DraggableController mDraggableController = adapter.getDraggableController();
-
         OnItemDragListener listener = new OnItemDragListener() {
             @Override
             public void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos) {
@@ -112,6 +116,11 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
         presenter.getBannerList();
         homePresenter.getHotList();
         homePresenter.getHotService();
+    }
+
+    @OnClick({R.id.searchLL})
+    public void onClick(){
+        startActivity(new Intent(getContext(), SearchActivity.class));
     }
 
     @Override

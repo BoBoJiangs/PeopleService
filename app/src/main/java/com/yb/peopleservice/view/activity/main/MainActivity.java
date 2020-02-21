@@ -2,16 +2,22 @@ package com.yb.peopleservice.view.activity.main;
 
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.database.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.push.TagAliasOperatorHelper;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
-import com.yb.peopleservice.view.fragment.user.ClassifyFragment;
+import com.yb.peopleservice.view.fragment.user.classify.ClassifyFragment;
 import com.yb.peopleservice.view.fragment.user.HomeFragment;
 import com.yb.peopleservice.view.fragment.user.LifeRadarMapFragment;
 import com.yb.peopleservice.view.fragment.user.order.OrderTabFragment;
@@ -20,8 +26,11 @@ import com.yb.peopleservice.view.fragment.user.PersonalFragment;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import cn.jpush.android.api.JPushInterface;
 import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
+
+import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
 
 public class MainActivity extends BaseToolbarActivity implements OnTabSelectListener {
 
@@ -57,6 +66,8 @@ public class MainActivity extends BaseToolbarActivity implements OnTabSelectList
         commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
                 getFragmentList());
         commonTabLayout.setOnTabSelectListener(this);
+
+
     }
 
 
@@ -107,5 +118,18 @@ public class MainActivity extends BaseToolbarActivity implements OnTabSelectList
                     .statusBarDarkFont(true, 0.2f)
                     .statusBarColor(R.color.white).init();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //启动一个意图,回到桌面
+            Intent backHome = new Intent(Intent.ACTION_MAIN);
+            backHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            backHome.addCategory(Intent.CATEGORY_HOME);
+            startActivity(backHome);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

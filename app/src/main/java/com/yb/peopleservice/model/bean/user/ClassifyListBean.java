@@ -171,6 +171,9 @@ public class ClassifyListBean implements Parcelable {
         this.calculatedDistance = calculatedDistance;
     }
 
+    public ClassifyListBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -179,6 +182,8 @@ public class ClassifyListBean implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(this.categories);
+        dest.writeTypedList(this.commodities);
+        dest.writeTypedList(this.classList);
         dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.parentId);
@@ -191,11 +196,10 @@ public class ClassifyListBean implements Parcelable {
         dest.writeInt(this.calculatedDistance);
     }
 
-    public ClassifyListBean() {
-    }
-
     protected ClassifyListBean(Parcel in) {
         this.categories = in.createTypedArrayList(ClassifyListBean.CREATOR);
+        this.commodities = in.createTypedArrayList(ServiceListBean.CREATOR);
+        this.classList = in.createTypedArrayList(ClassifyListBean.CREATOR);
         this.id = in.readString();
         this.name = in.readString();
         this.parentId = in.readString();

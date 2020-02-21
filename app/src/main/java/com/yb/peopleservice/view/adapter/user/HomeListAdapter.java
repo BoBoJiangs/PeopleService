@@ -1,6 +1,7 @@
 package com.yb.peopleservice.view.adapter.user;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +13,12 @@ import com.chad.library.adapter.base.DraggableController;
 import com.gcssloop.widget.PagerGridLayoutManager;
 import com.gcssloop.widget.PagerGridSnapHelper;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.bean.user.HomeListBean;
+import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
+import com.yb.peopleservice.view.activity.services.ServiceDetailsActivity;
+import com.yb.peopleservice.view.activity.services.ServiceListActivity;
 import com.yb.peopleservice.view.adapter.HomeContentAdapter;
 import com.yb.peopleservice.view.weight.PageIndicatorView;
 
@@ -49,7 +55,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
         this.context = context;
         addItemType(HomeListBean.PAGE_TYPE, R.layout.home_page_view);
         addItemType(HomeListBean.TITLE_TYPE, R.layout.e_adapter_home_title);
-        addItemType(HomeListBean.CONTENT_TYPE, R.layout.e_adapter_home_shop);
+        addItemType(HomeListBean.CONTENT_TYPE, R.layout.e_adapter_group_img);
         mDraggableController = new DraggableController(this);
 
         for (int i = 0; i < 5; i++) {
@@ -60,6 +66,7 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
     @Override
     protected void convert(BaseViewHolder helper, HomeListBean item) {
         mDraggableController.initView(helper);
+//        mDraggableController.setToggleViewId(R.id.titleLL);
         switch (helper.getItemViewType()) {
             case HomeListBean.PAGE_TYPE:
                 RecyclerView mRecyclerView = helper.getView(R.id.pageRecyclerView);
@@ -95,8 +102,17 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
                 break;
             case HomeListBean.TITLE_TYPE:
                 helper.setText(R.id.titleTV,item.getName());
+
                 RecyclerView recyclerView = helper.getView(R.id.recyclerView);
                 contentAdapter = (HomeContentAdapter) recyclerView.getAdapter();
+                helper.getView(R.id.titleLL).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        context.startActivity(new Intent(context, ServiceListActivity.class)
+                                .putExtra("type", ServiceListPresenter.SERVICE_TYPE)
+                                .putExtra(ClassifyListBean.class.getName(),item));
+                    }
+                });
                 if (contentAdapter == null) {
                     recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
                     HomeContentAdapter contentAdapter = new HomeContentAdapter();
@@ -105,6 +121,9 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
                     contentAdapter.setOnItemClickListener(new OnItemClickListener() {
                         @Override
                         public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            ServiceListBean serviceListBean = contentAdapter.getItem(position);
+                            context.startActivity(new Intent(context, ServiceDetailsActivity.class)
+                                    .putExtra(ServiceListBean.class.getName(),serviceListBean));
                         }
                     });
                 } else {
@@ -113,8 +132,13 @@ public class HomeListAdapter extends BaseMultiItemQuickAdapter<HomeListBean, Bas
 
                 break;
             case HomeListBean.CONTENT_TYPE:
-                TextView textView = helper.getView(R.id.priceTV2);
-                textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                helper.getView(R.id.imageView).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        context.startActivity(new Intent(context, ServiceListActivity.class)
+                                .putExtra("type", ServiceListPresenter.GRUOP_TYPE));
+                    }
+                });
                 break;
         }
 

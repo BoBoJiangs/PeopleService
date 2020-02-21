@@ -1,16 +1,25 @@
 package com.yb.peopleservice.app;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
 import com.tencent.smtt.sdk.QbSdk;
 import com.yb.peopleservice.BuildConfig;
 
+import org.greenrobot.eventbus.EventBus;
+
+import cn.jpush.android.api.JPushInterface;
 import cn.sts.base.util.AppManageUtil;
 import cn.sts.platform.util.PayUtil;
 import cn.sts.platform.util.ThirdPlatformUtil;
@@ -20,10 +29,11 @@ import cn.sts.platform.util.ThirdPlatformUtil;
  * 自定义Application类
  * Created by weilin on 16/11/25.
  */
-public class MyApplication extends MultiDexApplication {
+public class MyApplication extends MultiDexApplication implements AMapLocationListener {
 
     private static Context appContext;
-
+    private AMapLocationClient mlocationClient;
+    public static AMapLocation aMapLocation;//当前位置信息
 
     @Override
     public void onCreate() {
@@ -41,6 +51,7 @@ public class MyApplication extends MultiDexApplication {
 
         initLog();
 //        AppManageUtil.APP_CODE = AppConstant.FILE_KEY;
+        initLocation();
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
             @Override
@@ -54,6 +65,8 @@ public class MyApplication extends MultiDexApplication {
                 LogUtils.d(" onViewInitFinished is " + b);
             }
         });
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
     }
 
 
@@ -84,4 +97,50 @@ public class MyApplication extends MultiDexApplication {
                 .setFilePrefix("");// 当文件前缀为空时，默认为"util"，即写入文件为"util-MM-dd.txt"
     }
 
+    private void initLocation() {
+        if (mlocationClient == null) {
+            mlocationClient = new AMapLocationClient(this);
+            //设置定位监听
+            mlocationClient.setLocationListener(this);
+            //设置定位参数
+            mlocationClient.setLocationOption(getDefaultOption());
+            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+            // 在定位结束后，在合适的生命周期调用onDestroy()方法
+            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+            mlocationClient.startLocation();
+        }
+    }
+
+    /**
+     * 默认的定位参数
+     *
+     * @author hongming.wang
+     * @since 2.8.0
+     */
+    private AMapLocationClientOption getDefaultOption() {
+        AMapLocationClientOption mOption = new AMapLocationClientOption();
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(true);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setInterval(10000);//可选，设置定位间隔。默认为2秒
+        mOption.setLocationCacheEnable(false); //可选，设置是否使用缓存定位，默认为true
+        mOption.setNeedAddress(true);
+        mOption.setGeoLanguage(AMapLocationClientOption.GeoLanguage.DEFAULT);//可选，设置逆地理信息的语言，默认值为默认语言（根据所在地区选择语言）
+        return mOption;
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation location) {
+        if (location.getErrorCode() == 0) {
+            MyApplication.aMapLocation = location;
+            if (!(TextUtils.isEmpty(location.getAddress()) &&
+                    TextUtils.isEmpty(location.getPoiName()))) {
+                EventBus.getDefault().post(location);
+            }
+
+        } else {
+            Log.e("amap", "定位失败");
+            MyApplication.aMapLocation = null;
+        }
+    }
 }

@@ -21,6 +21,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:src="@mipmap/icon_location1"/>
         <TextView
             android:id="@+id/locationName"
@@ -28,6 +29,7 @@
             android:textColor="@color/white"
             android:layout_width="70dp"
             android:text="我的位置"
+            android:visibility="gone"
             android:lines="1"
             android:layout_marginStart="5dp"
             android:textSize="@dimen/font_btn_small_best" />

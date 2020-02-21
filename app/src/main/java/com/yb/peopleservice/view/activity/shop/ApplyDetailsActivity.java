@@ -82,7 +82,7 @@ public class ApplyDetailsActivity extends BaseToolbarActivity {
 
     @Override
     protected void initData() {
-        shopInfo = (ShopInfo) getIntent().getSerializableExtra(ShopInfo.class.getName());
+        shopInfo = (ShopInfo) getIntent().getParcelableExtra(ShopInfo.class.getName());
         addressUV.getRightImageView().setVisibility(View.INVISIBLE);
         headIV = headUV.getRightImageView();
 

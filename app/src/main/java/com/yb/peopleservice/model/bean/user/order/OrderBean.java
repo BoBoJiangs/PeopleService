@@ -15,11 +15,18 @@ import com.yb.peopleservice.model.bean.user.AddressListVO;
  * 修改描述:
  */
 public class OrderBean implements Parcelable {
-    public static final int ALL = -1;//全部订单
-    public static final int WAITING = -1;//待付款
-    public static final int DOING = -1;//进行中
-    public static final int COMPLETED = -1;//已完成
-    public static final int ASSESS = -1;//待评价
+    public static final int ALL = 1000;//全部订单
+    public static final int NO_PAY = -1;//待付款
+    public static final int UNDER_WAY = 100;//进行中
+    public static final int CLOSE = 0;//已关闭
+    public static final int GROUP_NOT_FINISH = 1;//团购已付款 未完成
+    public static final int PAID = 2;//团购或者付款完成（等待指派）
+    public static final int ASSIGN = 3;//等待服务人员接受
+    public static final int WAITING = 4;//服务人员接受，正在前往执行
+    public static final int ARRIVED = 5;//服务人员已上门 等待用户确认 开始服务
+    public static final int DOING = 6;//服务人员已被用户确认
+    public static final int ASSESS = 7;//待评价
+    public static final int COMPLETED = 8;//已完成
     /**
      * amount : 0
      * calculatedDistance : 0
@@ -86,12 +93,12 @@ public class OrderBean implements Parcelable {
     private String id;
     private String message;//订单备注信息，下单的时候添加，可以由店铺修改
     private String name;//订单名称，可忽略的参数
-    private int originTotalPrice;//原来的总价，如果有优惠，那么这个是优惠以前的价格，然后一条横线，表示已优惠
+    private float originTotalPrice;//原来的总价，如果有优惠，那么这个是优惠以前的价格，然后一条横线，表示已优惠
     private String payTime;//订单支付时间
-    private int price;//单价
+    private float price;//单价
     private String refundConfirmTime;//退款确认时间
     private String refundImgs;//退款申请的图片，uri数组 ['/img/…’,…]
-    private int refundMoney;//退款的金额，需要退款的所有金额
+    private float refundMoney;//退款的金额，需要退款的所有金额
     private String refundReason;//退款申请原因文字描述
     private int refundStatus;//退款申请状态 1申请中 0已关闭 关闭可能是由商家关闭，也可以由顾客关闭 2退款成功
     private String refundTime;//申请退款时间
@@ -101,7 +108,11 @@ public class OrderBean implements Parcelable {
     private String startLatitude;//起点位置纬度
     private String startLongitude;//起点位置经度
     private String startTime;//服务开始时间
-    private int status;//订单状态：0关闭 1已拍下未付款 2团购已付款未凑单完成 3单买已付款或团购已凑单完成，可以指派服务人员 4已指派服务人员 5服务人员已上门，此时打开录音功能 6服务人员已被用户确认，开始服务7已完成交易，待评价 8已评价，订单全部完成
+    private int status;//订单状态：0凑单未成功，订单关闭 1团购已付款未凑单完成
+    // 2等待指派服务人员(买已付款或团购已凑单完成) 3等待服务人员接受
+    // 4服务人员接受，正在前往执行 如果服务人员拒绝，那么订单进入2，需要指派服务人员
+    // 5服务人员已上门，此时打开录音功能 6服务人员已被用户确认，开始服务7已完成交易，待评价
+    // 8已评价，订单全部完成
     private int totalPrice;//实际总价，订单实际需要支付的金额，由此生成支付金额
 
     public int getAmount() {
@@ -288,11 +299,11 @@ public class OrderBean implements Parcelable {
         this.name = name;
     }
 
-    public int getOriginTotalPrice() {
+    public float getOriginTotalPrice() {
         return originTotalPrice;
     }
 
-    public void setOriginTotalPrice(int originTotalPrice) {
+    public void setOriginTotalPrice(float originTotalPrice) {
         this.originTotalPrice = originTotalPrice;
     }
 
@@ -304,11 +315,11 @@ public class OrderBean implements Parcelable {
         this.payTime = payTime;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -328,11 +339,11 @@ public class OrderBean implements Parcelable {
         this.refundImgs = refundImgs;
     }
 
-    public int getRefundMoney() {
+    public float getRefundMoney() {
         return refundMoney;
     }
 
-    public void setRefundMoney(int refundMoney) {
+    public void setRefundMoney(float refundMoney) {
         this.refundMoney = refundMoney;
     }
 
@@ -424,6 +435,19 @@ public class OrderBean implements Parcelable {
         this.totalPrice = totalPrice;
     }
 
+    public OrderBean() {
+    }
+
+    /**
+     * 设置订单的地址信息
+     */
+    public void setAddressBean(AddressListVO vo) {
+        setConsigneeAddress(vo.getDetailAddress());
+        setConsigneeHouseNumber(vo.getHouseNum());
+        setConsigneeName(vo.getConsigneeName());
+        setConsigneePhone(vo.getConsigneePhone());
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -454,12 +478,12 @@ public class OrderBean implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.message);
         dest.writeString(this.name);
-        dest.writeInt(this.originTotalPrice);
+        dest.writeFloat(this.originTotalPrice);
         dest.writeString(this.payTime);
-        dest.writeInt(this.price);
+        dest.writeFloat(this.price);
         dest.writeString(this.refundConfirmTime);
         dest.writeString(this.refundImgs);
-        dest.writeInt(this.refundMoney);
+        dest.writeFloat(this.refundMoney);
         dest.writeString(this.refundReason);
         dest.writeInt(this.refundStatus);
         dest.writeString(this.refundTime);
@@ -471,9 +495,6 @@ public class OrderBean implements Parcelable {
         dest.writeString(this.startTime);
         dest.writeInt(this.status);
         dest.writeInt(this.totalPrice);
-    }
-
-    public OrderBean() {
     }
 
     protected OrderBean(Parcel in) {
@@ -500,12 +521,12 @@ public class OrderBean implements Parcelable {
         this.id = in.readString();
         this.message = in.readString();
         this.name = in.readString();
-        this.originTotalPrice = in.readInt();
+        this.originTotalPrice = in.readFloat();
         this.payTime = in.readString();
-        this.price = in.readInt();
+        this.price = in.readFloat();
         this.refundConfirmTime = in.readString();
         this.refundImgs = in.readString();
-        this.refundMoney = in.readInt();
+        this.refundMoney = in.readFloat();
         this.refundReason = in.readString();
         this.refundStatus = in.readInt();
         this.refundTime = in.readString();
@@ -530,14 +551,4 @@ public class OrderBean implements Parcelable {
             return new OrderBean[size];
         }
     };
-
-    /**
-     * 设置订单的地址信息
-     */
-    public void setAddressBean(AddressListVO vo){
-        setConsigneeAddress(vo.getDetailAddress());
-        setConsigneeHouseNumber(vo.getHouseNum());
-        setConsigneeName(vo.getConsigneeName());
-        setConsigneePhone(vo.getConsigneePhone());
-    }
 }

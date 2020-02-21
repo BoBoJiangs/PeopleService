@@ -1,4 +1,4 @@
-package com.yb.peopleservice.view.fragment.user;
+package com.yb.peopleservice.view.fragment.user.classify;
 
 import android.content.Intent;
 import android.view.View;
@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.presenter.user.ClassifyPresenter;
+import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
 import com.yb.peopleservice.view.activity.services.ServiceListActivity;
 import com.yb.peopleservice.view.adapter.user.classify.ClassifyAdapter;
 import com.yb.peopleservice.view.adapter.user.classify.ClassifyChildAdapter;
@@ -65,6 +66,7 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
                 ClassifyListBean classifyListBean = childAdapter.getItem(position);
                 if (classifyListBean != null) {
                     startActivity(new Intent(getContext(), ServiceListActivity.class)
+                            .putExtra("type", ServiceListPresenter.SERVICE_TYPE)
                             .putExtra(ClassifyListBean.class.getName(),classifyListBean));
                 }
 

@@ -1,7 +1,11 @@
 package com.yb.peopleservice.model.server.shop;
 
 
+import android.accounts.Account;
+
+import com.yb.peopleservice.model.bean.shop.BalanceBean;
 import com.yb.peopleservice.model.bean.shop.MyShop;
+import com.yb.peopleservice.model.bean.shop.PersonListBean;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 
@@ -40,7 +44,35 @@ public interface ShopRequest {
     @GET("shops")
     Observable<RequestResult<ShopInfo>> getShopInfo();
 
+    /**
+     * 查询本店铺下所有的服务人员关系列表
+     */
+    @GET("staffs")
+    Observable<RequestResult<List<PersonListBean>>> shopPerson();
 
+    /**
+     * 指派服务员
+     */
+    @POST("orders/{id}/staffs/{staffId}")
+    Observable<RequestResult<Object>> assignService(@Path("id") String id,@Path("staffId") String staffId);
+
+    /**
+     * 查询余额
+     */
+    @GET("balance")
+    Observable<RequestResult<BalanceBean>> queryBalance();
+
+    /**
+     * 统计信息（账户信息）
+     */
+    @GET("statistics")
+    Observable<RequestResult<List<BalanceBean>>> statistics(@QueryMap Map<String, String> map);
+
+    /**
+     * 店铺申请提现
+     */
+    @POST("withdraw")
+    Observable<RequestResult<Object>> withDraw(@Body Map<String, Object> map);
 
 
     /***********************************服务人员相关接口 *******************************************/
@@ -88,5 +120,7 @@ public interface ShopRequest {
      */
     @POST("shops/{id}/cancelsettledin")
     Observable<RequestResult<Object>> cancelaShop(@Path("id") String id);
+
+
 
 }
