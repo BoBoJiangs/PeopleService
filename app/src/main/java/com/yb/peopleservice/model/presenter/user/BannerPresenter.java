@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.user.BannerListVO;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
 
@@ -11,7 +12,6 @@ import java.util.List;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -40,7 +40,7 @@ public class BannerPresenter extends AbstractPresenter<BannerPresenter.IBannerCa
      * 获取轮播图列表
      */
     public void getBannerList() {
-        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<List<BannerListVO>>() {
+        BaseRequestFunc<HomeRequest> requestFunc = new BaseRequestFunc<HomeRequest>(context, new IRequestListener<List<BannerListVO>>() {
             @Override
             public void onRequestSuccess(List<BannerListVO> data) {
                 try {

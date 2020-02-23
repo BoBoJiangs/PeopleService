@@ -5,12 +5,12 @@ import android.content.Context;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -42,7 +42,7 @@ public class ServiceShopStatePresenter extends AbstractPresenter<ServiceShopStat
      * @param id 店铺ID
      */
     public void unboundShop(String id) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
                 try {
@@ -88,7 +88,7 @@ public class ServiceShopStatePresenter extends AbstractPresenter<ServiceShopStat
      * @param id 店铺ID
      */
     public void cancelaShop(String id) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
                 try {

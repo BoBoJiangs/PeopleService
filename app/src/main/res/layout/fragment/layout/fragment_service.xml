@@ -118,20 +118,35 @@
             style="@style/image_utility"
             android:layout_height="50dp"
             android:background="@color/white"
-            app:text_content="满168减10"
-            app:text_content_color="@color/base_text_color"
-            app:text_title="活动" />
-
-        <cn.sts.base.view.widget.UtilityView
-            style="@style/image_utility"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/dp_10"
-            android:background="@color/white"
             app:content_gravity="end"
-            app:text_content="查看更多"
+            app:text_content="领取"
             app:text_content_color="@color/gray_cc"
-            app:text_title="10人正在拼单 可直接参与"
-            app:text_title_color="@color/gray_cc" />
+            app:text_title="优惠券" />
+
+        <LinearLayout
+            android:id="@+id/groupLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/groupUV"
+                style="@style/image_utility"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white"
+                app:content_gravity="end"
+                app:text_content="查看更多"
+                app:text_content_color="@color/gray_cc"
+                app:text_title="10人正在拼单 可直接参与"
+                app:text_title_color="@color/gray_cc"
+                app:text_title_size="@dimen/font_content_four" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/groupView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <LinearLayout
             style="@style/line_style"

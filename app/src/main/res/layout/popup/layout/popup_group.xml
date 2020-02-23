@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:bl_corners_radius="15dp"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        style="@style/line_style"
+        android:layout_width="match_parent"
+        app:bl_corners_topRightRadius="15dp"
+        app:bl_corners_topLeftRadius="15dp"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/titleTV"
+            style="@style/text_view_content_black"
+            android:layout_gravity="center"
+            android:text="正在拼单"
+            android:textSize="@dimen/font_content_middle" />
+
+        <ImageView
+            android:id="@+id/closeImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:src="@mipmap/icon_close" />
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

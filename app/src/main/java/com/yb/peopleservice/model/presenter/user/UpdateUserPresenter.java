@@ -4,12 +4,12 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -38,7 +38,7 @@ public class UpdateUserPresenter extends AbstractPresenter<UpdateUserPresenter.I
      * 更新用户信息
      */
     public void setUserInfo(UserInfoBean bean) {
-        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<UserInfoBean>() {
+        BaseRequestFunc<HomeRequest> requestFunc = new BaseRequestFunc<HomeRequest>(context, new IRequestListener<UserInfoBean>() {
             @Override
             public void onRequestSuccess(UserInfoBean data) {
                 try {

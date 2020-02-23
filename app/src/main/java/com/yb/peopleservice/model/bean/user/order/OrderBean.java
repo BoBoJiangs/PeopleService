@@ -114,6 +114,15 @@ public class OrderBean implements Parcelable {
     // 5服务人员已上门，此时打开录音功能 6服务人员已被用户确认，开始服务7已完成交易，待评价
     // 8已评价，订单全部完成
     private int totalPrice;//实际总价，订单实际需要支付的金额，由此生成支付金额
+    private String groupId;
+
+    public String getGroupId() {
+        return groupId == null ? "" : groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
 
     public int getAmount() {
         return amount;
@@ -495,6 +504,7 @@ public class OrderBean implements Parcelable {
         dest.writeString(this.startTime);
         dest.writeInt(this.status);
         dest.writeInt(this.totalPrice);
+        dest.writeString(this.groupId);
     }
 
     protected OrderBean(Parcel in) {
@@ -538,6 +548,7 @@ public class OrderBean implements Parcelable {
         this.startTime = in.readString();
         this.status = in.readInt();
         this.totalPrice = in.readInt();
+        this.groupId = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

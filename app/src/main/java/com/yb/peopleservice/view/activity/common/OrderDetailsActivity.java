@@ -1,4 +1,4 @@
-package com.yb.peopleservice.view.activity;
+package com.yb.peopleservice.view.activity.common;
 
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;

@@ -8,6 +8,7 @@ import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.database.manager.UserInfoManager;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
@@ -44,7 +45,7 @@ public class LogoutPresenter extends AbstractPresenter<IViewCallback> {
      * 退出
      */
     public void logout() {
-        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<LoginBean>() {
+        BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<LoginBean>() {
             @Override
             public void onRequestSuccess(LoginBean data) {
                 try {

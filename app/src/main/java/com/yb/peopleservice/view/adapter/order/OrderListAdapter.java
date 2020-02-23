@@ -22,6 +22,7 @@ import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.eventbean.EventOrderBean;
 import com.yb.peopleservice.model.presenter.user.order.OrderStatePresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
+import com.yb.peopleservice.view.activity.common.OrderDetailsActivity;
 import com.yb.peopleservice.view.activity.shop.ShopPersonActivity;
 import com.yb.peopleservice.view.weight.CustomPopWindow;
 
@@ -244,6 +245,13 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                 .setView(R.layout.order_delete_pop)
                 .create()
                 .showAsDropDown(view, SizeUtils.dp2px(-10), SizeUtils.dp2px(-10));
+    }
+
+    @Override
+    public void setOnItemClick(View v, int position) {
+        super.setOnItemClick(v, position);
+        OrderListBean orderBean = getItem(position);
+        context.startActivity(new Intent(context, OrderDetailsActivity.class));
     }
 
     @Override

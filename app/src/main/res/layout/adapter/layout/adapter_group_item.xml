@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/line_style"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_10">
+
+    <ImageView
+        android:id="@+id/headImg"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/default_head" />
+
+    <TextView
+        android:id="@+id/nameTV"
+        style="@style/text_view_content_black"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_weight="1"
+        android:text="加载中"
+        android:textSize="@dimen/font_btn_small_best" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/surplusTV"
+            style="@style/text_view_content_black"
+            android:text="还差0人拼成"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_view_content_black"
+                android:text="剩余"
+                android:textSize="13sp" />
+
+            <cn.iwgang.countdownview.CountdownView
+                android:id="@+id/cv_countdownView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:isShowHour="true"
+                app:isShowMinute="true"
+                app:isShowSecond="true"
+                app:suffixGravity="center"
+                app:suffixTextColor="#000000"
+                app:suffixTextSize="12sp"
+                app:timeTextColor="#000000"
+                app:timeTextSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/spellTV"
+        style="@style/button_red_style"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="去拼单"
+        android:textSize="13sp"
+        app:bl_corners_radius="5dp" />
+</LinearLayout>

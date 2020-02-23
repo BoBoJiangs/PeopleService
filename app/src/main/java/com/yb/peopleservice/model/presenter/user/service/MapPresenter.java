@@ -6,6 +6,7 @@ import com.amap.api.maps.model.LatLng;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
@@ -15,7 +16,6 @@ import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -45,7 +45,7 @@ public class MapPresenter extends AbstractPresenter<MapPresenter.INearbyCallback
      * @param type 1:服务人员 2：店铺
      */
     public void getNearbyData(LatLng latLng, int type) {
-        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<Object>() {
+        BaseRequestFunc<ServiceRequest> requestFunc = new BaseRequestFunc<ServiceRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object object) {
                 try {

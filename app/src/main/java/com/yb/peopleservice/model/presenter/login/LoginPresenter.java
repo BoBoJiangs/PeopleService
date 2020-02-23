@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 
@@ -43,7 +44,7 @@ public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallb
      * 登录
      */
     public void login(String phone,String password) {
-        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<LoginBean>() {
+        BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<LoginBean>() {
             @Override
             public void onRequestSuccess(LoginBean data) {
                 try {

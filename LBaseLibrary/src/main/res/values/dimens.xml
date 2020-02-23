@@ -47,6 +47,8 @@
     <!--最小号按钮字体大小-->
     <dimen name="font_btn_small_best">14sp</dimen>
 
+    <dimen name="fon_small_best">13sp</dimen>
+
     <!--.........................按钮.........................-->
     <!--大按钮高度-->
     <dimen name="height_btn_big">54dp</dimen>

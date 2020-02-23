@@ -5,6 +5,7 @@ import android.content.Context;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.BalanceBean;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
@@ -45,7 +46,7 @@ public class IncomePresenter extends AbstractPresenter<IncomePresenter.IIncomeCa
      * 查询余额
      */
     public void queryBalance() {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<BalanceBean>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<BalanceBean>() {
             @Override
             public void onRequestSuccess(BalanceBean data) {
                 try {
@@ -89,7 +90,7 @@ public class IncomePresenter extends AbstractPresenter<IncomePresenter.IIncomeCa
      * 提现申请
      */
     public void withDraw(double money) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
                 try {
@@ -131,7 +132,7 @@ public class IncomePresenter extends AbstractPresenter<IncomePresenter.IIncomeCa
      * @param type 1店铺 2服务人员
      */
     public void statistics(String type) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<List<BalanceBean>>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<List<BalanceBean>>() {
             @Override
             public void onRequestSuccess(List<BalanceBean> data) {
                 try {

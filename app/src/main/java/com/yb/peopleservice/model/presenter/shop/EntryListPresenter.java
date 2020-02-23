@@ -3,6 +3,7 @@ package com.yb.peopleservice.model.presenter.shop;
 import android.content.Context;
 
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
@@ -34,7 +35,7 @@ public class EntryListPresenter extends AbstractQueryListPresenter<ShopInfo> {
 
     @Override
     public void getList(boolean isShowProgress) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, getRequestListener()) {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, getRequestListener()) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
                 Map<String, Integer> map = new HashMap<>();

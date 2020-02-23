@@ -7,6 +7,7 @@ import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
@@ -17,7 +18,6 @@ import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -41,38 +41,37 @@ public class ConfirmOrderPresenter extends AbstractPresenter<ConfirmOrderPresent
         super.unbind();
     }
 
+
+
     /**
-     * 获取优惠券
+     * 获取默认地址
      */
-    public void getCouponList(String id) {
-        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<Object>() {
-            @Override
-            public void onRequestSuccess(Object data) {
-                try {
-                    if (data instanceof List) {
-                        getViewCallBack().couponSuccess((List<CouponBean>) data);
-                    } else if (data instanceof AddressListVO) {
-                        getViewCallBack().addressSuccess((AddressListVO) data);
+    public void getDefaultAddress() {
+        BaseRequestFunc<ServiceRequest> requestFunc = new BaseRequestFunc<ServiceRequest>(context,
+                new IRequestListener<List<AddressListVO>>() {
+                    @Override
+                    public void onRequestSuccess(List<AddressListVO> data) {
+                        try {
+                            getViewCallBack().addressSuccess(data);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+                    @Override
+                    public void onRequestFailure(String error) {
+                        ToastUtils.showLong(error);
+                    }
 
-            @Override
-            public void onRequestFailure(String error) {
-                ToastUtils.showLong(error);
-            }
+                    @Override
+                    public void onRequestCancel() {
 
-            @Override
-            public void onRequestCancel() {
-
-            }
-        }) {
+                    }
+                }) {
             @Override
             public Observable getObservable(ServiceRequest iRequestServer) {
-                return Observable.merge(iRequestServer.getDefaultAddress(), iRequestServer.getCouponList(id));
+                return iRequestServer.getDefaultAddress();
             }
 
             @Override
@@ -85,10 +84,10 @@ public class ConfirmOrderPresenter extends AbstractPresenter<ConfirmOrderPresent
     }
 
     /**
-     * 获取优惠券
+     * 下单
      */
     public void placeOrder(Map<String, Object> map) {
-        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<OrderBean>() {
+        BaseRequestFunc<ServiceRequest> requestFunc = new BaseRequestFunc<ServiceRequest>(context, new IRequestListener<OrderBean>() {
             @Override
             public void onRequestSuccess(OrderBean data) {
                 try {
@@ -140,7 +139,7 @@ public class ConfirmOrderPresenter extends AbstractPresenter<ConfirmOrderPresent
         /**
          * 获取默认地址
          */
-        void addressSuccess(AddressListVO data);
+        void addressSuccess(List<AddressListVO> data);
 
     }
 }

@@ -1,20 +1,16 @@
-package com.yb.peopleservice.model.presenter.user;
+package com.yb.peopleservice.model.presenter.user.personal;
 
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
-import com.yb.peopleservice.model.server.user.classify.HomeRequest;
-
-import java.util.List;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -52,7 +48,7 @@ public class PersonalPresenter extends AbstractPresenter<PersonalPresenter.IUser
      * 用户详情
      */
     public void getUserInfo() {
-        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<UserInfoBean>() {
+        BaseRequestFunc<HomeRequest> requestFunc = new BaseRequestFunc<HomeRequest>(context, new IRequestListener<UserInfoBean>() {
             @Override
             public void onRequestSuccess(UserInfoBean data) {
                 try {

@@ -2,6 +2,8 @@ package com.yb.peopleservice.model.server.file;
 
 import android.content.Context;
 
+import com.yb.peopleservice.model.server.BaseRequestFunc;
+
 import cn.sts.base.model.listener.IRequestListener;
 import cn.sts.base.model.server.request.AbstractRequestFunc;
 
@@ -13,7 +15,7 @@ import cn.sts.base.model.server.request.AbstractRequestFunc;
  * 修改时间:
  * 修改描述:
  */
-public abstract class UploadRequestFunc extends AbstractRequestFunc<UploadRequest> {
+public abstract class UploadRequestFunc extends BaseRequestFunc<UploadRequest> {
 
     public UploadRequestFunc(Context context, IRequestListener requestListener) {
         super(context, requestListener);

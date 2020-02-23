@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.yb.peopleservice.model.bean.shop.PersonListBean;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
@@ -11,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.sts.base.callback.IQueryListCallback;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractQueryListPresenter;
 import io.reactivex.Observable;
 
@@ -35,7 +35,7 @@ public class PersonPresenter extends AbstractQueryListPresenter<PersonListBean> 
 
     @Override
     public void getList(boolean isShowProgress) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, getRequestListener()) {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, getRequestListener()) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
                 return iRequestServer.shopPerson();

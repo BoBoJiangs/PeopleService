@@ -21,6 +21,7 @@
         <item name="bl_pressed_drawable">@color/gray_cc</item>
         <item name="bl_unPressed_drawable">@color/white</item>
     </style>
+
     <style name="horizontal_line_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
@@ -75,11 +76,11 @@
 
     <!--订单详情UtilityView-->
     <style name="order_utility" parent="utility_view">
-        <item name="android:layout_height">@dimen/height_title</item>
-        <item name="title_padding_left">@dimen/space_default</item>
-        <item name="text_title_size">@dimen/font_btn_small</item>
-        <item name="text_content_size">@dimen/font_content_four</item>
-        <item name="info_padding_right">@dimen/space_default</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="title_padding_left">@dimen/dp_10</item>
+        <item name="text_title_size">@dimen/fon_small_best</item>
+        <item name="text_content_size">@dimen/fon_small_best</item>
+        <item name="info_padding_right">@dimen/dp_10</item>
         <item name="content_gravity">end</item>
 
     </style>

@@ -30,15 +30,24 @@ import com.yb.peopleservice.app.MyApplication;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
+import com.yb.peopleservice.model.bean.user.order.CouponBean;
+import com.yb.peopleservice.model.bean.user.service.GroupBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.model.eventbean.EventOrderBean;
 import com.yb.peopleservice.model.presenter.user.service.CollectPresenter;
+import com.yb.peopleservice.model.presenter.user.service.ServicePresenter;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.AMapUtil;
 import com.yb.peopleservice.utils.GlideImageLoader;
 import com.yb.peopleservice.view.activity.shop.SearchMapActivity;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
+import com.yb.peopleservice.view.fragment.user.order.CouponDialogFragment;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +57,7 @@ import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.util.NumberUtil;
 import cn.sts.base.view.fragment.BaseFragment;
+import cn.sts.base.view.widget.UtilityView;
 
 /**
  * 项目名称:PeopleService
@@ -58,7 +68,8 @@ import cn.sts.base.view.fragment.BaseFragment;
  * 修改时间:
  * 修改描述:
  */
-public class ServiceFragment extends BaseFragment implements CollectPresenter.ICollectCallback {
+public class ServiceFragment extends BaseFragment implements
+        CollectPresenter.ICollectCallback, ServicePresenter.IServiceCallback {
     @BindView(R.id.banner)
     Banner banner;
 
@@ -71,17 +82,14 @@ public class ServiceFragment extends BaseFragment implements CollectPresenter.IC
     TextView priceTV;
     @BindView(R.id.soldTV)
     TextView soldTV;
+    @BindView(R.id.activityUV)
+    UtilityView activityUV;
 
-    ServiceListBean serviceInfo;
+    protected ServiceListBean serviceInfo;
     private CollectPresenter collectPresenter;
+    private ServicePresenter presenter;
     private boolean isFavorite;//是否已收藏
-//    private boolean isStart;//是否点击的起点
-//    private PoiItem startPoi;//起点位置
-//    private PoiItem endPoi;//起点位置
-//    private DriveRouteResult mDriveRouteResult;
-
-
-    public float price;//计算后的价格
+    List<CouponBean> couponList;
 
     public static Fragment getInstanceFragment(ServiceListBean serviceInfo) {
         ServiceFragment fragment = new ServiceFragment();
@@ -100,7 +108,26 @@ public class ServiceFragment extends BaseFragment implements CollectPresenter.IC
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(CouponBean bean) {
+        if (bean != null) {
+            serviceInfo.setCoupons(bean);
+            if (bean.getType() == 1) {
+                activityUV.setContentText("﹣"+bean.getMoney() + "元");
+            } else {
+                activityUV.setContentText(bean.getDiscount() + "折");
+            }
+        }
 
     }
 
@@ -135,6 +162,7 @@ public class ServiceFragment extends BaseFragment implements CollectPresenter.IC
         }
         collectPresenter = new CollectPresenter(getContext(), this);
         collectPresenter.getFavorite(serviceInfo.getId());
+        presenter = new ServicePresenter(getContext(), this);
     }
 
     @Override
@@ -142,7 +170,7 @@ public class ServiceFragment extends BaseFragment implements CollectPresenter.IC
         return collectPresenter;
     }
 
-    @OnClick({R.id.collectIV})
+    @OnClick({R.id.collectIV, R.id.activityUV})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.collectIV:
@@ -150,6 +178,13 @@ public class ServiceFragment extends BaseFragment implements CollectPresenter.IC
                     collectPresenter.addFavorite(serviceInfo.getId(), FavoriteServiceFragment.CANCEL_TYPE);
                 } else {
                     collectPresenter.addFavorite(serviceInfo.getId(), FavoriteServiceFragment.SERVICE_TYPE);
+                }
+                break;
+            case R.id.activityUV:
+                if (couponList != null) {
+                    showCouponView(couponList);
+                } else {
+                    presenter.getCouponList(serviceInfo.getId());
                 }
                 break;
 
@@ -163,7 +198,6 @@ public class ServiceFragment extends BaseFragment implements CollectPresenter.IC
 
 
     }
-
 
 
     @Override
@@ -191,6 +225,24 @@ public class ServiceFragment extends BaseFragment implements CollectPresenter.IC
     }
 
 
+    @Override
+    public void groupSuccess(List<GroupBean> favoriteBean) {
 
+    }
 
+    @Override
+    public void couponSuccess(List<CouponBean> data) {
+        if (data != null && !data.isEmpty()) {
+            showCouponView(data);
+        } else {
+            ToastUtils.showLong("暂无优惠券可用");
+            couponList = new ArrayList<>();
+        }
+
+    }
+
+    private void showCouponView(List<CouponBean> data) {
+        CouponDialogFragment couponDialogFragment = new CouponDialogFragment(data);
+        couponDialogFragment.show(getFragmentManager(), CouponDialogFragment.class.getSimpleName());
+    }
 }

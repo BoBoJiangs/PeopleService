@@ -5,6 +5,7 @@ import android.content.Context;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.bean.user.HomeListBean;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
 
@@ -12,7 +13,6 @@ import java.util.List;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -41,7 +41,7 @@ public class HomePresenter extends AbstractPresenter<HomePresenter.IHomeCallback
      * 获取首页热门服务分类
      */
     public void getHotList() {
-        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<List<ClassifyListBean>>() {
+        BaseRequestFunc<HomeRequest> requestFunc = new BaseRequestFunc<HomeRequest>(context, new IRequestListener<List<ClassifyListBean>>() {
             @Override
             public void onRequestSuccess(List<ClassifyListBean> data) {
                 try {
@@ -86,7 +86,7 @@ public class HomePresenter extends AbstractPresenter<HomePresenter.IHomeCallback
      * 获取首页热门服务
      */
     public void getHotService() {
-        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<List<HomeListBean>>() {
+        BaseRequestFunc<HomeRequest> requestFunc = new BaseRequestFunc<HomeRequest>(context, new IRequestListener<List<HomeListBean>>() {
             @Override
             public void onRequestSuccess(List<HomeListBean> data) {
                 try {

@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.blankj.utilcode.util.GsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.bean.user.order.CouponBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +64,97 @@ public class ServiceListBean implements Parcelable {
     private int calculatedDistance;
     private float startPrice;//起步价
     private int startDistance;//起步距离 整数
-    private int groupBuy;
+    private int groupBuy;//开启团购模式，0否 1是
+    private int groupType;//开启团购模式，0否 1是
+    private float groupBuyPrice;//团购价
+    private int groupSize;//参与团购的人数
+    private String startTime;//团购开始时间
+    private String endTime;//团购结束时间
+    private float payMoney;//用户最后支付的金额
+    private float praiseRate;//好评率
+    private ShopInfo shop;//店铺
+    private CouponBean coupons;//优惠券
+    private String groupId;
+
+    public String getGroupId() {
+        return groupId == null ? "" : groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public int getGroupType() {
+        return groupType;
+    }
+
+    public void setGroupType(int groupType) {
+        this.groupType = groupType;
+    }
+
+    public CouponBean getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(CouponBean coupons) {
+        this.coupons = coupons;
+    }
+
+    public ShopInfo getShop() {
+        return shop;
+    }
+
+    public void setShop(ShopInfo shop) {
+        this.shop = shop;
+    }
+
+    public float getPraiseRate() {
+        return praiseRate;
+    }
+
+    public void setPraiseRate(float praiseRate) {
+        this.praiseRate = praiseRate;
+    }
+
+    public float getPayMoney() {
+        return payMoney;
+    }
+
+    public void setPayMoney(float payMoney) {
+        this.payMoney = payMoney;
+    }
+
+    public float getGroupBuyPrice() {
+        return groupBuyPrice;
+    }
+
+    public void setGroupBuyPrice(float groupBuyPrice) {
+        this.groupBuyPrice = groupBuyPrice;
+    }
+
+    public int getGroupSize() {
+        return groupSize;
+    }
+
+    public void setGroupSize(int groupSize) {
+        this.groupSize = groupSize;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
 
     public String getId() {
         return id;
@@ -131,7 +223,7 @@ public class ServiceListBean implements Parcelable {
         this.mainImgs = mainImgs;
     }
 
-    public List<String>  getContentImgs() {
+    public List<String> getContentImgs() {
         List<String> imags = GsonUtils.fromJson(contentImgs, new TypeToken<List<String>>() {
         }.getType());
         if (imags != null) {
@@ -140,6 +232,7 @@ public class ServiceListBean implements Parcelable {
             return new ArrayList<>();
         }
     }
+
     public void setContentImgs(String contentImgs) {
         this.contentImgs = contentImgs;
     }
@@ -200,6 +293,14 @@ public class ServiceListBean implements Parcelable {
         this.favorite = favorite;
     }
 
+    /**
+     * 是否需要计算距离的订单
+     * @return
+     */
+    public boolean isDistance() {
+        return calculatedDistance == 1;
+    }
+
     public int getCalculatedDistance() {
         return calculatedDistance;
     }
@@ -222,6 +323,11 @@ public class ServiceListBean implements Parcelable {
 
     public void setStartDistance(int startDistance) {
         this.startDistance = startDistance;
+    }
+
+    //是否支持团购
+    public boolean isGrop() {
+        return groupBuy == 1;
     }
 
     public int getGroupBuy() {
@@ -270,6 +376,16 @@ public class ServiceListBean implements Parcelable {
         dest.writeFloat(this.startPrice);
         dest.writeInt(this.startDistance);
         dest.writeInt(this.groupBuy);
+        dest.writeInt(this.groupType);
+        dest.writeFloat(this.groupBuyPrice);
+        dest.writeInt(this.groupSize);
+        dest.writeString(this.startTime);
+        dest.writeString(this.endTime);
+        dest.writeFloat(this.payMoney);
+        dest.writeFloat(this.praiseRate);
+        dest.writeParcelable(this.shop, flags);
+        dest.writeParcelable(this.coupons, flags);
+        dest.writeString(this.groupId);
     }
 
     protected ServiceListBean(Parcel in) {
@@ -293,6 +409,16 @@ public class ServiceListBean implements Parcelable {
         this.startPrice = in.readFloat();
         this.startDistance = in.readInt();
         this.groupBuy = in.readInt();
+        this.groupType = in.readInt();
+        this.groupBuyPrice = in.readFloat();
+        this.groupSize = in.readInt();
+        this.startTime = in.readString();
+        this.endTime = in.readString();
+        this.payMoney = in.readFloat();
+        this.praiseRate = in.readFloat();
+        this.shop = in.readParcelable(ShopInfo.class.getClassLoader());
+        this.coupons = in.readParcelable(CouponBean.class.getClassLoader());
+        this.groupId = in.readString();
     }
 
     public static final Creator<ServiceListBean> CREATOR = new Creator<ServiceListBean>() {

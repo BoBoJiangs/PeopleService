@@ -34,19 +34,19 @@ public class CouponBean implements Parcelable {
 
     private int amount;
     private String description;
-    private int discount;
-    private int discountCondition;
-    private int effectiveRange;
-    private String endTime;
+    private int discount;//打折额度
+    private float discountCondition;//折扣条件金额，满足以后才可以折扣
+    private int effectiveRange;//作用范围 暂时只有一个取值 1特定商品
+    private String endTime;//有效期结束时间
     private String id;
-    private int money;
+    private float money;//代金券金额
     private String name;
     private int overlayUse;
     private String shopId;
     private String startTime;
     private int status;
     private String timestamp;
-    private int type;
+    private int type;//折扣类型 1代金券 2打折
 
     public int getAmount() {
         return amount;
@@ -72,11 +72,11 @@ public class CouponBean implements Parcelable {
         this.discount = discount;
     }
 
-    public int getDiscountCondition() {
+    public float getDiscountCondition() {
         return discountCondition;
     }
 
-    public void setDiscountCondition(int discountCondition) {
+    public void setDiscountCondition(float discountCondition) {
         this.discountCondition = discountCondition;
     }
 
@@ -104,11 +104,11 @@ public class CouponBean implements Parcelable {
         this.id = id;
     }
 
-    public int getMoney() {
+    public float getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(float money) {
         this.money = money;
     }
 
@@ -168,6 +168,9 @@ public class CouponBean implements Parcelable {
         this.type = type;
     }
 
+    public CouponBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -178,11 +181,11 @@ public class CouponBean implements Parcelable {
         dest.writeInt(this.amount);
         dest.writeString(this.description);
         dest.writeInt(this.discount);
-        dest.writeInt(this.discountCondition);
+        dest.writeFloat(this.discountCondition);
         dest.writeInt(this.effectiveRange);
         dest.writeString(this.endTime);
         dest.writeString(this.id);
-        dest.writeInt(this.money);
+        dest.writeFloat(this.money);
         dest.writeString(this.name);
         dest.writeInt(this.overlayUse);
         dest.writeString(this.shopId);
@@ -192,18 +195,15 @@ public class CouponBean implements Parcelable {
         dest.writeInt(this.type);
     }
 
-    public CouponBean() {
-    }
-
     protected CouponBean(Parcel in) {
         this.amount = in.readInt();
         this.description = in.readString();
         this.discount = in.readInt();
-        this.discountCondition = in.readInt();
+        this.discountCondition = in.readFloat();
         this.effectiveRange = in.readInt();
         this.endTime = in.readString();
         this.id = in.readString();
-        this.money = in.readInt();
+        this.money = in.readFloat();
         this.name = in.readString();
         this.overlayUse = in.readInt();
         this.shopId = in.readString();

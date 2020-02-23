@@ -5,6 +5,7 @@
     android:id="@+id/rootLL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:ignore="MissingPrefix">
 
@@ -15,8 +16,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/color_f2">
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,8 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/space_default"
-                android:paddingEnd="@dimen/space_default"
                 android:paddingTop="90pt"
+                android:paddingEnd="@dimen/space_default"
                 android:paddingBottom="90pt"
                 app:bl_gradient_angle="135"
                 app:bl_gradient_endColor="#FF5F00"
@@ -42,110 +42,94 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
+                style="@style/line_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="@dimen/space_default">
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:src="@mipmap/ic_launcher"/>
-                <TextView
-                    android:id="@+id/nameTV"
-                    style="@style/text_view_14_black"
-                    android:layout_toEndOf="@+id/imageView"
-                    android:text="加载中"
-                    android:textSize="@dimen/font_btn_small" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/nameTV"
+                        style="@style/text_view_14_black"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="加载中"
+                        android:textSize="@dimen/font_btn_small" />
+
+                    <TextView
+                        android:id="@+id/phoneTV"
+                        style="@style/text_view_content_gray"
+                        android:text="加载中"
+                        android:textSize="@dimen/font_btn_small" />
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/addressTV"
-                    style="@style/text_view_14_black"
+                    style="@style/text_view_content_gray"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toEndOf="@+id/imageView"
                     android:text="加载中" />
-            </RelativeLayout>
+            </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:orientation="vertical">
 
-                <include layout="@layout/item_order_layout" />
+                <include layout="@layout/view_order_info" />
+
+                <LinearLayout
+                    android:id="@+id/btnLL"
+                    style="@style/line_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="right|center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="@dimen/space_default"
+                    app:bl_stroke_position="top">
+
+                    <TextView
+                        android:id="@+id/bottomTV1"
+                        style="@style/button_style"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:text="补款"
+                        app:bl_corners_radius="25dp"
+                        app:bl_solid_color="@color/white"
+                        app:bl_stroke_color="@color/gray_66"
+                        app:bl_stroke_width="1dp" />
+
+                    <TextView
+                        android:id="@+id/bottomTV2"
+                        style="@style/button_style"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:text="申请退款"
+                        app:bl_corners_radius="25dp"
+                        app:bl_solid_color="@color/white"
+                        app:bl_stroke_color="@color/base_text_color"
+                        app:bl_stroke_width="1dp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/space_default"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/dp_10"
                     android:paddingBottom="@dimen/dp_10"
-                    app:bl_corners_radius="@dimen/dp_10"
-                    app:bl_solid_color="@color/white">
-
-                    <cn.sts.base.view.widget.UtilityView
-                        android:id="@+id/priceUV"
-                        style="@style/order_utility"
-                        app:content_gravity="end"
-                        app:text_content="¥ 0.00"
-                        app:text_content_color="@color/base_text_color"
-                        app:text_title="总价" />
-
-
-                    <cn.sts.base.view.widget.UtilityView
-                        android:id="@+id/payUV"
-                        style="@style/order_utility"
-                        app:content_gravity="end"
-                        app:line_show="false"
-                        app:text_content="¥ 0.00"
-                        app:text_content_color="@color/base_text_color"
-                        app:text_title="实付款" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="45pt"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="6pt"
-                        android:layout_height="25pt"
-                        android:layout_marginStart="@dimen/space_default"
-                        android:layout_marginEnd="@dimen/dp_10"
-                        android:background="@color/base_text_color" />
-
-                    <TextView
-                        android:id="@+id/titleTV"
-                        style="@style/text_view_content_black"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:text="订单信息"
-                        android:textSize="@dimen/font_content_middle"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_default"
-                    android:layout_marginEnd="@dimen/space_default"
-                    android:orientation="vertical"
-                    android:paddingTop="@dimen/dp_10"
-                    android:paddingBottom="@dimen/dp_10"
-                    app:bl_corners_radius="@dimen/dp_10"
                     app:bl_solid_color="@color/white">
 
                     <cn.sts.base.view.widget.UtilityView
                         android:id="@+id/orderNumUV"
                         style="@style/order_utility"
                         android:layout_height="50pt"
-                        app:line_show="false"
                         app:text_title="订单编号：" />
 
                     <cn.sts.base.view.widget.UtilityView
@@ -156,7 +140,7 @@
                     <cn.sts.base.view.widget.UtilityView
                         android:id="@+id/payTypeUV"
                         style="@style/order_utility"
-                        app:line_show="false"
+                        android:visibility="gone"
                         app:text_title="支付方式：" />
 
                     <cn.sts.base.view.widget.UtilityView
@@ -166,10 +150,6 @@
                         app:line_show="false"
                         app:text_title="支付时间：" />
                 </LinearLayout>
-
-                <TextView
-                    style="@style/horizontal_line_style"
-                    android:layout_height="@dimen/space_default" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
@@ -40,7 +41,7 @@ public class AssignPresenter extends AbstractPresenter<AssignPresenter.IAssignCa
      * @param staffId 服务人员ID
      */
     public void assignService(String id,String staffId) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
                 try {

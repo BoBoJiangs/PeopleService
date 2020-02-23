@@ -9,6 +9,8 @@ import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.bean.user.order.OrderListBean;
+import com.yb.peopleservice.model.bean.user.service.EvaluateBean;
+import com.yb.peopleservice.model.bean.user.service.GroupBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 
 import java.util.List;
@@ -33,6 +35,7 @@ import retrofit2.http.QueryMap;
  */
 
 public interface ServiceRequest {
+
 
     /**
      *定时刷新服务人员位置
@@ -65,6 +68,12 @@ public interface ServiceRequest {
     @GET("categories/{id}/commodities")
     Observable<RequestResult<List<ServiceListBean>>> getServiceList(@Path("id") String id,
                                                                     @QueryMap Map<String, String> parameter);
+
+    /**
+     * 查询服务正在团购的团
+     */
+    @GET("commodities/{id}/buygroup")
+    Observable<RequestResult<List<GroupBean>>> buyGroup(@Path("id") String id);
 
     /**
      * 查询团购服务列表
@@ -114,18 +123,36 @@ public interface ServiceRequest {
     @DELETE("favorites/{id}")
     Observable<RequestResult<ShopInfo>> deleteFavorite(@Path("id") String id);
 
+    /**
+     * 评价列表
+     */
+    @GET("commodities/evaluates")
+    Observable<RequestResult<List<EvaluateBean>>> evaluates(@QueryMap Map<String, String> parameter);
+
+    /**
+     * 优惠卷列表
+     */
+    @GET("coupons")
+    Observable<RequestResult<List<CouponBean>>> couponsList();
+
+    /**
+     * 优惠卷列表
+     */
+    @POST("coupons/{couponId}")
+    Observable<RequestResult<CouponBean>> getCoupons(@Path("couponId") String id);
+
     /********************************** 订单相关 **************************************/
 
     /**
      * 获取默认地址
      */
     @GET("addresses/default")
-    Observable<RequestResult<AddressListVO>> getDefaultAddress();
+    Observable<RequestResult<List<AddressListVO>>> getDefaultAddress();
 
     /**
      * 查询某个商品的优惠券
      */
-    @GET("coupons/commodities/{id}")
+    @GET("commodities/{id}/coupon")
     Observable<RequestResult<List<CouponBean>>> getCouponList(@Path("id") String id);
 
     /**

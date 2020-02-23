@@ -5,6 +5,7 @@ import android.content.Context;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.OrderRequest;
 
@@ -43,7 +44,7 @@ public class OrderStatePresenter extends AbstractPresenter<OrderStatePresenter.I
      * @param orderId
      */
     public void acceptOrder(String orderId, boolean isAccept, int orderStatus) {
-        AbstractRequestFunc<OrderRequest> requestFunc = new AbstractRequestFunc<OrderRequest>(context, new IRequestListener<Object>() {
+        BaseRequestFunc<OrderRequest> requestFunc = new BaseRequestFunc<OrderRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
                 try {

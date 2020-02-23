@@ -3,6 +3,7 @@ package com.yb.peopleservice.model.presenter.login;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 
@@ -43,7 +44,7 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
      * 注册
      */
     public void register(Map<String, Object> map) {
-        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<Object>() {
+        BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
                 try {

@@ -1,4 +1,4 @@
-package com.yb.peopleservice.view.activity;
+package com.yb.peopleservice.view.activity.common;
 
 import android.text.TextUtils;
 import android.view.KeyEvent;

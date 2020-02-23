@@ -4,12 +4,12 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -39,7 +39,7 @@ public class ShopDetailsPresenter extends AbstractPresenter<ShopDetailsPresenter
      * @param shopId
      */
     public void getShopDetails(String shopId) {
-        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<ShopInfo>() {
+        BaseRequestFunc<ServiceRequest> requestFunc = new BaseRequestFunc<ServiceRequest>(context, new IRequestListener<ShopInfo>() {
             @Override
             public void onRequestSuccess(ShopInfo data) {
                 try {

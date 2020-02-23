@@ -5,12 +5,12 @@ import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -46,7 +46,7 @@ public class AddressManagerPresenter extends AbstractPresenter<AddressManagerPre
      * @param addressVO
      */
     public void addAddress(AddressListVO addressVO) {
-        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, new IRequestListener<Object>() {
+        BaseRequestFunc<HomeRequest> requestFunc = new BaseRequestFunc<HomeRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
                 try {

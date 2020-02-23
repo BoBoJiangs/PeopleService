@@ -1,5 +1,6 @@
 package cn.sts.base.util;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -30,6 +31,17 @@ public class NumberUtil {
         decimalFormat3.setRoundingMode(RoundingMode.HALF_UP);
         //四舍五入
         decimalFormatComma.setRoundingMode(RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 去掉浮点数后面的0
+     * @param value
+     * @return
+     */
+    public static String convertFloatZero(float value) {
+        BigDecimal bigDecimal = new BigDecimal(String.valueOf(value));
+        BigDecimal noZeros = bigDecimal.stripTrailingZeros();
+        return noZeros.toPlainString();
     }
 
     /**

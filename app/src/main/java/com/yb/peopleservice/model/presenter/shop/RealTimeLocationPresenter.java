@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.yb.peopleservice.constant.AppConstant;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
 
@@ -15,8 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
-import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -56,7 +55,7 @@ public class RealTimeLocationPresenter extends AbstractPresenter<IViewCallback> 
         }
         SPUtils.getInstance().put(AppConstant.BEFORE_TIME, location.getTime());
         LogUtils.i("开始上报");
-        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, null) {
+        BaseRequestFunc<ServiceRequest> requestFunc = new BaseRequestFunc<ServiceRequest>(context, null) {
             @Override
             public Observable getObservable(ServiceRequest iRequestServer) {
                 Map<String,Object> map = new HashMap<>();

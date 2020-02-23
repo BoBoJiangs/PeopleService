@@ -1,8 +1,10 @@
 package com.yb.peopleservice.app;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
@@ -14,8 +16,12 @@ import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
+import com.lzy.ninegrid.NineGridView;
+import com.squareup.picasso.Picasso;
 import com.tencent.smtt.sdk.QbSdk;
 import com.yb.peopleservice.BuildConfig;
+import com.yb.peopleservice.GlideApp;
+import com.yb.peopleservice.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -67,9 +73,32 @@ public class MyApplication extends MultiDexApplication implements AMapLocationLi
         });
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
+
+        initGridView();
     }
 
+    private void initGridView() {
+        NineGridView.setImageLoader(new PicassoImageLoader());
 
+
+    }
+
+    /** Picasso 加载 */
+    private class PicassoImageLoader implements NineGridView.ImageLoader {
+
+        @Override
+        public void onDisplayImage(Context context, ImageView imageView, String url) {
+            GlideApp.with(context).load(url)//
+                    .placeholder(R.drawable.base_icon_default)//
+                    .error(R.drawable.base_icon_default)//
+                    .into(imageView);
+        }
+
+        @Override
+        public Bitmap getCacheImage(String url) {
+            return null;
+        }
+    }
     /**
      * 获取应用上下文
      */

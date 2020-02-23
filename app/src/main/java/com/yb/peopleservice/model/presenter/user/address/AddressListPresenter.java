@@ -2,6 +2,7 @@ package com.yb.peopleservice.model.presenter.user.address;
 
 import android.content.Context;
 
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
 
@@ -9,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.sts.base.callback.IQueryListCallback;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractQueryListPresenter;
 import io.reactivex.Observable;
 
@@ -33,7 +33,7 @@ public class AddressListPresenter extends AbstractQueryListPresenter<HomeRequest
 
     @Override
     public void getList(boolean isShowProgress) {
-        AbstractRequestFunc<HomeRequest> requestFunc = new AbstractRequestFunc<HomeRequest>(context, getRequestListener()) {
+        BaseRequestFunc<HomeRequest> requestFunc = new BaseRequestFunc<HomeRequest>(context, getRequestListener()) {
             @Override
             public Observable getObservable(HomeRequest iRequestServer) {
                 Map<String, Object> map = new HashMap<>();

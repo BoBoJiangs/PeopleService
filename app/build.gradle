@@ -6,7 +6,7 @@ def releaseTime() {
 }
 
 greendao {
-    schemaVersion 1   //指定数据库schema版本号，迁移等操作会用到;
+    schemaVersion 2   //指定数据库schema版本号，迁移等操作会用到;
     daoPackage 'com.yb.peopleservice.model.database.dao'// dao的包名，包名默认是entity所在的包；
     targetGenDir 'src/main/java' //生成数据库文件的目录;
 }
@@ -142,4 +142,10 @@ dependencies {
     //极光推送
     implementation 'cn.jiguang.sdk:jpush:3.5.6'
     implementation 'cn.jiguang.sdk:jcore:2.2.8'
+
+    //倒计时
+    implementation 'com.github.iwgang:countdownview:2.1.6'
+
+    //九宫格图片
+    implementation 'com.lzy.widget:ninegridview:0.2.1'
 }

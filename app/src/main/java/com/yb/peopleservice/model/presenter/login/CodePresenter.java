@@ -3,6 +3,7 @@ package com.yb.peopleservice.model.presenter.login;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 
@@ -38,7 +39,7 @@ public class CodePresenter extends AbstractPresenter<CodePresenter.ICodeCallback
      * 获取验证码
      */
     public void getCode(String phone) {
-        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<Object>() {
+        BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
                 try {

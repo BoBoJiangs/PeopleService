@@ -5,6 +5,7 @@ import android.content.Context;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
@@ -14,7 +15,6 @@ import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -45,7 +45,7 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
      * @param type     1:商品 2：店铺 3取消收藏
      */
     public void addFavorite(String targetId, String type) {
-        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context, new IRequestListener<FavoriteBean>() {
+        BaseRequestFunc<ServiceRequest> requestFunc = new BaseRequestFunc<ServiceRequest>(context, new IRequestListener<FavoriteBean>() {
             @Override
             public void onRequestSuccess(FavoriteBean favoriteBean) {
                 try {
@@ -98,7 +98,7 @@ public class CollectPresenter extends AbstractPresenter<CollectPresenter.ICollec
      * @param targetId 收藏对象的ID
      */
     public void getFavorite(String targetId) {
-        AbstractRequestFunc<ServiceRequest> requestFunc = new AbstractRequestFunc<ServiceRequest>(context,
+        BaseRequestFunc<ServiceRequest> requestFunc = new BaseRequestFunc<ServiceRequest>(context,
                 new IRequestListener<FavoriteBean>() {
             @Override
             public void onRequestSuccess(FavoriteBean data) {

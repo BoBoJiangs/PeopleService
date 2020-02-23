@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.ClassifyRequest;
 
@@ -11,7 +12,6 @@ import java.util.List;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -41,7 +41,7 @@ public class ClassifyPresenter extends AbstractPresenter<ClassifyPresenter.IClas
      * @param parentId
      */
     public void getCategoryInfo(String parentId) {
-        AbstractRequestFunc<ClassifyRequest> requestFunc = new AbstractRequestFunc<ClassifyRequest>(context, new IRequestListener<List<ClassifyListBean>>() {
+        BaseRequestFunc<ClassifyRequest> requestFunc = new BaseRequestFunc<ClassifyRequest>(context, new IRequestListener<List<ClassifyListBean>>() {
             @Override
             public void onRequestSuccess(List<ClassifyListBean> data) {
                 try {

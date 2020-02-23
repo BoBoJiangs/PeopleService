@@ -26,6 +26,7 @@ import com.yb.peopleservice.app.MyApplication;
 import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
@@ -34,11 +35,13 @@ import com.yb.peopleservice.model.presenter.user.service.order.ConfirmOrderPrese
 import com.yb.peopleservice.utils.AMapUtil;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
+import com.yb.peopleservice.view.activity.services.ShopListActivity;
 import com.yb.peopleservice.view.activity.shop.SearchMapActivity;
 import com.yb.peopleservice.view.adapter.order.PayActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.fragment.user.order.CouponDialogFragment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +96,8 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
     EditText endLocationTV;
     @BindView(R.id.driverTypeLL)
     LinearLayout driverTypeLL;
+    @BindView(R.id.shopTV)
+    TextView shopTV;
 
     private boolean isStart;//是否点击的起点
     private PoiItem startPoi;//起点位置
@@ -105,6 +110,7 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
     private ConfirmOrderPresenter presenter;
     private AddressListVO addressListVO;//用户选择的地址
     private OrderBean orderBean = new OrderBean();
+    private CouponBean couponBean;
 
     @Override
     public String getTitleName() {
@@ -134,12 +140,23 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
         presenter = new ConfirmOrderPresenter(this, this);
         bean = getIntent().getParcelableExtra(ServiceListBean.class.getName());
         if (bean != null) {
+            couponBean = bean.getCoupons();
+            if (bean.getCoupons() != null) {
+                if (couponBean.getType() == 1) {
+                    couponTV.setContentText("﹣" + couponBean.getMoney() + "元");
+                } else {
+                    couponTV.setContentText(couponBean.getDiscount() + "折");
+                }
+            } else {
+                couponTV.setVisibility(View.GONE);
+            }
+            shopTV.setText(bean.getShop().getName());
             if (bean.getCalculatedDistance() == 1) {
                 addLL.setVisibility(View.GONE);
             }
             orderBean.setAmount(num);
             orderBean.setCommodityId(bean.getId());
-            presenter.getCouponList(bean.getId());
+            presenter.getDefaultAddress();
             nameTV.setText(bean.getName());
             String priceUnit = bean.getPriceUnit();
             if (TextUtils.isEmpty(priceUnit)) {
@@ -148,15 +165,8 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
                 priceUnit = "元/" + priceUnit;
             }
             priceTV.setText(bean.getPrice() + priceUnit);
-            totalUV.setContentText("¥ " + bean.getPrice());
-            moneyTV.setText("¥ " + bean.getPrice());
-//            if (bean.getPriceType() == 1) {
-//                moneyNameTV.setText("预付金：");
-//                prepayTV.setVisibility(View.VISIBLE);
-//            } else {
-//                moneyNameTV.setText("支付金额：");
-//                prepayTV.setVisibility(View.GONE);
-//            }
+            totalUV.setContentText("¥ " + bean.getPayMoney());
+            moneyTV.setText("¥ " + bean.getPayMoney());
             List<String> images = bean.getMainImg();
             ImageLoaderUtil.loadServerImage(this, images.isEmpty() ? "" : images.get(0), imageView);
             if (bean.getCalculatedDistance() == 1) {
@@ -179,9 +189,13 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
 
 
     @OnClick({R.id.cutIV, R.id.addIV, R.id.payBtn, R.id.addressUV,
-            R.id.startLocationTV, R.id.endLocationTV})
+            R.id.startLocationTV, R.id.endLocationTV, R.id.shopLL})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.shopLL:
+                startActivity(new Intent(this, ShopListActivity.class)
+                        .putExtra(ServiceListBean.class.getName(), bean));
+                break;
             case R.id.startLocationTV:
                 isStart = true;
                 startActivityForResult(new Intent(this, SearchMapActivity.class),
@@ -221,11 +235,17 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
                 }
 
                 Map<String, Object> childMap = new HashMap<>();
+                List<CouponBean> beanList = new ArrayList<>();
+                if (bean.getCoupons() != null) {
+                    beanList.add(bean.getCoupons());
+                    childMap.put("coupons", beanList);
+                }
+                orderBean.setGroupBuy(bean.getGroupType());
+                orderBean.setGroupId(bean.getGroupId());
                 childMap.put("order", orderBean);
                 presenter.placeOrder(childMap);
 //                //根据状态不同显示隐藏
-//                CouponDialogFragment couponDialogFragment = new CouponDialogFragment();
-//                couponDialogFragment.show(getSupportFragmentManager(), CouponDialogFragment.class.getSimpleName());
+
                 break;
             case R.id.addressUV:
                 startActivityForResult(new Intent(getApplicationContext(), AddressListActivity.class)
@@ -236,10 +256,18 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
     }
 
     private void updatePrice() {
+        if (couponBean != null) {
+            if (couponBean.getType() == 1) {
+                bean.setPayMoney(num * bean.getPrice() - couponBean.getMoney());
+            } else {
+                bean.setPayMoney(num * bean.getPayMoney());
+            }
+
+        }
         orderBean.setAmount(num);
         numTV.setText(num + "");
-        totalUV.setContentText("¥ " + num * bean.getPrice());
-        moneyTV.setText("¥ " + num * bean.getPrice());
+        totalUV.setContentText("¥ " + bean.getPayMoney());
+        moneyTV.setText("¥ " + bean.getPayMoney());
         totalUV.setVisibility(View.VISIBLE);
         moneyTV.setVisibility(View.VISIBLE);
     }
@@ -250,11 +278,18 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
     }
 
     @Override
-    public void addressSuccess(AddressListVO data) {
-        addressListVO = data;
-        orderBean.setAddressBean(data);
-        addressUV.setContentText(data.getConsigneeName() + " " + data.getConsigneePhone()
-                + "\n" + data.getDetailAddress() + data.getHouseNum());
+    public void addressSuccess(List<AddressListVO> data) {
+        if (data != null && !data.isEmpty()) {
+            addressListVO = data.get(0);
+            setAddressText();
+        }
+
+    }
+
+    private void setAddressText() {
+        orderBean.setAddressBean(addressListVO);
+        addressUV.setContentText(addressListVO.getConsigneeName() + " " + addressListVO.getConsigneePhone()
+                + "\n" + addressListVO.getDetailAddress() + addressListVO.getHouseNum());
     }
 
     @Override
@@ -263,7 +298,7 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
         startActivity(new Intent(getApplicationContext(), PayActivity.class)
                 .putExtra(AddressListVO.class.getName(), addressListVO)
                 .putExtra(OrderBean.class.getName(), data)
-                .putExtra(IntentKeyConstant.DATA_KEY, num * bean.getPrice()));
+                .putExtra(IntentKeyConstant.DATA_KEY, bean.getPayMoney()));
     }
 
     @Override
@@ -272,15 +307,13 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
         if (requestCode == IntentKeyConstant.REQUEST_CODE && data != null) {
             addressListVO = data.getParcelableExtra(AddressListVO.class.getName());
             if (addressListVO != null) {
-                addressSuccess(addressListVO);
+                setAddressText();
             }
         }
         if (resultCode == ResponseCodeConstant.BASE_RESPONSE) {
             if (data != null) {
                 PoiItem poiItem = data.getParcelableExtra(PoiItem.class.getName());
                 if (poiItem != null) {
-                    String address = (poiItem.getCityName() + poiItem.getAdName() + poiItem.getSnippet())
-                            .replaceAll("null", "");
                     if (isStart) {
                         startPoi = poiItem;
                         startLocationTV.setText(poiItem.getTitle());
@@ -342,7 +375,7 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
                         resultTV.append("   预计费用：" + price + "元");
                     } else {
                         float distance = (float) (dis - bean.getStartDistance() * 1000) / 1000;
-                        price = NumberUtil.convertFloat1(bean.getStartPrice() + bean.getPrice() * distance);
+                        price = NumberUtil.convertFloat1(bean.getStartPrice() + bean.getPayMoney() * distance);
 
                         resultTV.append("   预计费用：" + price + "元");
                     }

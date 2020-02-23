@@ -6,12 +6,12 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 
@@ -41,7 +41,7 @@ public class ServiceInfoPresenter extends AbstractPresenter<ServiceInfoPresenter
      * 获取服务人员认证信息
      */
     public void getServiceInfo() {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ServiceInfo>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<ServiceInfo>() {
             @Override
             public void onRequestSuccess(ServiceInfo data) {
                 try {
@@ -85,7 +85,7 @@ public class ServiceInfoPresenter extends AbstractPresenter<ServiceInfoPresenter
      * 获取服务人员入驻的店铺信息
      */
     public void getServiceMyShop() {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<MyShop>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<MyShop>() {
             @Override
             public void onRequestSuccess(MyShop data) {
                 try {

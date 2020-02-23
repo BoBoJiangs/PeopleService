@@ -1,5 +1,8 @@
 package com.yb.peopleservice.model.database.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -14,7 +17,7 @@ import org.greenrobot.greendao.annotation.Generated;
  * 修改描述:
  */
 @Entity
-public class UserInfoBean {
+public class UserInfoBean implements Parcelable {
 
     /**
      * id : 9541869a-5c14-4b0f-b10d-4df0bc36c6f0
@@ -34,10 +37,12 @@ public class UserInfoBean {
     private int member;//是否为会员 1是 0否
     private String headImg;//头像
     private String phone;//电话号码
+    private Integer orderNumber;//用户成交的订单数
 
-    @Generated(hash = 1423685025)
+    @Generated(hash = 2024191944)
     public UserInfoBean(String id, String name, String nickname, int totalPoints,
-            int level, int member, String headImg, String phone) {
+            int level, int member, String headImg, String phone,
+            Integer orderNumber) {
         this.id = id;
         this.name = name;
         this.nickname = nickname;
@@ -46,6 +51,7 @@ public class UserInfoBean {
         this.member = member;
         this.headImg = headImg;
         this.phone = phone;
+        this.orderNumber = orderNumber;
     }
 
     @Generated(hash = 1818808915)
@@ -77,7 +83,7 @@ public class UserInfoBean {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -115,4 +121,54 @@ public class UserInfoBean {
     public void setMember(int member) {
         this.member = member;
     }
+
+    public Integer getOrderNumber() {
+        return this.orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.nickname);
+        dest.writeInt(this.totalPoints);
+        dest.writeInt(this.level);
+        dest.writeInt(this.member);
+        dest.writeString(this.headImg);
+        dest.writeString(this.phone);
+        dest.writeValue(this.orderNumber);
+    }
+
+    protected UserInfoBean(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.nickname = in.readString();
+        this.totalPoints = in.readInt();
+        this.level = in.readInt();
+        this.member = in.readInt();
+        this.headImg = in.readString();
+        this.phone = in.readString();
+        this.orderNumber = (Integer) in.readValue(Integer.class.getClassLoader());
+    }
+
+    public static final Creator<UserInfoBean> CREATOR = new Creator<UserInfoBean>() {
+        @Override
+        public UserInfoBean createFromParcel(Parcel source) {
+            return new UserInfoBean(source);
+        }
+
+        @Override
+        public UserInfoBean[] newArray(int size) {
+            return new UserInfoBean[size];
+        }
+    };
 }

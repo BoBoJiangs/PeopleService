@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.fragment.user.order;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Display;
@@ -20,8 +21,15 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.bean.user.order.CouponBean;
+import com.yb.peopleservice.view.adapter.user.CouponAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 项目名称:PeopleService
@@ -33,12 +41,17 @@ import java.util.ArrayList;
  * 修改描述:
  */
 public class CouponDialogFragment extends BottomSheetDialogFragment {
-    private BaseQuickAdapter<String, BaseViewHolder> adapter;
-    private ArrayList<String> list = new ArrayList<>();
+    private CouponAdapter adapter;
     private BottomSheetBehavior<View> mBottomSheetBehavior;
+    private List<CouponBean> data;
+    public CouponDialogFragment(List<CouponBean> data) {
+        this.data = data;
+    }
 
-    public CouponDialogFragment() {
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -56,12 +69,16 @@ public class CouponDialogFragment extends BottomSheetDialogFragment {
                     //设置高度
                     int height = ScreenUtils.getScreenHeight() / 2;
                     mBottomSheetBehavior.setPeekHeight(height);
-
                     parent.setBackgroundColor(Color.TRANSPARENT);
                 }
             });
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(CouponBean bean) {
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     @Nullable
@@ -74,19 +91,12 @@ public class CouponDialogFragment extends BottomSheetDialogFragment {
 
 
     private void initViews(View view) {
-        for (int i = 0; i < 100; i++) {
-            list.add("条目" + i);
-        }
+        EventBus.getDefault().register(this);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.adapter_coupon) {
-            @Override
-            protected void convert(@NonNull BaseViewHolder helper, String item) {
-
-            }
-        };
+        adapter = new CouponAdapter(getContext());
         recyclerView.setAdapter(adapter);
-        adapter.setNewData(list);
+        adapter.setNewData(data);
     }
 
 }

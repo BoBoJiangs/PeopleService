@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/space_default"
+        android:visibility="gone"
         app:bl_stroke_position="bottom">
 
         <CheckBox
@@ -29,39 +30,17 @@
             android:textSize="@dimen/font_btn_small_best" />
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/line_style"
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/commonTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        app:bl_stroke_position="bottom">
+        android:layout_height="50dp"
+        style="@style/line_style"
+        android:background="@android:color/white"
+        app:tl_textSelectColor="@color/base_text_color"
+        app:tl_textUnselectColor="@color/base_lib_gray"
+        app:tl_textsize="@dimen/font_content"
+        app:tl_underline_height="0dp" />
 
-        <TextView
-            android:id="@+id/textView1"
-            style="@style/evaluate_text_style"
-            android:text="全部\n0" />
-
-        <TextView
-            android:id="@+id/textView2"
-            style="@style/evaluate_text_style"
-            android:text="好评\n0" />
-
-        <TextView
-            android:id="@+id/textView3"
-            style="@style/evaluate_text_style"
-            android:text="中评\n0" />
-
-        <TextView
-            android:id="@+id/textView4"
-            style="@style/evaluate_text_style"
-            android:text="差评\n0" />
-
-        <TextView
-            android:id="@+id/textView5"
-            style="@style/evaluate_text_style"
-            android:text="有图\n0" />
-    </LinearLayout>
 
     <include
         layout="@layout/recycler_view"

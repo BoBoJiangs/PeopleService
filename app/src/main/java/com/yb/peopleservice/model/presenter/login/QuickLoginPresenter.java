@@ -6,6 +6,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
@@ -44,7 +45,7 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
      * 使用手机号与验证码获取凭证
      */
     public void getLoginVoucher(String phone, String code) {
-        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<String>() {
+        BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<String>() {
             @Override
             public void onRequestSuccess(String data) {
                 try {
@@ -87,7 +88,7 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
      * 使用手机号与凭证获取token(快速登录)
      */
     public void quickLogin(String phone, String code) {
-        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context,
+        BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context,
                 new IRequestListener<LoginBean>() {
                     @Override
                     public void onRequestSuccess(LoginBean data) {

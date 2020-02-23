@@ -9,13 +9,8 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.DraggableController;
-import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.PersonalListBean;
 import com.yb.peopleservice.model.database.bean.User;
@@ -23,16 +18,13 @@ import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.database.manager.UserInfoManager;
 import com.yb.peopleservice.model.database.manager.UserManager;
-import com.yb.peopleservice.model.presenter.login.LoginPresenter;
-import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
-import com.yb.peopleservice.model.presenter.user.PersonalPresenter;
-import com.yb.peopleservice.push.TagAliasOperatorHelper;
+import com.yb.peopleservice.model.presenter.user.personal.PersonalPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
 import com.yb.peopleservice.view.activity.personal.EditUserInfoActivity;
+import com.yb.peopleservice.view.activity.personal.MyCouponListActivity;
 import com.yb.peopleservice.view.activity.personal.MyFavoriteActivity;
 import com.yb.peopleservice.view.adapter.PersonalListAdapter;
-import com.yb.peopleservice.view.weight.ItemDragCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +38,6 @@ import cn.sts.base.view.widget.AppDialog;
 
 import static com.yb.peopleservice.model.bean.PersonalListBean.CONTENT_TYPE;
 import static com.yb.peopleservice.model.bean.PersonalListBean.SPAN_SIZE_ONE;
-import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
 
 /**
  * 项目名称:PeopleService
@@ -139,6 +130,9 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
     @Override
     public void onClickItem(BaseQuickAdapter adapter, View view, int position) {
         switch (position) {
+            case 0:
+                startActivity(new Intent(getContext(), MyCouponListActivity.class));
+                break;
             case 1://地址管理
                 startActivity(new Intent(getContext(), AddressListActivity.class));
                 break;

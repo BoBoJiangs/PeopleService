@@ -5,6 +5,7 @@ import android.content.Context;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
 
@@ -39,7 +40,7 @@ public class ApplyEntryPresenter extends AbstractPresenter<ApplyEntryPresenter.I
      * 申请入驻
      */
     public void applyEntry(ShopInfo shopInfo) {
-        AbstractRequestFunc<ShopRequest> requestFunc = new AbstractRequestFunc<ShopRequest>(context, new IRequestListener<ShopInfo>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<ShopInfo>() {
             @Override
             public void onRequestSuccess(ShopInfo data) {
                 try {
