@@ -31,27 +31,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
-
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                app:bl_shape="oval"
-                app:bl_solid_color="@color/base_lib_blue" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_location3" />
 
             <EditText
                 android:id="@+id/startLocationTV"
                 style="@style/line_style"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
                 android:focusable="false"
                 android:hint="选择上车点"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_content_four" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:src="@mipmap/icon_arrow_right" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,23 +65,29 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                app:bl_shape="oval"
-                app:bl_solid_color="@color/red" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_location3" />
 
             <EditText
                 android:id="@+id/endLocationTV"
                 style="@style/line_style"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
+                android:layout_weight="1"
                 android:background="@color/transparent"
                 android:focusable="false"
                 android:hint="你要去哪儿"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_content_four" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:src="@mipmap/icon_arrow_right" />
         </LinearLayout>
 
         <TextView

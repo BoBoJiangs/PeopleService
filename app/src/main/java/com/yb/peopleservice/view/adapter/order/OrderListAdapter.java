@@ -23,6 +23,7 @@ import com.yb.peopleservice.model.eventbean.EventOrderBean;
 import com.yb.peopleservice.model.presenter.user.order.OrderStatePresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.common.OrderDetailsActivity;
+import com.yb.peopleservice.view.activity.services.order.CommentOrderActivity;
 import com.yb.peopleservice.view.activity.shop.ShopPersonActivity;
 import com.yb.peopleservice.view.weight.CustomPopWindow;
 
@@ -65,13 +66,13 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
         bottomTV2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickButton(orderBean, bottomTV2);
+                clickButton(orderBean, bottomTV2,item);
             }
         });
         bottomTV1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickButton(orderBean, bottomTV1);
+                clickButton(orderBean, bottomTV1,item);
 
             }
         });
@@ -176,7 +177,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
         });
     }
 
-    private void clickButton(OrderBean orderBean, TextView textView) {
+    private void clickButton(OrderBean orderBean, TextView textView,OrderListBean item) {
         if (orderBean != null) {
             switch (orderBean.getStatus()) {
                 case OrderBean.GROUP_NOT_FINISH://团购未完成
@@ -204,7 +205,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                     if (user != null && !user.getAccountType().isEmpty()) {
                         if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
                             //已抵达
-                            presenter.acceptOrder(orderBean.getId(),true, OrderBean.WAITING);
+                            presenter.acceptOrder(orderBean.getId(), true, OrderBean.WAITING);
 
                         }
                     }
@@ -213,7 +214,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                     if (user != null && !user.getAccountType().isEmpty()) {
                         if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
                             //已抵达
-                            presenter.acceptOrder(orderBean.getId(),true, OrderBean.ARRIVED);
+                            presenter.acceptOrder(orderBean.getId(), true, OrderBean.ARRIVED);
 
                         }
                     }
@@ -222,12 +223,14 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                     if (user != null && !user.getAccountType().isEmpty()) {
                         if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
                             //服务完成
-                            presenter.acceptOrder(orderBean.getId(),true, OrderBean.DOING);
+                            presenter.acceptOrder(orderBean.getId(), true, OrderBean.DOING);
 
                         }
                     }
                     break;
                 case OrderBean.ASSESS:
+                    context.startActivity(new Intent(context, CommentOrderActivity.class)
+                            .putExtra(OrderListBean.class.getName(), item));
                     break;
                 case OrderBean.COMPLETED:
                     break;
@@ -251,7 +254,8 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
     public void setOnItemClick(View v, int position) {
         super.setOnItemClick(v, position);
         OrderListBean orderBean = getItem(position);
-        context.startActivity(new Intent(context, OrderDetailsActivity.class));
+        context.startActivity(new Intent(context, OrderDetailsActivity.class)
+                .putExtra(OrderListBean.class.getName(), orderBean));
     }
 
     @Override

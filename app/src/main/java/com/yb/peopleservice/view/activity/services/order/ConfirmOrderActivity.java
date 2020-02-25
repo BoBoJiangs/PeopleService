@@ -98,6 +98,8 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
     LinearLayout driverTypeLL;
     @BindView(R.id.shopTV)
     TextView shopTV;
+    @BindView(R.id.shopLL)
+    LinearLayout shopLL;
 
     private boolean isStart;//是否点击的起点
     private PoiItem startPoi;//起点位置
@@ -150,7 +152,12 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
             } else {
                 couponTV.setVisibility(View.GONE);
             }
-            shopTV.setText(bean.getShop().getName());
+            if (bean.getShop() != null) {
+                shopTV.setText(bean.getShop().getName());
+            }else{
+                shopLL.setVisibility(View.GONE);
+            }
+
             if (bean.getCalculatedDistance() == 1) {
                 addLL.setVisibility(View.GONE);
             }
@@ -380,7 +387,7 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
                         resultTV.append("   预计费用：" + price + "元");
                     }
                     resultTV.setVisibility(View.VISIBLE);
-                    bean.setPrice(price);
+                    bean.setPayMoney(price);
                     updatePrice();
 
 

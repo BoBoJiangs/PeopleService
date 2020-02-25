@@ -11,4 +11,5 @@
     <color name="gray_66">#666666</color>
     <color name="gray_f6">#F6F6F6</color>
     <color name="black">#333333</color>
+    <color name="conv_list_background">#f2f2f4</color>
 </resources>

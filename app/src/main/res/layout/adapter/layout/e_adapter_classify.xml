@@ -22,8 +22,9 @@
             android:id="@+id/titleTV"
             style="@style/text_view_content_black"
             android:layout_width="match_parent"
-            android:lines="2"
+            android:ellipsize="end"
             android:gravity="center"
-            android:text="一级分类"/>
+            android:lines="1"
+            android:text="一级分类" />
     </LinearLayout>
 </LinearLayout>

@@ -1,17 +1,26 @@
 package com.yb.peopleservice.view.activity.common;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.bean.shop.ServiceInfo;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.bean.user.order.CouponBean;
+import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.bean.user.order.OrderListBean;
+import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.model.database.bean.UserInfoBean;
+import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.sts.base.presenter.AbstractPresenter;
+import cn.sts.base.util.NumberUtil;
 import cn.sts.base.view.widget.UtilityView;
 
 /**
@@ -25,16 +34,14 @@ import cn.sts.base.view.widget.UtilityView;
  */
 public abstract class BaseOrderInfoActivity extends BaseToolbarActivity {
 
-    @BindView(R.id.nameTV)
-    TextView nameTV;
-    @BindView(R.id.stateTV)
-    TextView stateTV;
+    @BindView(R.id.shopNameTV)
+    TextView shopNameTV;
     @BindView(R.id.topLL)
     LinearLayout topLL;
     @BindView(R.id.imageView)
     ImageView imageView;
-    @BindView(R.id.titleTV)
-    TextView titleTV;
+    @BindView(R.id.serviceNameTitleTV)
+    TextView serviceNameTitleTV;
     @BindView(R.id.remakeTV)
     TextView remakeTV;
     @BindView(R.id.priceTV2)
@@ -57,8 +64,8 @@ public abstract class BaseOrderInfoActivity extends BaseToolbarActivity {
     UtilityView payUV;
     @BindView(R.id.infoLL)
     LinearLayout infoLL;
-    private OrderListBean orderListBean;
-    
+    protected OrderListBean orderListBean;
+
     @Override
     public String getTitleName() {
         return "订单详情";
@@ -71,11 +78,69 @@ public abstract class BaseOrderInfoActivity extends BaseToolbarActivity {
 
     @Override
     protected void initData() {
-        orderListBean = getIntent().getParcelableExtra(orderListBean.getClass().getName());
-        setDataText();
+        orderListBean = getIntent().getParcelableExtra(OrderListBean.class.getName());
+        if (orderListBean.getShop() != null) {
+            setShopInfo(orderListBean.getShop());
+        }
+        if (orderListBean.getCommodity() != null) {
+            setServiceInfo(orderListBean.getCommodity());
+        }
+        if (orderListBean.getOrder() != null) {
+            setOrderInfo(orderListBean.getOrder());
+        }
+        if (orderListBean.getServiceStaff() != null) {
+            setServiceStaff(orderListBean.getServiceStaff());
+        } else {
+            personLL.setVisibility(View.GONE);
+        }
+        if (!orderListBean.getCoupons().isEmpty()){
+            setCouponInfo(orderListBean.getCoupons().get(0));
+        }else{
+            couponUV.setVisibility(View.GONE);
+        }
+        if (orderListBean.getCustomer() != null) {
+            setCustomInfo(orderListBean.getCustomer());
+        }
     }
 
-    private void setDataText() {
+    protected void setCustomInfo(UserInfoBean customInfo){
+
+    }
+
+    protected void setCouponInfo(CouponBean couponInfo){
+        if (couponInfo.getType() == 1) {
+            couponUV.setContentText("﹣"+couponInfo.getMoney() + "元");
+        } else {
+            couponUV.setContentText(couponInfo.getDiscount() + "折");
+        }
+    }
+
+    protected void setOrderInfo(OrderBean orderBean) {
+
+        priceTV2.setText(orderBean.getPrice() + "元");
+        numTV.setText("x" + orderBean.getAmount());
+        priceUV.setContentText(NumberUtil.convertFloatZero(orderBean.getPrice() *
+                orderBean.getAmount()));
+        payUV.setContentText(NumberUtil.convertFloatZero(orderBean.getTotalPrice()));
+    }
+
+    /**
+     * 设置店铺信息
+     */
+    protected void setShopInfo(ShopInfo shopInfo) {
+        shopNameTV.setText(shopInfo.getName());
+    }
+
+    protected void setServiceInfo(ServiceListBean bean) {
+        serviceNameTitleTV.setText(bean.getName());
+        remakeTV.setText("服务内容：" + bean.getContentText());
+        ImageLoaderUtil.loadServerImage(this, bean.getMainImage(), imageView);
+    }
+
+
+    protected void setServiceStaff(ServiceInfo staff) {
+        serviceName.setText(staff.getName() + "（电话：" + staff.getPhone() + ")");
+        ImageLoaderUtil.loadServerCircleImage(this, staff.getHeadImg(), headImg);
     }
 
     @Override

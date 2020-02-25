@@ -2,7 +2,7 @@ package com.yb.peopleservice.model.eventbean;
 
 /**
  * 项目名称:Exam
- * 类描述:通知录音服务更新状态
+ * 类描述:通知订单更新状态
  * 创建人:YangBo QQ:819463350
  * 创建时间: 2018/8/30 10:55
  * 修改人:

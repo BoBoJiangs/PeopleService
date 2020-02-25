@@ -115,6 +115,15 @@ public class OrderBean implements Parcelable {
     // 8已评价，订单全部完成
     private int totalPrice;//实际总价，订单实际需要支付的金额，由此生成支付金额
     private String groupId;
+    private String orderNumber;
+
+    public String getOrderNumber() {
+        return orderNumber == null ? "" : orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 
     public String getGroupId() {
         return groupId == null ? "" : groupId;
@@ -505,6 +514,7 @@ public class OrderBean implements Parcelable {
         dest.writeInt(this.status);
         dest.writeInt(this.totalPrice);
         dest.writeString(this.groupId);
+        dest.writeString(this.orderNumber);
     }
 
     protected OrderBean(Parcel in) {
@@ -549,6 +559,7 @@ public class OrderBean implements Parcelable {
         this.status = in.readInt();
         this.totalPrice = in.readInt();
         this.groupId = in.readString();
+        this.orderNumber = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

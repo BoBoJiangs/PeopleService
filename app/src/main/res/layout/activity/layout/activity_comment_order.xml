@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <include layout="@layout/toolbar" />
+
+    <include layout="@layout/view_order_info" />
+
+    <TextView style="@style/horizontal_line_style" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10">
+
+        <TextView
+            style="@style/text_view_content_black"
+            android:text="评论" />
+
+        <com.cb.ratingbar.CBRatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            app:starCanTouch="true"
+            app:starCount="5"
+            app:starCoverColor="@color/base_text_color"
+            app:starFillColor="@color/white"
+            app:starMaxProgress="100"
+            app:starPathData="@string/default_start"
+            app:starPathDataId="@string/default_start"
+            app:starProgress="20"
+            app:starShowStroke="true"
+            app:starSize="20dp"
+            app:starSpace="4dp"
+            app:starStrokeColor="@color/base_text_color"
+            app:starStrokeWidth="2dp" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@drawable/edittext_bg"
+        android:gravity="top"
+        android:padding="@dimen/dp_10"
+        android:textSize="@dimen/font_content_small" />
+
+    <include layout="@layout/photo_view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        style="@style/line_style"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="right|center_vertical"
+        app:bl_stroke_position="top">
+
+        <TextView
+            android:id="@+id/submitBtn"
+            style="@style/text_view_content"
+            android:layout_height="30dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="提交评论"
+            app:bl_corners_radius="20dp"
+            app:bl_solid_color="@color/base_text_color" />
+    </FrameLayout>
+</LinearLayout>

@@ -3,10 +3,13 @@ package com.yb.peopleservice.model.bean.user.order;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yb.peopleservice.model.bean.shop.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.model.database.bean.UserInfoBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +25,36 @@ public class OrderListBean implements Parcelable {
     private OrderBean order;
     private ServiceListBean commodity;
     private ShopInfo shop;
+    private List<CouponBean> coupons;
+    private UserInfoBean customer;
+    private ServiceInfo serviceStaff;
+
+    public List<CouponBean> getCoupons() {
+        if (coupons == null) {
+            return new ArrayList<>();
+        }
+        return coupons;
+    }
+
+    public void setCoupons(List<CouponBean> coupons) {
+        this.coupons = coupons;
+    }
+
+    public UserInfoBean getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(UserInfoBean customer) {
+        this.customer = customer;
+    }
+
+    public ServiceInfo getServiceStaff() {
+        return serviceStaff;
+    }
+
+    public void setServiceStaff(ServiceInfo serviceStaff) {
+        this.serviceStaff = serviceStaff;
+    }
 
     public OrderBean getOrder() {
         return order;
@@ -47,6 +80,9 @@ public class OrderListBean implements Parcelable {
         this.shop = shop;
     }
 
+    public OrderListBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -57,15 +93,18 @@ public class OrderListBean implements Parcelable {
         dest.writeParcelable(this.order, flags);
         dest.writeParcelable(this.commodity, flags);
         dest.writeParcelable(this.shop, flags);
-    }
-
-    public OrderListBean() {
+        dest.writeTypedList(this.coupons);
+        dest.writeParcelable(this.customer, flags);
+        dest.writeParcelable(this.serviceStaff, flags);
     }
 
     protected OrderListBean(Parcel in) {
         this.order = in.readParcelable(OrderBean.class.getClassLoader());
         this.commodity = in.readParcelable(ServiceListBean.class.getClassLoader());
         this.shop = in.readParcelable(ShopInfo.class.getClassLoader());
+        this.coupons = in.createTypedArrayList(CouponBean.CREATOR);
+        this.customer = in.readParcelable(UserInfoBean.class.getClassLoader());
+        this.serviceStaff = in.readParcelable(ServiceInfo.class.getClassLoader());
     }
 
     public static final Creator<OrderListBean> CREATOR = new Creator<OrderListBean>() {

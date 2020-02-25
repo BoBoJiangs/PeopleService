@@ -21,6 +21,7 @@ import com.yb.peopleservice.model.presenter.user.BannerPresenter;
 import com.yb.peopleservice.model.presenter.user.HomePresenter;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.GlideImageLoader;
+import com.yb.peopleservice.view.activity.im.PushActivity;
 import com.yb.peopleservice.view.activity.search.SearchActivity;
 import com.yb.peopleservice.view.adapter.user.HomeListAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
@@ -118,9 +119,17 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
         homePresenter.getHotService();
     }
 
-    @OnClick({R.id.searchLL})
-    public void onClick(){
-        startActivity(new Intent(getContext(), SearchActivity.class));
+    @OnClick({R.id.searchLL,R.id.rightIV2})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.searchLL:
+                startActivity(new Intent(getContext(), SearchActivity.class));
+                break;
+            case R.id.rightIV2:
+                startActivity(new Intent(getContext(), PushActivity.class));
+                break;
+        }
+
     }
 
     @Override

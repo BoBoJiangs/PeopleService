@@ -72,7 +72,8 @@ public class ServiceFragment extends BaseFragment implements
         CollectPresenter.ICollectCallback, ServicePresenter.IServiceCallback {
     @BindView(R.id.banner)
     Banner banner;
-
+    @BindView(R.id.groupLL)
+    LinearLayout groupLL;
 
     @BindView(R.id.nameTV)
     TextView nameTV;
@@ -116,6 +117,7 @@ public class ServiceFragment extends BaseFragment implements
     @Override
     protected void initView() {
         EventBus.getDefault().register(this);
+        groupLL.setVisibility(View.GONE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -123,7 +125,7 @@ public class ServiceFragment extends BaseFragment implements
         if (bean != null) {
             serviceInfo.setCoupons(bean);
             if (bean.getType() == 1) {
-                activityUV.setContentText("﹣"+bean.getMoney() + "元");
+                activityUV.setContentText("﹣" + bean.getMoney() + "元");
             } else {
                 activityUV.setContentText(bean.getDiscount() + "折");
             }
@@ -182,6 +184,10 @@ public class ServiceFragment extends BaseFragment implements
                 break;
             case R.id.activityUV:
                 if (couponList != null) {
+                    if (couponList.isEmpty()) {
+                        ToastUtils.showLong("暂无优惠券可用");
+                        return;
+                    }
                     showCouponView(couponList);
                 } else {
                     presenter.getCouponList(serviceInfo.getId());

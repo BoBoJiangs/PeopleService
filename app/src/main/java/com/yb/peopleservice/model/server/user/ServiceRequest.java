@@ -166,4 +166,11 @@ public interface ServiceRequest {
      */
     @GET("orders")
     Observable<RequestResult<List<OrderListBean>>> getOrders(@QueryMap Map<String, Integer> parameter);
+
+
+    /**
+     * 订单评论
+     */
+    @POST("orders/evaluate")
+    Observable<RequestResult> evaluatesOrder(@Body Map map);
 }

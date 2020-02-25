@@ -2,6 +2,9 @@ package com.yb.peopleservice.constant;
 
 import com.blankj.utilcode.util.PathUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 全局常量
  * Created by sts on 2018/5/7.
@@ -59,4 +62,22 @@ public class AppConstant {
      * 店铺
      */
     public static final int SHOP_TYPE = 2;
+
+
+    public static Map<Long, Boolean> isAtMe = new HashMap<>();
+    public static Map<Long, Boolean> isAtall = new HashMap<>();
+    public static final String CONV_TITLE = "conv_title";
+    public static final String DRAFT = "draft";
+    public static final String CONV_TYPE = "conversationType"; //value使用 ConversationType
+    public static final String ROOM_ID = "roomId";
+    public static final String GROUP_ID = "groupId";
+    public static final String POSITION = "position";
+    public static final String MsgIDs = "msgIDs";
+    public static final String MSG_JSON = "msg_json";
+    public static final String MSG_LIST_JSON = "msg_list_json";
+    public static final String NAME = "name";
+    public static final String ATALL = "atall";
+    public static final String SEARCH_AT_MEMBER_NAME = "search_at_member_name";
+    public static final String SEARCH_AT_MEMBER_USERNAME = "search_at_member_username";
+    public static final String SEARCH_AT_APPKEY = "search_at_appkey";
 }

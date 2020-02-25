@@ -123,25 +123,6 @@ public class ApplyShopActivity extends BaseToolbarActivity implements UploadFile
             case R.id.headUV:
                 choiceImg(headIV);
 
-//                ImagePicker.withMulti(new WeChatPresenter())
-//                        .setMaxCount(1)
-//                        .showCamera(true)//显示拍照
-//                        .mimeTypes(MimeType.ofImage())
-//                        .setSelectMode(SelectMode.MODE_SINGLE)
-//                        .cropSaveInDCIM(false)
-//                        .cropAsCircle()
-//                        .cropRectMinMargin(SizeUtils.dp2px(80))//设置剪裁边框间距
-//                        //调用剪裁
-//                        .crop(this, new OnImagePickCompleteListener() {
-//                            @Override
-//                            public void onImagePickComplete(ArrayList<ImageItem> items) {
-//                                if (!items.isEmpty()) {
-//                                    headUrl = items.get(0).getPath();
-//                                    ImageLoaderUtil.loadLocalCircleImage(getApplicationContext(), headUrl, headIV);
-//                                    uploadFilePresenter.launchImage(headUrl, true);
-//                                }
-//                            }
-//                        });
                 break;
             case R.id.cardFaceFL:
                 choiceImg(cardFaceIV);

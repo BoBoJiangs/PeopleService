@@ -39,7 +39,7 @@ public class ClassifyAdapter extends BaseQuickAdapter<ClassifyListBean, BaseView
         helper.setVisible(R.id.lineTV, name.equals(item.getName()));
         if (name.equals(item.getName())) {
             titleTV.setTextColor(ContextCompat.getColor(mContext,R.color.base_text_color));
-            titleTV.setTextSize(16);
+            titleTV.setTextSize(12);
         } else {
             titleTV.setTextColor(Color.BLACK);
             titleTV.setTextSize(12);

@@ -91,7 +91,7 @@ public class MapPresenter extends AbstractPresenter<MapPresenter.INearbyCallback
                 return ServiceRequest.class;
             }
         };
-        requestFunc.setShowProgress(true);
+        requestFunc.setShowProgress(false);
         BaseRequestServer.getInstance().request(requestFunc);
     }
 

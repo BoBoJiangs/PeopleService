@@ -36,7 +36,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.activity.common.MyIncomeActivity"></activity>
+        <activity
+            android:name=".view.activity.im.PushActivity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".view.activity.common.MyIncomeActivity" />
         <activity android:name=".view.activity.personal.EditUserInfoActivity" />
         <activity android:name=".view.activity.services.ServiceDetailsActivity" />
 
@@ -59,38 +63,33 @@
             android:value="5e095b322123af533f77a00218f18512" /> <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" /> <!-- 定时服务 -->
         <service android:name=".model.service.TimeService" />
-        <service android:name=".model.service.TimeService$GrayInnerService" />
-
-        <!-- Since JCore2.0.0 Required SDK核心功能-->
+        <service android:name=".model.service.TimeService$GrayInnerService" /> <!-- Since JCore2.0.0 Required SDK核心功能 -->
         <!-- 这个Service要继承JCommonService -->
         <service
-            android:name="com.yb.peopleservice.push.PushService"
+            android:name=".push.PushService"
             android:process=":pushcore">
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
-        </service>
-
-
-        <!-- User defined.  For test only  用户自定义的广播接收器-->
+        </service> <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
-            android:name="com.yb.peopleservice.push.MyReceiver"
+            android:name=".push.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.yb.peopleservice" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name="com.yb.peopleservice.push.MyJPushMessageReceiver">
+        <receiver android:name=".push.MyJPushMessageReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                <category android:name="com.yb.peopleservice"></category>
+
+                <category android:name="com.yb.peopleservice" />
             </intent-filter>
         </receiver>
 
@@ -176,6 +175,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.personal.MyCouponListActivity" />
         <activity android:name=".view.activity.common.OrderDetailsActivity" />
+        <activity android:name=".view.activity.services.order.CommentOrderActivity" />
     </application>
 
 </manifest>

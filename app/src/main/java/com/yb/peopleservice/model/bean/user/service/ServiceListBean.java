@@ -52,6 +52,9 @@ public class ServiceListBean implements Parcelable {
     private float price;
     private int priceType;
     private String priceUnit;
+    private String mainImg;
+
+
     private String mainImgs;
     private String contentImgs;
     private String contentText;
@@ -76,6 +79,12 @@ public class ServiceListBean implements Parcelable {
     private CouponBean coupons;//优惠券
     private String groupId;
 
+    public String getMainImage() {
+        return mainImg;
+    }
+    public void setMainImg(String mainImg) {
+        this.mainImg = mainImg;
+    }
     public String getGroupId() {
         return groupId == null ? "" : groupId;
     }
@@ -363,6 +372,7 @@ public class ServiceListBean implements Parcelable {
         dest.writeFloat(this.price);
         dest.writeInt(this.priceType);
         dest.writeString(this.priceUnit);
+        dest.writeString(this.mainImg);
         dest.writeString(this.mainImgs);
         dest.writeString(this.contentImgs);
         dest.writeString(this.contentText);
@@ -396,6 +406,7 @@ public class ServiceListBean implements Parcelable {
         this.price = in.readFloat();
         this.priceType = in.readInt();
         this.priceUnit = in.readString();
+        this.mainImg = in.readString();
         this.mainImgs = in.readString();
         this.contentImgs = in.readString();
         this.contentText = in.readString();

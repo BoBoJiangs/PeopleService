@@ -8,7 +8,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.utils.FlowerUtils;
+import com.yb.peopleservice.utils.AppUtils;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class ServiceListUIPresenter<T> extends QueryListUIPresenter<T> {
     }
 
     public void setEmptyView(Context context, int drawableId, String text) {
-        emptyView = FlowerUtils.getEmptyView(context, drawableId, text);
+        emptyView = AppUtils.getEmptyView(context, drawableId, text);
     }
 
     @Override

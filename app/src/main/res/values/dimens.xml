@@ -82,6 +82,7 @@
     <!--.........................其他.........................-->
     <!--tab页高度-->
     <dimen name="height_tab">80pt</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 
 </resources>

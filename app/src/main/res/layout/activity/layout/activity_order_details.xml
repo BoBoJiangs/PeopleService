@@ -9,9 +9,7 @@
     android:orientation="vertical"
     tools:ignore="MissingPrefix">
 
-    <include layout="@layout/toolbar" />
-
-    <View style="@style/horizontal_line_style" />
+    <include layout="@layout/toolbar2"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -38,7 +36,8 @@
                     android:id="@+id/orderStateTV"
                     style="@style/text_view_content"
                     android:text="加载中"
-                    android:textSize="@dimen/font_btn_small" />
+                    android:textStyle="bold"
+                    android:textSize="@dimen/font_btn" />
 
             </LinearLayout>
 
@@ -129,17 +128,20 @@
                     <cn.sts.base.view.widget.UtilityView
                         android:id="@+id/orderNumUV"
                         style="@style/order_utility"
+                        app:content_gravity="start"
                         android:layout_height="50pt"
                         app:text_title="订单编号：" />
 
                     <cn.sts.base.view.widget.UtilityView
                         android:id="@+id/orderTimeUV"
                         style="@style/order_utility"
+                        app:content_gravity="start"
                         app:text_title="下单时间：" />
 
                     <cn.sts.base.view.widget.UtilityView
                         android:id="@+id/payTypeUV"
                         style="@style/order_utility"
+                        app:content_gravity="start"
                         android:visibility="gone"
                         app:text_title="支付方式：" />
 
@@ -147,6 +149,7 @@
                         android:id="@+id/payTimeUV"
                         style="@style/order_utility"
                         android:layout_height="50pt"
+                        app:content_gravity="start"
                         app:line_show="false"
                         app:text_title="支付时间：" />
                 </LinearLayout>

@@ -13,6 +13,8 @@ import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.model.UserInfo;
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
 import cn.sts.base.model.server.request.AbstractRequestFunc;
@@ -94,6 +96,7 @@ public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallb
         requestFunc.setShowProgress(true);
         LoginRequestServer.getInstance().request(requestFunc);
     }
+
 
 
 
