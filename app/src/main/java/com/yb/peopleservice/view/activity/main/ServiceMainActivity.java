@@ -10,11 +10,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.amap.api.location.AMapLocation;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.app.MyApplication;
+import com.yb.peopleservice.constant.AppConstant;
+import com.yb.peopleservice.model.database.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.presenter.shop.RealTimeLocationPresenter;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
@@ -26,13 +31,18 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.api.BasicCallback;
 import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.AppDialog;
+import jiguang.chat.activity.fragment.ConversationListFragment;
 
 /**
  * 类描述:服务人员首页
@@ -62,6 +72,7 @@ public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSel
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -85,6 +96,30 @@ public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSel
         commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
                 getFragmentList());
         commonTabLayout.setOnTabSelectListener(this);
+        User user = ManagerFactory.getInstance().getUserManager().getUser();
+        if (user != null) {
+            loginPush(user.getAccount());
+        }
+    }
+
+    public void loginPush(String userCode) {
+        //检测账号是否登陆
+        UserInfo myInfo = JMessageClient.getMyInfo();
+        if (myInfo != null) {
+            return;
+        }
+        JMessageClient.login(userCode, AppConstant.CHAT_PASSWORD, new BasicCallback() {
+            @Override
+            public void gotResult(int responseCode, String responseMessage) {
+                LogUtils.e(responseCode+responseMessage);
+                if (responseCode == 0) {
+                    UserInfo myInfo = JMessageClient.getMyInfo();
+                    File avatarFile = myInfo.getAvatarFile();
+                    String username = myInfo.getUserName();
+                    String appKey = myInfo.getAppKey();
+                }
+            }
+        });
     }
 
     @OnClick({R.id.rightIV2})
@@ -141,7 +176,7 @@ public class ServiceMainActivity extends BaseToolbarActivity implements OnTabSel
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         servicePersonFragment = (ServicePersonFragment) ServicePersonFragment.getInstanceFragment();
         fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
-        fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
+        fragmentList.add(ConversationListFragment.getInstanceFragment());
         fragmentList.add(servicePersonFragment);
 
         return fragmentList;

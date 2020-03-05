@@ -241,16 +241,20 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
                     }
                 }
 
-                Map<String, Object> childMap = new HashMap<>();
-                List<CouponBean> beanList = new ArrayList<>();
+//                Map<String, Object> childMap = new HashMap<>();
+
                 if (bean.getCoupons() != null) {
+                    List<CouponBean> beanList = new ArrayList<>();
                     beanList.add(bean.getCoupons());
-                    childMap.put("coupons", beanList);
+//                    childMap.put("coupons", beanList);
+                    orderBean.setCoupons(beanList);
                 }
+
+                orderBean.setCalculatedDistance(bean.getCalculatedDistance());
                 orderBean.setGroupBuy(bean.getGroupType());
                 orderBean.setGroupId(bean.getGroupId());
-                childMap.put("order", orderBean);
-                presenter.placeOrder(childMap);
+//                childMap.put("order", orderBean);
+                presenter.placeOrder(orderBean);
 //                //根据状态不同显示隐藏
 
                 break;

@@ -45,7 +45,7 @@ public abstract class BaseRequestFunc<T> extends AbstractRequestFunc<T> {
 
     @Override
     public RequestResult apply(RequestResult requestResult) throws Exception {
-        if (requestResult.getCode() == 401) {
+        if (requestResult.getError_code() == 21323) {
             //跳转到登陆页面
             getContextSoftReference().startActivity(new Intent(getContextSoftReference(), LoginActivity.class));
             throw new RequestException("请先登录！");

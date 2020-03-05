@@ -2,6 +2,7 @@ package com.yb.peopleservice.model.presenter.user.service;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
@@ -34,6 +35,7 @@ public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
     private String classId;//分类ID
     private int type;
     private String order = DEFAULT;
+    private String keywords;
 
 
 //    public ServiceListPresenter(String classId, Context context,
@@ -48,6 +50,12 @@ public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
 
     public String getOrder() {
         return order;
+    }
+
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+        pageIndex = 1;
     }
 
     /**
@@ -73,7 +81,10 @@ public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
                         map.put("order", order);
                         return iRequestServer.getServiceList(classId, map);
                     case SHOP_TYPE:
-                        return iRequestServer.getShopList(classId);
+                        if (!StringUtils.isEmpty(keywords)){
+                            map.put("keywords", keywords);
+                        }
+                        return iRequestServer.getShopList(classId,map);
                     default:
                         return iRequestServer.groupBuyList(map);
                 }

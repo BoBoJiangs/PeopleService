@@ -29,7 +29,7 @@
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_logo"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -112,6 +112,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.login.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.login.RegisterActivity"
@@ -176,6 +177,11 @@
         <activity android:name=".view.activity.personal.MyCouponListActivity" />
         <activity android:name=".view.activity.common.OrderDetailsActivity" />
         <activity android:name=".view.activity.services.order.CommentOrderActivity" />
+        <activity android:name=".view.activity.im.ChatListActivity" />
+        <activity android:name=".view.activity.services.ServicePersonInfoActivity" />
+        <activity android:name=".view.activity.login.PasswordResetActivity" />
+        <activity android:name=".view.activity.services.order.ApplyRefundActivity" />
+        <activity android:name=".view.activity.personal.SetActivity" />
     </application>
 
 </manifest>

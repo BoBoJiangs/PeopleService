@@ -8,6 +8,9 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.yb.peopleservice.constant.AppConstant;
+import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.model.database.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
@@ -45,7 +48,11 @@ public class RealTimeLocationPresenter extends AbstractPresenter<IViewCallback> 
      * 实时上报
      */
     public void addGps(AMapLocation location) {
-
+        User user = ManagerFactory.getInstance().getUserManager().getUser();
+        //登录的是用户不上传经纬度信息
+        if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
+            return;
+        }
         long beforeTime = SPUtils.getInstance().getLong(AppConstant.BEFORE_TIME, 0);
         if (beforeTime != 0) {
             long afterTime = location.getTime();
@@ -61,7 +68,12 @@ public class RealTimeLocationPresenter extends AbstractPresenter<IViewCallback> 
                 Map<String,Object> map = new HashMap<>();
                 map.put("latitude",location.getLatitude());
                 map.put("longitude",location.getLongitude());
-                return iRequestServer.addGps(map);
+                if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
+                    return iRequestServer.addGps(map);
+                }else{
+                    return iRequestServer.addShopGps(map);
+                }
+
             }
 
             @Override

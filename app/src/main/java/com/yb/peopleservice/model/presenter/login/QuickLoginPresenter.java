@@ -11,6 +11,9 @@ import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
 import cn.sts.base.model.server.request.AbstractRequestFunc;
@@ -26,19 +29,27 @@ import io.reactivex.Observable;
  * 修改时间:
  * 修改描述:
  */
-public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.ILoginCallback> implements CodePresenter.ICodeCallback {
+public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.ILoginCallback> implements
+        CodePresenter.ICodeCallback, RegisterPresenter.IRegisCallback {
 
     private CodePresenter codePresenter;
+    private RegisterPresenter registerPresenter;
 
     public QuickLoginPresenter(Context context, ILoginCallback viewCallBack) {
         super(context, viewCallBack);
         codePresenter = new CodePresenter(context, this::codeSuccess);
+        registerPresenter = new RegisterPresenter(context,this);
     }
 
     @Override
     public void unbind() {
         super.unbind();
         codePresenter.unbind();
+        registerPresenter.unbind();
+    }
+
+    public void checkUserName(String phone){
+        registerPresenter.checkUserName(phone);
     }
 
     /**
@@ -49,7 +60,8 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
             @Override
             public void onRequestSuccess(String data) {
                 try {
-                    getViewCallBack().codeSuccess(data);
+                    quickLogin(phone,data);
+//                    getViewCallBack().codeSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -81,7 +93,7 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
             }
         };
         requestFunc.setShowProgress(false);
-        BaseRequestServer.getInstance().request(requestFunc);
+        LoginRequestServer.getInstance().request(requestFunc);
     }
 
     /**
@@ -114,7 +126,7 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        ToastUtils.showLong(error);
+                        ToastUtils.showLong("登陆失败");
                     }
 
                     @Override
@@ -124,7 +136,11 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
                 }) {
             @Override
             public Observable getObservable(LoginRequest iRequestServer) {
-                return iRequestServer.quickLogin(phone, code);
+                Map<String,Object> map = new HashMap<>();
+                map.put("phone",phone);
+                map.put("code",code);
+                map.put("grant_type","password");
+                return iRequestServer.quickLogin(map);
             }
 
             @Override
@@ -141,6 +157,25 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
      */
     public void getCode(String phone) {
         codePresenter.getCode(phone);
+    }
+
+    @Override
+    public void checkSuccess(Boolean data) {
+        try {
+            getViewCallBack().checkSuccess(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void regisSuccess(Object data) {
+
+    }
+
+    @Override
+    public void regisFail() {
+
     }
 
     @Override
@@ -161,6 +196,8 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
         void loginSuccess(LoginBean data);
 
         void loginFail();
+
+        void checkSuccess(boolean isExist);
 
     }
 }

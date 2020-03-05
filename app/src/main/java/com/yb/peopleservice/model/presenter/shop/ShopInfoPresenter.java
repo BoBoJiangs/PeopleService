@@ -3,6 +3,7 @@ package com.yb.peopleservice.model.presenter.shop;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
@@ -38,9 +39,9 @@ public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShop
      * 获取店铺信息
      */
     public void getShopInfo() {
-        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<ShopInfo>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<MyShop>() {
             @Override
-            public void onRequestSuccess(ShopInfo data) {
+            public void onRequestSuccess(MyShop data) {
                 try {
                     getViewCallBack().shopInfoSuccess(data);
                 } catch (Exception e) {
@@ -82,7 +83,7 @@ public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShop
     public interface IShopInfoCallback extends IViewCallback {
 
 
-        void shopInfoSuccess(ShopInfo data);
+        void shopInfoSuccess(MyShop data);
 
         void shopInfoFail();
     }

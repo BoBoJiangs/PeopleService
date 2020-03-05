@@ -20,7 +20,25 @@ public class MyShop implements Parcelable {
     private String status;//状态: 1正常服务，店铺可以派单给他 3服务人员申请入驻店铺 4申请入驻拒绝 5申请离职
     private String message;
     private ShopInfo shop;
+    private String id;
+    private String shopId;
     private int type;//1：用户端查看详情 2：商家申请店铺
+
+    public String getId() {
+        return id == null ? "" : id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getShopId() {
+        return shopId == null ? "" : shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
 
     public int getType() {
         return type;

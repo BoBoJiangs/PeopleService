@@ -44,8 +44,13 @@ public class OrderListPresenter extends AbstractQueryListPresenter<OrderListBean
                 Map<String, Integer> map = new HashMap<>();
                 map.put("current", pageIndex);
                 if (status != OrderBean.ALL) {
-                    map.put("status", status);
+                    if (status == OrderBean.REFUND_APPLY) {
+                        map.put("refundStatus", 1);
+                    } else {
+                        map.put("status", status);
+                    }
                 }
+
                 return iRequestServer.getOrders(map);
 
             }

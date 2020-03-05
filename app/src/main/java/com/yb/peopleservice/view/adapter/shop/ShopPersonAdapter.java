@@ -7,10 +7,8 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.PersonalListBean;
 import com.yb.peopleservice.model.bean.shop.PersonListBean;
-import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.presenter.shop.AssignPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 

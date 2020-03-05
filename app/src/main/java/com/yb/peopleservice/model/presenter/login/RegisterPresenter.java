@@ -87,9 +87,9 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
      * 验证手机号(是否已被注册)
      */
     public void checkUserName(String phone) {
-        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<Object>() {
+        AbstractRequestFunc<LoginRequest> requestFunc = new AbstractRequestFunc<LoginRequest>(context, new IRequestListener<Boolean>() {
             @Override
-            public void onRequestSuccess(Object data) {
+            public void onRequestSuccess(Boolean data) {
                 try {
                     getViewCallBack().checkSuccess(data);
                 } catch (Exception e) {
@@ -144,7 +144,7 @@ public class RegisterPresenter extends AbstractPresenter<RegisterPresenter.IRegi
      */
     public interface IRegisCallback extends IViewCallback {
 
-        void checkSuccess(Object data);
+        void checkSuccess(Boolean data);
 
         void regisSuccess(Object data);
 

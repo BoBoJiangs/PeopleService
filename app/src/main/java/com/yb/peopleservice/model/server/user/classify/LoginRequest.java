@@ -12,6 +12,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -35,7 +36,7 @@ public interface LoginRequest {
      * 验证手机号(是否已被注册)
      */
     @POST("register/checkusername")
-    Observable<RequestResult> checkUserName(@Query("phone") String phone);
+    Observable<RequestResult<Boolean>> checkUserName(@Query("phone") String phone);
 
 
     /**
@@ -61,8 +62,8 @@ public interface LoginRequest {
     /**
      * 快速登录（获取token）
      */
-    @GET("oauth0/authorize/APP")
-    Observable<RequestResult<LoginBean>> quickLogin(@Query("phone") String phone, @Query("code") String code);
+    @POST("oauth0/authorize/code/APP")
+    Observable<RequestResult<LoginBean>> quickLogin(@Body Map map);
 
     /**
      *  快速登录获取登录凭证
@@ -70,7 +71,7 @@ public interface LoginRequest {
      * @param code 验证码
      * @return
      */
-    @GET("oauth0/code")
+    @POST("oauth0/code")
     Observable<RequestResult<String>> getLoginVoucher(@Query("phone") String phone, @Query("code") String code);
 
     /**
@@ -78,5 +79,11 @@ public interface LoginRequest {
      */
     @GET("code/phone")
     Observable<RequestResult> getCode(@Query("phone") String phone);
+
+    /**
+     * 获取验证码
+     */
+    @POST("oauth0/resetpass")
+    Observable<RequestResult> resetPass(@Body Map map);
 
 }

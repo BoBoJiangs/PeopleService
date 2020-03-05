@@ -1,2 +1,2 @@
-include ':app', ':LThirdPlatform', ':LBaseLibrary', ':pagerlayoutmanager'
+include ':app', ':LThirdPlatform', ':LBaseLibrary', ':pagerlayoutmanager', ':reclib-qq', ':reclib-testemoticons', ':chatapp', ':emoji'
 rootProject.name='PeopleService'

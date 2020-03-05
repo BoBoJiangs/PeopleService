@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.activity.im;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -79,6 +80,7 @@ public class PushActivity extends BaseActivity {
                 loginPush();
                 break;
             case R.id.jumpBtn:
+                startActivity(new Intent(this,ChatListActivity.class));
                 break;
         }
     }

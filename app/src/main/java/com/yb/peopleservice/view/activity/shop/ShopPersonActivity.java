@@ -4,8 +4,6 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.model.bean.shop.PersonListBean;
-import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.shop.PersonPresenter;

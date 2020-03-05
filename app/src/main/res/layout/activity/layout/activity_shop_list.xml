@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:gravity="center_vertical"
     android:background="@color/white"
     android:orientation="vertical"
     tools:ignore="MissingPrefix">
@@ -12,8 +12,59 @@
     <include
         style="@style/line_style"
         layout="@layout/toolbar"
+        android:visibility="gone"
         android:background="#707070" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="@dimen/space_default"
+        android:paddingEnd="@dimen/space_default"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/leftIV2"
+            style="@style/toolbar_image"
+            android:src="@mipmap/icon_back" />
+        <LinearLayout
+            android:id="@+id/searchLL"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_height="@dimen/dp_40"
+            style="@style/search_bg_style"
+            android:orientation="horizontal">
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/searchUV"
+                style="@style/utility_view"
+                android:layout_height="match_parent"
+                app:text_content_size="@dimen/font_btn_small_best"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:background="@color/transparent"
+                app:content_gravity="start"
+                app:title_padding_left="0dp"
+                app:info_padding_left="10dp"
+                app:line_show="false"
+                app:text_content_hint="搜索"
+                app:type="INPUT"
+                app:text_content_input_type="TEXT" />
 
+            <ImageView
+                android:layout_width="@dimen/height_image_small"
+                android:layout_height="@dimen/height_image_small"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="@dimen/space_small"
+                android:src="@mipmap/icon_sousuo" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_default"
+            android:src="@mipmap/icon_msg2"/>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/shopLL"
         android:layout_width="match_parent"

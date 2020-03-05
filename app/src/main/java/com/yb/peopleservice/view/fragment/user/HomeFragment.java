@@ -21,7 +21,7 @@ import com.yb.peopleservice.model.presenter.user.BannerPresenter;
 import com.yb.peopleservice.model.presenter.user.HomePresenter;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.GlideImageLoader;
-import com.yb.peopleservice.view.activity.im.PushActivity;
+import com.yb.peopleservice.view.activity.im.ChatListActivity;
 import com.yb.peopleservice.view.activity.search.SearchActivity;
 import com.yb.peopleservice.view.adapter.user.HomeListAdapter;
 import com.yb.peopleservice.view.weight.ItemDragCallback;
@@ -126,7 +126,7 @@ public class HomeFragment extends BaseListFragment implements BannerPresenter.IB
                 startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
             case R.id.rightIV2:
-                startActivity(new Intent(getContext(), PushActivity.class));
+                startActivity(new Intent(getContext(), ChatListActivity.class));
                 break;
         }
 

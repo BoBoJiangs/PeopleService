@@ -5,13 +5,16 @@ import android.content.Context;
 import com.amap.api.maps.model.LatLng;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.constant.AppConstant;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
@@ -49,7 +52,12 @@ public class MapPresenter extends AbstractPresenter<MapPresenter.INearbyCallback
             @Override
             public void onRequestSuccess(Object object) {
                 try {
-                    getViewCallBack().onSuccess(object);
+                    if (type==AppConstant.SERVICE_TYPE){
+                        getViewCallBack().onSuccess((List<ServiceInfo>) object);
+                    }else{
+                        getViewCallBack().shopSuccess((List<ShopInfo>) object);
+                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -77,7 +85,7 @@ public class MapPresenter extends AbstractPresenter<MapPresenter.INearbyCallback
                 Map<String, Double> map = new HashMap<>();
                 map.put("latitude", latLng.latitude);
                 map.put("longitude", latLng.longitude);
-                if (type == 1) {
+                if (type==AppConstant.SERVICE_TYPE) {
                     return iRequestServer.getNearbyServiceList(map);
                 } else {
                     return iRequestServer.getNearbyShopList(map);
@@ -99,9 +107,14 @@ public class MapPresenter extends AbstractPresenter<MapPresenter.INearbyCallback
     public interface INearbyCallback extends IViewCallback {
 
         /**
-         * 获取附近点成功
+         * 获取服务人员附近点成功
          */
-        void onSuccess(Object object);
+        void onSuccess(List<ServiceInfo> object);
+
+        /**
+         * 获取店铺附近点成功
+         */
+        void shopSuccess(List<ShopInfo> object);
 
         /**
          * 获取附近点失败

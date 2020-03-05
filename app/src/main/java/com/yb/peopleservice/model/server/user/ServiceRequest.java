@@ -7,11 +7,13 @@ import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
+import com.yb.peopleservice.model.bean.user.order.MyCouponBean;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.bean.user.order.OrderListBean;
 import com.yb.peopleservice.model.bean.user.service.EvaluateBean;
 import com.yb.peopleservice.model.bean.user.service.GroupBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -41,18 +43,24 @@ public interface ServiceRequest {
      *定时刷新服务人员位置
      */
     @POST("staffs/location")
-    Observable<RequestResult<Object>> addGps(@Body Map map);
+    Observable<RequestResult<List<ServiceInfo>>> addGps(@Body Map map);
+
+    /**
+     *定时刷新店铺位置
+     */
+    @POST("shops/location")
+    Observable<RequestResult<List<ShopInfo>>> addShopGps(@Body Map map);
 
     /**
      * 查询附近服务列表
      */
     @GET("staffs/nearby")
-    Observable<RequestResult<List<ServiceListBean>>> getNearbyServiceList(@QueryMap Map<String, Double> parameter);
+    Observable<RequestResult<List<ServiceInfo>>> getNearbyServiceList(@QueryMap Map<String, Double> parameter);
 
     /**
      * 查询附近店铺列表
      */
-    @GET("staffs/nearby")
+    @GET("shops/nearby")
     Observable<RequestResult<List<ShopInfo>>> getNearbyShopList(@QueryMap Map<String, Double> parameter);
 
 
@@ -85,7 +93,8 @@ public interface ServiceRequest {
      * 获取店铺下的所有商品
      */
     @GET("shops/{id}/commodities")
-    Observable<RequestResult<List<ServiceListBean>>> getShopList(@Path("id") String id);
+    Observable<RequestResult<List<ServiceListBean>>> getShopList(@Path("id") String id,
+                                                                 @QueryMap Map<String, String> parameter);
 
     /**
      * 获取店铺下的所有商品
@@ -133,7 +142,7 @@ public interface ServiceRequest {
      * 优惠卷列表
      */
     @GET("coupons")
-    Observable<RequestResult<List<CouponBean>>> couponsList();
+    Observable<RequestResult<List<MyCouponBean>>> couponsList();
 
     /**
      * 优惠卷列表
@@ -159,7 +168,7 @@ public interface ServiceRequest {
      * 下单
      */
     @POST("orders")
-    Observable<RequestResult<OrderBean>> placeOrder(@Body Map map);
+    Observable<RequestResult<OrderBean>> placeOrder(@Body OrderBean map);
 
     /**
      * 获取订单状态列表
@@ -173,4 +182,10 @@ public interface ServiceRequest {
      */
     @POST("orders/evaluate")
     Observable<RequestResult> evaluatesOrder(@Body Map map);
+
+    /**
+     * 申请退款
+     */
+    @POST("orders/refund")
+    Observable<RequestResult> refundOrder(@Body Map map);
 }

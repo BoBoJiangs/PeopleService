@@ -1,22 +1,30 @@
 package com.yb.peopleservice.model.server;
 
+import android.content.Intent;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.app.MyApplication;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.view.activity.login.LoginActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 
+import cn.sts.base.app.AppManager;
 import cn.sts.base.model.server.request.AbstractHttpsRequestServer;
 import cn.sts.base.model.server.request.AbstractRequestServer;
 import cn.sts.base.util.Logs;
 import cn.sts.platform.util.PayUtil;
+import jiguang.chat.utils.ToastUtil;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -132,7 +140,7 @@ public class BaseRequestServer extends AbstractHttpsRequestServer {
             @Override
             public void log(String message) {
 //                if (message.contains("jessionId")) {
-                LogUtils.a(message);
+                LogUtils.i(message);
 
 //                }
 
@@ -144,7 +152,8 @@ public class BaseRequestServer extends AbstractHttpsRequestServer {
 
     @Override
     public Interceptor getResponseInterceptor() {
-        return null;
+
+        return new TokenInterceptor();
     }
 
     @Override
@@ -156,6 +165,30 @@ public class BaseRequestServer extends AbstractHttpsRequestServer {
     public String getCertificatePassword() {
         return "123456";
     }
+
+    public class TokenInterceptor implements Interceptor {
+
+        @NotNull
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Response response = chain.proceed(chain.request());
+            int code = response.code();
+            if (code == 401 && !AppManager.getAppManager().getCurrentActivity().getClass().getName()
+                    .equals(LoginActivity.class.getName())) {
+                ActivityUtils.startActivity(new Intent(MyApplication.appContext,
+                        LoginActivity.class));
+                User account = ManagerFactory.getInstance().getUserManager().getUser();
+                if (account != null) {
+                    ToastUtils.showLong("登录失效,请重新登录");
+                } else {
+                    ToastUtils.showLong("请登录");
+                }
+
+            }
+            return response;
+        }
+    }
+
 
     /**
      * 请求-拦截器

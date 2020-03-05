@@ -13,6 +13,8 @@ import com.yb.peopleservice.model.eventbean.EventRecorderBean;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.user.order.OrderListPresenter;
 import com.yb.peopleservice.view.adapter.order.OrderListAdapter;
+import com.yb.peopleservice.view.base.LazyLoadFragment;
+import com.yb.peopleservice.view.base.LazyLoadListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -24,7 +26,7 @@ import java.util.List;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseListFragment;
 
-public class OrderListFragment extends BaseListFragment {
+public class OrderListFragment extends LazyLoadListFragment {
 
     private OrderListAdapter adapter;
     private OrderListPresenter presenter;
@@ -78,7 +80,7 @@ public class OrderListFragment extends BaseListFragment {
                 new ServiceListUIPresenter<OrderListBean>(adapter, swipeRefreshLayout, getContext());
 
         presenter = new OrderListPresenter(getContext(),status, queryListUI);
-        presenter.refreshList(true);
+
 
     }
 
@@ -92,5 +94,10 @@ public class OrderListFragment extends BaseListFragment {
     public void onLoadMoreRequest() {
         super.onLoadMoreRequest();
         presenter.loadMoreList();
+    }
+
+    @Override
+    public void fetchData() {
+        presenter.refreshList(true);
     }
 }

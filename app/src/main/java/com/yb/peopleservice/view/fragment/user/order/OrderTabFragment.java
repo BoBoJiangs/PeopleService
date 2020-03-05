@@ -17,7 +17,7 @@ import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.ScrollViewPager;
 
 public class OrderTabFragment extends BaseViewPagerFragment {
-    protected String[] mTitles = {"全部", "代付款", "进行中", "待评价", "已完成"};
+    protected String[] mTitles = {"全部", "未付款", "进行中", "待评价", "已完成"};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;
     @BindView(R.id.viewPager)
@@ -44,6 +44,11 @@ public class OrderTabFragment extends BaseViewPagerFragment {
     }
 
     @Override
+    protected void initView() {
+
+    }
+
+    @Override
     protected List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
         allFragment = OrderListFragment.getInstanceFragment(OrderBean.ALL);
@@ -67,5 +72,10 @@ public class OrderTabFragment extends BaseViewPagerFragment {
     @Override
     protected AbstractPresenter createPresenter() {
         return null;
+    }
+
+    @Override
+    public void fetchData() {
+        super.initView();
     }
 }

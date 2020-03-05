@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.activity.login;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
@@ -15,13 +16,16 @@ import com.noober.background.drawable.DrawableCreator;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.presenter.login.QuickLoginPresenter;
+import com.yb.peopleservice.view.activity.main.MainActivity;
 import com.yb.peopleservice.view.base.BaseActivity;
 import com.yb.peopleservice.view.weight.PasswordInputView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.sts.base.app.AppManager;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.UtilityView;
+import jiguang.chat.utils.ToastUtil;
 
 /**
  * 类描述:快捷登录
@@ -91,22 +95,33 @@ public class QuickLoginActivity extends BaseActivity<QuickLoginPresenter> implem
         switch (view.getId()) {
             case R.id.nextBtn:
                 phone = phoneUV.getContentText();
-                if (!RegexUtils.isMobileExact(phone)) {
-                    ToastUtils.showLong("请输入正确的电话号码");
-                    return;
-                }
-                String textStr = "我们刚刚向 +86 <font color=\"#FF5F00\">" + phone +
-                        "</font>发送了一个验证码";
-                phoneTV.setText(Html.fromHtml(textStr));
-                phoneLL.setVisibility(View.GONE);
-                loginLL.setVisibility(View.VISIBLE);
-                presenter.getCode(phone);
+                presenter.checkUserName(phone);
+
+
                 break;
             case R.id.loginBtn:
                 presenter.getLoginVoucher(phone,code);
                 break;
             case R.id.retryTV:
                 break;
+        }
+    }
+
+    @Override
+    public void checkSuccess(boolean isExist) {
+        if (isExist){
+            if (!RegexUtils.isMobileExact(phone)) {
+                ToastUtils.showLong("请输入正确的电话号码");
+                return;
+            }
+            String textStr = "我们刚刚向 +86 <font color=\"#FF5F00\">" + phone +
+                    "</font>发送了一个验证码";
+            phoneTV.setText(Html.fromHtml(textStr));
+            phoneLL.setVisibility(View.GONE);
+            loginLL.setVisibility(View.VISIBLE);
+            presenter.getCode(phone);
+        }else{
+            ToastUtils.showLong("账号不存在");
         }
     }
 
@@ -124,16 +139,19 @@ public class QuickLoginActivity extends BaseActivity<QuickLoginPresenter> implem
 
     @Override
     public void codeSuccess(Object object) {
-
+        ToastUtils.showLong("验证码已发送,请注意查收");
+        phoneLL.setVisibility(View.GONE);
+        loginLL.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void loginSuccess(LoginBean data) {
-
+        startActivity(new Intent(this, MainActivity.class));
+        AppManager.getAppManager().finishAllActivity();
     }
 
     @Override
     public void loginFail() {
-
+        ToastUtils.showLong("验证码发送失败,请重试");
     }
 }

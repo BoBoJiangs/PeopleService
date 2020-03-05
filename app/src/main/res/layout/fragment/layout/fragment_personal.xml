@@ -21,9 +21,11 @@
             <TextView
                 style="@style/text_view_content"
                 android:layout_centerInParent="true"
+                android:textSize="@dimen/font_content_two"
                 android:text="个人中心" />
 
             <ImageView
+                android:id="@+id/setIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

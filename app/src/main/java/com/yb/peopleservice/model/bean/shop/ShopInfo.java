@@ -57,15 +57,51 @@ public class ShopInfo implements Parcelable {
     private String managerName;//管理员名称
     private String name;//店铺名称
     private String phone;//店铺电话
-    private String level;
+    private int level;
     private int status;//状态 0禁用 1正常 2新注册 3待审核 4审核不通过 5申请解除入驻店铺（服务人员状态）
+    private double longitude;
+    private double latitude;
+    private int orderNumber;
+    private double praiseRate;
 
-    public String getLevel() {
-        return level == null ? "" : level;
+    public int getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setLevel(String level) {
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public double getPraiseRate() {
+        return praiseRate;
+    }
+
+    public void setPraiseRate(double praiseRate) {
+        this.praiseRate = praiseRate;
+    }
+
+    public void setLevel(int level) {
         this.level = level;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public String getId() {
@@ -188,6 +224,9 @@ public class ShopInfo implements Parcelable {
         this.status = status;
     }
 
+    public ShopInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -209,11 +248,12 @@ public class ShopInfo implements Parcelable {
         dest.writeString(this.managerName);
         dest.writeString(this.name);
         dest.writeString(this.phone);
-        dest.writeString(this.level);
+        dest.writeInt(this.level);
         dest.writeInt(this.status);
-    }
-
-    public ShopInfo() {
+        dest.writeDouble(this.longitude);
+        dest.writeDouble(this.latitude);
+        dest.writeInt(this.orderNumber);
+        dest.writeDouble(this.praiseRate);
     }
 
     protected ShopInfo(Parcel in) {
@@ -231,8 +271,12 @@ public class ShopInfo implements Parcelable {
         this.managerName = in.readString();
         this.name = in.readString();
         this.phone = in.readString();
-        this.level = in.readString();
+        this.level = in.readInt();
         this.status = in.readInt();
+        this.longitude = in.readDouble();
+        this.latitude = in.readDouble();
+        this.orderNumber = in.readInt();
+        this.praiseRate = in.readDouble();
     }
 
     public static final Creator<ShopInfo> CREATOR = new Creator<ShopInfo>() {

@@ -86,7 +86,7 @@ public class ConfirmOrderPresenter extends AbstractPresenter<ConfirmOrderPresent
     /**
      * 下单
      */
-    public void placeOrder(Map<String, Object> map) {
+    public void placeOrder(OrderBean map) {
         BaseRequestFunc<ServiceRequest> requestFunc = new BaseRequestFunc<ServiceRequest>(context, new IRequestListener<OrderBean>() {
             @Override
             public void onRequestSuccess(OrderBean data) {

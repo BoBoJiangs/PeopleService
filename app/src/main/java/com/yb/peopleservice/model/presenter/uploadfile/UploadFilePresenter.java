@@ -52,7 +52,6 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
             @Override
             public void onRequestSuccess(List<String> data) {
                 try {
-                    FileUtil.deleteFile(AppConstant.FILE_PATH);
                     getViewCallBack().uploadSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -3,9 +3,8 @@ package com.yb.peopleservice.model.bean.user.order;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.yb.peopleservice.model.bean.shop.ServiceInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
-import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
 

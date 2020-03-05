@@ -7,8 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.presenter.shop.ApplyShopPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
@@ -75,7 +74,7 @@ public class CertificationDetailsActivity extends BaseToolbarActivity {
 
     @Override
     public String getTitleName() {
-        return "认证信息";
+        return "个人信息";
     }
 
     @Override
@@ -97,6 +96,9 @@ public class CertificationDetailsActivity extends BaseToolbarActivity {
         phoneUV.setTitleText("联系电话　");
         headUV.setTitleText("头像");
         if (shopInfo != null) {
+            shopNameUV.getInputEditText().setEnabled(false);
+            phoneUV.getInputEditText().setEnabled(false);
+            idCardUV.getInputEditText().setEnabled(false);
             shopNameUV.setContentText(shopInfo.getName());
             remakeUV.setContentText(shopInfo.getIntroduction());
             nameUV.setContentText(shopInfo.getName());

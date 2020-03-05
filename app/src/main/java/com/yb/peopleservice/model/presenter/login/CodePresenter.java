@@ -51,7 +51,7 @@ public class CodePresenter extends AbstractPresenter<CodePresenter.ICodeCallback
 
             @Override
             public void onRequestFailure(String error) {
-                ToastUtils.showLong(error);
+                ToastUtils.showLong("验证码发送失败");
             }
 
             @Override
@@ -69,7 +69,7 @@ public class CodePresenter extends AbstractPresenter<CodePresenter.ICodeCallback
                 return LoginRequest.class;
             }
         };
-        requestFunc.setShowProgress(false);
+        requestFunc.setShowProgress(true);
         LoginRequestServer.getInstance().request(requestFunc);
     }
 

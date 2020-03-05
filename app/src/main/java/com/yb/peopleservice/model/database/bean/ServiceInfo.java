@@ -1,9 +1,11 @@
-package com.yb.peopleservice.model.bean.shop;
+package com.yb.peopleservice.model.database.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * 项目名称:PeopleService
@@ -36,9 +38,8 @@ public class ServiceInfo implements Parcelable {
      * status : 0
      * timestamp : 2019-12-19T07:12:14.882Z
      */
-
-    private String headImg;
     private String id;
+    private String headImg;
     private String idCardImgBack;
     private String idCardImgFront;
     private String idCardNumber;
@@ -48,6 +49,60 @@ public class ServiceInfo implements Parcelable {
     private String nickname;
     private String phone;
     private int status;
+    private double longitude;
+    private double latitude;
+    private int orderNumber;
+    private double praiseRate;
+    private int level;
+    private String shopId;
+
+    public String getShopId() {
+        return shopId == null ? "" : shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
+
+    public double getPraiseRate() {
+        return praiseRate;
+    }
+
+    public void setPraiseRate(double praiseRate) {
+        this.praiseRate = praiseRate;
+    }
+
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
     public String getHeadImg() {
         return headImg;
@@ -82,7 +137,7 @@ public class ServiceInfo implements Parcelable {
     }
 
     public String getIdCardNumber() {
-        return idCardNumber;
+        return idCardNumber == null ? "" : idCardNumber;
     }
 
     public void setIdCardNumber(String idCardNumber) {
@@ -137,6 +192,27 @@ public class ServiceInfo implements Parcelable {
         this.status = status;
     }
 
+    public ServiceInfo() {
+    }
+
+    @Generated(hash = 364865774)
+    public ServiceInfo(String id, String headImg, String idCardImgBack,
+            String idCardImgFront, String idCardNumber, String introduction,
+            String message, String name, String nickname, String phone,
+            int status) {
+        this.id = id;
+        this.headImg = headImg;
+        this.idCardImgBack = idCardImgBack;
+        this.idCardImgFront = idCardImgFront;
+        this.idCardNumber = idCardNumber;
+        this.introduction = introduction;
+        this.message = message;
+        this.name = name;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.status = status;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -144,8 +220,8 @@ public class ServiceInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.headImg);
         dest.writeString(this.id);
+        dest.writeString(this.headImg);
         dest.writeString(this.idCardImgBack);
         dest.writeString(this.idCardImgFront);
         dest.writeString(this.idCardNumber);
@@ -155,14 +231,16 @@ public class ServiceInfo implements Parcelable {
         dest.writeString(this.nickname);
         dest.writeString(this.phone);
         dest.writeInt(this.status);
-    }
-
-    public ServiceInfo() {
+        dest.writeDouble(this.longitude);
+        dest.writeDouble(this.latitude);
+        dest.writeInt(this.orderNumber);
+        dest.writeDouble(this.praiseRate);
+        dest.writeInt(this.level);
     }
 
     protected ServiceInfo(Parcel in) {
-        this.headImg = in.readString();
         this.id = in.readString();
+        this.headImg = in.readString();
         this.idCardImgBack = in.readString();
         this.idCardImgFront = in.readString();
         this.idCardNumber = in.readString();
@@ -172,6 +250,11 @@ public class ServiceInfo implements Parcelable {
         this.nickname = in.readString();
         this.phone = in.readString();
         this.status = in.readInt();
+        this.longitude = in.readDouble();
+        this.latitude = in.readDouble();
+        this.orderNumber = in.readInt();
+        this.praiseRate = in.readDouble();
+        this.level = in.readInt();
     }
 
     public static final Creator<ServiceInfo> CREATOR = new Creator<ServiceInfo>() {

@@ -18,10 +18,20 @@
         app:right_image_height="150pt"
         app:right_image_res="@mipmap/default_head"
         app:right_image_width="150pt"
+        app:right_image_padding="@dimen/dp_10"
         app:text_content=""
         app:text_content_color="@color/base_lib_gray"
         app:text_content_size="@dimen/font_btn_small_best"
         app:text_title="头像" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/trueNameUV"
+        style="@style/utility_view"
+        android:layout_height="50dp"
+        app:line_show="true"
+        app:type="INPUT"
+        app:text_content_hint="请输入真实姓名"
+        app:text_title="真实姓名" />
 
     <cn.sts.base.view.widget.UtilityView
         android:id="@+id/nameUV"
@@ -33,12 +43,62 @@
         app:text_title="昵称" />
 
     <cn.sts.base.view.widget.UtilityView
-        android:id="@+id/phoneUV"
+        android:id="@+id/ageUV"
         style="@style/utility_view"
         android:layout_height="50dp"
         app:line_show="true"
         app:type="INPUT"
         app:text_content_input_type="NUMBER"
+        app:text_content_hint="请输入年龄"
+        app:text_title="年龄" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/dateUV"
+        style="@style/image_utility"
+        app:text_content_size="@dimen/font_content_middle"
+        android:layout_height="50dp"
+        app:line_show="true"
+        app:text_content_hint="请选择"
+        app:text_title="出生日期" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/phoneUV"
+        style="@style/utility_view"
+        android:layout_height="50dp"
+        app:line_show="true"
+        app:type="CHOICE"
+        app:text_content_input_type="NUMBER"
         app:text_content_hint="请输入电话号码"
         app:text_title="电话号码　" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/space_default"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/text_view_content_black"
+            android:text="性别"/>
+        <RadioGroup
+            android:id="@+id/radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/manRG"
+                style="@style/text_view_content_black"
+                android:layout_marginStart="@dimen/space_default"
+                android:button="@drawable/checkbox_bg"
+                android:paddingStart="5dp"
+                android:text="男"/>
+            <RadioButton
+                android:id="@+id/woManRG"
+                style="@style/text_view_content_black"
+                android:layout_marginStart="@dimen/space_default"
+                android:button="@drawable/checkbox_bg"
+                android:paddingStart="5dp"
+                android:text="女"/>
+        </RadioGroup>
+    </LinearLayout>
 </LinearLayout>

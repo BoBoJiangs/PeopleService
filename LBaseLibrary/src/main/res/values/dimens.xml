@@ -45,7 +45,7 @@
     <!--小号按钮字体大小-->
     <dimen name="font_btn_small">16sp</dimen>
     <!--最小号按钮字体大小-->
-    <dimen name="font_btn_small_best">14sp</dimen>
+    <dimen name="font_btn_small_best">13sp</dimen>
 
     <dimen name="fon_small_best">13sp</dimen>
 

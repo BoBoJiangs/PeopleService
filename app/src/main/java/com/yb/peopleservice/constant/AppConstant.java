@@ -16,10 +16,16 @@ public class AppConstant {
 
     public static final String BEFORE_TIME = "BEFORE_TIMES";
 
+    public static final String CHAT_PASSWORD = "123456";
     /**
      * 分页加载行数
      */
     public static final int ROWS = 20;
+
+    /**
+     * bugly 应用 id
+     */
+    public static String BUGLY_APP_ID = "31afacff7e";
 
     /**
      * QQ分享的AppId

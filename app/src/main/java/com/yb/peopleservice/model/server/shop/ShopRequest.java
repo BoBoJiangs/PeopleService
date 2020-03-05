@@ -1,12 +1,10 @@
 package com.yb.peopleservice.model.server.shop;
 
 
-import android.accounts.Account;
-
 import com.yb.peopleservice.model.bean.shop.BalanceBean;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.PersonListBean;
-import com.yb.peopleservice.model.bean.shop.ServiceInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 
 import java.util.List;
@@ -42,7 +40,7 @@ public interface ShopRequest {
      * 获取店铺信息
      */
     @GET("shops")
-    Observable<RequestResult<ShopInfo>> getShopInfo();
+    Observable<RequestResult<MyShop>> getShopInfo();
 
     /**
      * 查询本店铺下所有的服务人员关系列表

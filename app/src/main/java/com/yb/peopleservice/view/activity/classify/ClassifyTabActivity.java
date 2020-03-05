@@ -52,8 +52,8 @@ public class ClassifyTabActivity extends BaseViewPagerActivity {
             mTitles[i] = classifyListBean.getName();
             fragmentList.add(ServiceListFragment.getInstanceFragment(classifyListBean));
         }
-        if (childList.size()>6){
-            commonTabLayout.setTabSpaceEqual(false);
+        if (childList.size()>3){
+//            commonTabLayout.setTabSpaceEqual(false);
             commonTabLayout.setIndicatorWidthEqualTitle(true);
         }else{
             commonTabLayout.setTabSpaceEqual(true);

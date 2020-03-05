@@ -38,24 +38,33 @@ public class UserInfoBean implements Parcelable {
     private String headImg;//头像
     private String phone;//电话号码
     private Integer orderNumber;//用户成交的订单数
+    private int age;
+    private String birthday;
+    private String sex;
 
-    @Generated(hash = 2024191944)
-    public UserInfoBean(String id, String name, String nickname, int totalPoints,
-            int level, int member, String headImg, String phone,
-            Integer orderNumber) {
-        this.id = id;
-        this.name = name;
-        this.nickname = nickname;
-        this.totalPoints = totalPoints;
-        this.level = level;
-        this.member = member;
-        this.headImg = headImg;
-        this.phone = phone;
-        this.orderNumber = orderNumber;
+
+    public int getAge() {
+        return age;
     }
 
-    @Generated(hash = 1818808915)
-    public UserInfoBean() {
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getBirthday() {
+        return birthday == null ? "" : birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getSex() {
+        return sex == null ? "" : sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public String getHeadImg() {
@@ -130,6 +139,8 @@ public class UserInfoBean implements Parcelable {
         this.orderNumber = orderNumber;
     }
 
+    
+
     @Override
     public int describeContents() {
         return 0;
@@ -146,6 +157,9 @@ public class UserInfoBean implements Parcelable {
         dest.writeString(this.headImg);
         dest.writeString(this.phone);
         dest.writeValue(this.orderNumber);
+        dest.writeInt(this.age);
+        dest.writeString(this.birthday);
+        dest.writeString(this.sex);
     }
 
     protected UserInfoBean(Parcel in) {
@@ -158,6 +172,31 @@ public class UserInfoBean implements Parcelable {
         this.headImg = in.readString();
         this.phone = in.readString();
         this.orderNumber = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.age = in.readInt();
+        this.birthday = in.readString();
+        this.sex = in.readString();
+    }
+
+    @Generated(hash = 278785565)
+    public UserInfoBean(String id, String name, String nickname, int totalPoints, int level,
+            int member, String headImg, String phone, Integer orderNumber, int age,
+            String birthday, String sex) {
+        this.id = id;
+        this.name = name;
+        this.nickname = nickname;
+        this.totalPoints = totalPoints;
+        this.level = level;
+        this.member = member;
+        this.headImg = headImg;
+        this.phone = phone;
+        this.orderNumber = orderNumber;
+        this.age = age;
+        this.birthday = birthday;
+        this.sex = sex;
+    }
+
+    @Generated(hash = 1818808915)
+    public UserInfoBean() {
     }
 
     public static final Creator<UserInfoBean> CREATOR = new Creator<UserInfoBean>() {

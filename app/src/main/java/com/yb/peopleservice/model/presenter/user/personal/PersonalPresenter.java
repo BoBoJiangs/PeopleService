@@ -85,7 +85,7 @@ public class PersonalPresenter extends AbstractPresenter<PersonalPresenter.IUser
                 return HomeRequest.class;
             }
         };
-        requestFunc.setShowProgress(false);
+        requestFunc.setShowProgress(true);
         BaseRequestServer.getInstance().request(requestFunc);
     }
 

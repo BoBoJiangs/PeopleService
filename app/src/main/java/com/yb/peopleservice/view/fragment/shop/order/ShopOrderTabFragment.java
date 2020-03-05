@@ -37,7 +37,7 @@ public class ShopOrderTabFragment extends OrderTabFragment {
 
     @Override
     protected String[] getTabTitles() {
-        mTitles = new String[]{"全部", "待指派", "进行中", "已完成"};
+        mTitles = new String[]{"全部", "待指派", "进行中","退款申请", "已完成"};
         return mTitles;
     }
 
@@ -45,12 +45,13 @@ public class ShopOrderTabFragment extends OrderTabFragment {
     protected List<Fragment> getFragmentList() {
         List<Fragment> fragmentList = new ArrayList<>();
         allFragment = OrderListFragment.getInstanceFragment(OrderBean.ALL);
-        paymentFragment = OrderListFragment.getInstanceFragment(OrderBean.ASSIGN);
+        paymentFragment = OrderListFragment.getInstanceFragment(OrderBean.PAID);
         doFragment = OrderListFragment.getInstanceFragment(OrderBean.UNDER_WAY);
         finishFragment = OrderListFragment.getInstanceFragment(OrderBean.COMPLETED);
         fragmentList.add(allFragment);
         fragmentList.add(paymentFragment);
         fragmentList.add(doFragment);
+        fragmentList.add(OrderListFragment.getInstanceFragment(OrderBean.REFUND_APPLY));
         fragmentList.add(finishFragment);
         return fragmentList;
     }

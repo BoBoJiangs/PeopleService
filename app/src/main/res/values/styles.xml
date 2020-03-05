@@ -93,6 +93,16 @@
         <item name="info_padding_right">@dimen/space_default</item>
     </style>
 
+    <!--没有标题的多功能输入框UtilityView-->
+    <style name="utility_view_input_no_title" parent="utility_view_input">
+        <item name="text_title_visible">false</item>
+    </style>
+    <!--多功能输入框UtilityView-->
+    <style name="utility_view_input" parent="utility_view">
+        <item name="type">INPUT</item>
+        <item name="text_content_hint_color">@color/gray</item>
+    </style>
+
     <!--带箭头的UtilityView-->
     <style name="image_utility" parent="utility_view">
         <item name="android:layout_height">120pt</item>

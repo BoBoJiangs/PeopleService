@@ -8,11 +8,15 @@ import android.widget.LinearLayout;
 import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.AdaptScreenUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.flyco.tablayout.widget.MsgView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
 
 import butterknife.BindView;
+import cn.jmessage.biz.httptask.task.GetEventNotificationTaskMng;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.event.MessageEvent;
 
 /**
  * 基础类
@@ -45,7 +49,17 @@ public abstract class BaseToolbarActivity extends cn.sts.base.view.activity.Base
         setMsgText(0);
         setMsg2Text(0);
         rightLL.setVisibility(View.GONE);
+        JMessageClient.registerEventReceiver(this);
     }
+
+    public void onEvent(MessageEvent event) {
+        LogUtils.i("未读条数："+JMessageClient.getAllUnReadMsgCount());
+    }
+
+    public void onEventMainThread(GetEventNotificationTaskMng.EventEntity event){
+        LogUtils.i("未读条数："+JMessageClient.getAllUnReadMsgCount());
+    }
+
 
     protected void initImmersionBar() {
         //在BaseActivity里初始化
@@ -54,6 +68,13 @@ public abstract class BaseToolbarActivity extends cn.sts.base.view.activity.Base
                 .statusBarDarkFont(true, 0.2f)
                 .statusBarColor(cn.sts.base.R.color.white).init();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JMessageClient.unRegisterEventReceiver(this);
+    }
+
 
     protected void setMsgText(int index) {
         if (index <= 0) {

@@ -8,22 +8,38 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.amap.api.location.AMapLocation;
+import com.blankj.utilcode.util.ToastUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.AppConstant;
+import com.yb.peopleservice.model.database.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
+import com.yb.peopleservice.model.presenter.shop.RealTimeLocationPresenter;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.fragment.shop.ShopFragment;
 import com.yb.peopleservice.view.fragment.shop.order.ShopOrderTabFragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.api.BasicCallback;
 import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.AppDialog;
+import jiguang.chat.activity.fragment.ConversationListFragment;
+
 /**
  * 类描述:商家首页
  * 创建人:yangbo_ QQ:819463350
@@ -35,17 +51,24 @@ import cn.sts.base.view.widget.AppDialog;
 public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelectListener {
 
     private String[] mTitles = {"订单", "消息", "店铺"};
-    private int[] mIconUnselectIds = {R.mipmap.tab_home_unselect, R.mipmap.tab_class_unselect,R.mipmap.tab_map_unselect};
-    private int[] mIconSelectIds = {R.mipmap.tab_home_select, R.mipmap.tab_class_select,R.mipmap.tab_map_select};
+    private int[] mIconUnselectIds = {R.mipmap.tab_order_unselect, R.mipmap.tab_class_unselect,R.mipmap.tab_map_unselect};
+    private int[] mIconSelectIds = {R.mipmap.tab_order_select, R.mipmap.tab_class_select,R.mipmap.tab_map_select};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;
     @BindView(R.id.frameLayout)
     FrameLayout frameLayout;
     private LogoutPresenter logoutPresenter;
     private ShopFragment shopFragment;
+    private RealTimeLocationPresenter presenter;
     @Override
     public int contentViewResID() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -54,15 +77,47 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
         rightLL.setVisibility(View.VISIBLE);
         rightIV2.setVisibility(View.VISIBLE);
         rightIV2.setImageResource(R.mipmap.icon_logout);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initData() {
+        presenter = new RealTimeLocationPresenter(this,null);
         logoutPresenter = new LogoutPresenter(this,null);
         commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
                 getFragmentList());
         commonTabLayout.setOnTabSelectListener(this);
+        User user = ManagerFactory.getInstance().getUserManager().getUser();
+        if (user != null) {
+            loginPush(user.getAccount());
+        }
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AMapLocation location) {
+        presenter.addGps(location);
+    }
+
+    public void loginPush(String userCode) {
+        //检测账号是否登陆
+        UserInfo myInfo = JMessageClient.getMyInfo();
+        if (myInfo != null) {
+            return;
+        }
+        JMessageClient.login(userCode, AppConstant.CHAT_PASSWORD, new BasicCallback() {
+            @Override
+            public void gotResult(int responseCode, String responseMessage) {
+                if (responseCode == 0) {
+                    UserInfo myInfo = JMessageClient.getMyInfo();
+                    File avatarFile = myInfo.getAvatarFile();
+                    String username = myInfo.getUserName();
+                    String appKey = myInfo.getAppKey();
+                    ToastUtils.showLong("登陆成功" + appKey);
+                } else {
+                    ToastUtils.showLong("登陆失败" + responseMessage);
+                }
+            }
+        });
     }
 
     @OnClick({R.id.rightIV2})
@@ -119,7 +174,7 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
         shopFragment = (ShopFragment) ShopFragment.getInstanceFragment();
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
-        fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
+        fragmentList.add(ConversationListFragment.getInstanceFragment());
         fragmentList.add(shopFragment);
 
         return fragmentList;

@@ -11,20 +11,31 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.model.bean.shop.BalanceBean;
+import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.presenter.shop.ShopInfoPresenter;
+import com.yb.peopleservice.push.TagAliasOperatorHelper;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.common.MyIncomeActivity;
 import com.yb.peopleservice.view.activity.shop.ApplyShopActivity;
 import com.yb.peopleservice.view.activity.shop.ApplyDetailsActivity;
+import com.yb.peopleservice.view.base.LazyLoadFragment;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseFragment;
+
+import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
 
 /**
  * 项目名称:PeopleService
@@ -35,7 +46,7 @@ import cn.sts.base.view.fragment.BaseFragment;
  * 修改时间:
  * 修改描述:
  */
-public class ShopFragment extends BaseFragment implements ShopInfoPresenter.IShopInfoCallback {
+public class ShopFragment extends LazyLoadFragment implements ShopInfoPresenter.IShopInfoCallback {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.photoIV)
@@ -54,6 +65,7 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
     TextView remakeTV;
     private ShopInfoPresenter presenter;
     private ShopInfo shopInfo;
+
     public static Fragment getInstanceFragment() {
         ShopFragment fragment = new ShopFragment();
         return fragment;
@@ -75,6 +87,11 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
         swipeRefreshLayout.setRefreshing(true);
         presenter = new ShopInfoPresenter(getContext(), this);
         presenter.getShopInfo();
+
+    }
+
+    @Override
+    public void fetchData() {
 
     }
 
@@ -121,8 +138,9 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
     }
 
     @Override
-    public void shopInfoSuccess(ShopInfo data) {
+    public void shopInfoSuccess(MyShop myShop) {
         swipeRefreshLayout.setRefreshing(false);
+        ShopInfo data = myShop.getShop();
         if (data != null) {
             shopInfo = data;
             ImageLoaderUtil.loadServerCircleImage(getContext(), data.getHeadImg(), photoIV);
@@ -156,12 +174,37 @@ public class ShopFragment extends BaseFragment implements ShopInfoPresenter.ISho
                     remakeTV.setText("审核意见：" + data.getMessage());
                     break;
             }
+
         }
+        setAlias(myShop);
+        setTags(myShop);
+    }
+
+    private void setAlias(MyShop data) {
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = ACTION_SET;
+        LogUtils.e(data.getId().replace("-", ""));
+        tagAliasBean.alias = data.getId().replace("-", "");
+        tagAliasBean.isAliasAction = true;
+        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
+    }
+
+    private void setTags(MyShop data) {
+        Set<String> tags = new HashSet<>();
+        tags.add("shop");
+        if (!StringUtils.isEmpty(data.getShopId())) {
+            tags.add(data.getShopId().replace("-", ""));
+        }
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = ACTION_SET;
+        tagAliasBean.tags = tags;
+        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
     }
 
     @Override
     public void shopInfoFail() {
         swipeRefreshLayout.setRefreshing(false);
     }
+
 
 }

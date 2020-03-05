@@ -19,8 +19,11 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.UtilityView;
+import jiguang.chat.utils.ToastUtil;
 
 public class RegisterActivity extends BaseActivity implements RegisterPresenter.IRegisCallback {
     @BindView(R.id.getAuthCodeTV)
@@ -34,6 +37,7 @@ public class RegisterActivity extends BaseActivity implements RegisterPresenter.
     private MyTimer myTimer;
     private RegisterPresenter presenter;
     private String phone;
+
     @Override
     protected int contentViewResID() {
         return R.layout.activity_register;
@@ -60,15 +64,33 @@ public class RegisterActivity extends BaseActivity implements RegisterPresenter.
     }
 
     @Override
-    public void checkSuccess(Object data) {
-        myTimer.start();
-        presenter.getCode(phone);
+    public void checkSuccess(Boolean data) {
+        if (data){
+            ToastUtils.showLong("手机号已注册");
+        }else{
+            myTimer.start();
+            presenter.getCode(phone);
+        }
+
     }
 
     @Override
     public void regisSuccess(Object data) {
-        ToastUtils.showLong("注册成功");
-        finish();
+        registPush();
+    }
+
+    public void registPush() {
+        JMessageClient.register(phone, "123456", new BasicCallback() {
+            @Override
+            public void gotResult(int i, String s) {
+                if (i == 0 || i == 898001) {
+                    ToastUtils.showLong("注册成功");
+                    finish();
+                } else {
+                    ToastUtils.showLong("注册失败");
+                }
+            }
+        });
     }
 
     @Override

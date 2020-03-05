@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.fragment.user;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.TextureMapView;
+import com.amap.api.maps.model.BitmapDescriptor;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
@@ -34,11 +36,17 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.google.gson.Gson;
+import com.lxj.xpopup.XPopup;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.AppConstant;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.presenter.user.service.MapPresenter;
+import com.yb.peopleservice.view.weight.CustomPopup.MapBottomPopup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import cn.sts.base.model.entity.TabEntity;
@@ -75,6 +83,8 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
     private MapPresenter presenter;
     ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private LatLng latLng;
+    private BitmapDescriptor descriptor1;
+    private BitmapDescriptor descriptor2;
 
     public static Fragment getInstanceFragment() {
         LifeRadarMapFragment fragment = new LifeRadarMapFragment();
@@ -92,6 +102,10 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
      * 设置一些amap的属性
      */
     private void setUpMap() {
+        descriptor1 = BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                .decodeResource(getResources(), R.mipmap.icon_location2));
+        descriptor2 = BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                .decodeResource(getResources(), R.mipmap.location_shop));
         aMap = mapView.getMap();
         // 如果要设置定位的默认状态，可以在此处进行设置
         aMap.setLocationSource(this);// 设置定位监听
@@ -102,7 +116,8 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
         aMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationStyle(myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW_NO_CENTER));
-
+        // 绑定 Marker 被点击事件
+        aMap.setOnMarkerClickListener(markerClickListener);
         aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
@@ -118,7 +133,7 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
         aMap.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
             @Override
             public void onMapLoaded() {
-                addMarkerInScreenCenter(null);
+//                addMarkerInScreenCenter(null);
             }
         });
 
@@ -140,7 +155,7 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
         mTabEntities.add(new TabEntity("商家", 0, 0));
         commonTabLayout.setTabData(mTabEntities);
         commonTabLayout.setOnTabSelectListener(this);
-        presenter = new MapPresenter(getContext(),this);
+        presenter = new MapPresenter(getContext(), this);
 
     }
 
@@ -271,18 +286,18 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
             locationName.setText(String.format("%s%s", aMapLocation.getStreet(), aMapLocation.getStreetNum()));
             latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
             //展示自定义定位小蓝点
-            if(locationMarker == null) {
+            if (locationMarker == null) {
                 //首次定位
                 locationMarker = aMap.addMarker(new MarkerOptions().position(latLng)
                         .icon(BitmapDescriptorFactory.fromResource(R.mipmap.location_marker))
                         .anchor(0.5f, 0.5f));
 
                 //首次定位,选择移动到地图中心点并修改级别到15级
-                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                 presenter.getNearbyData(latLng, AppConstant.SERVICE_TYPE);
-            }else{
+            } else {
                 LatLng curLatlng = locationMarker.getPosition();
-                if(curLatlng == null || !curLatlng.equals(latLng)) {
+                if (curLatlng == null || !curLatlng.equals(latLng)) {
                     locationMarker.setPosition(latLng);
                 }
             }
@@ -292,8 +307,36 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
     }
 
     @Override
-    public void onSuccess(Object object) {
+    public void onSuccess(List<ServiceInfo> data) {
+        aMap.clear();
+        for (ServiceInfo info : data) {
+            LatLng latLng = new LatLng(info.getLatitude(), info.getLongitude());
+            setMarkerView(latLng, info, false);
+        }
+        locationMarker.setPosition(latLng);
+    }
 
+    @Override
+    public void shopSuccess(List<ShopInfo> data) {
+        aMap.clear();
+        for (ShopInfo info : data) {
+            LatLng latLng = new LatLng(info.getLatitude(), info.getLongitude());
+            setMarkerView(latLng, info, true);
+        }
+        locationMarker.setPosition(latLng);
+    }
+
+    private void setMarkerView(LatLng latLng, Object info, boolean isShop) {
+        MarkerOptions markerOption = new MarkerOptions();
+        markerOption.position(latLng);
+        if (isShop) {
+            markerOption.icon(descriptor2);
+        } else {
+            markerOption.icon(descriptor1);
+        }
+
+        Marker marker = aMap.addMarker(markerOption);
+        marker.setObject(info);
     }
 
     @Override
@@ -303,9 +346,9 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
 
     @Override
     public void onTabSelect(int position) {
-        if (position==0){
+        if (position == 0) {
             presenter.getNearbyData(latLng, AppConstant.SERVICE_TYPE);
-        }else{
+        } else {
             presenter.getNearbyData(latLng, AppConstant.SHOP_TYPE);
         }
     }
@@ -314,4 +357,32 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
     public void onTabReselect(int position) {
 
     }
+
+    // 定义 Marker 点击事件监听
+    AMap.OnMarkerClickListener markerClickListener = new AMap.OnMarkerClickListener() {
+        // marker 对象被点击时回调的接口
+        // 返回 true 则表示接口已响应事件，否则返回false
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            if (marker.getObject() != null) {
+                if (marker.getObject() instanceof ShopInfo){
+                    ShopInfo shopInfo = (ShopInfo) marker.getObject();
+                    new XPopup.Builder(getContext())
+                            .hasShadowBg(false)
+                            .offsetY(-SizeUtils.dp2px(70))
+                            .asCustom(new MapBottomPopup(getActivity(),shopInfo))
+                            .show();
+                }
+                if (marker.getObject() instanceof ServiceInfo){
+                    ServiceInfo serviceInfo = (ServiceInfo) marker.getObject();
+                    new XPopup.Builder(getContext())
+                            .hasShadowBg(false)
+                            .offsetY(-SizeUtils.dp2px(70))
+                            .asCustom(new MapBottomPopup(getActivity(),serviceInfo))
+                            .show();
+                }
+            }
+            return false;
+        }
+    };
 }

@@ -53,15 +53,15 @@
     <dimen name="font_title_four">18sp</dimen>
 
     <!--内容正文字体一级-->
-    <dimen name="font_content_one">20sp</dimen>
+    <dimen name="font_content_one">19sp</dimen>
     <!--内容中号字体二级-->
-    <dimen name="font_content_two">18sp</dimen>
+    <dimen name="font_content_two">16sp</dimen>
     <!--内容默认字体三级-->
-    <dimen name="font_content_three">17sp</dimen>
+    <dimen name="font_content_three">15sp</dimen>
     <!--内容小号字体四级-->
-    <dimen name="font_content_four">15sp</dimen>
+    <dimen name="font_content_four">14sp</dimen>
     <!--内容小号字体五级-->
-    <dimen name="font_content_five">14sp</dimen>
+    <dimen name="font_content_five">13sp</dimen>
     <!--内容小号字体六级-->
     <dimen name="font_content_six">13sp</dimen>
 

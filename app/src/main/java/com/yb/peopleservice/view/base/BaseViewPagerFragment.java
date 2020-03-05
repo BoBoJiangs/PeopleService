@@ -30,7 +30,7 @@ import cn.sts.base.view.fragment.BaseFragment;
  * 修改描述:
  */
 
-public abstract class BaseViewPagerFragment extends BaseFragment implements OnTabSelectListener, ViewPager.OnPageChangeListener {
+public abstract class BaseViewPagerFragment extends LazyLoadFragment implements OnTabSelectListener, ViewPager.OnPageChangeListener {
     @BindView(R.id.viewPager)
     public ViewPager viewPager;
     public View tabLayout;

@@ -23,6 +23,7 @@ import com.yb.peopleservice.model.eventbean.EventOrderBean;
 import com.yb.peopleservice.model.presenter.user.order.OrderStatePresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.common.OrderDetailsActivity;
+import com.yb.peopleservice.view.activity.services.order.ApplyRefundActivity;
 import com.yb.peopleservice.view.activity.services.order.CommentOrderActivity;
 import com.yb.peopleservice.view.activity.shop.ShopPersonActivity;
 import com.yb.peopleservice.view.weight.CustomPopWindow;
@@ -41,6 +42,18 @@ import java.util.List;
  * 修改描述:
  */
 public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHolder> implements OrderStatePresenter.IOrderCallback {
+    public static final String BUTTON_TEXT1 = "指派";
+    public static final String BUTTON_TEXT2 = "申请退款";
+    public static final String BUTTON_TEXT3 = "拒绝";
+    public static final String BUTTON_TEXT4 = "接受";
+    public static final String BUTTON_TEXT5 = "抵达";
+    public static final String BUTTON_TEXT6 = "开始服务";
+    public static final String BUTTON_TEXT7 = "服务完成";
+    public static final String BUTTON_TEXT8 = "申请补款";
+    public static final String BUTTON_TEXT9 = "立即评价";
+    public static final String BUTTON_TEXT10 = "立即支付";
+    public static final String BUTTON_TEXT11 = "查看退款";
+
     private Context context;
     private User user;
     private OrderStatePresenter presenter;
@@ -66,49 +79,56 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
         bottomTV2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickButton(orderBean, bottomTV2,item);
+                clickButton(orderBean, bottomTV2, item);
             }
         });
         bottomTV1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickButton(orderBean, bottomTV1,item);
+                clickButton(orderBean, bottomTV1, item);
 
             }
         });
         if (orderBean != null) {
             switch (orderBean.getStatus()) {
                 case OrderBean.GROUP_NOT_FINISH:
-                    stateTV.setText("团购未完成");
+                    stateTV.setText("凑团中");
                     break;
                 case OrderBean.PAID:
-                    stateTV.setText("等待指派服务人员");
+                    stateTV.setText("待指派");
                     if (user != null && !user.getAccountType().isEmpty()) {
                         if (user.getAccountType().contains(LoginBean.SHOP_TYPE)) {
                             bottomTV2.setVisibility(View.VISIBLE);
-                            bottomTV2.setText("指派人员");
+                            bottomTV2.setText(BUTTON_TEXT1);
+                        } else if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
+                            bottomTV2.setVisibility(View.VISIBLE);
+                            bottomTV2.setText(BUTTON_TEXT2);
                         }
                     }
                     break;
                 case OrderBean.ASSIGN:
-                    stateTV.setText("等待服务人员接受");
+                    stateTV.setText("待接单");
                     if (user != null && !user.getAccountType().isEmpty()) {
                         if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
                             bottomTV1.setVisibility(View.VISIBLE);
-                            bottomTV1.setText(" 拒 绝 ");
+                            bottomTV1.setText(BUTTON_TEXT3);
                             bottomTV2.setVisibility(View.VISIBLE);
-                            bottomTV2.setText(" 接 受 ");
+                            bottomTV2.setText(BUTTON_TEXT4);
+                        } else if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
+                            bottomTV2.setVisibility(View.VISIBLE);
+                            bottomTV2.setText(BUTTON_TEXT2);
                         }
                     }
                     break;
                 case OrderBean.WAITING:
+                    stateTV.setText("前往中");
                     if (user != null && !user.getAccountType().isEmpty()) {
                         if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
-                            stateTV.setText("已接受");
                             bottomTV2.setVisibility(View.VISIBLE);
-                            bottomTV2.setText(" 已抵达 ");
-                        } else {
-                            stateTV.setText("已指派服务人员");
+                            bottomTV2.setText(BUTTON_TEXT5);
+                        } else if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
+                            bottomTV2.setVisibility(View.VISIBLE);
+                            bottomTV2.setText(BUTTON_TEXT2);
                         }
                     }
 
@@ -118,24 +138,31 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                     if (user != null && !user.getAccountType().isEmpty()) {
                         if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
                             bottomTV2.setVisibility(View.VISIBLE);
-                            bottomTV2.setText("开始服务");
+                            bottomTV2.setText(BUTTON_TEXT2);
+                            bottomTV1.setVisibility(View.VISIBLE);
+                            bottomTV1.setText(BUTTON_TEXT6);
                         }
                     }
-                    stateTV.setText("进行中");
+                    stateTV.setText("已抵达");
                     break;
                 case OrderBean.DOING:
                     if (user != null && !user.getAccountType().isEmpty()) {
                         if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
                             bottomTV2.setVisibility(View.VISIBLE);
-                            bottomTV2.setText("服务完成");
+                            bottomTV2.setText(BUTTON_TEXT7);
+                        } else if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
+                            bottomTV1.setVisibility(View.VISIBLE);
+                            bottomTV1.setText("申请补款");
+                            bottomTV2.setVisibility(View.VISIBLE);
+                            bottomTV2.setText(BUTTON_TEXT2);
                         }
                     }
-                    stateTV.setText("进行中");
+                    stateTV.setText("服务中");
                     break;
                 case OrderBean.ASSESS:
                     stateTV.setText("待评价");
                     bottomTV2.setVisibility(View.VISIBLE);
-                    bottomTV2.setText("立即评价");
+                    bottomTV2.setText(BUTTON_TEXT9);
                     break;
                 case OrderBean.COMPLETED:
                     stateTV.setText("已完成");
@@ -143,12 +170,12 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                 case OrderBean.NO_PAY:
                     stateTV.setText("待付款");
                     bottomTV2.setVisibility(View.VISIBLE);
-                    bottomTV2.setText("立即支付");
+                    bottomTV2.setText(BUTTON_TEXT10);
                     break;
                 case OrderBean.CLOSE:
                     stateTV.setText("已关闭");
                     bottomTV2.setVisibility(View.VISIBLE);
-                    bottomTV2.setText("查看退款");
+                    bottomTV2.setText(BUTTON_TEXT11);
                     break;
                 default:
                     stateTV.setText("状态未知");
@@ -177,69 +204,62 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
         });
     }
 
-    private void clickButton(OrderBean orderBean, TextView textView,OrderListBean item) {
-        if (orderBean != null) {
-            switch (orderBean.getStatus()) {
-                case OrderBean.GROUP_NOT_FINISH://团购未完成
-
-                    break;
-                case OrderBean.PAID://等待指派服务人员
-                    if (user != null && !user.getAccountType().isEmpty()) {
-                        if (user.getAccountType().contains(LoginBean.SHOP_TYPE)) {
-                            context.startActivity(new Intent(context, ShopPersonActivity.class)
-                                    .putExtra(OrderBean.class.getName(), orderBean));
-                        }
+    private void clickButton(OrderBean orderBean, TextView textView, OrderListBean item) {
+        switch (textView.getText().toString()) {
+            case BUTTON_TEXT1://待指派服务人员
+                if (user != null && !user.getAccountType().isEmpty()) {
+                    if (user.getAccountType().contains(LoginBean.SHOP_TYPE)) {
+                        context.startActivity(new Intent(context, ShopPersonActivity.class)
+                                .putExtra(OrderBean.class.getName(), orderBean));
                     }
-                    break;
-                case OrderBean.ASSIGN://等待服务人员接受
-                    if (user != null && !user.getAccountType().isEmpty()) {
-                        if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
-                            //接受订单
-                            presenter.acceptOrder(orderBean.getId(),
-                                    textView.getId() == R.id.bottomTV2, OrderBean.ASSIGN);
+                }
+                break;
+            case BUTTON_TEXT2://申请退款
+                context.startActivity(new Intent(context, ApplyRefundActivity.class)
+                        .putExtra(OrderListBean.class.getName(), item));
+                break;
+            case BUTTON_TEXT4://接受订单
+                if (user != null && !user.getAccountType().isEmpty()) {
+                    if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
+                        //接受订单
+                        presenter.acceptOrder(orderBean.getId(),
+                                textView.getId() == R.id.bottomTV2, OrderBean.ASSIGN);
 
-                        }
                     }
-                    break;
-                case OrderBean.WAITING://已指派服务人员
-                    if (user != null && !user.getAccountType().isEmpty()) {
-                        if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
-                            //已抵达
-                            presenter.acceptOrder(orderBean.getId(), true, OrderBean.WAITING);
+                }
+                break;
+            case BUTTON_TEXT5://已抵达
+                if (user != null && !user.getAccountType().isEmpty()) {
+                    if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
+                        //已抵达
+                        presenter.acceptOrder(orderBean.getId(), true, OrderBean.WAITING);
 
-                        }
                     }
-                    break;
-                case OrderBean.ARRIVED://已抵达 开始服务
-                    if (user != null && !user.getAccountType().isEmpty()) {
-                        if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
-                            //已抵达
-                            presenter.acceptOrder(orderBean.getId(), true, OrderBean.ARRIVED);
+                }
+                break;
+            case BUTTON_TEXT6:// 开始服务
+                if (user != null && !user.getAccountType().isEmpty()) {
+                    if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
+                        //开始服务
+                        presenter.acceptOrder(orderBean.getId(), true, OrderBean.ARRIVED);
 
-                        }
                     }
-                    break;
-                case OrderBean.DOING:
-                    if (user != null && !user.getAccountType().isEmpty()) {
-                        if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
-                            //服务完成
-                            presenter.acceptOrder(orderBean.getId(), true, OrderBean.DOING);
+                }
+                break;
+            case BUTTON_TEXT7://服务完成
+                if (user != null && !user.getAccountType().isEmpty()) {
+                    if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
+                        //服务完成
+                        presenter.acceptOrder(orderBean.getId(), true, OrderBean.DOING);
 
-                        }
                     }
-                    break;
-                case OrderBean.ASSESS:
-                    context.startActivity(new Intent(context, CommentOrderActivity.class)
-                            .putExtra(OrderListBean.class.getName(), item));
-                    break;
-                case OrderBean.COMPLETED:
-                    break;
-                case OrderBean.NO_PAY:
-                    break;
-                case OrderBean.CLOSE:
-                    break;
-                default:
-            }
+                }
+                break;
+            case BUTTON_TEXT9:
+                context.startActivity(new Intent(context, CommentOrderActivity.class)
+                        .putExtra(OrderListBean.class.getName(), item));
+                break;
+            default:
         }
     }
 

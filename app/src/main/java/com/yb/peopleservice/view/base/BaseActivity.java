@@ -3,8 +3,12 @@ package com.yb.peopleservice.view.base;
 import android.content.res.Resources;
 
 import com.blankj.utilcode.util.AdaptScreenUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.gyf.immersionbar.ImmersionBar;
 
+import cn.jmessage.biz.httptask.task.GetEventNotificationTaskMng;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.event.MessageEvent;
 import cn.sts.base.presenter.AbstractPresenter;
 
 /**
@@ -18,6 +22,7 @@ public abstract class BaseActivity<P extends AbstractPresenter> extends cn.sts.b
     @Override
     protected void initView() {
         initImmersionBar();
+        JMessageClient.registerEventReceiver(this);
     }
 
     protected void initImmersionBar() {
@@ -26,6 +31,21 @@ public abstract class BaseActivity<P extends AbstractPresenter> extends cn.sts.b
                 .fitsSystemWindows(true)
                 .statusBarDarkFont(true, 0.2f)
                 .statusBarColor(cn.sts.base.R.color.white).init();
+    }
+
+    public void onEvent(MessageEvent event) {
+        //子线程模式
+        LogUtils.i("未读条数："+JMessageClient.getAllUnReadMsgCount());
+    }
+
+    public void onEventMainThread(GetEventNotificationTaskMng.EventEntity event){
+       // 主线程模式  当前登录用户信息被更新事件实体类
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JMessageClient.unRegisterEventReceiver(this);
     }
 
     /**

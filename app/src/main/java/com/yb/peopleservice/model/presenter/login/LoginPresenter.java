@@ -3,18 +3,22 @@ package com.yb.peopleservice.model.presenter.login;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.database.manager.UserManager;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.api.BasicCallback;
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
 import cn.sts.base.model.server.request.AbstractRequestFunc;
@@ -58,6 +62,7 @@ public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallb
                     user.setAccountType(data.getScope());
                     ManagerFactory.getInstance().getUserManager().deleteAll();
                     ManagerFactory.getInstance().getUserManager().save(user);
+                    UserManager.user = null;
                     getViewCallBack().loginSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();

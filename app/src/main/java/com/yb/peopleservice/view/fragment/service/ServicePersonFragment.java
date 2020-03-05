@@ -12,25 +12,35 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
 import com.yb.peopleservice.model.bean.shop.BalanceBean;
 import com.yb.peopleservice.model.bean.shop.MyShop;
-import com.yb.peopleservice.model.bean.shop.ServiceInfo;
-import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
+import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.presenter.shop.ServiceInfoPresenter;
+import com.yb.peopleservice.push.TagAliasOperatorHelper;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.common.MyIncomeActivity;
 import com.yb.peopleservice.view.activity.common.ShopDetailsActivity;
 import com.yb.peopleservice.view.activity.services.ApplyServiceActivity;
+import com.yb.peopleservice.view.activity.services.CertificationDetailsActivity;
 import com.yb.peopleservice.view.activity.services.StoreEntryActivity;
+import com.yb.peopleservice.view.base.LazyLoadFragment;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseFragment;
 import cn.sts.base.view.widget.UtilityView;
+
+import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
 
 /**
  * 项目名称:PeopleService
@@ -41,7 +51,7 @@ import cn.sts.base.view.widget.UtilityView;
  * 修改时间:
  * 修改描述:
  */
-public class ServicePersonFragment extends BaseFragment implements ServiceInfoPresenter.IServiceInfoCallback {
+public class ServicePersonFragment extends LazyLoadFragment implements ServiceInfoPresenter.IServiceInfoCallback {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.photoIV)
@@ -56,12 +66,15 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
     UtilityView shopInUV;
     @BindView(R.id.emptyLL)
     LinearLayout emptyLL;
+    @BindView(R.id.rootLL)
+    LinearLayout rootLL;
     @BindView(R.id.applyBtn)
     Button applyBtn;
     @BindView(R.id.remakeTV)
     TextView remakeTV;
     private ServiceInfoPresenter presenter;
     private MyShop myShop;
+    private ServiceInfo serviceInfo;
 
     public static Fragment getInstanceFragment() {
         ServicePersonFragment fragment = new ServicePersonFragment();
@@ -80,11 +93,16 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
 
     @Override
     protected void initData() {
-
+        rootLL.setVisibility(View.INVISIBLE);
         swipeRefreshLayout.setRefreshing(true);
         presenter = new ServiceInfoPresenter(getContext(), this);
         presenter.getServiceInfo();
         presenter.getServiceMyShop();
+    }
+
+    @Override
+    public void fetchData() {
+
     }
 
     /**
@@ -115,6 +133,10 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.shopInfoUV:
+                if (serviceInfo != null) {
+                    startActivity(new Intent(getContext(), CertificationDetailsActivity.class)
+                            .putExtra(ServiceInfo.class.getName(), serviceInfo));
+                }
 
                 break;
             case R.id.profitUV:
@@ -129,7 +151,7 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
                 if (shopInUV.getContentText().contains("我的店铺")) {
                     myShop.setType(MyShop.SHOP_DETAILS);
                     startActivityForResult(new Intent(getContext(), ShopDetailsActivity.class)
-                            .putExtra(MyShop.class.getName(), myShop),RequestCodeConstant.BASE_REQUEST);
+                            .putExtra(MyShop.class.getName(), myShop), RequestCodeConstant.BASE_REQUEST);
                 } else {
                     startActivity(new Intent(getContext(), StoreEntryActivity.class));
                 }
@@ -154,42 +176,69 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
 
     @Override
     public void serviceInfoSuccess(ServiceInfo data) {
-        swipeRefreshLayout.setRefreshing(false);
         if (data != null) {
-            ImageLoaderUtil.loadServerCircleImage(getContext(), data.getHeadImg(), photoIV);
-            nameTV.setText(data.getName());
-            if (data.getStatus() == 1) {
-                shopInfoUV.setVisibility(View.VISIBLE);
-                profitUV.setVisibility(View.VISIBLE);
-                shopInUV.setVisibility(View.VISIBLE);
-                emptyLL.setVisibility(View.GONE);
-            } else {
-                shopInfoUV.setVisibility(View.INVISIBLE);
-                profitUV.setVisibility(View.INVISIBLE);
-                shopInUV.setVisibility(View.INVISIBLE);
-                emptyLL.setVisibility(View.VISIBLE);
+            this.serviceInfo = data;
+            swipeRefreshLayout.setRefreshing(false);
+            rootLL.setVisibility(View.VISIBLE);
+            if (data != null) {
+                ImageLoaderUtil.loadServerCircleImage(getContext(), data.getHeadImg(), photoIV);
+                nameTV.setText(data.getName());
+                if (data.getStatus() == 1) {
+                    shopInfoUV.setVisibility(View.VISIBLE);
+                    profitUV.setVisibility(View.VISIBLE);
+                    shopInUV.setVisibility(View.VISIBLE);
+                    emptyLL.setVisibility(View.GONE);
+                } else {
+                    shopInfoUV.setVisibility(View.INVISIBLE);
+                    profitUV.setVisibility(View.INVISIBLE);
+                    shopInUV.setVisibility(View.INVISIBLE);
+                    emptyLL.setVisibility(View.VISIBLE);
+                }
+                switch (data.getStatus()) {
+                    case 0:
+                        applyBtn.setVisibility(View.INVISIBLE);
+                        remakeTV.setText("账号已被禁用,请联系管理员！");
+                        break;
+                    case 2:
+                        applyBtn.setVisibility(View.VISIBLE);
+                        applyBtn.setText("申请认证服务人员");
+                        remakeTV.setText("审核通过后即可发布服务！");
+                        break;
+                    case 3:
+                        applyBtn.setVisibility(View.INVISIBLE);
+                        remakeTV.setText("认证审核中！");
+                        break;
+                    case 4:
+                        applyBtn.setVisibility(View.VISIBLE);
+                        applyBtn.setText("申请认证服务人员");
+                        remakeTV.setText("审核不通过：" + data.getMessage());
+                        break;
+                }
             }
-            switch (data.getStatus()) {
-                case 0:
-                    applyBtn.setVisibility(View.INVISIBLE);
-                    remakeTV.setText("账号已被禁用,请联系管理员！");
-                    break;
-                case 2:
-                    applyBtn.setVisibility(View.VISIBLE);
-                    applyBtn.setText("申请认证服务人员");
-                    remakeTV.setText("审核通过后即可发布服务！");
-                    break;
-                case 3:
-                    applyBtn.setVisibility(View.INVISIBLE);
-                    remakeTV.setText("认证审核中！");
-                    break;
-                case 4:
-                    applyBtn.setVisibility(View.VISIBLE);
-                    applyBtn.setText("申请认证服务人员");
-                    remakeTV.setText("审核不通过：" + data.getMessage());
-                    break;
-            }
+            setAlias(data);
+            setTags(data);
         }
+    }
+
+    private void setAlias(ServiceInfo data) {
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = ACTION_SET;
+        LogUtils.e(data.getId().replace("-", ""));
+        tagAliasBean.alias = data.getId().replace("-", "");
+        tagAliasBean.isAliasAction = true;
+        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
+    }
+
+    private void setTags(ServiceInfo data) {
+        Set<String> tags = new HashSet<>();
+        tags.add("staff");
+        if (!StringUtils.isEmpty(data.getShopId())) {
+            tags.add(data.getShopId().replace("-", ""));
+        }
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = ACTION_SET;
+        tagAliasBean.tags = tags;
+        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
     }
 
     @Override
@@ -205,4 +254,6 @@ public class ServicePersonFragment extends BaseFragment implements ServiceInfoPr
             presenter.getServiceMyShop();
         }
     }
+
+
 }

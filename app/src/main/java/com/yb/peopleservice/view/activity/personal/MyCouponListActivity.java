@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
+import com.yb.peopleservice.model.bean.user.order.MyCouponBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.user.personal.CouponsPresenter;
@@ -15,6 +16,7 @@ import com.yb.peopleservice.model.presenter.user.service.FavoritePresenter;
 import com.yb.peopleservice.view.activity.services.ServiceDetailsActivity;
 import com.yb.peopleservice.view.adapter.user.CouponAdapter;
 import com.yb.peopleservice.view.adapter.user.FavoriteServiceAdapter;
+import com.yb.peopleservice.view.adapter.user.MyCouponAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
 
 import cn.sts.base.presenter.AbstractPresenter;
@@ -29,13 +31,13 @@ import cn.sts.base.view.fragment.BaseListFragment;
  * 修改描述:
  */
 public class MyCouponListActivity extends BaseListActivity {
-    private CouponAdapter adapter;
-    private CouponsPresenter<CouponBean> presenter;
+    private MyCouponAdapter adapter;
+    private CouponsPresenter<MyCouponBean> presenter;
 
 
     @Override
     public BaseQuickAdapter initAdapter() {
-        return adapter = new CouponAdapter(false);
+        return adapter = new MyCouponAdapter(false);
     }
 
     @Override
@@ -70,10 +72,10 @@ public class MyCouponListActivity extends BaseListActivity {
      */
     private void initQueryListUI() {
 
-        ServiceListUIPresenter<CouponBean> queryListUI =
+        ServiceListUIPresenter<MyCouponBean> queryListUI =
                 new ServiceListUIPresenter<>(adapter, swipeRefreshLayout, this);
 
-        presenter = new CouponsPresenter<>(this, queryListUI);
+        presenter = new CouponsPresenter(this, queryListUI);
         presenter.refreshList(true);
 
     }

@@ -22,13 +22,22 @@ import com.tencent.smtt.sdk.QbSdk;
 import com.yb.peopleservice.BuildConfig;
 import com.yb.peopleservice.GlideApp;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.AppConstant;
 
 import org.greenrobot.eventbus.EventBus;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
 import cn.sts.base.util.AppManageUtil;
+import cn.sts.base.util.FileUtil;
+import cn.sts.platform.util.CrashUtil;
 import cn.sts.platform.util.PayUtil;
 import cn.sts.platform.util.ThirdPlatformUtil;
+import jiguang.chat.application.JGApplication;
+import jiguang.chat.entity.NotificationClickEventReceiver;
+import jiguang.chat.location.service.LocationService;
+import jiguang.chat.pickerimage.utils.StorageUtil;
+import jiguang.chat.utils.SharePreferenceManager;
 
 
 /**
@@ -37,13 +46,14 @@ import cn.sts.platform.util.ThirdPlatformUtil;
  */
 public class MyApplication extends MultiDexApplication implements AMapLocationListener {
 
-    private static Context appContext;
+    public static Context appContext;
     private AMapLocationClient mlocationClient;
     public static AMapLocation aMapLocation;//当前位置信息
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         appContext = getApplicationContext();
         //APP开发工具初始化
         Utils.init(getApplicationContext());
@@ -54,7 +64,8 @@ public class MyApplication extends MultiDexApplication implements AMapLocationLi
         //设置微信相关账号数据
 //        ThirdPlatformUtil.setWXAppIDAndSecret(AppConstant.WECHAT_APP_ID, AppConstant.WECHAT_SECRET);
 //        PayUtil.setPayUrl(BaseRequestServer.PAY_URL);
-
+        ThirdPlatformUtil.setBuglyAppID(AppConstant.BUGLY_APP_ID);
+        CrashUtil.init();
         initLog();
 //        AppManageUtil.APP_CODE = AppConstant.FILE_KEY;
         initLocation();
@@ -71,10 +82,28 @@ public class MyApplication extends MultiDexApplication implements AMapLocationLi
                 LogUtils.d(" onViewInitFinished is " + b);
             }
         });
-        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);     		// 初始化 JPush
+        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);            // 初始化 JPush
 
         initGridView();
+        initChatApp();
+        FileUtil.deleteFile(AppConstant.FILE_PATH);
+    }
+
+
+
+    private void initChatApp() {
+        JGApplication.THUMP_PICTURE_DIR = appContext.getFilesDir().getAbsolutePath() + "/JChatDemo";
+        StorageUtil.init(appContext, null);
+
+        JMessageClient.init(getApplicationContext(), true);
+        JMessageClient.setDebugMode(true);
+        SharePreferenceManager.init(getApplicationContext(), JGApplication.JCHAT_CONFIGS);
+        //设置Notification的模式
+        JMessageClient.setNotificationFlag(JMessageClient.FLAG_NOTIFY_WITH_SOUND | JMessageClient.FLAG_NOTIFY_WITH_LED | JMessageClient.FLAG_NOTIFY_WITH_VIBRATE);
+        //注册Notification点击的接收器
+        new NotificationClickEventReceiver(getApplicationContext());
+
     }
 
     private void initGridView() {
@@ -83,7 +112,9 @@ public class MyApplication extends MultiDexApplication implements AMapLocationLi
 
     }
 
-    /** Picasso 加载 */
+    /**
+     * Picasso 加载
+     */
     private class PicassoImageLoader implements NineGridView.ImageLoader {
 
         @Override
@@ -99,6 +130,7 @@ public class MyApplication extends MultiDexApplication implements AMapLocationLi
             return null;
         }
     }
+
     /**
      * 获取应用上下文
      */

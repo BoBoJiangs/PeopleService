@@ -3,6 +3,8 @@ package com.yb.peopleservice.model.bean.shop;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
+
 /**
  * 项目名称:PeopleService
  * 类描述: 指派人员列表

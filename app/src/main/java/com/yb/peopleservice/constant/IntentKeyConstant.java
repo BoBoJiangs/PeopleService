@@ -10,14 +10,13 @@ package com.yb.peopleservice.constant;
 public class IntentKeyConstant {
 
     /**
-     * WebView的title 
+     * WebView的title
      */
     public static final String WEB_VIEW_TITLE = "web_view_title";
     /**
      * WebView的url
      */
     public static final String WEB_VIEW_URL = "web_view_url";
-
 
 
     /**
@@ -34,6 +33,11 @@ public class IntentKeyConstant {
      * Intent传值的Key
      */
     public static final String DATA_KEY = "DATA_KEY";
+
+    /**
+     * 填写账号界面点击下一步
+     */
+    public static final String ACCOUNT = "ACCOUNT";
 }
 
 

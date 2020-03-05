@@ -1,11 +1,14 @@
 package com.yb.peopleservice.view.activity.services;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
@@ -21,9 +24,16 @@ import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
 
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
+import cn.sts.base.view.widget.UtilityView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * 项目名称:PeopleService
@@ -43,13 +53,15 @@ public class ShopListActivity extends BaseListActivity implements
     TextView nameTV;
     @BindView(R.id.collectTV)
     TextView collectTV;
+    @BindView(R.id.searchUV)
+    UtilityView searchUV;
+    EditText searchEt;
     private ServiceListPresenter presenter;
     private ServiceListAdapter adapter;
     private ServiceListBean bean;
     private ShopDetailsPresenter detailsPresenter;
     private CollectPresenter collectPresenter;
     private MyShop myShop;
-    private FavoriteBean favoriteBean;
     private ShopInfo shopInfo;
     private String shopId;
 
@@ -92,6 +104,19 @@ public class ShopListActivity extends BaseListActivity implements
         setOnRefreshListener();
         setLoadMoreListener();
         collectTV.setVisibility(View.INVISIBLE);
+        searchEt = searchUV.getInputEditText();
+        Disposable disposable = RxTextView.textChanges(searchEt)
+                //限流时间500ms
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<CharSequence>() {
+                    @Override
+                    public void accept(CharSequence charSequence) throws Exception {
+                        String string = charSequence.toString();
+                        presenter.setKeywords(string);
+                        presenter.refreshList(false);
+                    }
+                });
     }
 
     @Override
@@ -121,7 +146,7 @@ public class ShopListActivity extends BaseListActivity implements
                 new ServiceListUIPresenter(adapter, swipeRefreshLayout, this);
 
         presenter = new ServiceListPresenter(shopId, this, queryListUI, ServiceListPresenter.SHOP_TYPE);
-        presenter.refreshList(true);
+//        presenter.refreshList(true);
 
     }
 
@@ -136,10 +161,7 @@ public class ShopListActivity extends BaseListActivity implements
 
     @Override
     public void collectSuccess(FavoriteBean favoriteBean) {
-        if (favoriteBean != null) {
-            this.favoriteBean = favoriteBean;
-            collectTV.setText("已收藏");
-        }
+        collectTV.setText("已收藏");
     }
 
     @Override
@@ -150,11 +172,10 @@ public class ShopListActivity extends BaseListActivity implements
     @Override
     public void isCollect(FavoriteBean data) {
         collectTV.setVisibility(View.VISIBLE);
-        favoriteBean = data;
-        if (data == null) {
-            collectTV.setText("收藏");
-        } else {
+        if (collectTV.getText().equals("收藏")) {
             collectTV.setText("已收藏");
+        } else {
+            collectTV.setText("收藏");
         }
     }
 
@@ -180,16 +201,17 @@ public class ShopListActivity extends BaseListActivity implements
     }
 
 
-    @OnClick({R.id.collectTV, R.id.shopLL})
+    @OnClick({R.id.collectTV, R.id.shopLL,R.id.leftIV2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.leftIV2:
+                finish();
+                break;
             case R.id.collectTV:
                 if (collectTV.getText().equals("收藏")) {
                     collectPresenter.addFavorite(myShop.getShop().getId(), FavoriteServiceFragment.SHOP_TYPE);
                 } else {
-                    if (favoriteBean != null) {
-                        collectPresenter.addFavorite(shopInfo.getId(), FavoriteServiceFragment.CANCEL_TYPE);
-                    }
+                    collectPresenter.addFavorite(shopInfo.getId(), FavoriteServiceFragment.CANCEL_TYPE);
 
                 }
 

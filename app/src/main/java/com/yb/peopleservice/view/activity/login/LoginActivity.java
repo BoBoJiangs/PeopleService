@@ -67,6 +67,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.ILogin
                 }
                 break;
             case R.id.forgetPwdTV:
+                startActivity(new Intent(this,PasswordResetActivity.class));
                 break;
             case R.id.loginBtn:
                 login();

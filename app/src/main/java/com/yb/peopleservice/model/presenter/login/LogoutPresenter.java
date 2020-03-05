@@ -13,6 +13,8 @@ import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
 import cn.sts.base.app.AppManager;
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
@@ -53,7 +55,9 @@ public class LogoutPresenter extends AbstractPresenter<IViewCallback> {
                     User user = ManagerFactory.getInstance().getUserManager().getUser();
                     user.setPassword("");
                     ManagerFactory.getInstance().getUserManager().saveOrUpdate(user);
+                    JMessageClient.logout();
                     context.startActivity(new Intent(context, LoginActivity.class));
+                    JPushInterface.deleteAlias(context,1);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

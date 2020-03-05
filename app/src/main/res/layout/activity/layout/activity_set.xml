@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
+
+    <include layout="@layout/toolbar" />
+
+    <TextView style="@style/horizontal_line_style" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/infoUV"
+        style="@style/image_utility"
+        app:text_title="个人信息" />
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/updateUV"
+        style="@style/image_utility"
+        app:text_title="修改密码" />
+</LinearLayout>

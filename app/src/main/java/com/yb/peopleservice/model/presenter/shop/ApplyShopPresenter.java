@@ -3,7 +3,7 @@ package com.yb.peopleservice.model.presenter.shop;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.bean.shop.ServiceInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
@@ -11,7 +11,6 @@ import com.yb.peopleservice.model.server.shop.ShopRequest;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
-import cn.sts.base.model.server.request.AbstractRequestFunc;
 import cn.sts.base.presenter.AbstractPresenter;
 import io.reactivex.Observable;
 

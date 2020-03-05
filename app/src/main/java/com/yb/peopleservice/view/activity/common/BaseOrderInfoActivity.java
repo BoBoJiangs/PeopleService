@@ -1,13 +1,12 @@
 package com.yb.peopleservice.view.activity.common;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.shop.ServiceInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
@@ -18,7 +17,6 @@ import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.util.NumberUtil;
 import cn.sts.base.view.widget.UtilityView;

@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 项目名称:PeopleService
  * 类描述:
@@ -27,6 +30,8 @@ public class OrderBean implements Parcelable {
     public static final int DOING = 6;//服务人员已被用户确认
     public static final int ASSESS = 7;//待评价
     public static final int COMPLETED = 8;//已完成
+
+    public static final int REFUND_APPLY = 9;//退款申请
     /**
      * amount : 0
      * calculatedDistance : 0
@@ -116,6 +121,18 @@ public class OrderBean implements Parcelable {
     private int totalPrice;//实际总价，订单实际需要支付的金额，由此生成支付金额
     private String groupId;
     private String orderNumber;
+    private List<CouponBean> coupons;//优惠券列表
+
+    public List<CouponBean> getCoupons() {
+        if (coupons == null) {
+            return new ArrayList<>();
+        }
+        return coupons;
+    }
+
+    public void setCoupons(List<CouponBean> coupons) {
+        this.coupons = coupons;
+    }
 
     public String getOrderNumber() {
         return orderNumber == null ? "" : orderNumber;
@@ -515,6 +532,7 @@ public class OrderBean implements Parcelable {
         dest.writeInt(this.totalPrice);
         dest.writeString(this.groupId);
         dest.writeString(this.orderNumber);
+        dest.writeTypedList(this.coupons);
     }
 
     protected OrderBean(Parcel in) {
@@ -560,6 +578,7 @@ public class OrderBean implements Parcelable {
         this.totalPrice = in.readInt();
         this.groupId = in.readString();
         this.orderNumber = in.readString();
+        this.coupons = in.createTypedArrayList(CouponBean.CREATOR);
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

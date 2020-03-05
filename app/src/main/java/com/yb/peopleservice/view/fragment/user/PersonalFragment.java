@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.PersonalListBean;
@@ -19,25 +20,35 @@ import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.database.manager.UserInfoManager;
 import com.yb.peopleservice.model.database.manager.UserManager;
 import com.yb.peopleservice.model.presenter.user.personal.PersonalPresenter;
+import com.yb.peopleservice.push.TagAliasOperatorHelper;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
+import com.yb.peopleservice.view.activity.im.ChatListActivity;
 import com.yb.peopleservice.view.activity.personal.EditUserInfoActivity;
 import com.yb.peopleservice.view.activity.personal.MyCouponListActivity;
 import com.yb.peopleservice.view.activity.personal.MyFavoriteActivity;
+import com.yb.peopleservice.view.activity.personal.SetActivity;
 import com.yb.peopleservice.view.adapter.PersonalListAdapter;
+import com.yb.peopleservice.view.base.LazyLoadListFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
-import cn.sts.base.view.fragment.BaseListFragment;
 import cn.sts.base.view.widget.AppDialog;
 
 import static com.yb.peopleservice.model.bean.PersonalListBean.CONTENT_TYPE;
 import static com.yb.peopleservice.model.bean.PersonalListBean.SPAN_SIZE_ONE;
+import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
 
 /**
  * 项目名称:PeopleService
@@ -48,7 +59,7 @@ import static com.yb.peopleservice.model.bean.PersonalListBean.SPAN_SIZE_ONE;
  * 修改时间:
  * 修改描述:
  */
-public class PersonalFragment extends BaseListFragment implements PersonalPresenter.IUserCallback {
+public class PersonalFragment extends LazyLoadListFragment implements PersonalPresenter.IUserCallback {
     private PersonalListAdapter adapter;
     private HeaderViewHolder headerViewHolder;
     List<PersonalListBean> listData = new ArrayList<>();
@@ -73,18 +84,30 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
 //        return new GridLayoutManager(getContext(), 3);
 //    }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     @Override
     public int viewResID() {
         return R.layout.fragment_personal;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UserInfoBean infoBean) {
+        presenter.getUserInfo();
+    }
 
     @Override
     protected void initData() {
+        EventBus.getDefault().register(this);
         presenter = new PersonalPresenter(getContext(), this);
         userManager = ManagerFactory.getInstance().getUserManager();
         infoManager = ManagerFactory.getInstance().getUserInfoManager();
-        presenter.getUserInfo();
+
         initHeaderView();
         recyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_fa));
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
@@ -121,6 +144,7 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
 
 
     }
+
 
     @Override
     protected AbstractPresenter createPresenter() {
@@ -183,19 +207,51 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
             headerViewHolder.setUserInfoData(data);
             infoManager.deleteAll();
             infoManager.save(data);
+            setTags();
+            setAlias(data);
 
-//            TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
-//            tagAliasBean.action = ACTION_SET;
-//            tagAliasBean.alias = data.getId();
-//            tagAliasBean.isAliasAction = true;
-//            TagAliasOperatorHelper.getInstance().handleAction(getContext(),1,tagAliasBean);
         }
 
+    }
+
+    private void setAlias(UserInfoBean data) {
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = ACTION_SET;
+        LogUtils.e(data.getId().replace("-", ""));
+        tagAliasBean.alias = data.getId().replace("-", "");
+        tagAliasBean.isAliasAction = true;
+        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
+    }
+
+    private void setTags() {
+        Set<String> tags = new HashSet<>();
+        tags.add("customer");
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = ACTION_SET;
+        tagAliasBean.tags = tags;
+        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
     }
 
     @Override
     public void getDataFail() {
 
+    }
+
+    @Override
+    public void fetchData() {
+        presenter.getUserInfo();
+    }
+
+    @OnClick({R.id.setIV, R.id.msgTV})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.setIV:
+                startActivity(new Intent(getContext(), SetActivity.class));
+                break;
+            case R.id.msgTV:
+                startActivity(new Intent(getContext(), ChatListActivity.class));
+                break;
+        }
     }
 
     static class HeaderViewHolder {
@@ -227,7 +283,7 @@ public class PersonalFragment extends BaseListFragment implements PersonalPresen
 
         private void setUserInfoData(UserInfoBean userInfo) {
             nameTV.setText(userInfo.getNickname());
-            memberTV.setVisibility(userInfo.getMember() == 0 ? View.GONE : View.VISIBLE);
+            memberTV.setText("等级:" + userInfo.getTotalPoints());
             ImageLoaderUtil.loadServerCircleImage(context, userInfo.getHeadImg(), photoIV);
         }
 
