@@ -56,6 +56,7 @@ public class SetActivity extends BaseToolbarActivity {
                 startActivity(new Intent(this,EditUserInfoActivity.class));
                 break;
             case R.id.updateUV:
+                startActivity(new Intent(this,UpdatePasswordActivity.class));
                 break;
         }
     }

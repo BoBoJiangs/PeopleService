@@ -43,6 +43,10 @@ public class ChatListActivity extends BaseToolbarActivity {
 
     @Override
     protected void initData() {
+        if (JMessageClient.getMyInfo()==null){
+            ToastUtils.showLong("消息获取失败,请重新登录后重试");
+            finish();
+        }
         FragmentUtils.add(getSupportFragmentManager(), new ConversationListFragment(),
                 R.id.frameLayout);
 

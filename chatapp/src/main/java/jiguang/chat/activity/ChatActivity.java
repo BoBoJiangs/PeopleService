@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.sj.emoji.EmojiBean;
 import com.ypx.imagepicker.ImagePicker;
 import com.ypx.imagepicker.bean.ImageItem;
@@ -165,6 +166,10 @@ public class ChatActivity extends BaseActivity implements FuncLayout.OnFuncKeyBo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (JMessageClient.getMyInfo()==null){
+            ToastUtils.showLong("消息获取失败,请重新登录后重试");
+            finish();
+        }
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }

@@ -116,10 +116,10 @@ public class BaseRequestServer extends AbstractHttpsRequestServer {
             } else if (data.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
                 baseURL = SERVER_URL + "staff/api/";
             } else {
-                baseURL = SERVER_URL + "sso/";
+                baseURL = SERVER_URL + "api/";
             }
         } else {
-            baseURL = SERVER_URL + "sso/";
+            baseURL = SERVER_URL + "api/";
         }
         if (TextUtils.isEmpty(PayUtil.getPayUrl())) {
             PayUtil.setPayUrl(baseURL);

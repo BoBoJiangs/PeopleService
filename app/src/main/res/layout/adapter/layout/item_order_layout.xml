@@ -42,14 +42,26 @@
                 android:text="加载中"
                 android:textSize="@dimen/font_btn_small"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/stateTV"
-                style="@style/text_view_content_black"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/base_text_color"
-                android:text="加载中"
-                android:textSize="@dimen/font_btn_small" />
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/stateTV"
+                    style="@style/text_view_content_black"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/base_text_color"
+                    android:text="加载中"
+                    android:textSize="@dimen/font_btn_small" />
+                <TextView
+                    android:id="@+id/refundStateTV"
+                    style="@style/text_view_content_gray"
+                    android:layout_height="wrap_content"
+                    android:text="加载中"
+                    android:visibility="gone"
+                    android:textSize="@dimen/font_btn_small" />
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -120,6 +132,7 @@
             android:layout_height="@dimen/dp_40"
             android:scaleType="center"
             android:src="@mipmap/icon_dian"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/btnLL"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btnLL" />
@@ -137,8 +150,10 @@
                 android:id="@+id/bottomTV1"
                 style="@style/button_style"
                 android:text="退款明细"
+                android:minWidth="60dp"
                 app:bl_corners_radius="25dp"
                 app:bl_solid_color="@color/white"
+                app:bl_pressed_solid_color="@color/gray_f6"
                 app:bl_stroke_color="@color/gray_66"
                 app:bl_stroke_width="1dp" />
 
@@ -146,9 +161,23 @@
                 android:id="@+id/bottomTV2"
                 style="@style/button_style"
                 android:layout_marginStart="@dimen/dp_10"
+                android:minWidth="60dp"
+                android:text="再来一单"
+                app:bl_corners_radius="25dp"
+                app:bl_pressed_solid_color="@color/gray_f6"
+                app:bl_solid_color="@color/white"
+                app:bl_stroke_color="@color/base_text_color"
+                app:bl_stroke_width="1dp" />
+
+            <TextView
+                android:id="@+id/bottomTV3"
+                style="@style/button_style"
+                android:minWidth="60dp"
+                android:layout_marginStart="@dimen/dp_10"
                 android:text="再来一单"
                 app:bl_corners_radius="25dp"
                 app:bl_solid_color="@color/white"
+                app:bl_pressed_solid_color="@color/gray_f6"
                 app:bl_stroke_color="@color/base_text_color"
                 app:bl_stroke_width="1dp" />
         </LinearLayout>

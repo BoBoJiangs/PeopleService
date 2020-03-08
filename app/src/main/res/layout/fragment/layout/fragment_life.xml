@@ -24,6 +24,7 @@
             android:textSize="@dimen/font_btn_small_best" />
 
         <ImageView
+            android:id="@+id/msgIV2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_default"

@@ -3,6 +3,8 @@ package com.yb.peopleservice.model.bean.user.order;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.blankj.utilcode.util.GsonUtils;
+import com.google.gson.reflect.TypeToken;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 
 import java.util.ArrayList;
@@ -22,12 +24,12 @@ public class OrderBean implements Parcelable {
     public static final int NO_PAY = -1;//待付款
     public static final int UNDER_WAY = 100;//进行中
     public static final int CLOSE = 0;//已关闭
-    public static final int GROUP_NOT_FINISH = 1;//团购已付款 未完成
-    public static final int PAID = 2;//团购或者付款完成（等待指派）
-    public static final int ASSIGN = 3;//等待服务人员接受
-    public static final int WAITING = 4;//服务人员接受，正在前往执行
-    public static final int ARRIVED = 5;//服务人员已上门 等待用户确认 开始服务
-    public static final int DOING = 6;//服务人员已被用户确认
+    public static final int GROUP_NOT_FINISH = 1;//待成团
+    public static final int PAID = 2;//待指派
+    public static final int ASSIGN = 3;//待接单
+    public static final int WAITING = 4;//前往中
+    public static final int ARRIVED = 5;//已抵达
+    public static final int DOING = 6;//服务中
     public static final int ASSESS = 7;//待评价
     public static final int COMPLETED = 8;//已完成
 
@@ -105,7 +107,7 @@ public class OrderBean implements Parcelable {
     private String refundImgs;//退款申请的图片，uri数组 ['/img/…’,…]
     private float refundMoney;//退款的金额，需要退款的所有金额
     private String refundReason;//退款申请原因文字描述
-    private int refundStatus;//退款申请状态 1申请中 0已关闭 关闭可能是由商家关闭，也可以由顾客关闭 2退款成功
+    private String refundStatus;//退款申请状态 1申请中 0已关闭 关闭可能是由商家关闭，也可以由顾客关闭 2退款成功
     private String refundTime;//申请退款时间
     private int refundType;//退款的原因类型,1.不想买了2.团购未成功3.其它
     private String serviceStaffId;//指派的服务人员的ID
@@ -118,7 +120,7 @@ public class OrderBean implements Parcelable {
     // 4服务人员接受，正在前往执行 如果服务人员拒绝，那么订单进入2，需要指派服务人员
     // 5服务人员已上门，此时打开录音功能 6服务人员已被用户确认，开始服务7已完成交易，待评价
     // 8已评价，订单全部完成
-    private int totalPrice;//实际总价，订单实际需要支付的金额，由此生成支付金额
+    private float totalPrice;//实际总价，订单实际需要支付的金额，由此生成支付金额
     private String groupId;
     private String orderNumber;
     private List<CouponBean> coupons;//优惠券列表
@@ -366,6 +368,18 @@ public class OrderBean implements Parcelable {
         this.refundConfirmTime = refundConfirmTime;
     }
 
+    public List<String> refundImgList() {
+        List<String> imgList = GsonUtils.fromJson(refundImgs,
+                new TypeToken<List<String>>() {
+        }.getType());
+        if (imgList != null) {
+            return imgList;
+        } else {
+            return new ArrayList<>();
+        }
+
+    }
+
     public String getRefundImgs() {
         return refundImgs;
     }
@@ -390,11 +404,11 @@ public class OrderBean implements Parcelable {
         this.refundReason = refundReason;
     }
 
-    public int getRefundStatus() {
+    public String getRefundStatus() {
         return refundStatus;
     }
 
-    public void setRefundStatus(int refundStatus) {
+    public void setRefundStatus(String refundStatus) {
         this.refundStatus = refundStatus;
     }
 
@@ -462,7 +476,7 @@ public class OrderBean implements Parcelable {
         this.status = status;
     }
 
-    public int getTotalPrice() {
+    public float getTotalPrice() {
         return totalPrice;
     }
 
@@ -520,7 +534,7 @@ public class OrderBean implements Parcelable {
         dest.writeString(this.refundImgs);
         dest.writeFloat(this.refundMoney);
         dest.writeString(this.refundReason);
-        dest.writeInt(this.refundStatus);
+        dest.writeString(this.refundStatus);
         dest.writeString(this.refundTime);
         dest.writeInt(this.refundType);
         dest.writeString(this.serviceStaffId);
@@ -529,7 +543,7 @@ public class OrderBean implements Parcelable {
         dest.writeString(this.startLongitude);
         dest.writeString(this.startTime);
         dest.writeInt(this.status);
-        dest.writeInt(this.totalPrice);
+        dest.writeFloat(this.totalPrice);
         dest.writeString(this.groupId);
         dest.writeString(this.orderNumber);
         dest.writeTypedList(this.coupons);
@@ -566,7 +580,7 @@ public class OrderBean implements Parcelable {
         this.refundImgs = in.readString();
         this.refundMoney = in.readFloat();
         this.refundReason = in.readString();
-        this.refundStatus = in.readInt();
+        this.refundStatus = in.readString();
         this.refundTime = in.readString();
         this.refundType = in.readInt();
         this.serviceStaffId = in.readString();
@@ -575,7 +589,7 @@ public class OrderBean implements Parcelable {
         this.startLongitude = in.readString();
         this.startTime = in.readString();
         this.status = in.readInt();
-        this.totalPrice = in.readInt();
+        this.totalPrice = in.readFloat();
         this.groupId = in.readString();
         this.orderNumber = in.readString();
         this.coupons = in.createTypedArrayList(CouponBean.CREATOR);

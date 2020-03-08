@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.fragment.user;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -43,12 +44,15 @@ import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.presenter.user.service.MapPresenter;
+import com.yb.peopleservice.view.activity.im.ChatListActivity;
+import com.yb.peopleservice.view.activity.personal.SetActivity;
 import com.yb.peopleservice.view.weight.CustomPopup.MapBottomPopup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseFragment;
@@ -193,6 +197,15 @@ public class LifeRadarMapFragment extends BaseFragment implements AMapLocationLi
 
         } else {
             Log.e("ama", "screenMarker is null");
+        }
+    }
+
+    @OnClick({R.id.msgIV2})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.msgIV2:
+                startActivity(new Intent(getContext(), ChatListActivity.class));
+                break;
         }
     }
 

@@ -85,6 +85,7 @@
                 android:textSize="@dimen/font_title_small"
                 android:text="审核通过后选择店铺入驻后就可以接单了哟！" />
         </LinearLayout>
+        <include layout="@layout/view_exit_button"/>
     </LinearLayout>
 
 

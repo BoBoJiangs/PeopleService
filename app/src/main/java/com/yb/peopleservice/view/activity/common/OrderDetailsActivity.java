@@ -2,9 +2,12 @@ package com.yb.peopleservice.view.activity.common;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.DeviceUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.LoginBean;
@@ -12,6 +15,7 @@ import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.utils.AppUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +57,8 @@ public class OrderDetailsActivity extends BaseOrderInfoActivity {
     UtilityView payTypeUV;
     @BindView(R.id.payTimeUV)
     UtilityView payTimeUV;
+    @BindView(R.id.stateIV)
+    ImageView stateIV;
     private User user;
     @Override
     public String getTitleName() {
@@ -80,7 +86,7 @@ public class OrderDetailsActivity extends BaseOrderInfoActivity {
 
     @Override
     protected void initData() {
-
+        orderNumUV.getContentTextView().setLines(1);
         user = ManagerFactory.getInstance().getUserManager().getUser();
         super.initData();
     }
@@ -104,45 +110,41 @@ public class OrderDetailsActivity extends BaseOrderInfoActivity {
     }
 
     private void showOrderState(OrderBean orderBean){
+        stateIV.setImageResource(R.mipmap.fuw);
         switch (orderBean.getStatus()) {
+            case OrderBean.NO_PAY:
+                stateIV.setImageResource(R.mipmap.daichengtuan);
+                stateTV.setText("待付款");
+                break;
             case OrderBean.GROUP_NOT_FINISH:
-                stateTV.setText("团购未完成");
+                stateIV.setImageResource(R.mipmap.daichengtuan);
+                stateTV.setText("待成团");
                 break;
             case OrderBean.PAID:
-                stateTV.setText("等待指派服务人员");
+                stateTV.setText("待指派");
                 break;
             case OrderBean.ASSIGN:
-                stateTV.setText("等待服务人员接受");
+                stateTV.setText("待接单");
                 break;
             case OrderBean.WAITING:
-                if (user != null && !user.getAccountType().isEmpty()) {
-                    if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
-                        stateTV.setText("已接受");
-                    } else {
-                        stateTV.setText("已指派服务人员");
-                    }
-                }
-
+                stateTV.setText("前往中");
 
                 break;
             case OrderBean.ARRIVED:
-                stateTV.setText("进行中");
+                stateTV.setText("已抵达");
                 break;
             case OrderBean.DOING:
-                stateTV.setText("进行中");
+                stateTV.setText("服务中");
                 break;
             case OrderBean.ASSESS:
+                stateIV.setImageResource(R.mipmap.daipingjia);
                 stateTV.setText("待评价");
 //                bottomTV2.setVisibility(View.VISIBLE);
 //                bottomTV2.setText("立即评价");
                 break;
             case OrderBean.COMPLETED:
+                stateIV.setImageResource(R.mipmap.wancheng);
                 stateTV.setText("已完成");
-                break;
-            case OrderBean.NO_PAY:
-                stateTV.setText("待付款");
-//                bottomTV2.setVisibility(View.VISIBLE);
-//                bottomTV2.setText("立即支付");
                 break;
             case OrderBean.CLOSE:
                 stateTV.setText("已关闭");
@@ -160,12 +162,18 @@ public class OrderDetailsActivity extends BaseOrderInfoActivity {
     }
 
 
-    @OnClick({R.id.bottomTV1, R.id.bottomTV2})
+    @OnClick({R.id.bottomTV1, R.id.bottomTV2,R.id.phoneTV})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bottomTV1:
                 break;
             case R.id.bottomTV2:
+                break;
+            case R.id.phoneTV:
+                String phone = phoneTV.getText().toString();
+                if (!StringUtils.isEmpty(phone)){
+                    AppUtils.callPhone(phone);
+                }
                 break;
         }
     }

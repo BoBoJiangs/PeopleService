@@ -85,8 +85,14 @@ public interface HomeRequest {
     Observable<RequestResult<UserInfoBean>> getUserInfo();
 
     /**
-     * 用户详情
+     * 修改用户信息
      */
     @PUT("customers/self")
     Observable<RequestResult<UserInfoBean>> setUserInfo(@Body UserInfoBean parameter);
+
+    /**
+     * 修改密码
+     */
+    @PUT("customers/password")
+    Observable<RequestResult<UserInfoBean>> password(@Body Map map);
 }

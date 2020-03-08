@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
@@ -12,6 +13,7 @@ import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.presenter.shop.AssignPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 
+import cn.sts.base.app.AppManager;
 import cn.sts.base.view.widget.AppDialog;
 
 /**
@@ -67,7 +69,8 @@ public class ShopPersonAdapter extends BaseQuickAdapter<PersonListBean, BaseView
 
     @Override
     public void assignSuccess(Object data) {
-
+        ToastUtils.showLong("指派成功等待服务人员接受");
+        AppManager.getAppManager().finishActivity();
     }
 
     @Override

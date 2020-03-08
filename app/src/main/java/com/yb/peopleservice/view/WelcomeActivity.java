@@ -190,7 +190,7 @@ public class WelcomeActivity extends BaseActivity implements LoginPresenter.ILog
      * 跳转到登录的Activity
      */
     private void toLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

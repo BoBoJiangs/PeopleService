@@ -15,14 +15,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
 import com.yb.peopleservice.model.bean.shop.BalanceBean;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
+import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
+import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.presenter.shop.ServiceInfoPresenter;
 import com.yb.peopleservice.push.TagAliasOperatorHelper;
+import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.common.MyIncomeActivity;
 import com.yb.peopleservice.view.activity.common.ShopDetailsActivity;
@@ -31,13 +35,18 @@ import com.yb.peopleservice.view.activity.services.CertificationDetailsActivity;
 import com.yb.peopleservice.view.activity.services.StoreEntryActivity;
 import com.yb.peopleservice.view.base.LazyLoadFragment;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.api.BasicCallback;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseFragment;
+import cn.sts.base.view.widget.AppDialog;
 import cn.sts.base.view.widget.UtilityView;
 
 import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
@@ -129,7 +138,7 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
         return presenter;
     }
 
-    @OnClick({R.id.shopInfoUV, R.id.profitUV, R.id.applyBtn, R.id.shopInUV})
+    @OnClick({R.id.shopInfoUV, R.id.profitUV, R.id.applyBtn, R.id.shopInUV,R.id.exitBtn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.shopInfoUV:
@@ -157,7 +166,31 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
                 }
 
                 break;
+            case R.id.exitBtn:
+                exit();
+                break;
         }
+    }
+
+    public void exit() {
+        AppDialog appDialog = new AppDialog(getActivity());
+        appDialog.title("是否确认退出？")
+                .positiveBtn(R.string.sure, new AppDialog.OnClickListener() {
+                    @Override
+                    public void onClick(AppDialog appDialog) {
+                        appDialog.dismiss();
+                        new LogoutPresenter(getContext(),null).logout();
+                    }
+                });
+
+        appDialog.negativeBtn(R.string.cancel, new AppDialog.OnClickListener() {
+            @Override
+            public void onClick(AppDialog appDialog) {
+                appDialog.dismiss();
+            }
+        });
+        appDialog.setCancelable(false);
+        appDialog.show();
     }
 
     @Override
@@ -177,6 +210,8 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
     @Override
     public void serviceInfoSuccess(ServiceInfo data) {
         if (data != null) {
+            new ChatPresenter().getUserInfo(AppUtils.formatID(data.getId()),
+                    data.getName());
             this.serviceInfo = data;
             swipeRefreshLayout.setRefreshing(false);
             rootLL.setVisibility(View.VISIBLE);
@@ -219,6 +254,7 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
             setTags(data);
         }
     }
+
 
     private void setAlias(ServiceInfo data) {
         TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();

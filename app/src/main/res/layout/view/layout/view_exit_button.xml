@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="50dp">
+
+    <TextView
+        android:id="@+id/exitBtn"
+        style="@style/login_btn_style"
+        android:layout_marginStart="@dimen/space_default"
+        android:layout_marginEnd="@dimen/space_default"
+        android:gravity="center"
+        android:textSize="@dimen/font_content"
+        android:text="退出登录"/>
+</FrameLayout>

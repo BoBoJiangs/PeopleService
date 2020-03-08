@@ -13,6 +13,9 @@ import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.presenter.user.ClassifyPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
+import com.yb.peopleservice.view.activity.im.ChatListActivity;
+import com.yb.peopleservice.view.activity.personal.SetActivity;
+import com.yb.peopleservice.view.activity.search.SearchActivity;
 import com.yb.peopleservice.view.activity.services.ServiceListActivity;
 import com.yb.peopleservice.view.adapter.user.classify.ClassifyAdapter;
 import com.yb.peopleservice.view.adapter.user.classify.ClassifyChildAdapter;
@@ -20,6 +23,7 @@ import com.yb.peopleservice.view.adapter.user.classify.ClassifyChildAdapter;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.sts.base.view.fragment.BaseFragment;
 
 public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
@@ -84,6 +88,19 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
 //            listData.add(bean);
 //        }
 //        adapter.setNewData(listData);
+    }
+
+    @OnClick({R.id.searchLL,R.id.msgIV2})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.searchLL:
+                startActivity(new Intent(getContext(), SearchActivity.class));
+                break;
+            case R.id.msgIV2:
+                startActivity(new Intent(getContext(), ChatListActivity.class));
+                break;
+        }
+
     }
 
     @Override

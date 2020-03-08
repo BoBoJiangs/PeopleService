@@ -7,12 +7,15 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
 import com.yb.peopleservice.model.bean.user.service.GroupBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.view.activity.services.order.ConfirmOrderActivity;
 import com.yb.peopleservice.view.base.BaseViewPagerActivity;
 import com.yb.peopleservice.view.fragment.user.details.EvaluateFragment;
@@ -32,6 +35,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.ScrollViewPager;
+import jiguang.chat.activity.ChatActivity;
+import jiguang.chat.application.JGApplication;
 
 public class ServiceDetailsActivity extends BaseViewPagerActivity {
     @BindView(R.id.shopTV)
@@ -153,7 +158,7 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
         return null;
     }
 
-    @OnClick({R.id.shopTV, R.id.groupBtn, R.id.orderBtn})
+    @OnClick({R.id.shopTV, R.id.groupBtn, R.id.orderBtn,R.id.customerTV})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -176,6 +181,16 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
                 } else {
                     serviceInfo.setGroupType(0);
                     serviceInfo.setPayMoney(payMoney);
+                }
+                break;
+            case R.id.customerTV:
+                if (serviceInfo!=null){
+                    intent.setClass(this, ChatActivity.class);
+                    intent.putExtra(JGApplication.TARGET_ID, AppUtils.formatID(serviceInfo.getShopId()));
+                    intent.putExtra(JGApplication.TARGET_APP_KEY, AppConstant.JPUSH_KEY);
+                    intent.putExtra(JGApplication.CONV_TITLE,"店铺");
+                }else {
+                    ToastUtils.showLong("未获取到店铺信息");
                 }
                 break;
         }

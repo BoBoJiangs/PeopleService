@@ -16,6 +16,7 @@ import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.presenter.user.order.PayPresenter;
+import com.yb.peopleservice.view.activity.main.MainActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import butterknife.BindView;
@@ -141,6 +142,8 @@ public class PayActivity extends BaseToolbarActivity {
                 if (payResult == ThirdPlatformStatusConstant.SUCCESS) {
 //                    startActivity(new Intent(context, PaySuccessActivity.class)
 //                            .putExtra(AddressListVO.class.getName(),addressVO));
+                    startActivity(new Intent(context, MainActivity.class)
+                            .putExtra("isPaySuccess",true));
                     finish();
                 }
             }

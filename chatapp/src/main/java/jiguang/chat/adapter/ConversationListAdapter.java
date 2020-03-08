@@ -411,8 +411,14 @@ public class ConversationListAdapter extends BaseAdapter {
         }
 
         if (convItem.getType().equals(ConversationType.single)) {
+            UserInfo userInfo = (UserInfo) convItem.getTargetInfo();
             groupBlocked.setVisibility(View.GONE);
-            convName.setText(convItem.getTitle());
+            if (userInfo!=null){
+                convName.setText(userInfo.getNickname());
+            }else {
+                convName.setText(convItem.getTitle());
+            }
+
             mUserInfo = (UserInfo) convItem.getTargetInfo();
             if (mUserInfo != null) {
                 mUserInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {

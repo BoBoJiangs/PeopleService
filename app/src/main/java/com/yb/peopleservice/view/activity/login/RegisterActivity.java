@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.presenter.login.LoginPresenter;
 import com.yb.peopleservice.model.presenter.login.RegisterPresenter;
 import com.yb.peopleservice.utils.MyTimer;
 import com.yb.peopleservice.view.base.BaseActivity;
@@ -37,6 +38,7 @@ public class RegisterActivity extends BaseActivity implements RegisterPresenter.
     private MyTimer myTimer;
     private RegisterPresenter presenter;
     private String phone;
+
 
     @Override
     protected int contentViewResID() {
@@ -76,22 +78,11 @@ public class RegisterActivity extends BaseActivity implements RegisterPresenter.
 
     @Override
     public void regisSuccess(Object data) {
-        registPush();
+//        registPush();
+        finish();
     }
 
-    public void registPush() {
-        JMessageClient.register(phone, "123456", new BasicCallback() {
-            @Override
-            public void gotResult(int i, String s) {
-                if (i == 0 || i == 898001) {
-                    ToastUtils.showLong("注册成功");
-                    finish();
-                } else {
-                    ToastUtils.showLong("注册失败");
-                }
-            }
-        });
-    }
+
 
     @Override
     public void regisFail() {

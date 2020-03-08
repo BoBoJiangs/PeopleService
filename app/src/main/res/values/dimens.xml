@@ -13,8 +13,8 @@
 
 
     <!--标题字体-->
-    <dimen name="font_title">16sp</dimen>
-    <dimen name="font_title_middle">16sp</dimen>
+    <dimen name="font_title">17sp</dimen>
+    <dimen name="font_title_middle">17sp</dimen>
 
     <!--小图片的高宽-->
     <dimen name="height_image_small">16dp</dimen>

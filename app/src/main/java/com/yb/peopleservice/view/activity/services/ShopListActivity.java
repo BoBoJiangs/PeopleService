@@ -7,9 +7,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
@@ -18,6 +20,7 @@ import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.user.service.CollectPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ShopDetailsPresenter;
+import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.common.ShopDetailsActivity;
 import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
@@ -29,11 +32,16 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.model.UserInfo;
+import cn.sts.base.app.AppManager;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.UtilityView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import jiguang.chat.activity.ChatActivity;
+import jiguang.chat.application.JGApplication;
+import jiguang.chat.utils.ToastUtil;
 
 /**
  * 项目名称:PeopleService
@@ -201,7 +209,7 @@ public class ShopListActivity extends BaseListActivity implements
     }
 
 
-    @OnClick({R.id.collectTV, R.id.shopLL,R.id.leftIV2})
+    @OnClick({R.id.collectTV, R.id.shopLL,R.id.leftIV2,R.id.msgIV2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.leftIV2:
@@ -221,6 +229,19 @@ public class ShopListActivity extends BaseListActivity implements
                 startActivity(new Intent(this, ShopDetailsActivity.class)
                         .putExtra(MyShop.class.getName(), myShop));
                 break;
+            case R.id.msgIV2:
+                if (shopInfo!=null){
+                    Intent intent = new Intent(this, ChatActivity.class);
+                    intent.putExtra(JGApplication.TARGET_ID, AppUtils.formatID(shopInfo.getId()));
+                    intent.putExtra(JGApplication.TARGET_APP_KEY, AppConstant.JPUSH_KEY);
+                    intent.putExtra(JGApplication.DRAFT, shopInfo.getName());
+                    startActivity(intent);
+                }else {
+                    ToastUtils.showLong("未获取到店铺信息");
+                }
+
+                break;
+
         }
 
     }

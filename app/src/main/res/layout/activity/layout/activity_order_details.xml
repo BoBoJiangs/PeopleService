@@ -28,16 +28,22 @@
                 android:paddingTop="90pt"
                 android:paddingEnd="@dimen/space_default"
                 android:paddingBottom="90pt"
-                app:bl_gradient_angle="135"
-                app:bl_gradient_endColor="#FF5F00"
-                app:bl_gradient_startColor="#FF7E43">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/base_text_color">
+
+                <ImageView
+                    android:id="@+id/stateIV"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
 
                 <TextView
                     android:id="@+id/orderStateTV"
                     style="@style/text_view_content"
+                    android:layout_marginStart="@dimen/dp_10"
                     android:text="加载中"
                     android:textStyle="bold"
-                    android:textSize="@dimen/font_btn" />
+                    android:textSize="@dimen/font_btn_small" />
 
             </LinearLayout>
 
@@ -93,6 +99,7 @@
                     android:gravity="right|center_vertical"
                     android:orientation="horizontal"
                     android:paddingEnd="@dimen/space_default"
+                    android:visibility="gone"
                     app:bl_stroke_position="top">
 
                     <TextView

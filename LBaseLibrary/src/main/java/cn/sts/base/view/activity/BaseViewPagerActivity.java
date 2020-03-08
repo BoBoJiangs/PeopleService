@@ -107,8 +107,6 @@ public abstract class BaseViewPagerActivity extends BaseToolbarActivity implemen
                 ((CommonTabLayout) tabLayout).setCurrentTab(position);
             } else if (tabLayout instanceof SegmentTabLayout) {
                 ((SegmentTabLayout) tabLayout).setCurrentTab(position);
-            } else if (tabLayout instanceof SlidingTabLayout) {
-                ((SlidingTabLayout) tabLayout).setCurrentTab(position);
             }
         }
 

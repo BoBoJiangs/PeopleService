@@ -2,7 +2,9 @@ package com.yb.peopleservice.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +17,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 
 
 /**
@@ -79,5 +83,17 @@ public class AppUtils {
             return AppConstant.FILE_PATH;
         }
         return AppConstant.FILE_PATH;
+    }
+
+    public static String formatID(String id){
+        return id.replace("-", "");
+    }
+
+
+    public static void callPhone(String phoneNum) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        startActivity(intent);
     }
 }

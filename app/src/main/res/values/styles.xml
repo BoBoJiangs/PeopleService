@@ -103,6 +103,21 @@
         <item name="text_content_hint_color">@color/gray</item>
     </style>
 
+    <style name="info_utility" parent="image_utility">
+        <item name="content_gravity">end</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="type">CHOICE</item>
+        <item name="text_content_size">@dimen/font_content_three</item>
+    </style>
+
+    <style name="info_utility_input" parent="utility_view">
+        <item name="content_gravity">end</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="type">INPUT</item>
+        <item name="info_padding_right">@dimen/space_default</item>
+        <item name="text_content_size">@dimen/font_content_three</item>
+    </style>
+
     <!--带箭头的UtilityView-->
     <style name="image_utility" parent="utility_view">
         <item name="android:layout_height">120pt</item>
@@ -170,11 +185,10 @@
         <item name="android:layout_height">90pt</item>
         <item name="android:layout_margin">@dimen/space_default</item>
         <item name="android:textColor">@color/white</item>
-        <item name="bl_corners_radius">25dp</item>
+        <item name="bl_corners_radius">30dp</item>
         <item name="bl_gradient_angle">0</item>
         <item name="bl_gradient_endColor">#FF5F00</item>
         <item name="bl_gradient_startColor">#FF7E43</item>
-        <item name="text_content_size">@dimen/font_content_small</item>
         <item name="bl_solid_color">@color/gray_cc</item>
     </style>
 

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
     tools:context=".view.activity.main.MainActivity">
 
@@ -52,11 +53,11 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/titleLL"
         android:orientation="vertical">
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView

@@ -7,12 +7,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SizeUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.bean.user.order.OrderListBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
@@ -31,6 +34,8 @@ import com.yb.peopleservice.view.weight.CustomPopWindow;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+
+import cn.sts.base.view.widget.AppDialog;
 
 /**
  * 项目名称:PeopleService
@@ -53,6 +58,15 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
     public static final String BUTTON_TEXT9 = "立即评价";
     public static final String BUTTON_TEXT10 = "立即支付";
     public static final String BUTTON_TEXT11 = "查看退款";
+    public static final String BUTTON_TEXT14 = "补款";
+
+    public static final String BUTTON_TEXT12 = "同意退款";
+    public static final String BUTTON_TEXT13 = "拒绝退款";
+
+    public static final String REFUND_STATE = "-1";//未申请
+    public static final String REFUND_STATE1 = "0";//申请被关闭
+    public static final String REFUND_STATE2 = "1";//申请退款中
+    public static final String REFUND_STATE3 = "2";//申请退款完成
 
     private Context context;
     private User user;
@@ -72,10 +86,14 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
         OrderBean orderBean = item.getOrder();
         ImageView imageView = helper.getView(R.id.imageView);
         TextView stateTV = helper.getView(R.id.stateTV);
+        TextView refundStateTV = helper.getView(R.id.refundStateTV);
         TextView bottomTV1 = helper.getView(R.id.bottomTV1);
         TextView bottomTV2 = helper.getView(R.id.bottomTV2);
+        TextView bottomTV3 = helper.getView(R.id.bottomTV3);
         bottomTV1.setVisibility(View.GONE);
         bottomTV2.setVisibility(View.GONE);
+        bottomTV3.setVisibility(View.GONE);
+        refundStateTV.setVisibility(View.GONE);
         bottomTV2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +105,12 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
             public void onClick(View v) {
                 clickButton(orderBean, bottomTV1, item);
 
+            }
+        });
+        bottomTV3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickButton(orderBean, bottomTV3, item);
             }
         });
         if (orderBean != null) {
@@ -152,7 +176,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                             bottomTV2.setText(BUTTON_TEXT7);
                         } else if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
                             bottomTV1.setVisibility(View.VISIBLE);
-                            bottomTV1.setText("申请补款");
+                            bottomTV1.setText(BUTTON_TEXT14);
                             bottomTV2.setVisibility(View.VISIBLE);
                             bottomTV2.setText(BUTTON_TEXT2);
                         }
@@ -180,6 +204,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                 default:
                     stateTV.setText("状态未知");
             }
+            showRefundState(helper,orderBean);
         }
 
         if (shopInfo != null) {
@@ -204,6 +229,50 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
         });
     }
 
+    /**
+     * 显示退款状态
+     */
+    private void showRefundState(BaseViewHolder helper, OrderBean orderBean) {
+        TextView bottomTV1 = helper.getView(R.id.bottomTV1);
+        TextView bottomTV2 = helper.getView(R.id.bottomTV2);
+        TextView bottomTV3 = helper.getView(R.id.bottomTV3);
+        TextView refundStateTV = helper.getView(R.id.refundStateTV);
+        String refundState = orderBean.getRefundStatus();
+        if(!StringUtils.isEmpty(refundState)&&!REFUND_STATE.equals(refundState)){
+            bottomTV1.setVisibility(View.GONE);
+            bottomTV2.setVisibility(View.GONE);
+            bottomTV3.setVisibility(View.GONE);
+            refundStateTV.setVisibility(View.VISIBLE);
+            switch (refundState){
+                case REFUND_STATE1:
+                    bottomTV1.setVisibility(View.VISIBLE);
+                    bottomTV1.setText(BUTTON_TEXT11);
+                    refundStateTV.setText("退款失败");
+                    break;
+                case REFUND_STATE2:
+                    bottomTV1.setVisibility(View.VISIBLE);
+                    bottomTV1.setText(BUTTON_TEXT11);
+                    refundStateTV.setText("退款中");
+                    if (user.getAccountType().contains(LoginBean.SHOP_TYPE)){
+                        bottomTV2.setVisibility(View.VISIBLE);
+                        bottomTV3.setVisibility(View.VISIBLE);
+                        bottomTV2.setText(BUTTON_TEXT12);
+                        bottomTV3.setText(BUTTON_TEXT13);
+                    }
+                    break;
+                case REFUND_STATE3:
+                    bottomTV1.setVisibility(View.VISIBLE);
+                    bottomTV1.setText(BUTTON_TEXT11);
+                    refundStateTV.setText("退款完成");
+                    break;
+                default:
+
+            }
+        }
+
+    }
+
+
     private void clickButton(OrderBean orderBean, TextView textView, OrderListBean item) {
         switch (textView.getText().toString()) {
             case BUTTON_TEXT1://待指派服务人员
@@ -215,6 +284,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                 }
                 break;
             case BUTTON_TEXT2://申请退款
+            case BUTTON_TEXT11://查看退款
                 context.startActivity(new Intent(context, ApplyRefundActivity.class)
                         .putExtra(OrderListBean.class.getName(), item));
                 break;
@@ -259,8 +329,41 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderListBean, BaseViewHo
                 context.startActivity(new Intent(context, CommentOrderActivity.class)
                         .putExtra(OrderListBean.class.getName(), item));
                 break;
+            case BUTTON_TEXT10://立即支付
+                context.startActivity(new Intent(context, PayActivity.class)
+                        .putExtra(OrderBean.class.getName(), orderBean)
+                        .putExtra(IntentKeyConstant.DATA_KEY, orderBean.getTotalPrice()));
+                break;
+            case BUTTON_TEXT12://同意退款
+                showDialog("是否确认同意退款?",orderBean.getId(),BUTTON_TEXT12);
+
+                break;
+            case BUTTON_TEXT13://拒绝退款
+                showDialog("是否确认拒绝退款?",orderBean.getId(),BUTTON_TEXT13);
+
+                break;
             default:
         }
+    }
+
+    private void showDialog(String msg,String id,String refundStatus){
+        AppDialog appDialog = new AppDialog(context)
+                .title(msg)
+                .positiveBtn(R.string.sure, new AppDialog.OnClickListener() {
+                    @Override
+                    public void onClick(AppDialog appDialog) {
+                        appDialog.dismiss();
+                        presenter.refundOrder(id,refundStatus);
+                    }
+                })
+                .negativeBtn(R.string.cancel, new AppDialog.OnClickListener() {
+                    @Override
+                    public void onClick(AppDialog appDialog) {
+                        appDialog.dismiss();
+                    }
+                });
+        appDialog.setCancelable(false);
+        appDialog.show();
     }
 
     private void showPop(View view) {

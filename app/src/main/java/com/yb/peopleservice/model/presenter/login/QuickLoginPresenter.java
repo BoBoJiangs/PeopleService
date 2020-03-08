@@ -5,11 +5,17 @@ import android.content.Context;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
+import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.database.manager.UserInfoManager;
+import com.yb.peopleservice.model.database.manager.UserManager;
+import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
+import com.yb.peopleservice.model.presenter.user.personal.PersonalPresenter;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
+import com.yb.peopleservice.utils.AppUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,15 +36,24 @@ import io.reactivex.Observable;
  * 修改描述:
  */
 public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.ILoginCallback> implements
-        CodePresenter.ICodeCallback, RegisterPresenter.IRegisCallback {
+        CodePresenter.ICodeCallback, RegisterPresenter.IRegisCallback, PersonalPresenter.IUserCallback {
 
     private CodePresenter codePresenter;
     private RegisterPresenter registerPresenter;
 
+    private PersonalPresenter personalPresenter;
+    private UserManager userManager;
+    private UserInfoManager infoManager;
+    private LoginBean loginBean;
+
     public QuickLoginPresenter(Context context, ILoginCallback viewCallBack) {
         super(context, viewCallBack);
         codePresenter = new CodePresenter(context, this::codeSuccess);
-        registerPresenter = new RegisterPresenter(context,this);
+        registerPresenter = new RegisterPresenter(context, this);
+
+        personalPresenter = new PersonalPresenter(context, this);
+        userManager = ManagerFactory.getInstance().getUserManager();
+        infoManager = ManagerFactory.getInstance().getUserInfoManager();
     }
 
     @Override
@@ -46,9 +61,10 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
         super.unbind();
         codePresenter.unbind();
         registerPresenter.unbind();
+        personalPresenter.unbind();
     }
 
-    public void checkUserName(String phone){
+    public void checkUserName(String phone) {
         registerPresenter.checkUserName(phone);
     }
 
@@ -60,7 +76,7 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
             @Override
             public void onRequestSuccess(String data) {
                 try {
-                    quickLogin(phone,data);
+                    quickLogin(phone, data);
 //                    getViewCallBack().codeSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -113,7 +129,16 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
                             user.setAccountType(data.getScope());
                             ManagerFactory.getInstance().getUserManager().deleteAll();
                             ManagerFactory.getInstance().getUserManager().save(user);
-                            getViewCallBack().loginSuccess(data);
+                            UserManager.user = null;
+                            if (data.getScope().contains(LoginBean.USER_TYPE)) {
+                                if (userManager.getUser().getInfoBean() != null) {
+                                    getDataSuccess(userManager.getUser().getInfoBean());
+                                } else {
+                                    personalPresenter.getUserInfo();
+                                }
+                            } else {
+                                getViewCallBack().loginSuccess(data);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -136,10 +161,10 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
                 }) {
             @Override
             public Observable getObservable(LoginRequest iRequestServer) {
-                Map<String,Object> map = new HashMap<>();
-                map.put("phone",phone);
-                map.put("code",code);
-                map.put("grant_type","password");
+                Map<String, Object> map = new HashMap<>();
+                map.put("phone", phone);
+                map.put("code", code);
+                map.put("grant_type", "password");
                 return iRequestServer.quickLogin(map);
             }
 
@@ -185,6 +210,29 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void getDataSuccess(UserInfoBean data) {
+        User user = userManager.getUser();
+        user.setUserId(data.getId());
+        userManager.update(user);
+        infoManager.deleteAll();
+        infoManager.save(data);
+        ChatPresenter.getInstance().setCustomerAlias(context,
+                AppUtils.formatID(data.getId()));
+        ChatPresenter.getInstance().getUserInfo(AppUtils.formatID(data.getId()),
+                data.getNickname());
+        try {
+            getViewCallBack().loginSuccess(loginBean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getDataFail() {
+        ToastUtils.showLong("登陆失败");
     }
 
     /**

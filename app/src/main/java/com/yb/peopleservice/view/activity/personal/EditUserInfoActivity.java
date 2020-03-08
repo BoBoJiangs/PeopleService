@@ -16,6 +16,8 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
@@ -72,6 +74,8 @@ public class EditUserInfoActivity extends BaseToolbarActivity implements
     RadioButton woManRG;
     @BindView(R.id.radio)
     RadioGroup radio;
+    @BindView(R.id.sexUV)
+    UtilityView sexUV;
     private String headUrl;//头像
     ImageView headIV;
     private UpdateUserPresenter presenter;
@@ -95,7 +99,7 @@ public class EditUserInfoActivity extends BaseToolbarActivity implements
     protected void initData() {
         infoBean = new UserInfoBean();
         headIV = headUV.getRightImageView();
-
+        phoneUV.getInputEditText().setEnabled(false);
         setUserInfoText();
     }
 
@@ -106,6 +110,7 @@ public class EditUserInfoActivity extends BaseToolbarActivity implements
             nameUV.setContentText(infoBean.getNickname());
             phoneUV.setContentText(infoBean.getPhone());
             trueNameUV.setContentText(infoBean.getName());
+            sexUV.setContentText(infoBean.getSex());
             if(infoBean.getAge()!=0){
                 ageUV.setContentText(infoBean.getAge()+"");
             }
@@ -172,7 +177,7 @@ public class EditUserInfoActivity extends BaseToolbarActivity implements
         updateUser();
     }
 
-    @OnClick({R.id.headUV,R.id.dateUV})
+    @OnClick({R.id.headUV,R.id.dateUV,R.id.sexUV})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.dateUV:
@@ -206,6 +211,19 @@ public class EditUserInfoActivity extends BaseToolbarActivity implements
                                 }
                             }
                         });
+                break;
+            case R.id.sexUV:
+                new XPopup.Builder(this)
+                        //.maxWidth(600)
+                        .asCenterList("请选择一项", new String[]{"男", "女"},
+                                new OnSelectListener() {
+                                    @Override
+                                    public void onSelect(int position, String text) {
+                                        sexUV.setContentText(text);
+                                        infoBean.setSex(text);
+                                    }
+                                })
+                        .show();
                 break;
         }
 

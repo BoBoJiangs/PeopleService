@@ -77,8 +77,8 @@ public class CommentOrderActivity extends BaseSelectImageActivity implements Com
         map.put("level", level);
         map.put("text", editText.getText().toString());
         map.put("orderId", orderBean.getId());
-        if (!getImages().isEmpty()) {
-            presenter.submitData(getImages(), map);
+        if (!getFileImages().isEmpty()) {
+            presenter.submitData(getFileImages(), map);
         } else {
             presenter.submitData(map);
         }

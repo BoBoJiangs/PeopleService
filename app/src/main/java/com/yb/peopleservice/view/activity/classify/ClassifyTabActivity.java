@@ -22,7 +22,6 @@ import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.ScrollViewPager;
 
 public class ClassifyTabActivity extends BaseViewPagerActivity {
-    //    protected String[] mTitles = {"全部", "代付款", "进行中", "待评价", "已完成"};
     @BindView(R.id.commonTabLayout)
     SlidingTabLayout commonTabLayout;
     @BindView(R.id.viewPager)

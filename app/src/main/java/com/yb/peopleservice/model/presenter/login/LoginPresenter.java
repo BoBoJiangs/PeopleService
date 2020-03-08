@@ -6,11 +6,16 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
+import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.database.manager.UserInfoManager;
 import com.yb.peopleservice.model.database.manager.UserManager;
+import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
+import com.yb.peopleservice.model.presenter.user.personal.PersonalPresenter;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.LoginRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
+import com.yb.peopleservice.utils.AppUtils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -34,11 +39,19 @@ import io.reactivex.Observable;
  * 修改时间:
  * 修改描述:
  */
-public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallback> {
+public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallback> implements
+        PersonalPresenter.IUserCallback {
+
+    private PersonalPresenter personalPresenter;
+    private UserManager userManager;
+    private UserInfoManager infoManager;
+    private LoginBean loginBean;
 
     public LoginPresenter(Context context, ILoginCallback viewCallBack) {
         super(context, viewCallBack);
-
+        personalPresenter = new PersonalPresenter(context, this);
+        userManager = ManagerFactory.getInstance().getUserManager();
+        infoManager = ManagerFactory.getInstance().getUserInfoManager();
     }
 
     @Override
@@ -49,21 +62,31 @@ public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallb
     /**
      * 登录
      */
-    public void login(String phone,String password) {
+    public void login(String phone, String password) {
         BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<LoginBean>() {
             @Override
             public void onRequestSuccess(LoginBean data) {
                 try {
+                    loginBean = data;
                     User user = new User();
                     user.setAccess_token(data.getAccess_token());
                     user.setAccount(phone);
                     user.setPassword(password);
                     user.setTokenType(data.getToken_type());
                     user.setAccountType(data.getScope());
-                    ManagerFactory.getInstance().getUserManager().deleteAll();
-                    ManagerFactory.getInstance().getUserManager().save(user);
+                    userManager.deleteAll();
+                    userManager.save(user);
                     UserManager.user = null;
-                    getViewCallBack().loginSuccess(data);
+                    if (data.getScope().contains(LoginBean.USER_TYPE)) {
+                        if (userManager.getUser().getInfoBean() != null) {
+                            getDataSuccess(userManager.getUser().getInfoBean());
+                        } else {
+                            personalPresenter.getUserInfo();
+                        }
+                    } else {
+                        getViewCallBack().loginSuccess(data);
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -86,10 +109,10 @@ public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallb
         }) {
             @Override
             public Observable getObservable(LoginRequest iRequestServer) {
-                Map<String,Object> map = new HashMap<>();
-                map.put("username",phone);
-                map.put("grant_type","password");
-                map.put("password",password);
+                Map<String, Object> map = new HashMap<>();
+                map.put("username", phone);
+                map.put("grant_type", "password");
+                map.put("password", password);
                 return iRequestServer.login(map);
             }
 
@@ -102,7 +125,28 @@ public class LoginPresenter extends AbstractPresenter<LoginPresenter.ILoginCallb
         LoginRequestServer.getInstance().request(requestFunc);
     }
 
+    @Override
+    public void getDataSuccess(UserInfoBean data) {
+        User user = userManager.getUser();
+        user.setUserId(data.getId());
+        userManager.update(user);
+        infoManager.deleteAll();
+        infoManager.save(data);
+        ChatPresenter.getInstance().setCustomerAlias(context,
+                AppUtils.formatID(data.getId()));
+        ChatPresenter.getInstance().getUserInfo(AppUtils.formatID(data.getId()),
+                data.getNickname());
+        try {
+            getViewCallBack().loginSuccess(loginBean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void getDataFail() {
+        ToastUtils.showLong("登陆失败");
+    }
 
 
     /**

@@ -8,6 +8,7 @@ import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.OrderRequest;
+import com.yb.peopleservice.view.adapter.order.OrderListAdapter;
 
 import java.util.List;
 
@@ -87,6 +88,57 @@ public class OrderStatePresenter extends AbstractPresenter<OrderStatePresenter.I
                         return iRequestServer.endOrder(orderId);
                 }
                 return iRequestServer.arriveOrder(orderId);
+            }
+
+            @Override
+            public Class<OrderRequest> getRequestInterfaceClass() {
+                return OrderRequest.class;
+            }
+        };
+        requestFunc.setShowProgress(true);
+        BaseRequestServer.getInstance().request(requestFunc);
+    }
+
+    /**
+     * 处理退款申请
+     *
+     * @param orderId
+     */
+    public void refundOrder(String orderId, String refundStatus) {
+        BaseRequestFunc<OrderRequest> requestFunc = new BaseRequestFunc<OrderRequest>(context, new IRequestListener<Object>() {
+            @Override
+            public void onRequestSuccess(Object data) {
+                try {
+                    getViewCallBack().acceptSuccess(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRequestFailure(String error) {
+                try {
+                    getViewCallBack().acceptFail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                ToastUtils.showLong(error);
+            }
+
+            @Override
+            public void onRequestCancel() {
+
+            }
+        }) {
+            @Override
+            public Observable getObservable(OrderRequest iRequestServer) {
+                switch (refundStatus) {
+                    case OrderListAdapter.BUTTON_TEXT12:
+                        return iRequestServer.confirmRefund(orderId);
+                    case OrderListAdapter.BUTTON_TEXT13:
+                        return iRequestServer.closeRefund(orderId);
+                }
+                return iRequestServer.confirmRefund(orderId);
             }
 
             @Override

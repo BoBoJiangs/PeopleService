@@ -1,5 +1,6 @@
 package cn.sts.platform.util;
 
+import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import cn.sts.base.util.Logs;
@@ -28,12 +29,13 @@ public class CrashUtil {
             return;
         }
         //在开发测试阶段，可以在初始化Bugly之前通过以下接口把调试设备设置成“开发设备”。
-        CrashReport.setIsDevelopmentDevice(ThirdPlatformUtil.application, BuildConfig.DEBUG);
+//        CrashReport.setIsDevelopmentDevice(ThirdPlatformUtil.application, BuildConfig.DEBUG);
         //日志
 //        第三个参数为SDK调试模式开关，调试模式的行为特性如下：
 //        输出详细的Bugly SDK的Log；
 //        每一条Crash都会被立即上报；
 //        自定义日志将会在Logcat中输出。
-        CrashReport.initCrashReport(ThirdPlatformUtil.application, ThirdPlatformConstant.BUGLY_APP_ID, BuildConfig.DEBUG);
+//        Bugly.init(ThirdPlatformUtil.application, ThirdPlatformConstant.BUGLY_APP_ID,  false);
+//        CrashReport.initCrashReport(ThirdPlatformUtil.application, ThirdPlatformConstant.BUGLY_APP_ID, BuildConfig.DEBUG);
     }
 }

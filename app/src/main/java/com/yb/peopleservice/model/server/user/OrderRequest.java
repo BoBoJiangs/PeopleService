@@ -53,4 +53,16 @@ public interface OrderRequest {
     @POST("orders/{id}/confirm")
     Observable<RequestResult> endOrder(@Path("id") String id);
 
+    /**
+     * 拒绝退款
+     */
+    @POST("orders/{id}/refund/close")
+    Observable<RequestResult> closeRefund(@Path("id") String id);
+
+    /**
+     * 同意退款
+     */
+    @POST("orders/{id}/confirm")
+    Observable<RequestResult> confirmRefund(@Path("id") String id);
+
 }

@@ -20,6 +20,7 @@ import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.presenter.shop.RealTimeLocationPresenter;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
+import com.yb.peopleservice.view.base.BaseViewPagerActivity;
 import com.yb.peopleservice.view.fragment.shop.ShopFragment;
 import com.yb.peopleservice.view.fragment.shop.order.ShopOrderTabFragment;
 
@@ -38,6 +39,7 @@ import cn.jpush.im.api.BasicCallback;
 import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.AppDialog;
+import cn.sts.base.view.widget.ScrollViewPager;
 import jiguang.chat.activity.fragment.ConversationListFragment;
 
 /**
@@ -48,16 +50,15 @@ import jiguang.chat.activity.fragment.ConversationListFragment;
  * 修改时间:
  * 修改描述:
  */
-public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelectListener {
+public class ShopMainActivity extends BaseViewPagerActivity implements OnTabSelectListener {
 
     private String[] mTitles = {"订单", "消息", "店铺"};
-    private int[] mIconUnselectIds = {R.mipmap.tab_order_unselect, R.mipmap.tab_class_unselect,R.mipmap.tab_map_unselect};
-    private int[] mIconSelectIds = {R.mipmap.tab_order_select, R.mipmap.tab_class_select,R.mipmap.tab_map_select};
+    private int[] mIconUnselectIds = {R.mipmap.tab_order_unselect, R.mipmap.tab_msg_unselect,R.mipmap.tab_map_unselect};
+    private int[] mIconSelectIds = {R.mipmap.tab_order_select, R.mipmap.tab_msg_select,R.mipmap.tab_map_select};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;
-    @BindView(R.id.frameLayout)
-    FrameLayout frameLayout;
-    private LogoutPresenter logoutPresenter;
+    @BindView(R.id.viewPager)
+    ScrollViewPager viewPager;
     private ShopFragment shopFragment;
     private RealTimeLocationPresenter presenter;
     @Override
@@ -74,23 +75,16 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
     @Override
     public void initToolView() {
         super.initToolView();
-        rightLL.setVisibility(View.VISIBLE);
-        rightIV2.setVisibility(View.VISIBLE);
-        rightIV2.setImageResource(R.mipmap.icon_logout);
+//        rightLL.setVisibility(View.VISIBLE);
+//        rightIV2.setVisibility(View.VISIBLE);
+//        rightIV2.setImageResource(R.mipmap.icon_logout);
         EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initData() {
         presenter = new RealTimeLocationPresenter(this,null);
-        logoutPresenter = new LogoutPresenter(this,null);
-        commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
-                getFragmentList());
-        commonTabLayout.setOnTabSelectListener(this);
-        User user = ManagerFactory.getInstance().getUserManager().getUser();
-        if (user != null) {
-            loginPush(user.getAccount());
-        }
+//        viewPager.setScroll(true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -98,55 +92,9 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
         presenter.addGps(location);
     }
 
-    public void loginPush(String userCode) {
-        //检测账号是否登陆
-        UserInfo myInfo = JMessageClient.getMyInfo();
-        if (myInfo != null) {
-            return;
-        }
-        JMessageClient.login(userCode, AppConstant.CHAT_PASSWORD, new BasicCallback() {
-            @Override
-            public void gotResult(int responseCode, String responseMessage) {
-                if (responseCode == 0) {
-                    UserInfo myInfo = JMessageClient.getMyInfo();
-                    File avatarFile = myInfo.getAvatarFile();
-                    String username = myInfo.getUserName();
-                    String appKey = myInfo.getAppKey();
-                    ToastUtils.showLong("登陆成功" + appKey);
-                } else {
-                    ToastUtils.showLong("登陆失败" + responseMessage);
-                }
-            }
-        });
-    }
-
-    @OnClick({R.id.rightIV2})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.rightIV2:
-                AppDialog appDialog = new AppDialog(this);
-                appDialog.title("是否确认退出？")
-                        .positiveBtn(R.string.sure, new AppDialog.OnClickListener() {
-                            @Override
-                            public void onClick(AppDialog appDialog) {
-                                appDialog.dismiss();
-                                logoutPresenter.logout();
-                            }
-                        });
-
-                appDialog.negativeBtn(R.string.cancel, new AppDialog.OnClickListener() {
-                    @Override
-                    public void onClick(AppDialog appDialog) {
-                        appDialog.dismiss();
-                    }
-                });
-                appDialog.setCancelable(false);
-                appDialog.show();
 
 
-                break;
-        }
-    }
+
     @Override
     public void onTabReselect(int position) {
 
@@ -170,7 +118,17 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
         return mTabEntityList;
     }
 
-    private ArrayList<Fragment> getFragmentList() {
+    @Override
+    protected View getTabLayout() {
+        return commonTabLayout;
+    }
+
+    @Override
+    protected String[] getTabTitles() {
+        return mTitles;
+    }
+
+    protected ArrayList<Fragment> getFragmentList() {
         shopFragment = (ShopFragment) ShopFragment.getInstanceFragment();
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
@@ -183,14 +141,13 @@ public class ShopMainActivity extends BaseToolbarActivity implements OnTabSelect
     @Override
     public void onTabSelect(int position) {
         leftIV.setVisibility(View.GONE);
-        rightLL.setVisibility(View.GONE);
+        viewPager.setCurrentItem(position,false);
         if (position == 0) {
             titleTV.setText("订单");
         } else if (position == 1){
             titleTV.setText("消息");
         }else{
             titleTV.setText("店铺");
-            rightLL.setVisibility(View.VISIBLE);
         }
     }
     @Override

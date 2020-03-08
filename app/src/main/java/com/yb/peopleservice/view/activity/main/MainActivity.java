@@ -7,16 +7,21 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.gyf.immersionbar.ImmersionBar;
+import com.tencent.bugly.beta.Beta;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
 import com.yb.peopleservice.push.TagAliasOperatorHelper;
+import com.yb.peopleservice.utils.AppUtils;
+import com.yb.peopleservice.view.activity.login.LoginActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.base.BaseViewPagerActivity;
 import com.yb.peopleservice.view.fragment.user.classify.ClassifyFragment;
@@ -50,10 +55,11 @@ public class MainActivity extends BaseViewPagerActivity {
             R.mipmap.tab_map_select, R.mipmap.tab_order_select, R.mipmap.tab_center_select};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;
-//    @BindView(R.id.viewPager)
+    //    @BindView(R.id.viewPager)
 //    ScrollViewPager viewPager;
 //    @BindView(R.id.frameLayout)
 //    FrameLayout frameLayout;
+    private User user;
 
     @Override
     public int contentViewResID() {
@@ -77,38 +83,29 @@ public class MainActivity extends BaseViewPagerActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        boolean isPaySuccess = intent.getBooleanExtra("isPaySuccess",false);
+        if (isPaySuccess){
+            commonTabLayout.setCurrentTab(2);
+        }else{
+            commonTabLayout.setCurrentTab(0);
+        }
+    }
+
+    @Override
     protected void initData() {
 //        commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
 //                getFragmentList());
 //        commonTabLayout.setOnTabSelectListener(this);
-        User user = ManagerFactory.getInstance().getUserManager().getUser();
-        if (user != null) {
-            loginPush(user.getAccount());
+        user = ManagerFactory.getInstance().getUserManager().getUser();
+        if (user != null && user.getInfoBean() != null) {
+            new ChatPresenter().getUserInfo(AppUtils.
+                    formatID(user.getInfoBean().getId()),user.getInfoBean().getNickname());
         }
-
+        Beta.checkUpgrade(false,false);
     }
 
-    public void loginPush(String userCode) {
-        //检测账号是否登陆
-        UserInfo myInfo = JMessageClient.getMyInfo();
-        if (myInfo != null) {
-            return;
-        }
-        JMessageClient.login(userCode, AppConstant.CHAT_PASSWORD, new BasicCallback() {
-            @Override
-            public void gotResult(int responseCode, String responseMessage) {
-                if (responseCode == 0) {
-                    UserInfo myInfo = JMessageClient.getMyInfo();
-                    File avatarFile = myInfo.getAvatarFile();
-                    String username = myInfo.getUserName();
-                    String appKey = myInfo.getAppKey();
-                    ToastUtils.showLong("登陆成功" + appKey);
-                } else {
-                    ToastUtils.showLong("登陆失败" + responseMessage);
-                }
-            }
-        });
-    }
 
     @Override
     public void onTabReselect(int position) {
@@ -156,7 +153,11 @@ public class MainActivity extends BaseViewPagerActivity {
 
     @Override
     public void onTabSelect(int position) {
-        viewPager.setCurrentItem(position,false);
+        if (user == null && (position == 3 || position == 4)) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return;
+        }
+        viewPager.setCurrentItem(position, false);
         if (position == 0 || position == 4) {
             ImmersionBar.with(this)
                     .fitsSystemWindows(true)

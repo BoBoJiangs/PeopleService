@@ -122,6 +122,8 @@
                 android:textSize="@dimen/font_title_small"
                 android:text="审核通过后即可发布服务" />
         </LinearLayout>
+
+        <include layout="@layout/view_exit_button"/>
     </LinearLayout>
 
 

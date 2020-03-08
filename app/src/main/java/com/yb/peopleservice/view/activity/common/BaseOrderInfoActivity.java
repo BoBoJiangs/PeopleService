@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
@@ -13,10 +14,12 @@ import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.bean.user.order.OrderListBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
+import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.util.NumberUtil;
 import cn.sts.base.view.widget.UtilityView;
@@ -63,6 +66,7 @@ public abstract class BaseOrderInfoActivity extends BaseToolbarActivity {
     @BindView(R.id.infoLL)
     LinearLayout infoLL;
     protected OrderListBean orderListBean;
+    private String staffPhone;
 
     @Override
     public String getTitleName() {
@@ -75,7 +79,7 @@ public abstract class BaseOrderInfoActivity extends BaseToolbarActivity {
     }
 
     @Override
-    protected void initData() {
+    protected void initView() {
         orderListBean = getIntent().getParcelableExtra(OrderListBean.class.getName());
         if (orderListBean.getShop() != null) {
             setShopInfo(orderListBean.getShop());
@@ -91,23 +95,29 @@ public abstract class BaseOrderInfoActivity extends BaseToolbarActivity {
         } else {
             personLL.setVisibility(View.GONE);
         }
-        if (!orderListBean.getCoupons().isEmpty()){
+        if (!orderListBean.getCoupons().isEmpty()) {
             setCouponInfo(orderListBean.getCoupons().get(0));
-        }else{
+        } else {
             couponUV.setVisibility(View.GONE);
         }
         if (orderListBean.getCustomer() != null) {
             setCustomInfo(orderListBean.getCustomer());
         }
+        super.initView();
     }
 
-    protected void setCustomInfo(UserInfoBean customInfo){
+    @Override
+    protected void initData() {
 
     }
 
-    protected void setCouponInfo(CouponBean couponInfo){
+    protected void setCustomInfo(UserInfoBean customInfo) {
+
+    }
+
+    protected void setCouponInfo(CouponBean couponInfo) {
         if (couponInfo.getType() == 1) {
-            couponUV.setContentText("﹣"+couponInfo.getMoney() + "元");
+            couponUV.setContentText("﹣" + couponInfo.getMoney() + "元");
         } else {
             couponUV.setContentText(couponInfo.getDiscount() + "折");
         }
@@ -137,8 +147,16 @@ public abstract class BaseOrderInfoActivity extends BaseToolbarActivity {
 
 
     protected void setServiceStaff(ServiceInfo staff) {
+        staffPhone = staff.getPhone();
         serviceName.setText(staff.getName() + "（电话：" + staff.getPhone() + ")");
         ImageLoaderUtil.loadServerCircleImage(this, staff.getHeadImg(), headImg);
+    }
+
+    @OnClick(R.id.serviceName)
+    public void callPhone() {
+        if (!StringUtils.isEmpty(staffPhone)) {
+            AppUtils.callPhone(staffPhone);
+        }
     }
 
     @Override

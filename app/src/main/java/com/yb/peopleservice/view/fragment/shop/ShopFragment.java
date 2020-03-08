@@ -13,27 +13,37 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.model.bean.shop.BalanceBean;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.database.bean.ServiceInfo;
+import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
+import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.presenter.shop.ShopInfoPresenter;
 import com.yb.peopleservice.push.TagAliasOperatorHelper;
+import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.common.MyIncomeActivity;
 import com.yb.peopleservice.view.activity.shop.ApplyShopActivity;
 import com.yb.peopleservice.view.activity.shop.ApplyDetailsActivity;
 import com.yb.peopleservice.view.base.LazyLoadFragment;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.api.BasicCallback;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.fragment.BaseFragment;
+import cn.sts.base.view.widget.AppDialog;
 
 import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
 
@@ -118,7 +128,7 @@ public class ShopFragment extends LazyLoadFragment implements ShopInfoPresenter.
         return presenter;
     }
 
-    @OnClick({R.id.shopInfoLL, R.id.profitLL, R.id.applyBtn})
+    @OnClick({R.id.shopInfoLL, R.id.profitLL, R.id.applyBtn, R.id.exitBtn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.shopInfoLL:
@@ -134,7 +144,31 @@ public class ShopFragment extends LazyLoadFragment implements ShopInfoPresenter.
                 startActivityForResult(new Intent(getContext(), ApplyShopActivity.class),
                         RequestCodeConstant.BASE_REQUEST);
                 break;
+            case R.id.exitBtn:
+                exit();
+                break;
         }
+    }
+
+    public void exit() {
+        AppDialog appDialog = new AppDialog(getActivity());
+        appDialog.title("是否确认退出？")
+                .positiveBtn(R.string.sure, new AppDialog.OnClickListener() {
+                    @Override
+                    public void onClick(AppDialog appDialog) {
+                        appDialog.dismiss();
+                        new LogoutPresenter(getContext(),null).logout();
+                    }
+                });
+
+        appDialog.negativeBtn(R.string.cancel, new AppDialog.OnClickListener() {
+            @Override
+            public void onClick(AppDialog appDialog) {
+                appDialog.dismiss();
+            }
+        });
+        appDialog.setCancelable(false);
+        appDialog.show();
     }
 
     @Override
@@ -142,6 +176,7 @@ public class ShopFragment extends LazyLoadFragment implements ShopInfoPresenter.
         swipeRefreshLayout.setRefreshing(false);
         ShopInfo data = myShop.getShop();
         if (data != null) {
+            new ChatPresenter().getUserInfo(AppUtils.formatID(data.getId()),data.getName());
             shopInfo = data;
             ImageLoaderUtil.loadServerCircleImage(getContext(), data.getHeadImg(), photoIV);
             nameTV.setText(data.getName());
@@ -179,6 +214,7 @@ public class ShopFragment extends LazyLoadFragment implements ShopInfoPresenter.
         setAlias(myShop);
         setTags(myShop);
     }
+
 
     private void setAlias(MyShop data) {
         TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();

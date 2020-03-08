@@ -182,6 +182,7 @@
         <activity android:name=".view.activity.login.PasswordResetActivity" />
         <activity android:name=".view.activity.services.order.ApplyRefundActivity" />
         <activity android:name=".view.activity.personal.SetActivity" />
+        <activity android:name=".view.activity.personal.UpdatePasswordActivity" />
     </application>
 
 </manifest>

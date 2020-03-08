@@ -26,27 +26,27 @@
 
     <cn.sts.base.view.widget.UtilityView
         android:id="@+id/trueNameUV"
-        style="@style/utility_view"
-        android:layout_height="50dp"
-        app:line_show="true"
+        style="@style/info_utility_input"
         app:type="INPUT"
         app:text_content_hint="请输入真实姓名"
         app:text_title="真实姓名" />
 
     <cn.sts.base.view.widget.UtilityView
         android:id="@+id/nameUV"
-        style="@style/utility_view"
-        android:layout_height="50dp"
-        app:line_show="true"
+        style="@style/info_utility_input"
         app:type="INPUT"
         app:text_content_hint="请输入昵称"
         app:text_title="昵称" />
 
     <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/sexUV"
+        style="@style/info_utility"
+        app:text_content_hint="请选择"
+        app:text_title="性别" />
+
+    <cn.sts.base.view.widget.UtilityView
         android:id="@+id/ageUV"
-        style="@style/utility_view"
-        android:layout_height="50dp"
-        app:line_show="true"
+        style="@style/info_utility_input"
         app:type="INPUT"
         app:text_content_input_type="NUMBER"
         app:text_content_hint="请输入年龄"
@@ -54,19 +54,14 @@
 
     <cn.sts.base.view.widget.UtilityView
         android:id="@+id/dateUV"
-        style="@style/image_utility"
-        app:text_content_size="@dimen/font_content_middle"
-        android:layout_height="50dp"
-        app:line_show="true"
+        style="@style/info_utility"
         app:text_content_hint="请选择"
         app:text_title="出生日期" />
 
     <cn.sts.base.view.widget.UtilityView
         android:id="@+id/phoneUV"
-        style="@style/utility_view"
-        android:layout_height="50dp"
-        app:line_show="true"
-        app:type="CHOICE"
+        style="@style/info_utility"
+        app:type="INPUT"
         app:text_content_input_type="NUMBER"
         app:text_content_hint="请输入电话号码"
         app:text_title="电话号码　" />
@@ -75,6 +70,7 @@
         android:layout_height="50dp"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/space_default"
+        android:visibility="gone"
         android:orientation="horizontal">
         <TextView
             style="@style/text_view_content_black"

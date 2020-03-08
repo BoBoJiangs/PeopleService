@@ -27,6 +27,8 @@ public class AppConstant {
      */
     public static String BUGLY_APP_ID = "31afacff7e";
 
+    public static String JPUSH_KEY = "2016fa17df9b1e19a1ba9d27";
+
     /**
      * QQ分享的AppId
      */

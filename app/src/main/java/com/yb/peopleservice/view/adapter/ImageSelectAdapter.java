@@ -8,6 +8,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.GlideApp;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.model.server.BaseRequestServer;
+import com.yb.peopleservice.utils.ImageLoaderUtil;
 
 import java.io.File;
 
@@ -21,25 +23,32 @@ import java.io.File;
  * 修改时间:
  * 修改描述:
  */
-public class ImageSelectAdapter extends BaseQuickAdapter<File, BaseViewHolder> {
+public class ImageSelectAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    private boolean isShowBtn;
 
-    public ImageSelectAdapter() {
+    public ImageSelectAdapter(boolean isShowBtn) {
         super(R.layout.item_photo);
+        this.isShowBtn = isShowBtn;
     }
 
 
     @Override
-    protected void convert(BaseViewHolder helper, File file) {
+    protected void convert(BaseViewHolder helper, String file) {
         ImageView photoIV = helper.getView(R.id.photoIV);
-        if (helper.getAdapterPosition() == getData().size() - 1) {
-            helper.setVisible(R.id.deleteIV, false);
-            helper.setImageResource(R.id.photoIV, R.mipmap.icon_camera);
+        if (isShowBtn) {
+            if (helper.getAdapterPosition() == getData().size() - 1) {
+                helper.setVisible(R.id.deleteIV, false);
+                helper.setImageResource(R.id.photoIV, R.mipmap.icon_camera);
+            } else {
+                helper.setVisible(R.id.deleteIV, true);
+                ImageLoaderUtil.loadLocalImage(mContext, file, photoIV);
+            }
         } else {
-            helper.setVisible(R.id.deleteIV, true);
-            GlideApp.with(mContext)
-                    .load(Uri.fromFile(file))
-                    .into(photoIV);
+            helper.setVisible(R.id.deleteIV, false);
+            ImageLoaderUtil.loadLocalImage(mContext, BaseRequestServer.getFileUrl(true) +
+                    file, photoIV);
         }
+
         helper.addOnClickListener(R.id.deleteIV);
         helper.addOnClickListener(R.id.photoIV);
     }

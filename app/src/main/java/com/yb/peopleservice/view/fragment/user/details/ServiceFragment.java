@@ -24,6 +24,7 @@ import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
+import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.app.MyApplication;
@@ -85,6 +86,8 @@ public class ServiceFragment extends BaseFragment implements
     TextView soldTV;
     @BindView(R.id.activityUV)
     UtilityView activityUV;
+    @BindView(R.id.topLL)
+    LinearLayout topLL;
 
     protected ServiceListBean serviceInfo;
     private CollectPresenter collectPresenter;
@@ -118,6 +121,7 @@ public class ServiceFragment extends BaseFragment implements
     protected void initView() {
         EventBus.getDefault().register(this);
         groupLL.setVisibility(View.GONE);
+        SizeUtils.getMeasuredHeight(topLL);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

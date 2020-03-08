@@ -20,9 +20,9 @@ import java.util.List;
  * 修改描述:
  */
 public class PersonalListAdapter extends BaseMultiItemQuickAdapter<PersonalListBean, BaseViewHolder> {
-    private String[] title = { "我的优惠券", "地址管理", "我的收藏","退出登录"};
-    private int[] imageID = {R.mipmap.icon_person2,R.mipmap.icon_person3,
-            R.mipmap.icon_person4,R.mipmap.icon_person1};
+    private String[] title = {"我的优惠券", "地址管理", "我的收藏"};
+    private int[] imageID = {R.mipmap.icon_person2, R.mipmap.icon_person3,
+            R.mipmap.icon_person4};
     private Context context;
     private DraggableController mDraggableController;
 
@@ -43,8 +43,11 @@ public class PersonalListAdapter extends BaseMultiItemQuickAdapter<PersonalListB
     @Override
     protected void convert(BaseViewHolder helper, PersonalListBean item) {
         mDraggableController.initView(helper);
-        helper.setText(R.id.titleTV, title[helper.getAdapterPosition() - 1]);
-        helper.setImageResource(R.id.imageView, imageID[helper.getAdapterPosition() - 1]);
+        if (helper.getAdapterPosition() - 1 < 3) {
+            helper.setText(R.id.titleTV, title[helper.getAdapterPosition() - 1]);
+            helper.setImageResource(R.id.imageView, imageID[helper.getAdapterPosition() - 1]);
+        }
+
     }
 
 

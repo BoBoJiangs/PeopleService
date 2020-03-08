@@ -1,16 +1,23 @@
 package com.yb.peopleservice.view.activity.services.order;
 
+import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.cb.ratingbar.CBRatingBar;
+import com.lxj.xpopup.XPopup;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.model.eventbean.EventOrderBean;
 import com.yb.peopleservice.model.presenter.user.order.ApplyRefundPresenter;
 import com.yb.peopleservice.model.presenter.user.order.CommentOrderPresenter;
 import com.yb.peopleservice.view.activity.common.BaseSelectImageActivity;
+import com.yb.peopleservice.view.adapter.order.OrderListAdapter;
+import com.yb.peopleservice.view.weight.CustomPopup.MapBottomPopup;
+import com.yb.peopleservice.view.weight.CustomPopup.PayBottomPopup;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,10 +44,27 @@ public class ApplyRefundActivity extends BaseSelectImageActivity implements Appl
     TextView refundTV;
     @BindView(R.id.submitBtn)
     TextView submitBtn;
+    @BindView(R.id.bottomLL)
+    LinearLayout bottomLL;
     private ApplyRefundPresenter presenter;
     private int level = 1;
     private OrderBean orderBean;
     private String refundMoney;
+
+    @Override
+    public String getTitleName() {
+        if (isShowBtn) {
+            bottomLL.setVisibility(View.VISIBLE);
+            return "申请退款";
+        } else {
+            editText.setEnabled(false);
+            editText.setText(orderBean.getRefundReason());
+            editText.setHint("");
+            bottomLL.setVisibility(View.GONE);
+            return "查看退款";
+        }
+
+    }
 
     @Override
     protected int contentViewResID() {
@@ -56,27 +80,52 @@ public class ApplyRefundActivity extends BaseSelectImageActivity implements Appl
     protected void initData() {
         super.initData();
         presenter = new ApplyRefundPresenter(this, this);
+        baseQuickAdapter.setNewData(orderBean.refundImgList());
+    }
+
+    @Override
+    protected boolean isShowBtn() {
+        if (OrderListAdapter.REFUND_STATE.equals(orderBean.getRefundStatus())) {
+            return super.isShowBtn();
+        } else {
+            return false;
+        }
+
     }
 
     @Override
     protected void setOrderInfo(OrderBean orderBean) {
         super.setOrderInfo(orderBean);
         this.orderBean = orderBean;
-        refundMoney = orderBean.getTotalPrice()+"";
-        refundTV.setText("退款金额："+refundMoney);
+        refundMoney = orderBean.getTotalPrice() + "";
+        refundTV.setText("退款金额：" + refundMoney);
     }
 
-    @OnClick(R.id.submitBtn)
-    public void onViewClicked() {
+    @OnClick({R.id.submitBtn, R.id.updateTV})
+    public void onViewClicked(View view) {
         Map<String, Object> map = new HashMap<>();
-        map.put("money", refundMoney);
         map.put("reason", editText.getText().toString());
         map.put("orderId", orderBean.getId());
-        if (!getImages().isEmpty()) {
-            presenter.submitData(getImages(), map);
+        switch (view.getId()) {
+            case R.id.submitBtn:
+                map.put("money", refundMoney);
+
+                break;
+            case R.id.updateTV:
+                new XPopup.Builder(this)
+                        .asCustom(new PayBottomPopup(this,
+                                number -> {
+                                    map.put("money", number);
+                                }))
+                        .show();
+                break;
+        }
+        if (!getFileImages().isEmpty()) {
+            presenter.submitData(getFileImages(), map);
         } else {
             presenter.submitData(map);
         }
+
     }
 
     @Override

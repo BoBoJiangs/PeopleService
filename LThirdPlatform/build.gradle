@@ -36,7 +36,9 @@ dependencies {
     api project(path: ':LBaseLibrary')
 
     //腾讯日志，Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
-    implementation 'com.tencent.bugly:crashreport:3.0.0'
+//    implementation 'com.tencent.bugly:crashreport:3.0.0'
+    api 'com.tencent.bugly:crashreport_upgrade:latest.release'
+//    api 'com.tencent.bugly:nativecrashreport:latest.release'
 //
     //MTA主包
     implementation 'com.qq.mta:mta:3.4.2'

@@ -11,16 +11,20 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.PersonalListBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.database.manager.UserInfoManager;
 import com.yb.peopleservice.model.database.manager.UserManager;
+import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
 import com.yb.peopleservice.model.presenter.user.personal.PersonalPresenter;
 import com.yb.peopleservice.push.TagAliasOperatorHelper;
+import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
 import com.yb.peopleservice.view.activity.im.ChatListActivity;
@@ -35,6 +39,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +48,10 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
+import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.api.BasicCallback;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.AppDialog;
 
@@ -113,7 +122,7 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
-        listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
+//        listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         adapter.setNewData(listData);
 //        DraggableController mDraggableController = adapter.getDraggableController();
 //
@@ -164,6 +173,25 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
                 startActivity(new Intent(getContext(), MyFavoriteActivity.class));
                 break;
             case 3:
+
+                break;
+
+        }
+
+    }
+
+    /**
+     * 初始化头部轮播控件
+     */
+    private void initHeaderView() {
+        //设置图片加载器
+        View headerView = View.inflate(getActivity(), R.layout.personal_title_view, null);
+        headerViewHolder = new HeaderViewHolder(headerView, getActivity());
+        adapter.addHeaderView(headerView);
+        View footerView = View.inflate(getActivity(), R.layout.view_exit_button, null);
+        footerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 AppDialog appDialog = new AppDialog(getActivity());
                 appDialog.title("是否确认退出？")
                         .positiveBtn(R.string.sure, new AppDialog.OnClickListener() {
@@ -182,20 +210,9 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
                 });
                 appDialog.setCancelable(false);
                 appDialog.show();
-                break;
-
-        }
-
-    }
-
-    /**
-     * 初始化头部轮播控件
-     */
-    private void initHeaderView() {
-        //设置图片加载器
-        View headerView = View.inflate(getActivity(), R.layout.personal_title_view, null);
-        headerViewHolder = new HeaderViewHolder(headerView, getActivity());
-        adapter.addHeaderView(headerView);
+            }
+        });
+        adapter.addFooterView(footerView);
     }
 
     @Override
@@ -207,30 +224,13 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
             headerViewHolder.setUserInfoData(data);
             infoManager.deleteAll();
             infoManager.save(data);
-            setTags();
-            setAlias(data);
-
         }
 
     }
 
-    private void setAlias(UserInfoBean data) {
-        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
-        tagAliasBean.action = ACTION_SET;
-        LogUtils.e(data.getId().replace("-", ""));
-        tagAliasBean.alias = data.getId().replace("-", "");
-        tagAliasBean.isAliasAction = true;
-        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
-    }
 
-    private void setTags() {
-        Set<String> tags = new HashSet<>();
-        tags.add("customer");
-        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
-        tagAliasBean.action = ACTION_SET;
-        tagAliasBean.tags = tags;
-        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
-    }
+
+
 
     @Override
     public void getDataFail() {
@@ -239,7 +239,13 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
 
     @Override
     public void fetchData() {
-        presenter.getUserInfo();
+        UserInfoBean userInfo = userManager.getUser().getInfoBean();
+        if (userInfo==null){
+            presenter.getUserInfo();
+        }else{
+            getDataSuccess(userInfo);
+        }
+
     }
 
     @OnClick({R.id.setIV, R.id.msgTV})

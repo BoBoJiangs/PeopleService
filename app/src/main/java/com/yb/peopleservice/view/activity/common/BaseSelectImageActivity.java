@@ -55,9 +55,10 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
 
     @BindView(R.id.photoView)
     protected RecyclerView recyclerView;
+    protected boolean isShowBtn;//是否显示拍照按钮
 
 
-    protected BaseQuickAdapter<File, BaseViewHolder> baseQuickAdapter;
+    protected BaseQuickAdapter<String, BaseViewHolder> baseQuickAdapter;
 
 
     @Override
@@ -67,16 +68,20 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
 
     }
 
+    protected boolean isShowBtn(){
+        return true;
+    }
 
     public void initViewAndData() {
+        isShowBtn = isShowBtn();
         baseQuickAdapter = initAdapter();
-
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setAdapter(baseQuickAdapter);
-        List<File> files = new ArrayList<>();
-        files.add(new File("app"));//加一个空数据显示添加按钮
-        baseQuickAdapter.setNewData(files);
-
+        if (isShowBtn){
+            List<String> files = new ArrayList<>();
+            files.add("app");//加一个空数据显示添加按钮
+            baseQuickAdapter.setNewData(files);
+        }
         if (isSetOnItemClickListener()) {
             baseQuickAdapter.setOnItemChildClickListener(this::onItemChildClick);
         }
@@ -98,9 +103,9 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
                     public void onSuccess(File file) {
                         dissmissProgressDialog();
                         if (baseQuickAdapter.getItemCount() > 0) {
-                            baseQuickAdapter.addData(0, file);
+                            baseQuickAdapter.addData(0, file.getAbsolutePath());
                         } else {
-                            baseQuickAdapter.addData(file);
+                            baseQuickAdapter.addData(file.getAbsolutePath());
                         }
                     }
 
@@ -114,11 +119,20 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
     }
 
     public BaseQuickAdapter initAdapter() {
-        return new ImageSelectAdapter();
+        return new ImageSelectAdapter(isShowBtn);
     }
 
     public boolean isSetOnItemClickListener() {
         return true;
+    }
+
+    public List<File> getFileImages() {
+        List<File> fileList = new ArrayList<>();
+        List<String> fileImages = getImages();
+        for (String path : fileImages) {
+            fileList.add(new File(path));
+        }
+        return fileList;
     }
 
     /**
@@ -126,7 +140,7 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
      *
      * @return
      */
-    public List<File> getImages() {
+    public List<String> getImages() {
         if (baseQuickAdapter != null) {
             if (baseQuickAdapter.getData().size() > 1) {
                 return baseQuickAdapter.getData().subList(0,
@@ -147,36 +161,35 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
                 baseQuickAdapter.remove(position);
                 break;
             case R.id.photoIV:
-                if (baseQuickAdapter.getItemCount() - 1 == position) {
-                    List<File> fileList = getImages();
-                    ArrayList<String> stringList = new ArrayList<>();
-                    for (File file : fileList) {
-                        stringList.add(file.getPath());
-                    }
-                    ImagePicker.withMulti(new WeChatPresenter())
-                            .setMaxCount(3)
-                            .showCamera(true)//显示拍照
-                            .mimeTypes(MimeType.ofImage())
-                            .setLastImageList(stringList)
-                            .setShieldList(stringList)
-                            .setSelectMode(SelectMode.MODE_MULTI)
-                            //调用剪裁
-                            .pick(this, new OnImagePickCompleteListener() {
-                                @Override
-                                public void onImagePickComplete(ArrayList<ImageItem> items) {
-                                    if (!items.isEmpty()) {
-                                        List<String> filePath = new ArrayList<>();
-                                        for (ImageItem imageItem : items) {
-                                            filePath.add(imageItem.path);
+                if (isShowBtn){
+                    if (baseQuickAdapter.getItemCount() - 1 == position) {
+                        ArrayList<String> fileList = (ArrayList<String>) getImages();
+                        ImagePicker.withMulti(new WeChatPresenter())
+                                .setMaxCount(3)
+                                .showCamera(true)//显示拍照
+                                .mimeTypes(MimeType.ofImage())
+                                .setLastImageList(fileList)
+                                .setShieldList(fileList)
+                                .setSelectMode(SelectMode.MODE_MULTI)
+                                //调用剪裁
+                                .pick(this, new OnImagePickCompleteListener() {
+                                    @Override
+                                    public void onImagePickComplete(ArrayList<ImageItem> items) {
+                                        if (!items.isEmpty()) {
+                                            List<String> filePath = new ArrayList<>();
+                                            for (ImageItem imageItem : items) {
+                                                filePath.add(imageItem.path);
+                                            }
+                                            List<String> files = new ArrayList<>();
+                                            files.add("app");//加一个空数据显示添加按钮
+                                            baseQuickAdapter.setNewData(files);
+                                            compressImage(filePath);
                                         }
-                                        List<File> files = new ArrayList<>();
-                                        files.add(new File("app"));//加一个空数据显示添加按钮
-                                        baseQuickAdapter.setNewData(files);
-                                        compressImage(filePath);
                                     }
-                                }
-                            });
+                                });
+                    }
                 }
+
 
                 break;
         }
