@@ -53,7 +53,7 @@ import jiguang.chat.activity.fragment.ConversationListFragment;
 public class ShopMainActivity extends BaseViewPagerActivity implements OnTabSelectListener {
 
     private String[] mTitles = {"订单", "消息", "店铺"};
-    private int[] mIconUnselectIds = {R.mipmap.tab_order_unselect, R.mipmap.tab_msg_unselect,R.mipmap.tab_map_unselect};
+    private int[] mIconUnselectIds = {R.mipmap.tab_order_unselect, R.mipmap.tab_msg_unselect,R.mipmap.icon_shop};
     private int[] mIconSelectIds = {R.mipmap.tab_order_select, R.mipmap.tab_msg_select,R.mipmap.tab_map_select};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;

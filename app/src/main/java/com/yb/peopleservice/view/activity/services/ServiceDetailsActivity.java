@@ -49,7 +49,7 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
     TextView orderBtn;
     private String[] mTitles = {"服务", "详情", "评价"};
     @BindView(R.id.commonTabLayout)
-    CommonTabLayout commonTabLayout;
+    public CommonTabLayout commonTabLayout;
     @BindView(R.id.viewPager)
     ScrollViewPager viewPager;
     private ServiceFragment fragment1;
@@ -74,7 +74,7 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
         serviceInfo = getIntent().getParcelableExtra(ServiceListBean.class.getName());
         List<Fragment> fragmentList = new ArrayList<>();
         fragment1 = (ServiceFragment) ServiceFragment.getInstanceFragment(serviceInfo);
-        fragment2 = ServiceContentFragment.getInstanceFragment(serviceInfo);
+//        fragment2 = ServiceContentFragment.getInstanceFragment(serviceInfo);
         fragment3 = EvaluateFragment.getInstanceFragment(serviceInfo);
         fragment4 = ServiceGroupFragment.getInstanceFragment(serviceInfo);
         if (serviceInfo.isGrop()) {
@@ -82,7 +82,7 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
         } else {
             fragmentList.add(fragment1);
         }
-        fragmentList.add(fragment2);
+//        fragmentList.add(fragment2);
         fragmentList.add(fragment3);
         return fragmentList;
     }
@@ -104,6 +104,15 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
         viewPager.setScroll(true);
         payMoney = serviceInfo.getPrice();
         setBottomText();
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (position==1){
+            commonTabLayout.setCurrentTab(2);
+        }else{
+            commonTabLayout.setCurrentTab(0);
+        }
     }
 
     private void setBottomText() {

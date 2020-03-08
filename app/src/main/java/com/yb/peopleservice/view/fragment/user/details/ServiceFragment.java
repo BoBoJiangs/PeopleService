@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
@@ -24,8 +29,12 @@ import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
+import com.blankj.utilcode.util.FragmentUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.app.MyApplication;
 import com.yb.peopleservice.constant.RequestCodeConstant;
@@ -40,6 +49,8 @@ import com.yb.peopleservice.model.presenter.user.service.ServicePresenter;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.AMapUtil;
 import com.yb.peopleservice.utils.GlideImageLoader;
+import com.yb.peopleservice.utils.ImageLoaderUtil;
+import com.yb.peopleservice.view.activity.services.ServiceDetailsActivity;
 import com.yb.peopleservice.view.activity.shop.SearchMapActivity;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
 import com.yb.peopleservice.view.fragment.user.order.CouponDialogFragment;
@@ -70,7 +81,7 @@ import cn.sts.base.view.widget.UtilityView;
  * 修改描述:
  */
 public class ServiceFragment extends BaseFragment implements
-        CollectPresenter.ICollectCallback, ServicePresenter.IServiceCallback {
+        CollectPresenter.ICollectCallback, ServicePresenter.IServiceCallback, NestedScrollView.OnScrollChangeListener {
     @BindView(R.id.banner)
     Banner banner;
     @BindView(R.id.groupLL)
@@ -88,12 +99,19 @@ public class ServiceFragment extends BaseFragment implements
     UtilityView activityUV;
     @BindView(R.id.topLL)
     LinearLayout topLL;
+    @BindView(R.id.contentRv)
+    RecyclerView contentRv;
+    @BindView(R.id.scrollView)
+    NestedScrollView scrollView;
 
     protected ServiceListBean serviceInfo;
     private CollectPresenter collectPresenter;
     private ServicePresenter presenter;
     private boolean isFavorite;//是否已收藏
     List<CouponBean> couponList;
+    private BaseQuickAdapter<String, BaseViewHolder> adapter;
+    private int topHeight;
+    ServiceDetailsActivity activity;
 
     public static Fragment getInstanceFragment(ServiceListBean serviceInfo) {
         ServiceFragment fragment = new ServiceFragment();
@@ -121,7 +139,26 @@ public class ServiceFragment extends BaseFragment implements
     protected void initView() {
         EventBus.getDefault().register(this);
         groupLL.setVisibility(View.GONE);
-        SizeUtils.getMeasuredHeight(topLL);
+        scrollView.setOnScrollChangeListener(this);
+        activity = (ServiceDetailsActivity) getActivity();
+    }
+
+    private void initContentView() {
+        contentRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.adapter_image) {
+            @Override
+            protected void convert(@NonNull BaseViewHolder helper, String item) {
+                ImageView imageView = helper.getView(R.id.imageView);
+                ImageLoaderUtil.loadPiblicImage(mContext, item, imageView);
+            }
+        };
+        contentRv.setAdapter(adapter);
+        List<String> images = serviceInfo.getContentImgs();
+        adapter.setNewData(images);
+        View view = inflater.inflate(R.layout.view_service_content, null);
+        TextView textView = view.findViewById(R.id.textView);
+        textView.setText(serviceInfo.getContentText());
+        adapter.setFooterView(view);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -164,11 +201,13 @@ public class ServiceFragment extends BaseFragment implements
             priceTV.setText(serviceInfo.getPrice() + priceUnit);
             soldTV.setText("已售：" + serviceInfo.getTotalSold());
 
+            initContentView();
 
         }
         collectPresenter = new CollectPresenter(getContext(), this);
         collectPresenter.getFavorite(serviceInfo.getId());
         presenter = new ServicePresenter(getContext(), this);
+        topHeight = SizeUtils.getMeasuredHeight(topLL);
     }
 
     @Override
@@ -254,5 +293,16 @@ public class ServiceFragment extends BaseFragment implements
     private void showCouponView(List<CouponBean> data) {
         CouponDialogFragment couponDialogFragment = new CouponDialogFragment(data);
         couponDialogFragment.show(getFragmentManager(), CouponDialogFragment.class.getSimpleName());
+    }
+
+    @Override
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY > topHeight) {
+            if (activity!=null){
+                activity.commonTabLayout.setCurrentTab(1);
+            }
+        }else{
+            activity.commonTabLayout.setCurrentTab(0);
+        }
     }
 }

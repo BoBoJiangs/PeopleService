@@ -51,10 +51,11 @@ public class LogoutPresenter extends AbstractPresenter<IViewCallback> {
             @Override
             public void onRequestSuccess(LoginBean data) {
                 try {
-
-                    User user = ManagerFactory.getInstance().getUserManager().getUser();
-                    user.setPassword("");
-                    ManagerFactory.getInstance().getUserManager().saveOrUpdate(user);
+                    ManagerFactory.getInstance().getUserManager().deleteAll();
+                    ManagerFactory.getInstance().getUserInfoManager().deleteAll();
+//                    User user = ManagerFactory.getInstance().getUserManager().getUser();
+//                    user.setPassword("");
+//                    ManagerFactory.getInstance().getUserManager().saveOrUpdate(user);
                     JMessageClient.logout();
                     context.startActivity(new Intent(context, LoginActivity.class));
                     JPushInterface.deleteAlias(context,1);
