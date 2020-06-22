@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.weight.CustomPopup;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import butterknife.OnClick;
  * 修改时间:
  * 修改描述:
  */
+@SuppressLint("ViewConstructor")
 public class PayBottomPopup extends BottomPopupView {
 
     @BindView(R.id.title)
@@ -39,6 +41,7 @@ public class PayBottomPopup extends BottomPopupView {
     private OrderBean orderBean;
     private Context context;
     private PayCallBack callBack;
+    private boolean isAddPay;//是否是补款
 
     public PayBottomPopup(@NonNull Context context, OrderBean orderBean) {
         super(context);
@@ -50,6 +53,12 @@ public class PayBottomPopup extends BottomPopupView {
         super(context);
         this.callBack = callBack;
         this.context = context;
+    }
+    public PayBottomPopup(@NonNull Context context,  PayCallBack callBack,boolean isAddPay) {
+        super(context);
+        this.callBack = callBack;
+        this.context = context;
+        this.isAddPay = isAddPay;
     }
 
     public interface PayCallBack{
@@ -70,6 +79,9 @@ public class PayBottomPopup extends BottomPopupView {
 
     private void initView() {
         ButterKnife.bind(this, getPopupImplView());
+        if (isAddPay){
+            title.setText("请输入补款金额");
+        }
     }
 
 

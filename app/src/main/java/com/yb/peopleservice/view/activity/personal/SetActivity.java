@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.view.activity.common.AboutActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
+import cn.sts.base.util.NumberUtil;
 import cn.sts.base.view.widget.UtilityView;
 
 /**
@@ -49,7 +51,7 @@ public class SetActivity extends BaseToolbarActivity {
     }
 
 
-    @OnClick({R.id.infoUV, R.id.updateUV})
+    @OnClick({R.id.infoUV, R.id.updateUV,R.id.aboutUV})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.infoUV:
@@ -57,6 +59,9 @@ public class SetActivity extends BaseToolbarActivity {
                 break;
             case R.id.updateUV:
                 startActivity(new Intent(this,UpdatePasswordActivity.class));
+                break;
+            case R.id.aboutUV:
+                startActivity(new Intent(this, AboutActivity.class));
                 break;
         }
     }

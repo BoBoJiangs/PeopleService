@@ -29,6 +29,7 @@
             android:id="@+id/titleTV"
             style="@style/text_view_14_black"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
             android:lines="1"
             android:text="加载中" />
 

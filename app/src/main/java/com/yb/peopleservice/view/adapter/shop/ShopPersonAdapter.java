@@ -13,6 +13,8 @@ import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.presenter.shop.AssignPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import cn.sts.base.app.AppManager;
 import cn.sts.base.view.widget.AppDialog;
 
@@ -25,7 +27,7 @@ import cn.sts.base.view.widget.AppDialog;
  * 修改时间:
  * 修改描述:
  */
-public class ShopPersonAdapter extends BaseQuickAdapter<PersonListBean, BaseViewHolder> implements AssignPresenter.IAssignCallback {
+public class ShopPersonAdapter extends BaseQuickAdapter<ServiceInfo, BaseViewHolder> implements AssignPresenter.IAssignCallback {
     private Context context;
     private AssignPresenter presenter;
     private String orderId;
@@ -38,8 +40,7 @@ public class ShopPersonAdapter extends BaseQuickAdapter<PersonListBean, BaseView
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, PersonListBean item) {
-        ServiceInfo serviceInfo = item.getServiceStaff();
+    protected void convert(BaseViewHolder helper, ServiceInfo serviceInfo) {
         ImageView imageView = helper.getView(R.id.headImg);
         ImageLoaderUtil.loadServerCircleImage(mContext, serviceInfo.getHeadImg(), imageView);
         helper.setText(R.id.titleTV, serviceInfo.getName());
@@ -52,7 +53,7 @@ public class ShopPersonAdapter extends BaseQuickAdapter<PersonListBean, BaseView
                             @Override
                             public void onClick(AppDialog appDialog) {
                                 appDialog.dismiss();
-                                presenter.assignService(orderId,item.getServiceStaffId());
+                                presenter.assignService(orderId,serviceInfo.getId());
                             }
                         })
                         .negativeBtn(R.string.cancel, new AppDialog.OnClickListener() {
@@ -69,6 +70,7 @@ public class ShopPersonAdapter extends BaseQuickAdapter<PersonListBean, BaseView
 
     @Override
     public void assignSuccess(Object data) {
+
         ToastUtils.showLong("指派成功等待服务人员接受");
         AppManager.getAppManager().finishActivity();
     }

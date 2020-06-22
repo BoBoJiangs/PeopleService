@@ -19,6 +19,7 @@
         android:src="@mipmap/icon_login_logo" />
 
     <TextView
+        android:id="@+id/titleTV"
         style="@style/text_view_content_black"
         android:layout_marginTop="@dimen/space_default"
         android:text="新用户快速注册"
@@ -43,10 +44,10 @@
                 style="@style/login_utility"
                 android:layout_height="match_parent"
                 app:info_padding_right="60dp"
-                app:text_content_hint="请输入手机号码"
-                app:text_content_size="@dimen/font_content_small"
                 app:right_image_res="@drawable/md_transparent"
-                app:right_image_show_by_input="false"/>
+                app:right_image_show_by_input="false"
+                app:text_content_hint="请输入手机号码"
+                app:text_content_size="@dimen/font_content_small" />
 
             <TextView
                 android:id="@+id/getAuthCodeTV"
@@ -68,39 +69,73 @@
             android:id="@+id/passWord"
             style="@style/login_utility"
             android:layout_height="50dp"
-            app:text_content_hint="请输入密码"
+            app:text_content_hint="请输入密码(必须由8位以上数字、符号和英文组成)"
             app:text_content_input_type="PASSWORD"
             app:text_content_size="@dimen/font_content_small" />
+
         <RadioGroup
+            android:id="@+id/radioRg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_default"
-            android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/rbl"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="商家"/>
-            <RadioButton
-                android:id="@+id/rb2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="顾客"/>
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
             <RadioButton
                 android:id="@+id/rb3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="服务人员"/>
+                android:checked="true"
+                android:text="顾客" />
+
+            <RadioButton
+                android:id="@+id/rbl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="商家" />
+
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="服务人员" />
         </RadioGroup>
+
+
         <Button
             android:id="@+id/regisBtn"
             style="@style/login_btn_style"
             android:text="注册" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:gravity="center"
+            android:orientation="horizontal">
 
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkbox_bg"
+                android:checked="true"
+                android:gravity="center_vertical"
+                android:paddingStart="5dp"
+                android:text="我已阅读并接受"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_content_four" />
+
+            <TextView
+                android:id="@+id/agreementTV"
+                style="@style/text_view_content"
+                android:text="《服务协议》"
+                android:textColor="@color/base_text_color" />
+
+        </LinearLayout>
     </LinearLayout>
 
 

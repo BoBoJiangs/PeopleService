@@ -3,6 +3,7 @@ package cn.sts.platform.presenter.login;
 import android.content.Context;
 import android.content.Intent;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -60,7 +61,8 @@ public class ThirdPlatformLoginPresenter {
     public void wxLoginResp(SendAuth.Resp resp) {
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
-                wxLoginGetAccessToken(resp.code);
+                LogUtils.a(resp.code);
+//                wxLoginGetAccessToken(resp.code);
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 sendLoginResult(null, ThirdPlatformStatusConstant.CANCEL);

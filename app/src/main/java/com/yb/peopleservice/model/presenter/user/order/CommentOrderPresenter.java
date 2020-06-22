@@ -111,7 +111,7 @@ public class CommentOrderPresenter extends AbstractPresenter<CommentOrderPresent
     }
 
     @Override
-    public void uploadSuccess(List<String> files) {
+    public void uploadSuccess(List<String> files,boolean isPublic) {
         map.put("imgs", new Gson().toJson(files));
         evaluatesOrder(map);
     }

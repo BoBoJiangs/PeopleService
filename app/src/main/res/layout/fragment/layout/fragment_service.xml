@@ -73,7 +73,25 @@
                     android:textSize="@dimen/font_content_small"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/collectIV" />
+                <TextView
+                    android:id="@+id/praiseTV"
+                    style="@style/text_view_content_black"
+                    android:layout_marginTop="@dimen/space_default"
+                    android:text="加载中"
+                    android:textColor="@color/base_text_color"
+                    android:textSize="@dimen/font_content_small"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    app:layout_constraintRight_toLeftOf="@+id/soldTV"
+                    app:layout_constraintTop_toBottomOf="@+id/collectIV" />
+                <TextView
+                    android:id="@+id/startPriceTV"
+                    style="@style/text_view_content_black"
+                    android:layout_marginTop="@dimen/dp_10"
+                    app:layout_constraintLeft_toLeftOf="@+id/nameTV"
+                    app:layout_constraintTop_toBottomOf="@+id/priceTV"
+                    android:text="加载中"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
             <LinearLayout

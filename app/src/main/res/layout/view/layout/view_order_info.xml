@@ -17,9 +17,9 @@
             android:id="@+id/topLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dp_10"
             android:paddingStart="@dimen/space_default"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -53,6 +53,7 @@
             app:layout_constraintTop_toBottomOf="@+id/topLL" />
 
         <LinearLayout
+            android:id="@+id/lineViewLL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
@@ -133,15 +134,44 @@
                         android:text="加载中"
                         android:textSize="@dimen/font_btn_small_best" />
 
-                    <TextView
-                        style="@style/text_view_content_black"
-                        android:layout_marginStart="@dimen/dp_10"
-                        android:text="服务人员"
-                        android:textSize="@dimen/fon_small_best" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/text_view_content_black"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:text="服务人员"
+                            android:textSize="@dimen/fon_small_best" />
+
+                        <TextView
+                            android:id="@+id/locationTV"
+                            style="@style/text_view_content_black"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:drawableStart="@mipmap/location3"
+                            android:drawablePadding="5dp"
+                            android:gravity="center"
+                            android:text="定位"
+                            android:textColor="@color/base_text_color"
+                            android:textSize="@dimen/fon_small_best" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
-
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/payUV"
+                style="@style/order_utility"
+                app:content_gravity="end"
+                app:text_content_color="@color/base_text_color"
+                app:text_title="实付款" />
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/distanceUV"
+                style="@style/order_utility"
+                app:content_gravity="end"
+                app:text_content_color="@color/base_text_color"
+                app:text_title="" />
             <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/priceUV"
                 style="@style/order_utility"
@@ -156,13 +186,7 @@
                 app:text_content="¥ 0"
                 app:text_title="优惠券" />
 
-            <cn.sts.base.view.widget.UtilityView
-                android:id="@+id/payUV"
-                style="@style/order_utility"
-                app:content_gravity="end"
-                app:text_content="¥ 0"
-                app:text_content_color="@color/base_text_color"
-                app:text_title="实付款" />
+
         </LinearLayout>
 
 

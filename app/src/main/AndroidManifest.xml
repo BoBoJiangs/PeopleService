@@ -25,6 +25,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:name=".app.MyApplication"
@@ -46,7 +51,8 @@
 
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" /> <!-- 沉浸式适配配置 -->
+            android:required="false" />
+        <!-- 沉浸式适配配置 -->
         <!-- 适配全面屏 -->
         <meta-data
             android:name="android.max_aspect"
@@ -56,12 +62,16 @@
             android:value="true" /> <!-- 适配小米(xiao mi)刘海屏 -->
         <meta-data
             android:name="notch.config"
-            android:value="portrait|landscape" /> <!-- 沉浸式适配配置 -->
+            android:value="portrait|landscape" />
+        <!-- 沉浸式适配配置 -->
+
+
         <!-- 高德地图 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="5e095b322123af533f77a00218f18512" /> <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" /> <!-- 定时服务 -->
+        <service android:name="com.amap.api.track.AMapTrackService" />
         <service android:name=".model.service.TimeService" />
         <service android:name=".model.service.TimeService$GrayInnerService" /> <!-- Since JCore2.0.0 Required SDK核心功能 -->
         <!-- 这个Service要继承JCommonService -->
@@ -100,6 +110,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 微信支付回调页面 -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/translucent" />
+        <!-- 微信分享登录的回调页面 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity
             android:name=".view.activity.main.MainActivity"
             android:launchMode="singleTask"
@@ -152,9 +176,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.services.ShopListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.services.CertificationDetailsActivity"
+            android:name=".view.activity.services.ServiceApplyDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.personal.MyFavoriteActivity"
@@ -163,7 +188,7 @@
             android:name=".view.activity.services.order.ConfirmOrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.adapter.order.PayActivity"
+            android:name=".view.activity.services.order.PayActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.shop.ShopPersonActivity"
@@ -174,15 +199,56 @@
         <activity
             android:name=".view.activity.search.SearchActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.personal.MyCouponListActivity" />
-        <activity android:name=".view.activity.common.OrderDetailsActivity" />
-        <activity android:name=".view.activity.services.order.CommentOrderActivity" />
-        <activity android:name=".view.activity.im.ChatListActivity" />
-        <activity android:name=".view.activity.services.ServicePersonInfoActivity" />
-        <activity android:name=".view.activity.login.PasswordResetActivity" />
-        <activity android:name=".view.activity.services.order.ApplyRefundActivity" />
-        <activity android:name=".view.activity.personal.SetActivity" />
-        <activity android:name=".view.activity.personal.UpdatePasswordActivity" />
+        <activity
+            android:name=".view.activity.personal.MyCouponListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.common.OrderDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.order.CommentOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.im.ChatListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.ServicePersonInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.login.PasswordResetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.order.ApplyRefundActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.personal.SetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.personal.UpdatePasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.shop.EditShopInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.common.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.common.MessageListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.EditServiceInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.services.ShopEntryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.common.OtherSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.login.BindPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.activity.personal.MyOrderActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

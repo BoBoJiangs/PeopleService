@@ -7,6 +7,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.RegexUtils;
@@ -14,18 +15,19 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.noober.background.drawable.DrawableCreator;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.constant.enums.UserType;
+import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.presenter.login.QuickLoginPresenter;
 import com.yb.peopleservice.view.activity.main.MainActivity;
+import com.yb.peopleservice.view.activity.main.ServiceMainActivity;
+import com.yb.peopleservice.view.activity.main.ShopMainActivity;
 import com.yb.peopleservice.view.base.BaseActivity;
 import com.yb.peopleservice.view.weight.PasswordInputView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sts.base.app.AppManager;
-import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.view.widget.UtilityView;
-import jiguang.chat.utils.ToastUtil;
 
 /**
  * 类描述:快捷登录
@@ -57,6 +59,9 @@ public class QuickLoginActivity extends BaseActivity<QuickLoginPresenter> implem
     LinearLayout bottomLL;
     @BindView(R.id.loginLL)
     LinearLayout loginLL;
+    @BindView(R.id.radioRg)
+    RadioGroup radioGroup;
+    private UserType type = UserType.CUSTOMER;
     Drawable drawable;
     Drawable drawable2;
     private String phone;
@@ -82,6 +87,22 @@ public class QuickLoginActivity extends BaseActivity<QuickLoginPresenter> implem
                 .build();
         vcivCode.setInputListener(this::onInputCompleted);
 
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.rbl:
+                        type = UserType.SHOP;
+                        break;
+                    case R.id.rb2:
+                        type = UserType.STAFF;
+                        break;
+                    case R.id.rb3:
+                        type = UserType.CUSTOMER;
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -94,15 +115,29 @@ public class QuickLoginActivity extends BaseActivity<QuickLoginPresenter> implem
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.nextBtn:
+                if (type == null) {
+                    ToastUtils.showLong("请选择账号类型");
+                    return;
+                }
                 phone = phoneUV.getContentText();
-                presenter.checkUserName(phone);
-
+//                presenter.checkUserName(phone);
+                if (!RegexUtils.isMobileSimple(phone)) {
+                    ToastUtils.showLong("请输入正确的电话号码");
+                    return;
+                }
+                String textStr = "我们刚刚向 +86 <font color=\"#FF5F00\">" + phone +
+                        "</font>发送了一个验证码";
+                phoneTV.setText(Html.fromHtml(textStr));
+                phoneLL.setVisibility(View.GONE);
+                loginLL.setVisibility(View.VISIBLE);
+                presenter.getCode(phone);
 
                 break;
             case R.id.loginBtn:
-                presenter.getLoginVoucher(phone,code);
+                presenter.getLoginVoucher(phone,code,type.getValue());
                 break;
             case R.id.retryTV:
+                presenter.getCode(phone);
                 break;
         }
     }
@@ -145,9 +180,22 @@ public class QuickLoginActivity extends BaseActivity<QuickLoginPresenter> implem
     }
 
     @Override
-    public void loginSuccess(LoginBean data) {
-        startActivity(new Intent(this, MainActivity.class));
+    public void loginSuccess(User data) {
         AppManager.getAppManager().finishAllActivity();
+        if (data.getAccountType() != null && !data.getAccountType().isEmpty()) {
+            if (data.getAccountType().contains(UserType.CUSTOMER.getValue())) {
+                startActivity(new Intent(this, MainActivity.class));
+            } else if (data.getAccountType().contains(UserType.SHOP.getValue())) {
+                startActivity(new Intent(this, ShopMainActivity.class));
+            } else if (data.getAccountType().contains(UserType.STAFF.getValue())) {
+                startActivity(new Intent(this, ServiceMainActivity.class));
+            } else {
+                ToastUtils.showLong("未知的用户类型,请联系管理员！");
+            }
+        } else {
+            ToastUtils.showLong("未知的用户类型,请联系管理员！");
+        }
+        finish();
     }
 
     @Override

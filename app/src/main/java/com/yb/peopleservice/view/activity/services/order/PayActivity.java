@@ -1,4 +1,4 @@
-package com.yb.peopleservice.view.adapter.order;
+package com.yb.peopleservice.view.activity.services.order;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -49,8 +49,7 @@ public class PayActivity extends BaseToolbarActivity {
     private OrderBean orderBean;//订单号
     private PayPresenter presenter;
     private WeChatPayReceiver receiver;//微信登录的广播
-    private AddressListVO addressVO;//地址
-
+    private boolean isAddPay;//是否是补款
     @Override
     protected int contentViewResID() {
         return R.layout.activity_pay;
@@ -66,13 +65,13 @@ public class PayActivity extends BaseToolbarActivity {
 
     @Override
     protected void initData() {
+        isAddPay = getIntent().getBooleanExtra("isAddPay",false);
         presenter = new PayPresenter(this);
         orderBean = getIntent().getParcelableExtra(OrderBean.class.getName());
         payPrice = getIntent().getFloatExtra(IntentKeyConstant.DATA_KEY, 0);
         priceTV.setText("¥ " + payPrice);
         setPayType();
 
-        addressVO = getIntent().getParcelableExtra(AddressListVO.class.getName());
         receiver = new WeChatPayReceiver();
         IntentFilter intentFilter = new IntentFilter(ThirdPlatformBroadcastConstant.PAY_RESULT);
         registerReceiver(receiver, intentFilter);
@@ -106,9 +105,9 @@ public class PayActivity extends BaseToolbarActivity {
                     return;
                 }
                 if (payType == AppConstant.ALIPAY_TYPE) {
-                    presenter.aliPay(orderBean.getId(), orderBean.getCommodityId());
+                    presenter.aliPay(orderBean.getId(),payPrice+"",isAddPay);
                 } else {
-                    presenter.wxPay(orderBean.getId(), "订单支付", "flowerWorld");
+                    presenter.wxPay(orderBean.getId(), payPrice+"",isAddPay);
                 }
 
                 break;

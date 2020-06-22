@@ -136,7 +136,6 @@ public class ImageLoaderUtil {
         url = BaseRequestServer.getFileUrl(true) + url;
         GlideApp.with(context)
                 .load(url)
-                .centerInside()
                 .into(imageView);
     }
 

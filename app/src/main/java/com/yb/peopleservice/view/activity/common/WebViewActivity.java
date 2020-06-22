@@ -16,10 +16,10 @@ import com.tencent.smtt.sdk.WebViewClient;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.view.base.BaseActivity;
+import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import butterknife.BindView;
 import cn.sts.base.presenter.AbstractPresenter;
-import cn.sts.base.view.activity.BaseToolbarActivity;
 
 /**
  * 公共的WebView访问界面
@@ -49,6 +49,7 @@ public class WebViewActivity extends BaseToolbarActivity {
 
     @Override
     public String getTitleName() {
+        serverTitle = getIntent().getStringExtra(IntentKeyConstant.WEB_VIEW_TITLE);
         return serverTitle;
     }
 
@@ -59,12 +60,12 @@ public class WebViewActivity extends BaseToolbarActivity {
 
     @Override
     protected void initView() {
-
+        super.initView();
     }
 
     @Override
     protected void initData() {
-        serverTitle = getIntent().getStringExtra(IntentKeyConstant.WEB_VIEW_TITLE);
+
         serverUrl = getIntent().getStringExtra(IntentKeyConstant.WEB_VIEW_URL);
         if (!TextUtils.isEmpty(serverUrl)) {
             loadWebView();
@@ -92,7 +93,7 @@ public class WebViewActivity extends BaseToolbarActivity {
         webSetting.setBuiltInZoomControls(true);
         webSetting.setUseWideViewPort(true);
         webSetting.setSupportMultipleWindows(false);
-        // webSetting.setLoadWithOverviewMode(true);
+         webSetting.setLoadWithOverviewMode(true);
         webSetting.setAppCacheEnabled(true);
         // webSetting.setDatabaseEnabled(true);
         webSetting.setDomStorageEnabled(true);

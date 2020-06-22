@@ -80,7 +80,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-26'
     implementation 'com.github.mtotschnig:StickyListHeaders:2.7.1'
-    implementation files('libs/BaiduLBS_Android.jar')
+//    implementation files('libs/BaiduLBS_Android.jar')
 //    implementation files('libs/core-3.2.1.jar')
 //    implementation files('libs/gson-2.2.1.jar')
     implementation 'com.google.zxing:core:3.2.1'

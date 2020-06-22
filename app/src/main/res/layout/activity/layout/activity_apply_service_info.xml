@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activity.personal.EditUserInfoActivity">
+
+    <include
+        style="@style/line_style"
+        layout="@layout/toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/headUV"
+                style="@style/utility_view"
+                android:layout_height="180pt"
+                app:right_image_height="150pt"
+                app:right_image_padding="@dimen/dp_10"
+                app:right_image_res="@mipmap/default_head"
+                app:right_image_width="150pt"
+                app:text_content=""
+                app:text_content_color="@color/base_lib_gray"
+                app:text_content_size="@dimen/font_btn_small_best"
+                app:text_title="头像" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/nameUV"
+                style="@style/info_utility_input"
+                app:text_content_hint="请输入姓名"
+                app:text_title="姓名"
+                app:type="INPUT" />
+
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/sexUV"
+                style="@style/info_utility"
+                app:text_content_hint="请选择"
+                app:text_title="性别" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/ageUV"
+                style="@style/info_utility_input"
+                app:text_content_hint="请输入年龄"
+                app:text_content_input_type="NUMBER"
+                app:text_title="年龄"
+                app:type="INPUT" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/dateUV"
+                style="@style/info_utility"
+                app:text_content_hint="请选择"
+                app:text_title="出生日期" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/cityUV"
+                style="@style/info_utility"
+                app:text_content_hint="请选择"
+                app:text_title="所属省市" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/phoneUV"
+                style="@style/info_utility_input"
+                app:text_content_hint="请输入手机号"
+                app:text_content_input_type="NUMBER"
+                app:text_title="手机号　" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/addressUV"
+                style="@style/info_utility_input"
+                app:text_content_hint="请输地址"
+                app:text_title="地址　" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/remakeUV"
+                style="@style/info_utility_input"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                app:line_show="true"
+                app:multi_line="true"
+                app:text_content_hint="请输入个人介绍"
+                app:text_title="个人介绍　"
+                app:type="INPUT" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/idCardUV"
+                style="@style/info_utility_input"
+                app:text_content_hint="请输入身份证号"
+                app:text_title="管理员身份证号" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_default"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/cardFaceFL"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/cardFaceIV"
+                        android:layout_width="match_parent"
+                        android:layout_height="200pt"
+                        android:background="@drawable/icon_camera"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:id="@+id/addFaceTV"
+                        style="@style/text_view_content_black"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="身份证正面" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardBackFL"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/cardBackIV"
+                        android:layout_width="match_parent"
+                        android:layout_height="200pt"
+                        android:background="@drawable/icon_camera"
+                        android:scaleType="centerCrop" />
+
+                    <TextView
+                        android:id="@+id/addBackTV"
+                        style="@style/text_view_content_black"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="身份证反面" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/sureBtn"
+        style="@style/login_btn_style"
+        android:layout_width="90dp"
+        android:layout_height="70pt"
+        android:layout_gravity="right"
+        android:text="提交" />
+</LinearLayout>

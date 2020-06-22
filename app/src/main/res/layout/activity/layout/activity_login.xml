@@ -9,6 +9,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:ignore="MissingPrefix">
+
     <ImageView
         android:id="@+id/logoIV"
         android:layout_width="wrap_content"
@@ -44,10 +45,10 @@
                 android:id="@+id/pwdUV"
                 style="@style/login_utility"
                 android:layout_height="match_parent"
+                app:info_padding_right="30dp"
                 app:text_content_hint="请输入密码"
                 app:text_content_input_type="PASSWORD"
-                app:text_content_size="@dimen/font_content_small"
-                app:info_padding_right="30dp"/>
+                app:text_content_size="@dimen/font_content_small" />
 
             <ImageView
                 android:id="@+id/seeIV"
@@ -56,6 +57,37 @@
                 android:layout_gravity="right|center_vertical"
                 android:src="@mipmap/login_ps1" />
         </FrameLayout>
+
+        <RadioGroup
+            android:id="@+id/radioRg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_default"
+            android:visibility="invisible"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="顾客" />
+
+            <RadioButton
+                android:id="@+id/rbl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="商家" />
+
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="服务人员" />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/forgetPwdTV"
@@ -92,4 +124,33 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/weChatMT"
+        style="@style/text_view_content_gray"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:drawablePadding="20dp"
+        android:text="您可以使用以下方式登录"
+        android:textSize="@dimen/font_btn_small_best" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/wxIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/login_weixin" />
+
+        <ImageView
+            android:id="@+id/zfbIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:src="@mipmap/login_zhifubao" />
+    </LinearLayout>
 </LinearLayout>

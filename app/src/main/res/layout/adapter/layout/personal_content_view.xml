@@ -26,6 +26,7 @@
         android:layout_width="0dp"
         android:layout_marginStart="@dimen/space_default"
         android:layout_weight="1"
+        android:textSize="@dimen/font_content_three"
         android:text="加载中" />
 
     <ImageView

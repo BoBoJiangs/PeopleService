@@ -3,12 +3,15 @@ package com.yb.peopleservice.view.activity.login;
 import android.content.Intent;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.enums.UserType;
 import com.yb.peopleservice.model.presenter.PasswordResetPresenter;
+import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.MyTimer;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
@@ -38,6 +41,9 @@ public class PasswordResetActivity extends BaseToolbarActivity implements Passwo
     TextView getAuthCodeTV;
     @BindView(R.id.newPwdUV)
     UtilityView newPwdUV;
+    @BindView(R.id.radioRg)
+    RadioGroup radioGroup;
+    private UserType type = UserType.CUSTOMER;
 
     private MyTimer myTimer;//获取验证码计时器
  
@@ -57,6 +63,22 @@ public class PasswordResetActivity extends BaseToolbarActivity implements Passwo
         }
         myTimer = new MyTimer(60 * 1000, 1000,getAuthCodeTV,this);
         resetPresenter = new PasswordResetPresenter(this,this);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.rbl:
+                        type = UserType.SHOP;
+                        break;
+                    case R.id.rb2:
+                        type = UserType.STAFF;
+                        break;
+                    case R.id.rb3:
+                        type = UserType.CUSTOMER;
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -102,12 +124,16 @@ public class PasswordResetActivity extends BaseToolbarActivity implements Passwo
         }
         //新密码
         String newPwd = newPwdUV.getContentText();
-        if (TextUtils.isEmpty(newPwd) || newPwd.length() < 6) {
-            ToastUtils.showShort("请输入正确的密码");
+        if (!AppUtils.isPassWord(newPwd)) {
+            ToastUtils.showLong("密码必须由8位以上数字和英文组成");
+            return;
+        }
+        if (type == null) {
+            ToastUtils.showLong("请选择账号类型");
             return;
         }
 
-        resetPresenter.resetPass(account, newPwd, authCode);
+        resetPresenter.resetPass(account, newPwd, authCode,type.getValue());
 
     }
 

@@ -3,6 +3,7 @@ package com.yb.peopleservice.model.bean.user.order;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yb.peopleservice.model.database.bean.RecordBean;
 import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
@@ -27,6 +28,30 @@ public class OrderListBean implements Parcelable {
     private List<CouponBean> coupons;
     private UserInfoBean customer;
     private ServiceInfo serviceStaff;
+    private List<PayInfoBean> payInfos;
+    private List<RecordBean> orderSounds;
+
+    public List<PayInfoBean> getPayInfos() {
+        if (payInfos == null) {
+            return new ArrayList<>();
+        }
+        return payInfos;
+    }
+
+    public void setPayInfos(List<PayInfoBean> payInfos) {
+        this.payInfos = payInfos;
+    }
+
+    public List<RecordBean> getOrderSounds() {
+        if (orderSounds == null) {
+            return new ArrayList<>();
+        }
+        return orderSounds;
+    }
+
+    public void setOrderSounds(List<RecordBean> orderSounds) {
+        this.orderSounds = orderSounds;
+    }
 
     public List<CouponBean> getCoupons() {
         if (coupons == null) {
@@ -95,6 +120,8 @@ public class OrderListBean implements Parcelable {
         dest.writeTypedList(this.coupons);
         dest.writeParcelable(this.customer, flags);
         dest.writeParcelable(this.serviceStaff, flags);
+        dest.writeList(this.payInfos);
+        dest.writeList(this.orderSounds);
     }
 
     protected OrderListBean(Parcel in) {
@@ -104,6 +131,10 @@ public class OrderListBean implements Parcelable {
         this.coupons = in.createTypedArrayList(CouponBean.CREATOR);
         this.customer = in.readParcelable(UserInfoBean.class.getClassLoader());
         this.serviceStaff = in.readParcelable(ServiceInfo.class.getClassLoader());
+        this.payInfos = new ArrayList<PayInfoBean>();
+        in.readList(this.payInfos, PayInfoBean.class.getClassLoader());
+        this.orderSounds = new ArrayList<RecordBean>();
+        in.readList(this.orderSounds, RecordBean.class.getClassLoader());
     }
 
     public static final Creator<OrderListBean> CREATOR = new Creator<OrderListBean>() {

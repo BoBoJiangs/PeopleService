@@ -10,15 +10,9 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -32,17 +26,13 @@ import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
 import com.yb.peopleservice.view.activity.services.ServiceDetailsActivity;
 import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
-import com.yb.peopleservice.view.base.BaseToolbarActivity;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class SearchActivity extends BaseListActivity implements OnTabSelectListener {
@@ -127,7 +117,7 @@ public class SearchActivity extends BaseListActivity implements OnTabSelectListe
         for (int i = 0; i < mTitles.length; i++) {
             TabEntity tabEntity;
             if (i == 1) {
-                tabEntity = new TabEntity(mTitles[i], R.mipmap.icon_price_jia, R.mipmap.icon_price_jian);
+                tabEntity = new TabEntity(mTitles[i], R.mipmap.icon_price_jia, R.mipmap.icon_price_wxz);
             } else {
                 tabEntity = new TabEntity(mTitles[i]);
             }

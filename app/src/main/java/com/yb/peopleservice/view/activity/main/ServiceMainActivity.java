@@ -15,13 +15,16 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.app.MyApplication;
 import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.eventbean.EventRecorderBean;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.presenter.shop.RealTimeLocationPresenter;
+import com.yb.peopleservice.model.service.TimeService;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.base.BaseViewPagerActivity;
 import com.yb.peopleservice.view.fragment.service.ServicePersonFragment;
@@ -46,6 +49,8 @@ import cn.sts.base.view.widget.AppDialog;
 import cn.sts.base.view.widget.ScrollViewPager;
 import jiguang.chat.activity.fragment.ConversationListFragment;
 
+import static com.yb.peopleservice.model.eventbean.EventRecorderBean.STOP;
+
 /**
  * 类描述:服务人员首页
  * 创建人:yangbo_ QQ:819463350
@@ -57,8 +62,8 @@ import jiguang.chat.activity.fragment.ConversationListFragment;
 public class ServiceMainActivity extends BaseViewPagerActivity implements OnTabSelectListener {
 
     private String[] mTitles = {"订单", "消息", "我的"};
-    private int[] mIconUnselectIds = {R.mipmap.tab_home_unselect, R.mipmap.tab_msg_unselect,R.mipmap.tab_map_unselect};
-    private int[] mIconSelectIds = {R.mipmap.tab_home_select, R.mipmap.tab_msg_select,R.mipmap.tab_map_select};
+    private int[] mIconUnselectIds = {R.mipmap.tab_order_unselect, R.mipmap.tab_msg_unselect, R.mipmap.tab_center_unselect};
+    private int[] mIconSelectIds = {R.mipmap.tab_order_select, R.mipmap.tab_msg_select, R.mipmap.tab_center_select};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;
     @BindView(R.id.viewPager)
@@ -66,6 +71,7 @@ public class ServiceMainActivity extends BaseViewPagerActivity implements OnTabS
     private LogoutPresenter logoutPresenter;
     private ServicePersonFragment servicePersonFragment;
     private RealTimeLocationPresenter presenter;
+
     @Override
     public int contentViewResID() {
         return R.layout.activity_main;
@@ -75,6 +81,8 @@ public class ServiceMainActivity extends BaseViewPagerActivity implements OnTabS
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        //通知录音服务结束录音
+        EventBus.getDefault().post(new EventRecorderBean("",STOP,""));
     }
 
     @Override
@@ -93,14 +101,15 @@ public class ServiceMainActivity extends BaseViewPagerActivity implements OnTabS
 
     @Override
     protected void initData() {
-        presenter = new RealTimeLocationPresenter(this,null);
-        logoutPresenter = new LogoutPresenter(this,null);
+        presenter = new RealTimeLocationPresenter(this, null);
+        logoutPresenter = new LogoutPresenter(this, null);
 //        commonTabLayout.setTabData(getTabEntityList(), this, R.id.frameLayout,
 //                getFragmentList());
 //        commonTabLayout.setOnTabSelectListener(this);
-//        viewPager.setScroll(true);
-    }
+//        viewPager.setScroll(true);e
+        presenter.queryFileData();
 
+    }
 
 
 
@@ -140,7 +149,7 @@ public class ServiceMainActivity extends BaseViewPagerActivity implements OnTabS
     protected ArrayList<Fragment> getFragmentList() {
         ArrayList<Fragment> fragmentList = new ArrayList<>();
         servicePersonFragment = (ServicePersonFragment) ServicePersonFragment.getInstanceFragment();
-        fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
+        fragmentList.add(ShopOrderTabFragment.getInstanceFragment(false));
         fragmentList.add(ConversationListFragment.getInstanceFragment());
         fragmentList.add(servicePersonFragment);
 
@@ -151,13 +160,26 @@ public class ServiceMainActivity extends BaseViewPagerActivity implements OnTabS
     public void onTabSelect(int position) {
         leftIV.setVisibility(View.GONE);
 //        rightLL.setVisibility(View.VISIBLE);
-        viewPager.setCurrentItem(position,false);
+        viewPager.setCurrentItem(position, false);
         if (position == 0) {
             titleTV.setText("订单");
-        } else if (position == 1){
+        } else if (position == 1) {
             titleTV.setText("消息");
-        }else{
+        } else {
             titleTV.setText("我的");
+        }
+        if (position == 2) {
+            toolbar.setVisibility(View.GONE);
+            ImmersionBar.with(this)
+                    .reset()
+                    .statusBarDarkFont(true, 0.2f)
+                    .init();
+        } else {
+            toolbar.setVisibility(View.VISIBLE);
+            ImmersionBar.with(this)
+                    .fitsSystemWindows(true)
+                    .statusBarDarkFont(true, 0.2f)
+                    .statusBarColor(R.color.white).init();
         }
     }
 

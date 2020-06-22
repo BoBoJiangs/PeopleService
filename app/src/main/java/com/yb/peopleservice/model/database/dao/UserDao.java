@@ -34,11 +34,13 @@ public class UserDao extends AbstractDao<User, String> {
         public final static Property Account = new Property(0, String.class, "account", true, "ACCOUNT");
         public final static Property Access_token = new Property(1, String.class, "access_token", false, "ACCESS_TOKEN");
         public final static Property Password = new Property(2, String.class, "password", false, "PASSWORD");
-        public final static Property UserName = new Property(3, String.class, "userName", false, "USER_NAME");
-        public final static Property QuickCode = new Property(4, String.class, "quickCode", false, "QUICK_CODE");
-        public final static Property TokenType = new Property(5, String.class, "tokenType", false, "TOKEN_TYPE");
-        public final static Property AccountType = new Property(6, String.class, "accountType", false, "ACCOUNT_TYPE");
-        public final static Property UserId = new Property(7, String.class, "userId", false, "USER_ID");
+        public final static Property Code = new Property(3, String.class, "code", false, "CODE");
+        public final static Property UserName = new Property(4, String.class, "userName", false, "USER_NAME");
+        public final static Property QuickCode = new Property(5, String.class, "quickCode", false, "QUICK_CODE");
+        public final static Property TokenType = new Property(6, String.class, "tokenType", false, "TOKEN_TYPE");
+        public final static Property Type = new Property(7, String.class, "type", false, "TYPE");
+        public final static Property AccountType = new Property(8, String.class, "accountType", false, "ACCOUNT_TYPE");
+        public final static Property UserId = new Property(9, String.class, "userId", false, "USER_ID");
     }
 
     private DaoSession daoSession;
@@ -61,11 +63,13 @@ public class UserDao extends AbstractDao<User, String> {
                 "\"ACCOUNT\" TEXT PRIMARY KEY NOT NULL ," + // 0: account
                 "\"ACCESS_TOKEN\" TEXT," + // 1: access_token
                 "\"PASSWORD\" TEXT," + // 2: password
-                "\"USER_NAME\" TEXT," + // 3: userName
-                "\"QUICK_CODE\" TEXT," + // 4: quickCode
-                "\"TOKEN_TYPE\" TEXT," + // 5: tokenType
-                "\"ACCOUNT_TYPE\" TEXT," + // 6: accountType
-                "\"USER_ID\" TEXT);"); // 7: userId
+                "\"CODE\" TEXT," + // 3: code
+                "\"USER_NAME\" TEXT," + // 4: userName
+                "\"QUICK_CODE\" TEXT," + // 5: quickCode
+                "\"TOKEN_TYPE\" TEXT," + // 6: tokenType
+                "\"TYPE\" TEXT," + // 7: type
+                "\"ACCOUNT_TYPE\" TEXT," + // 8: accountType
+                "\"USER_ID\" TEXT);"); // 9: userId
     }
 
     /** Drops the underlying database table. */
@@ -93,29 +97,39 @@ public class UserDao extends AbstractDao<User, String> {
             stmt.bindString(3, password);
         }
  
+        String code = entity.getCode();
+        if (code != null) {
+            stmt.bindString(4, code);
+        }
+ 
         String userName = entity.getUserName();
         if (userName != null) {
-            stmt.bindString(4, userName);
+            stmt.bindString(5, userName);
         }
  
         String quickCode = entity.getQuickCode();
         if (quickCode != null) {
-            stmt.bindString(5, quickCode);
+            stmt.bindString(6, quickCode);
         }
  
         String tokenType = entity.getTokenType();
         if (tokenType != null) {
-            stmt.bindString(6, tokenType);
+            stmt.bindString(7, tokenType);
+        }
+ 
+        String type = entity.getType();
+        if (type != null) {
+            stmt.bindString(8, type);
         }
  
         List accountType = entity.getAccountType();
         if (accountType != null) {
-            stmt.bindString(7, accountTypeConverter.convertToDatabaseValue(accountType));
+            stmt.bindString(9, accountTypeConverter.convertToDatabaseValue(accountType));
         }
  
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(8, userId);
+            stmt.bindString(10, userId);
         }
     }
 
@@ -138,29 +152,39 @@ public class UserDao extends AbstractDao<User, String> {
             stmt.bindString(3, password);
         }
  
+        String code = entity.getCode();
+        if (code != null) {
+            stmt.bindString(4, code);
+        }
+ 
         String userName = entity.getUserName();
         if (userName != null) {
-            stmt.bindString(4, userName);
+            stmt.bindString(5, userName);
         }
  
         String quickCode = entity.getQuickCode();
         if (quickCode != null) {
-            stmt.bindString(5, quickCode);
+            stmt.bindString(6, quickCode);
         }
  
         String tokenType = entity.getTokenType();
         if (tokenType != null) {
-            stmt.bindString(6, tokenType);
+            stmt.bindString(7, tokenType);
+        }
+ 
+        String type = entity.getType();
+        if (type != null) {
+            stmt.bindString(8, type);
         }
  
         List accountType = entity.getAccountType();
         if (accountType != null) {
-            stmt.bindString(7, accountTypeConverter.convertToDatabaseValue(accountType));
+            stmt.bindString(9, accountTypeConverter.convertToDatabaseValue(accountType));
         }
  
         String userId = entity.getUserId();
         if (userId != null) {
-            stmt.bindString(8, userId);
+            stmt.bindString(10, userId);
         }
     }
 
@@ -181,11 +205,13 @@ public class UserDao extends AbstractDao<User, String> {
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // account
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // access_token
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // password
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // userName
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // quickCode
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // tokenType
-            cursor.isNull(offset + 6) ? null : accountTypeConverter.convertToEntityProperty(cursor.getString(offset + 6)), // accountType
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // userId
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // code
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // userName
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // quickCode
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // tokenType
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // type
+            cursor.isNull(offset + 8) ? null : accountTypeConverter.convertToEntityProperty(cursor.getString(offset + 8)), // accountType
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // userId
         );
         return entity;
     }
@@ -195,11 +221,13 @@ public class UserDao extends AbstractDao<User, String> {
         entity.setAccount(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setAccess_token(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPassword(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setUserName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setQuickCode(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setTokenType(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setAccountType(cursor.isNull(offset + 6) ? null : accountTypeConverter.convertToEntityProperty(cursor.getString(offset + 6)));
-        entity.setUserId(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setCode(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setUserName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setQuickCode(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setTokenType(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setType(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setAccountType(cursor.isNull(offset + 8) ? null : accountTypeConverter.convertToEntityProperty(cursor.getString(offset + 8)));
+        entity.setUserId(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     @Override

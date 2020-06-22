@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.GsonUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
@@ -19,13 +19,10 @@ import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import cn.sts.base.model.entity.TabEntity;
 import cn.sts.base.presenter.AbstractPresenter;
-
-import static com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter.SERVICE_TYPE;
 
 /**
  * 类描述:服务列表
@@ -81,7 +78,7 @@ public class ServiceListActivity extends BaseListActivity implements OnTabSelect
         for (int i = 0; i < mTitles.length; i++) {
             TabEntity tabEntity;
             if (i == 1) {
-                tabEntity = new TabEntity(mTitles[i], R.mipmap.icon_price_jia, R.mipmap.icon_price_jian);
+                tabEntity = new TabEntity(mTitles[i], R.mipmap.icon_price_jian, R.mipmap.icon_price_wxz);
             } else {
                 tabEntity = new TabEntity(mTitles[i]);
             }
@@ -158,10 +155,32 @@ public class ServiceListActivity extends BaseListActivity implements OnTabSelect
         if(position==1){
             if (presenter.getOrder().equals(ServiceListPresenter.PRICE_LESS)){
                 presenter.setOrder(ServiceListPresenter.PRICE_MORE);
+                notifyTabLayout(ServiceListPresenter.PRICE_MORE);
             }else{
                 presenter.setOrder(ServiceListPresenter.PRICE_LESS);
+                notifyTabLayout(ServiceListPresenter.PRICE_LESS);
             }
             presenter.refreshList(false);
         }
+    }
+
+    private void notifyTabLayout(String type) {
+        ArrayList<CustomTabEntity> titleList = new ArrayList<>();
+        for (int i = 0; i < mTitles.length; i++) {
+            TabEntity tabEntity;
+            if (i == 1) {
+                if (type.equals(ServiceListPresenter.PRICE_LESS)){
+                    tabEntity = new TabEntity(mTitles[i], R.mipmap.icon_price_jian, R.mipmap.icon_price_wxz);
+                }else{
+                    tabEntity = new TabEntity(mTitles[i], R.mipmap.icon_price_jia, R.mipmap.icon_price_wxz);
+                }
+
+            } else {
+                tabEntity = new TabEntity(mTitles[i]);
+            }
+            titleList.add(tabEntity);
+        }
+        commonTabLayout.setIconGravity(Gravity.RIGHT);
+        commonTabLayout.setTabData(titleList);
     }
 }

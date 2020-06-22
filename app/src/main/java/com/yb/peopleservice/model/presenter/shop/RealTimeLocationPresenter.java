@@ -8,9 +8,10 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.yb.peopleservice.constant.AppConstant;
-import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.constant.enums.UserType;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.presenter.record.RecordPresenter;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.ServiceRequest;
@@ -32,10 +33,12 @@ import io.reactivex.Observable;
  * 修改描述:
  */
 public class RealTimeLocationPresenter extends AbstractPresenter<IViewCallback> {
+    private RecordPresenter recordPresenter;
 
     public RealTimeLocationPresenter(Context context, IViewCallback viewCallBack) {
         super(context, viewCallBack);
         this.context = context;
+        recordPresenter = new RecordPresenter(context, null);
     }
 
     @Override
@@ -43,6 +46,9 @@ public class RealTimeLocationPresenter extends AbstractPresenter<IViewCallback> 
         super.unbind();
     }
 
+    public void queryFileData() {
+        recordPresenter.queryFileData();
+    }
 
     /**
      * 实时上报
@@ -50,13 +56,13 @@ public class RealTimeLocationPresenter extends AbstractPresenter<IViewCallback> 
     public void addGps(AMapLocation location) {
         User user = ManagerFactory.getInstance().getUserManager().getUser();
         //登录的是用户不上传经纬度信息
-        if (user.getAccountType().contains(LoginBean.USER_TYPE)) {
+        if (user.getAccountType().contains(UserType.CUSTOMER.getValue())) {
             return;
         }
         long beforeTime = SPUtils.getInstance().getLong(AppConstant.BEFORE_TIME, 0);
         if (beforeTime != 0) {
             long afterTime = location.getTime();
-            if (Math.abs(afterTime - beforeTime) < 1000 * 60) {
+            if (Math.abs(afterTime - beforeTime) < 1000 * 60 * 10) {
                 return;
             }
         }
@@ -65,12 +71,12 @@ public class RealTimeLocationPresenter extends AbstractPresenter<IViewCallback> 
         BaseRequestFunc<ServiceRequest> requestFunc = new BaseRequestFunc<ServiceRequest>(context, null) {
             @Override
             public Observable getObservable(ServiceRequest iRequestServer) {
-                Map<String,Object> map = new HashMap<>();
-                map.put("latitude",location.getLatitude());
-                map.put("longitude",location.getLongitude());
-                if (user.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("latitude", location.getLatitude());
+                map.put("longitude", location.getLongitude());
+                if (user.getAccountType().contains(UserType.STAFF.getValue())) {
                     return iRequestServer.addGps(map);
-                }else{
+                } else {
                     return iRequestServer.addShopGps(map);
                 }
 

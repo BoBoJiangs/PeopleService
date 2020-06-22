@@ -3,6 +3,9 @@ package com.yb.peopleservice.model.database.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.blankj.utilcode.util.StringUtils;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -38,23 +41,114 @@ public class ServiceInfo implements Parcelable {
      * status : 0
      * timestamp : 2019-12-19T07:12:14.882Z
      */
-    private String id;
-    private String headImg;
-    private String idCardImgBack;
-    private String idCardImgFront;
-    private String idCardNumber;
-    private String introduction;
+    private String id;//服务人员ID
+    private String address;//住址
+    private String headImg;//头像uri
+    private String idCardImgBack;//身份证人像页面的uri
+    private String idCardImgFront;//身份证国徽页面的uri
+    private String idCardNumber;//身份证号码
+    private String introduction;//介绍
+    private String jobStatus;//就业状态 0未入职 1正常服务，店铺可以派单给他 2申请入驻店铺 3申请离职
     private String message;
-    private String name;
+    private String name;//姓名
     private String nickname;
-    private String phone;
-    private int status;
-    private double longitude;
-    private double latitude;
-    private int orderNumber;
-    private double praiseRate;
-    private int level;
-    private String shopId;
+    private String phone;//手机号
+    private int status;//状态:1正常 0禁用 2新注册 3已提交信息等待审核 4已提交信息审核不通过
+    private String longitude;
+    private String latitude;//服务人员位置纬度
+    private int orderNumber;//累计完成订单数量
+    private double praiseRate;//好评率 如0.99即好评率99%
+    private int level;//每个完成的订单星级1-5的加总
+    private int refund;//退款数
+    private String sex;//性别 男 女
+    private String shopId;//成功入驻以后的店铺的id
+    private ShopInfo shop;//所在的店铺信息
+    private String type;//人员类型 0最高管理员1运营人员2客服人员(店铺参数)
+    private int age;
+    private String birthday;
+    private String province;//省
+    private String city;//市
+    private int stars;
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
+
+    public String getProvince() {
+        return province == null ? "" : province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city == null ? "" : city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getBirthday() {
+        return birthday == null ? "" : birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getAddress() {
+        return address == null ? "" : address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getJobStatus() {
+        return jobStatus == null ? "" : jobStatus;
+    }
+
+    public void setJobStatus(String jobStatus) {
+        this.jobStatus = jobStatus;
+    }
+
+    public int getRefund() {
+        return refund;
+    }
+
+    public void setRefund(int refund) {
+        this.refund = refund;
+    }
+
+    public String getSex() {
+        return sex == null ? "" : sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public ShopInfo getShop() {
+        return shop;
+    }
+
+    public void setShop(ShopInfo shop) {
+        this.shop = shop;
+    }
 
     public String getShopId() {
         return shopId == null ? "" : shopId;
@@ -88,19 +182,27 @@ public class ServiceInfo implements Parcelable {
         this.level = level;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public Double getLongitude() {
+        if (StringUtils.isEmpty(longitude)) {
+            return 0.0;
+        } else {
+            return Double.parseDouble(longitude);
+        }
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public Double getLatitude() {
+        if (StringUtils.isEmpty(latitude)) {
+            return 0.0;
+        } else {
+            return Double.parseDouble(latitude);
+        }
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
@@ -197,9 +299,9 @@ public class ServiceInfo implements Parcelable {
 
     @Generated(hash = 364865774)
     public ServiceInfo(String id, String headImg, String idCardImgBack,
-            String idCardImgFront, String idCardNumber, String introduction,
-            String message, String name, String nickname, String phone,
-            int status) {
+                       String idCardImgFront, String idCardNumber, String introduction,
+                       String message, String name, String nickname, String phone,
+                       int status) {
         this.id = id;
         this.headImg = headImg;
         this.idCardImgBack = idCardImgBack;
@@ -221,40 +323,62 @@ public class ServiceInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
+        dest.writeString(this.address);
         dest.writeString(this.headImg);
         dest.writeString(this.idCardImgBack);
         dest.writeString(this.idCardImgFront);
         dest.writeString(this.idCardNumber);
         dest.writeString(this.introduction);
+        dest.writeString(this.jobStatus);
         dest.writeString(this.message);
         dest.writeString(this.name);
         dest.writeString(this.nickname);
         dest.writeString(this.phone);
         dest.writeInt(this.status);
-        dest.writeDouble(this.longitude);
-        dest.writeDouble(this.latitude);
+        dest.writeString(this.longitude);
+        dest.writeString(this.latitude);
         dest.writeInt(this.orderNumber);
         dest.writeDouble(this.praiseRate);
         dest.writeInt(this.level);
+        dest.writeInt(this.refund);
+        dest.writeString(this.sex);
+        dest.writeString(this.shopId);
+        dest.writeParcelable(this.shop, flags);
+        dest.writeString(this.type);
+        dest.writeInt(this.age);
+        dest.writeString(this.birthday);
+        dest.writeString(this.province);
+        dest.writeString(this.city);
     }
 
     protected ServiceInfo(Parcel in) {
         this.id = in.readString();
+        this.address = in.readString();
         this.headImg = in.readString();
         this.idCardImgBack = in.readString();
         this.idCardImgFront = in.readString();
         this.idCardNumber = in.readString();
         this.introduction = in.readString();
+        this.jobStatus = in.readString();
         this.message = in.readString();
         this.name = in.readString();
         this.nickname = in.readString();
         this.phone = in.readString();
         this.status = in.readInt();
-        this.longitude = in.readDouble();
-        this.latitude = in.readDouble();
+        this.longitude = in.readString();
+        this.latitude = in.readString();
         this.orderNumber = in.readInt();
         this.praiseRate = in.readDouble();
         this.level = in.readInt();
+        this.refund = in.readInt();
+        this.sex = in.readString();
+        this.shopId = in.readString();
+        this.shop = in.readParcelable(ShopInfo.class.getClassLoader());
+        this.type = in.readString();
+        this.age = in.readInt();
+        this.birthday = in.readString();
+        this.province = in.readString();
+        this.city = in.readString();
     }
 
     public static final Creator<ServiceInfo> CREATOR = new Creator<ServiceInfo>() {

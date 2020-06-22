@@ -39,9 +39,26 @@ public class NumberUtil {
      * @return
      */
     public static String convertFloatZero(float value) {
-        BigDecimal bigDecimal = new BigDecimal(String.valueOf(value));
-        BigDecimal noZeros = bigDecimal.stripTrailingZeros();
-        return noZeros.toPlainString();
+        int b = (int) value;
+        if (value == b) {
+            return String.valueOf(b);
+        } else {
+            return String.valueOf(value);
+        }
+    }
+
+    /**
+     * 去掉浮点数后面的0
+     * @param value
+     * @return
+     */
+    public static String convertDoubleZero(double value) {
+        int b = (int) value;
+        if (value == b) {
+            return String.valueOf(b);
+        } else {
+            return String.valueOf(value);
+        }
     }
 
     /**

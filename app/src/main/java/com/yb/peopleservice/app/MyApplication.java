@@ -64,13 +64,13 @@ public class MyApplication extends MultiDexApplication implements AMapLocationLi
         //三方平台初始化application
         ThirdPlatformUtil.init(this);
         //设置微信相关账号数据
-//        ThirdPlatformUtil.setWXAppIDAndSecret(AppConstant.WECHAT_APP_ID, AppConstant.WECHAT_SECRET);
+        ThirdPlatformUtil.setWXAppIDAndSecret(AppConstant.SHARE_WECHAT_APP_ID,
+                AppConstant.WECHAT_SECRET);
 //        PayUtil.setPayUrl(BaseRequestServer.PAY_URL);
         ThirdPlatformUtil.setBuglyAppID(AppConstant.BUGLY_APP_ID);
         Bugly.init(ThirdPlatformUtil.application, ThirdPlatformConstant.BUGLY_APP_ID,  BuildConfig.DEBUG);
         initLog();
 //        AppManageUtil.APP_CODE = AppConstant.FILE_KEY;
-        initLocation();
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
             @Override
@@ -160,37 +160,37 @@ public class MyApplication extends MultiDexApplication implements AMapLocationLi
                 .setFilePrefix("");// 当文件前缀为空时，默认为"util"，即写入文件为"util-MM-dd.txt"
     }
 
-    private void initLocation() {
-        if (mlocationClient == null) {
-            mlocationClient = new AMapLocationClient(this);
-            //设置定位监听
-            mlocationClient.setLocationListener(this);
-            //设置定位参数
-            mlocationClient.setLocationOption(getDefaultOption());
-            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
-            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
-            // 在定位结束后，在合适的生命周期调用onDestroy()方法
-            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
-            mlocationClient.startLocation();
-        }
-    }
-
-    /**
-     * 默认的定位参数
-     *
-     * @author hongming.wang
-     * @since 2.8.0
-     */
-    private AMapLocationClientOption getDefaultOption() {
-        AMapLocationClientOption mOption = new AMapLocationClientOption();
-        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
-        mOption.setGpsFirst(true);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
-        mOption.setInterval(10000);//可选，设置定位间隔。默认为2秒
-        mOption.setLocationCacheEnable(false); //可选，设置是否使用缓存定位，默认为true
-        mOption.setNeedAddress(true);
-        mOption.setGeoLanguage(AMapLocationClientOption.GeoLanguage.DEFAULT);//可选，设置逆地理信息的语言，默认值为默认语言（根据所在地区选择语言）
-        return mOption;
-    }
+//    private void initLocation() {
+//        if (mlocationClient == null) {
+//            mlocationClient = new AMapLocationClient(this);
+//            //设置定位监听
+//            mlocationClient.setLocationListener(this);
+//            //设置定位参数
+//            mlocationClient.setLocationOption(getDefaultOption());
+//            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+//            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+//            // 在定位结束后，在合适的生命周期调用onDestroy()方法
+//            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+//            mlocationClient.startLocation();
+//        }
+//    }
+//
+//    /**
+//     * 默认的定位参数
+//     *
+//     * @author hongming.wang
+//     * @since 2.8.0
+//     */
+//    private AMapLocationClientOption getDefaultOption() {
+//        AMapLocationClientOption mOption = new AMapLocationClientOption();
+//        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+//        mOption.setGpsFirst(true);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+//        mOption.setInterval(10000);//可选，设置定位间隔。默认为2秒
+//        mOption.setLocationCacheEnable(false); //可选，设置是否使用缓存定位，默认为true
+//        mOption.setNeedAddress(true);
+//        mOption.setGeoLanguage(AMapLocationClientOption.GeoLanguage.DEFAULT);//可选，设置逆地理信息的语言，默认值为默认语言（根据所在地区选择语言）
+//        return mOption;
+//    }
 
     @Override
     public void onLocationChanged(AMapLocation location) {
@@ -198,7 +198,7 @@ public class MyApplication extends MultiDexApplication implements AMapLocationLi
             MyApplication.aMapLocation = location;
             if (!(TextUtils.isEmpty(location.getAddress()) &&
                     TextUtils.isEmpty(location.getPoiName()))) {
-                EventBus.getDefault().post(location);
+//                EventBus.getDefault().post(location);
             }
 
         } else {

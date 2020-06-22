@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yb.peopleservice.R;
@@ -26,49 +27,11 @@ import cn.sts.base.view.widget.UtilityView;
  * 修改时间:
  * 修改描述:
  */
-public class ApplyDetailsActivity extends BaseToolbarActivity {
-    @BindView(R.id.headUV)
-    UtilityView headUV;
-    ImageView headIV;
-    @BindView(R.id.shopNameUV)
-    UtilityView shopNameUV;
-    @BindView(R.id.remakeUV)
-    UtilityView remakeUV;
-    @BindView(R.id.nameUV)
-    UtilityView nameUV;
-    @BindView(R.id.phoneUV)
-    UtilityView phoneUV;
-    @BindView(R.id.addressUV)
-    UtilityView addressUV;
-
-    @BindView(R.id.idCardUV)
-    UtilityView idCardUV;
-    @BindView(R.id.cardFaceIV)
-    ImageView cardFaceIV;
-    @BindView(R.id.addFaceTV)
-    TextView addFaceTV;
-    @BindView(R.id.cardFaceFL)
-    FrameLayout cardFaceFL;
-    @BindView(R.id.cardBackIV)
-    ImageView cardBackIV;
-    @BindView(R.id.addBackTV)
-    TextView addBackTV;
-    @BindView(R.id.cardBackFL)
-    FrameLayout cardBackFL;
-    @BindView(R.id.licenseIV)
-    ImageView licenseIV;
-    @BindView(R.id.licenseTV)
-    TextView licenseTV;
-    @BindView(R.id.licenseFL)
-    FrameLayout licenseFL;
+public class ApplyDetailsActivity extends ApplyShopActivity {
     @BindView(R.id.sureBtn)
     Button sureBtn;
-    private String headUrl;//头像
-    private String cardFaceUrl;//身份证正面
-    private String cardBackUrl;//身份证背面
-    private String licenseUrl;//营业执照
     private ShopInfo shopInfo;
-    private ApplyShopPresenter presenter;
+//    private ApplyShopPresenter presenter;
 
     @Override
     public String getTitleName() {
@@ -93,6 +56,10 @@ public class ApplyDetailsActivity extends BaseToolbarActivity {
             nameUV.setContentText(shopInfo.getManagerName());
             phoneUV.setContentText(shopInfo.getPhone());
             idCardUV.setContentText(shopInfo.getManagerIdcardNumber());
+            bankNumberUV.setContentText(shopInfo.getBackCardNumber());
+            bankNameUV.setContentText(shopInfo.getBackName());
+
+            ImageLoaderUtil.loadServerImage(this,shopInfo.getBackgroundImg(),shopBgIV);
             ImageLoaderUtil.loadServerImage(this,shopInfo.getHeadImg(),headIV);
             ImageLoaderUtil.loadServerImage(this,shopInfo.getManagerIdcardImgFront(),cardFaceIV,false);
             ImageLoaderUtil.loadServerImage(this,shopInfo.getManagerIdcardImgBack(),cardBackIV,false);
@@ -102,16 +69,14 @@ public class ApplyDetailsActivity extends BaseToolbarActivity {
     }
 
     private void setUVType() {
-        addFaceTV.setVisibility(View.INVISIBLE);
-        addBackTV.setVisibility(View.GONE);
-        licenseTV.setVisibility(View.GONE);
         sureBtn.setVisibility(View.GONE);
-        shopNameUV.setEnabled(false);
-        addressUV.setEnabled(false);
-        remakeUV.setEnabled(false);
-        nameUV.setEnabled(false);
-        phoneUV.setEnabled(false);
-        idCardUV.setEnabled(false);
+        shopNameUV.getInputEditText().setEnabled(false);
+        remakeUV.getInputEditText().setEnabled(false);
+        nameUV.getInputEditText().setEnabled(false);
+        phoneUV.getInputEditText().setEnabled(false);
+        idCardUV.getInputEditText().setEnabled(false);
+        bankNameUV.getInputEditText().setEnabled(false);
+        bankNumberUV.getInputEditText().setEnabled(false);
     }
 
     @Override
@@ -120,23 +85,8 @@ public class ApplyDetailsActivity extends BaseToolbarActivity {
     }
 
 
-    @OnClick({R.id.cardFaceFL, R.id.cardBackFL, R.id.licenseFL, R.id.headUV,
-            R.id.sureBtn, R.id.addressUV})
+    @Override
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.addressUV:
 
-                break;
-            case R.id.headUV:
-
-                break;
-            case R.id.cardFaceFL:
-                break;
-            case R.id.cardBackFL:
-                break;
-            case R.id.licenseFL:
-                break;
-        }
     }
-
 }

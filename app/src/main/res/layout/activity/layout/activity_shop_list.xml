@@ -5,97 +5,125 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:background="@color/white"
     android:orientation="vertical"
     tools:ignore="MissingPrefix">
 
     <include
         style="@style/line_style"
         layout="@layout/toolbar"
-        android:visibility="gone"
-        android:background="#707070" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingStart="@dimen/space_default"
-        android:paddingEnd="@dimen/space_default"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/leftIV2"
-            style="@style/toolbar_image"
-            android:src="@mipmap/icon_back" />
-        <LinearLayout
-            android:id="@+id/searchLL"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:layout_height="@dimen/dp_40"
-            style="@style/search_bg_style"
-            android:orientation="horizontal">
-            <cn.sts.base.view.widget.UtilityView
-                android:id="@+id/searchUV"
-                style="@style/utility_view"
-                android:layout_height="match_parent"
-                app:text_content_size="@dimen/font_btn_small_best"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="5dp"
-                android:background="@color/transparent"
-                app:content_gravity="start"
-                app:title_padding_left="0dp"
-                app:info_padding_left="10dp"
-                app:line_show="false"
-                app:text_content_hint="搜索"
-                app:type="INPUT"
-                app:text_content_input_type="TEXT" />
+        android:background="#707070"
+        android:visibility="gone" />
 
-            <ImageView
-                android:layout_width="@dimen/height_image_small"
-                android:layout_height="@dimen/height_image_small"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="@dimen/space_small"
-                android:src="@mipmap/icon_sousuo" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/shopBgIV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@color/base_text_color"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View
+                android:id="@+id/top_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/space_default"
+                android:paddingEnd="@dimen/space_default">
+
+                <ImageView
+                    android:id="@+id/leftIV2"
+                    style="@style/toolbar_image"
+                    android:src="@mipmap/icon_back2" />
+
+                <LinearLayout
+                    android:id="@+id/searchLL"
+                    style="@style/search_bg_style"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="horizontal">
+
+                    <cn.sts.base.view.widget.UtilityView
+                        android:id="@+id/searchUV"
+                        style="@style/utility_view"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        app:content_gravity="start"
+                        app:info_padding_left="10dp"
+                        app:line_show="false"
+                        app:text_content_hint="搜索"
+                        app:text_content_input_type="TEXT"
+                        app:text_content_size="@dimen/font_btn_small_best"
+                        app:title_padding_left="0dp"
+                        app:type="INPUT" />
+
+                    <ImageView
+                        android:layout_width="@dimen/height_image_small"
+                        android:layout_height="@dimen/height_image_small"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="@dimen/space_small"
+                        android:src="@mipmap/icon_sousuo" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/msgIV2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_default"
+                    android:src="@mipmap/icon_msg" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/shopLL"
+                android:layout_width="match_parent"
+                android:layout_height="190pt"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_10">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="120pt"
+                    android:layout_height="120pt" />
+
+                <TextView
+                    android:id="@+id/nameTV"
+                    style="@style/text_view_content"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_weight="1"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/collectTV"
+                    style="@style/login_btn_style"
+                    android:layout_width="110pt"
+                    android:layout_height="40pt"
+                    android:gravity="center"
+                    android:text="收藏" />
+            </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/msgIV2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_default"
-            android:src="@mipmap/icon_msg2"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/shopLL"
-        android:layout_width="match_parent"
-        android:layout_height="190pt"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="120pt"
-            android:layout_height="120pt" />
+    </FrameLayout>
 
-        <TextView
-            android:id="@+id/nameTV"
-            style="@style/text_view_content_black"
-            android:layout_width="0dp"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_weight="1"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/collectTV"
-            style="@style/login_btn_style"
-            android:layout_width="110pt"
-            android:layout_height="40pt"
-            android:gravity="center"
-            android:text="收藏" />
-    </LinearLayout>
 
     <TextView
         style="@style/horizontal_line_style"

@@ -15,9 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.czt.mp3recorder.MP3Recorder;
 import com.shuyu.waveview.FileUtils;
+import com.yb.peopleservice.model.database.bean.RecordBean;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.eventbean.EventRecorderBean;
 import com.yb.peopleservice.utils.RxTimerUtil;
 
@@ -29,6 +32,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.UUID;
+
+import static com.yb.peopleservice.model.presenter.record.RecordPresenter.RECORD_TAG;
 
 
 /**
@@ -48,6 +53,9 @@ public class TimeService extends Service implements RxTimerUtil.IRxNext {
     private String filePath;
     private boolean mIsRecord = false;
     private MyHandler handler;
+    private String orderId;
+    private String userId;
+    private int seriaNumber = 1;//录音的序号
 
     private static class MyHandler extends Handler {
         WeakReference<TimeService> reference;
@@ -58,16 +66,16 @@ public class TimeService extends Service implements RxTimerUtil.IRxNext {
 
         @Override
         public void handleMessage(@NonNull Message msg) {
-            if(null!=reference)
-            {
+            if (null != reference) {
                 TimeService timeService = (TimeService) reference.get();
-                if(null!=timeService) {
-                    switch (msg.what){
+                if (null != timeService) {
+                    switch (msg.what) {
                         case MP3Recorder.ERROR_TYPE:
                             ToastUtils.showLong("没有麦克风权限");
                             timeService.resolveError();
                             break;
                         case START_RECORD:
+                            timeService.seriaNumber = 1;
                             timeService.resolveRecord();
                             break;
                     }
@@ -91,6 +99,8 @@ public class TimeService extends Service implements RxTimerUtil.IRxNext {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(EventRecorderBean event) {
+        this.orderId = event.getOrderId();
+        this.userId = event.getUserId();
         if (event.getMessage().equals(EventRecorderBean.START)) {
             resolveRecord();
         } else {
@@ -118,7 +128,13 @@ public class TimeService extends Service implements RxTimerUtil.IRxNext {
 
         mRecorder.setErrorHandler(handler);
 
-
+        RecordBean recordBean = new RecordBean();
+        recordBean.setUserId(userId);
+        recordBean.setOrderId(orderId);
+        recordBean.setLocalUri(filePath);
+        recordBean.setSerialNumber(seriaNumber);
+        ManagerFactory.getInstance().getRecordManager().save(recordBean);
+        LogUtils.eTag(RECORD_TAG,"开始录音");
         try {
             mRecorder.start();
         } catch (IOException e) {
@@ -138,6 +154,8 @@ public class TimeService extends Service implements RxTimerUtil.IRxNext {
         if (mRecorder != null && mRecorder.isRecording()) {
             mRecorder.setPause(false);
             mRecorder.stop();
+            RxTimerUtil.cancel();
+            LogUtils.eTag(RECORD_TAG,"停止录音");
         }
         mIsRecord = false;
     }
@@ -180,7 +198,7 @@ public class TimeService extends Service implements RxTimerUtil.IRxNext {
         if (mIsRecord) {
             resolveStopRecord();
         }
-        handler.sendEmptyMessageDelayed(START_RECORD,1000);
+        handler.sendEmptyMessageDelayed(START_RECORD, 1000);
 
     }
 

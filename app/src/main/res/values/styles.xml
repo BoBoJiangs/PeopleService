@@ -16,6 +16,16 @@
         <item name="bl_stroke_width">1px</item>
         <item name="bl_stroke_position">bottom</item>
     </style>
+
+    <style name="translucent">
+        <item name="android:windowBackground">@drawable/md_transparent</item> <!-- 背景色透明度 -->
+        <item name="android:windowNoTitle">true</item><!-- 无标题 -->
+        <item name="android:windowIsTranslucent">true</item><!-- 半透明,设置为false无透明效果 -->
+        <item name="android:backgroundDimEnabled">true</item><!-- 模糊 -->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent
+        </item> <!-- 窗口样式Dialog -->
+    </style>
+
     <!--通用点击效果(白变灰)-->
     <style name="item_bg">
         <item name="bl_pressed_drawable">@color/gray_cc</item>
@@ -120,7 +130,7 @@
 
     <!--带箭头的UtilityView-->
     <style name="image_utility" parent="utility_view">
-        <item name="android:layout_height">120pt</item>
+        <item name="android:layout_height">100pt</item>
         <item name="text_content_size">@dimen/font_content_four</item>
         <item name="info_padding_right">@dimen/space_default</item>
         <item name="right_image_res">@mipmap/icon_arrow_right</item>

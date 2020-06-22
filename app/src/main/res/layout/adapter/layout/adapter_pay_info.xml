@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_10"
+    android:gravity="center_vertical"
+    style="@style/line_style"
+    tools:ignore="MissingPrefix">
+    <TextView
+        android:id="@+id/titleTV"
+        style="@style/text_view_content_black"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_content_five"
+        android:text="加载中"/>
+    <TextView
+        android:id="@+id/timeTV"
+        style="@style/text_view_content_gray"
+        android:textSize="@dimen/font_content_five"
+        android:layout_marginStart="@dimen/dp_10"
+        android:text="加载中"/>
+</LinearLayout>

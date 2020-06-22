@@ -2,6 +2,7 @@ package com.yb.peopleservice.model.database.helper;
 
 import com.yb.peopleservice.app.MyApplication;
 import com.yb.peopleservice.model.database.manager.DaoManager;
+import com.yb.peopleservice.model.database.manager.RecordManager;
 import com.yb.peopleservice.model.database.manager.UserInfoManager;
 import com.yb.peopleservice.model.database.manager.UserManager;
 
@@ -13,6 +14,7 @@ public class ManagerFactory {
 
     UserInfoManager infoManager;
 
+    RecordManager recordManager;
 
     private static ManagerFactory mInstance = null;
 
@@ -44,5 +46,12 @@ public class ManagerFactory {
             infoManager = new UserInfoManager(DaoManager.getInstance(MyApplication.getAppContext()).getDaoSession().getUserInfoBeanDao());
         }
         return infoManager;
+    }
+
+    public synchronized RecordManager getRecordManager() {
+        if (recordManager == null){
+            recordManager = new RecordManager(DaoManager.getInstance(MyApplication.getAppContext()).getDaoSession().getRecordBeanDao());
+        }
+        return recordManager;
     }
 }

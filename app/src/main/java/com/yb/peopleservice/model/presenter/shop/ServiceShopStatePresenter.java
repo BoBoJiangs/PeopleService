@@ -37,9 +37,8 @@ public class ServiceShopStatePresenter extends AbstractPresenter<ServiceShopStat
     /**
      * 解除关联店铺
      *
-     * @param id 店铺ID
      */
-    public void unboundShop(String id) {
+    public void unboundShop() {
         BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
@@ -67,7 +66,52 @@ public class ServiceShopStatePresenter extends AbstractPresenter<ServiceShopStat
         }) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
-                return iRequestServer.unboundShop(id);
+                return iRequestServer.unboundShop();
+
+            }
+
+            @Override
+            public Class<ShopRequest> getRequestInterfaceClass() {
+                return ShopRequest.class;
+            }
+        };
+        requestFunc.setShowProgress(true);
+        BaseRequestServer.getInstance().request(requestFunc);
+    }
+
+    /**
+     * 申请入驻到店铺
+     *
+     */
+    public void applyEntryShop(String shopId) {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
+            @Override
+            public void onRequestSuccess(Object data) {
+                try {
+                    getViewCallBack().onSuccess();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRequestFailure(String error) {
+                try {
+                    getViewCallBack().onFail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                ToastUtils.showLong(error);
+            }
+
+            @Override
+            public void onRequestCancel() {
+
+            }
+        }) {
+            @Override
+            public Observable getObservable(ShopRequest iRequestServer) {
+                return iRequestServer.applyEntryShop(shopId);
 
             }
 
@@ -85,7 +129,7 @@ public class ServiceShopStatePresenter extends AbstractPresenter<ServiceShopStat
      *
      * @param id 店铺ID
      */
-    public void cancelaShop(String id) {
+    public void cancelaShop() {
         BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
@@ -113,7 +157,7 @@ public class ServiceShopStatePresenter extends AbstractPresenter<ServiceShopStat
         }) {
             @Override
             public Observable getObservable(ShopRequest iRequestServer) {
-                return iRequestServer.cancelaShop(id);
+                return iRequestServer.cancelaShop();
 
             }
 

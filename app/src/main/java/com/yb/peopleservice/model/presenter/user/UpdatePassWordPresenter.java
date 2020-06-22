@@ -1,12 +1,19 @@
 package com.yb.peopleservice.model.presenter.user;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.constant.enums.UserType;
+import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
+import com.yb.peopleservice.view.activity.main.MainActivity;
+import com.yb.peopleservice.view.activity.main.ServiceMainActivity;
+import com.yb.peopleservice.view.activity.main.ShopMainActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,10 +33,10 @@ import io.reactivex.Observable;
  * 修改描述:
  */
 public class UpdatePassWordPresenter extends AbstractPresenter<UpdatePassWordPresenter.IPwdCallback> {
-
+    private User user;
     public UpdatePassWordPresenter(Context context, IPwdCallback viewCallBack) {
         super(context, viewCallBack);
-
+        user = ManagerFactory.getInstance().getUserManager().getUser();
     }
 
     @Override
@@ -71,7 +78,16 @@ public class UpdatePassWordPresenter extends AbstractPresenter<UpdatePassWordPre
                 Map<String,Object> map = new HashMap<>();
                 map.put("oldPassword",passWord);
                 map.put("newPassword",newPwd);
-                return iRequestServer.password(map);
+                if (user.getAccountType().contains(UserType.CUSTOMER.getValue())) {
+                    return iRequestServer.password(map);
+                } else if (user.getAccountType().contains(UserType.SHOP.getValue())) {
+                    return iRequestServer.passwordManager(map);
+                } else if (user.getAccountType().contains(UserType.STAFF.getValue())) {
+                    return iRequestServer.passwordStaffs(map);
+                } else {
+                    return iRequestServer.password(map);
+                }
+
             }
 
             @Override

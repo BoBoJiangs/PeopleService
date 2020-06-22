@@ -41,7 +41,33 @@ public class UserInfoBean implements Parcelable {
     private int age;
     private String birthday;
     private String sex;
+    private String province;//省
+    private String city;//市
+    private String orderAmount;
 
+    public String getOrderAmount() {
+        return orderAmount == null ? "" : orderAmount;
+    }
+
+    public void setOrderAmount(String orderAmount) {
+        this.orderAmount = orderAmount;
+    }
+
+    public String getProvince() {
+        return province == null ? "" : province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city == null ? "" : city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public int getAge() {
         return age;
@@ -177,10 +203,10 @@ public class UserInfoBean implements Parcelable {
         this.sex = in.readString();
     }
 
-    @Generated(hash = 278785565)
+    @Generated(hash = 1071686500)
     public UserInfoBean(String id, String name, String nickname, int totalPoints, int level,
             int member, String headImg, String phone, Integer orderNumber, int age,
-            String birthday, String sex) {
+            String birthday, String sex, String province, String city, String orderAmount) {
         this.id = id;
         this.name = name;
         this.nickname = nickname;
@@ -193,6 +219,9 @@ public class UserInfoBean implements Parcelable {
         this.age = age;
         this.birthday = birthday;
         this.sex = sex;
+        this.province = province;
+        this.city = city;
+        this.orderAmount = orderAmount;
     }
 
     @Generated(hash = 1818808915)

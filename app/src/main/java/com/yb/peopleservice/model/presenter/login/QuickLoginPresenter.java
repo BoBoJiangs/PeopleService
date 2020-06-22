@@ -3,13 +3,15 @@ package com.yb.peopleservice.model.presenter.login;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.constant.enums.UserType;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.database.manager.UserInfoManager;
 import com.yb.peopleservice.model.database.manager.UserManager;
 import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
+import com.yb.peopleservice.model.presenter.shop.ServiceInfoPresenter;
 import com.yb.peopleservice.model.presenter.user.personal.PersonalPresenter;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
@@ -36,7 +38,8 @@ import io.reactivex.Observable;
  * 修改描述:
  */
 public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.ILoginCallback> implements
-        CodePresenter.ICodeCallback, RegisterPresenter.IRegisCallback, PersonalPresenter.IUserCallback {
+        CodePresenter.ICodeCallback, RegisterPresenter.IRegisCallback, PersonalPresenter.IUserCallback,
+        ServiceInfoPresenter.IServiceInfoCallback{
 
     private CodePresenter codePresenter;
     private RegisterPresenter registerPresenter;
@@ -44,7 +47,8 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
     private PersonalPresenter personalPresenter;
     private UserManager userManager;
     private UserInfoManager infoManager;
-    private LoginBean loginBean;
+    private User loginBean;
+    private ServiceInfoPresenter presenter;
 
     public QuickLoginPresenter(Context context, ILoginCallback viewCallBack) {
         super(context, viewCallBack);
@@ -52,6 +56,7 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
         registerPresenter = new RegisterPresenter(context, this);
 
         personalPresenter = new PersonalPresenter(context, this);
+        presenter = new ServiceInfoPresenter(context, this);
         userManager = ManagerFactory.getInstance().getUserManager();
         infoManager = ManagerFactory.getInstance().getUserInfoManager();
     }
@@ -71,12 +76,12 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
     /**
      * 使用手机号与验证码获取凭证
      */
-    public void getLoginVoucher(String phone, String code) {
+    public void getLoginVoucher(String phone, String code,String type) {
         BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<String>() {
             @Override
             public void onRequestSuccess(String data) {
                 try {
-                    quickLogin(phone, data);
+                    quickLogin(phone, data,type);
 //                    getViewCallBack().codeSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -115,27 +120,26 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
     /**
      * 使用手机号与凭证获取token(快速登录)
      */
-    public void quickLogin(String phone, String code) {
+    public void quickLogin(String phone, String code,String type) {
         BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context,
-                new IRequestListener<LoginBean>() {
+                new IRequestListener<User>() {
                     @Override
-                    public void onRequestSuccess(LoginBean data) {
+                    public void onRequestSuccess(User data) {
                         try {
-                            User user = new User();
-                            user.setAccess_token(data.getAccess_token());
-                            user.setAccount(phone);
-//                            user.setPassword(password);
-                            user.setTokenType(data.getToken_type());
-                            user.setAccountType(data.getScope());
-                            ManagerFactory.getInstance().getUserManager().deleteAll();
-                            ManagerFactory.getInstance().getUserManager().save(user);
-                            UserManager.user = null;
-                            if (data.getScope().contains(LoginBean.USER_TYPE)) {
+                            loginBean = data;
+                            loginBean.setAccount(phone);
+                            loginBean.setCode(code);
+                            loginBean.setType(type);
+                            userManager.deleteAll();
+                            userManager.save(loginBean);
+                            if (data.getAccountType().contains(UserType.CUSTOMER.getValue())) {
                                 if (userManager.getUser().getInfoBean() != null) {
                                     getDataSuccess(userManager.getUser().getInfoBean());
                                 } else {
                                     personalPresenter.getUserInfo();
                                 }
+                            } else if (data.getAccountType().contains(UserType.STAFF.getValue())) {
+                                presenter.getServiceInfo();
                             } else {
                                 getViewCallBack().loginSuccess(data);
                             }
@@ -151,7 +155,7 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        ToastUtils.showLong("登陆失败");
+                        ToastUtils.showLong(error);
                     }
 
                     @Override
@@ -165,6 +169,7 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
                 map.put("phone", phone);
                 map.put("code", code);
                 map.put("grant_type", "password");
+                map.put("type", type);
                 return iRequestServer.quickLogin(map);
             }
 
@@ -214,13 +219,21 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
 
     @Override
     public void getDataSuccess(UserInfoBean data) {
-        User user = userManager.getUser();
-        user.setUserId(data.getId());
-        userManager.update(user);
-        infoManager.deleteAll();
-        infoManager.save(data);
+        loginBean.setUserId(data.getId());
+        userManager.update(loginBean);
+
+//        infoManager.deleteAll();
+        UserInfoBean oldInfoBean = loginBean.getInfoBean();
+        if (oldInfoBean != null) {
+            data.setProvince(oldInfoBean.getProvince());
+            data.setCity(oldInfoBean.getCity());
+        }
+        infoManager.saveOrUpdate(data);
+
+        //注册PUSH
         ChatPresenter.getInstance().setCustomerAlias(context,
                 AppUtils.formatID(data.getId()));
+        //注册IM
         ChatPresenter.getInstance().getUserInfo(AppUtils.formatID(data.getId()),
                 data.getNickname());
         try {
@@ -235,13 +248,35 @@ public class QuickLoginPresenter extends AbstractPresenter<QuickLoginPresenter.I
         ToastUtils.showLong("登陆失败");
     }
 
+    @Override
+    public void serviceInfoSuccess(ServiceInfo data) {
+        loginBean.setUserId(data.getId());
+        userManager.update(loginBean);
+
+        //注册IM
+        ChatPresenter.getInstance().getUserInfo(AppUtils.formatID(data.getId()),
+                data.getName());
+        //注册PUSH
+        ChatPresenter.getInstance().setServiceAlias(context, data);
+        try {
+            getViewCallBack().loginSuccess(loginBean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void serviceInfoFail() {
+
+    }
+
     /**
      * 注册回调
      */
     public interface ILoginCallback extends IViewCallback {
         void codeSuccess(Object object);
 
-        void loginSuccess(LoginBean data);
+        void loginSuccess(User data);
 
         void loginFail();
 

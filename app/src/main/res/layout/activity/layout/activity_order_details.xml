@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:ignore="MissingPrefix">
 
-    <include layout="@layout/toolbar2"/>
+    <include layout="@layout/toolbar2" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -24,26 +24,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/base_text_color"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingStart="@dimen/space_default"
                 android:paddingTop="90pt"
                 android:paddingEnd="@dimen/space_default"
-                android:paddingBottom="90pt"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@color/base_text_color">
+                android:paddingBottom="90pt">
 
                 <ImageView
                     android:id="@+id/stateIV"
                     android:layout_width="30dp"
-                    android:layout_height="30dp"/>
+                    android:layout_height="30dp" />
 
                 <TextView
                     android:id="@+id/orderStateTV"
                     style="@style/text_view_content"
                     android:layout_marginStart="@dimen/dp_10"
                     android:text="加载中"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/font_btn_small" />
+                    android:textSize="@dimen/font_btn_small"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -83,6 +83,29 @@
                     android:text="加载中" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/poiLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <cn.sts.base.view.widget.UtilityView
+                    android:id="@+id/startPoiUV"
+                    style="@style/image_utility"
+                    android:layout_height="55dp"
+                    app:info_padding_left="0dp"
+                    app:text_content="加载中"
+                    app:title_padding_right="0dp" />
+
+                <cn.sts.base.view.widget.UtilityView
+                    android:id="@+id/endPoiUV"
+                    style="@style/image_utility"
+                    android:layout_height="55dp"
+                    app:info_padding_left="0dp"
+                    app:text_content="加载中"
+                    app:title_padding_right="0dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,29 +122,100 @@
                     android:gravity="right|center_vertical"
                     android:orientation="horizontal"
                     android:paddingEnd="@dimen/space_default"
-                    android:visibility="gone"
                     app:bl_stroke_position="top">
 
                     <TextView
                         android:id="@+id/bottomTV1"
                         style="@style/button_style"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="15dp"
-                        android:text="补款"
+                        android:minWidth="60dp"
+                        android:text="再来一单"
+                        android:textColor="@color/base_text_color"
+                        android:visibility="gone"
                         app:bl_corners_radius="25dp"
+                        app:bl_pressed_solid_color="@color/gray_f6"
                         app:bl_solid_color="@color/white"
-                        app:bl_stroke_color="@color/gray_66"
+                        app:bl_stroke_color="@color/base_text_color"
                         app:bl_stroke_width="1dp" />
 
                     <TextView
                         android:id="@+id/bottomTV2"
                         style="@style/button_style"
                         android:layout_marginStart="@dimen/dp_10"
-                        android:text="申请退款"
+                        android:minWidth="60dp"
+                        android:text="再来一单"
+                        android:textColor="@color/base_text_color"
+                        android:visibility="gone"
                         app:bl_corners_radius="25dp"
+                        app:bl_pressed_solid_color="@color/gray_f6"
                         app:bl_solid_color="@color/white"
                         app:bl_stroke_color="@color/base_text_color"
                         app:bl_stroke_width="1dp" />
+
+                    <TextView
+                        android:id="@+id/bottomTV3"
+                        style="@style/button_style"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:minWidth="60dp"
+                        android:text="退款明细"
+                        android:visibility="gone"
+                        app:bl_corners_radius="25dp"
+                        app:bl_pressed_solid_color="@color/gray_f6"
+                        app:bl_solid_color="@color/white"
+                        app:bl_stroke_color="@color/gray_66"
+                        app:bl_stroke_width="1dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/trackTV"
+                    style="@style/button_style"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginEnd="@dimen/space_default"
+                    android:minWidth="60dp"
+                    android:text="轨迹信息"
+                    android:textColor="@color/base_text_color"
+                    android:visibility="gone"
+                    app:bl_corners_radius="25dp"
+                    app:bl_pressed_solid_color="@color/gray_f6"
+                    app:bl_solid_color="@color/white"
+                    app:bl_stroke_color="@color/base_text_color"
+                    app:bl_stroke_width="1dp" />
+
+                <LinearLayout
+                    android:id="@+id/payLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_default"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_view_content_black"
+                        android:paddingTop="@dimen/dp_10"
+                        android:text="支付记录：" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/payListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/recordLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_default"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/text_view_content_black"
+                        android:paddingTop="@dimen/dp_10"
+                        android:text="过程记录：" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recordListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -135,8 +229,8 @@
                     <cn.sts.base.view.widget.UtilityView
                         android:id="@+id/orderNumUV"
                         style="@style/order_utility"
-                        app:content_gravity="start"
                         android:layout_height="50pt"
+                        app:content_gravity="start"
                         app:text_title="订单编号：" />
 
                     <cn.sts.base.view.widget.UtilityView
@@ -148,8 +242,8 @@
                     <cn.sts.base.view.widget.UtilityView
                         android:id="@+id/payTypeUV"
                         style="@style/order_utility"
-                        app:content_gravity="start"
                         android:visibility="gone"
+                        app:content_gravity="start"
                         app:text_title="支付方式：" />
 
                     <cn.sts.base.view.widget.UtilityView

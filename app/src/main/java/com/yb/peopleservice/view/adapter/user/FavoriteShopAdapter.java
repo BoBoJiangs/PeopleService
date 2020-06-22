@@ -102,7 +102,7 @@ public class FavoriteShopAdapter extends BaseQuickAdapter<ShopInfo, BaseViewHold
     public void cancelSuccess() {
         remove(position);
         if (getData().isEmpty()) {
-            addFooterView(View.inflate(mContext, R.layout.view_no_more_date, null));
+            setEmptyView(View.inflate(mContext, R.layout.view_nodata, null));
         }
 
     }

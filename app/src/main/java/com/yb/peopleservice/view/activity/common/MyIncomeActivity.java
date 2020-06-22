@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.activity.common;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.shop.BalanceBean;
 import com.yb.peopleservice.model.presenter.shop.IncomePresenter;
+import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.weight.CustomPopup.CustomCashPopup;
 
@@ -94,7 +96,7 @@ public class MyIncomeActivity extends BaseToolbarActivity implements IncomePrese
 
     @Override
     public String getTitleName() {
-        return "我的收益";
+        return "数据看板";
     }
 
     @Override
@@ -108,10 +110,10 @@ public class MyIncomeActivity extends BaseToolbarActivity implements IncomePrese
         if (data != null) {
             cashOutBtn.setVisibility(View.VISIBLE);
             availableBalance = data.getAvailableBalance();
-            moneyTV1.setText(data.getAvailableBalance() + "");
-            moneyTV2.setText(data.getUnsettledBalance() + "");
-            moneyTV3.setText(data.getAvailableBalance() + "");
-            moneyTV4.setText(data.getUnusableBalance() + "");
+            moneyTV1.setText(NumberUtil.convertDoubleZero(data.getAvailableBalance()));
+            moneyTV2.setText(NumberUtil.convertDoubleZero(data.getUnsettledBalance()));
+            moneyTV3.setText(NumberUtil.convertDoubleZero(data.getAvailableBalance()));
+            moneyTV4.setText(NumberUtil.convertDoubleZero(data.getUnusableBalance()));
         }
 
     }
@@ -121,21 +123,22 @@ public class MyIncomeActivity extends BaseToolbarActivity implements IncomePrese
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void statisticsSuccess(List<BalanceBean> datas) {
         if (datas != null && !datas.isEmpty()) {
             BalanceBean data = datas.get(datas.size() - 1);
             tradeNumTV.setText(data.getCompleteNumber() + "");
-            tradeTV.setText("交易金额：¥" + data.getCompleteMoney());
+            tradeTV.setText("交易金额：¥" + NumberUtil.convertDoubleZero(data.getCompleteMoney()));
 
             payNumTV.setText(data.getPayNumber() + "");
-            payTV.setText("支付金额：¥" + data.getPayMoney());
+            payTV.setText("支付金额：¥" + NumberUtil.convertDoubleZero(data.getPayMoney()));
 
             orderNumTV.setText(data.getOrderNumber() + "");
-            orderTV.setText("订单金额：¥" + data.getOrderNumber());
+            orderTV.setText("订单金额：¥" + NumberUtil.convertDoubleZero(data.getOrderNumber()));
 
             refundNumTV.setText(data.getRefundNumber() + "");
-            refundTV.setText("退款金额：¥" + data.getRefundMoney());
+            refundTV.setText("退款金额：¥" + NumberUtil.convertDoubleZero(data.getRefundMoney()));
         }
 
     }

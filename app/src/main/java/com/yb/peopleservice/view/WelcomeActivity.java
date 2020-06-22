@@ -8,10 +8,11 @@ import android.widget.ImageView;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.constant.enums.UserType;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.presenter.login.LoginPresenter;
+import com.yb.peopleservice.model.service.TimeService;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
 import com.yb.peopleservice.view.activity.main.MainActivity;
 import com.yb.peopleservice.view.activity.main.ServiceMainActivity;
@@ -48,7 +49,7 @@ public class WelcomeActivity extends BaseActivity implements LoginPresenter.ILog
      * 默认总耗时
      */
     private static final long TOTAL_MILLISECOND = 2000;
-    private  User account;
+    private User account;
 
     @Override
     public int contentViewResID() {
@@ -57,7 +58,9 @@ public class WelcomeActivity extends BaseActivity implements LoginPresenter.ILog
 
     @Override
     protected void initView() {
-
+        //注册时间服务
+        Intent intent = new Intent(this, TimeService.class);
+        startService(intent);
     }
 
     @Override
@@ -160,30 +163,38 @@ public class WelcomeActivity extends BaseActivity implements LoginPresenter.ILog
      * 登录
      */
     private void toLogin() {
-            //检查调用接口耗费的时间
-            long endTime = System.currentTimeMillis();
-            long millisecond = (endTime - startTime);
+        //检查调用接口耗费的时间
+        long endTime = System.currentTimeMillis();
+        long millisecond = (endTime - startTime);
 
-            //自动登录
-            account = ManagerFactory.getInstance().getUserManager().getUser();
-            if (account != null && StringUtils.isNotBlank(account.getAccount()) && StringUtils.isNotBlank(account.getPassword())) {
-
-                new LoginPresenter(this, this).login(account.getAccount(), account.getPassword());
-
-            } else {
-
-                if (millisecond >= TOTAL_MILLISECOND) {
-                    toLoginActivity();//耗时超过totalMillisecond，直接进入
-                } else {
-                    welcomeIV.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //耗时小于totalMillisecond，等到时间到了之后进入
-                            toLoginActivity();
-                        }
-                    }, TOTAL_MILLISECOND - millisecond);
-                }
+        //自动登录
+        account = ManagerFactory.getInstance().getUserManager().getUser();
+        if (account != null && (StringUtils.isNotBlank(account.getAccount()) ||
+                StringUtils.isNotBlank(account.getCode()))) {
+            if (StringUtils.isNotBlank(account.getPassword())) {
+                new LoginPresenter(this, this)
+                        .login(account.getAccount(), account.getPassword(), account.getType());
             }
+
+            if (StringUtils.isNotBlank(account.getCode())) {
+                new LoginPresenter(this, this)
+                        .quickLogin(account.getAccount(), account.getCode(), account.getType());
+            }
+
+        } else {
+
+            if (millisecond >= TOTAL_MILLISECOND) {
+                toLoginActivity();//耗时超过totalMillisecond，直接进入
+            } else {
+                welcomeIV.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //耗时小于totalMillisecond，等到时间到了之后进入
+                        toLoginActivity();
+                    }
+                }, TOTAL_MILLISECOND - millisecond);
+            }
+        }
     }
 
     /**
@@ -198,13 +209,13 @@ public class WelcomeActivity extends BaseActivity implements LoginPresenter.ILog
     /**
      * 跳转到首页
      */
-    public  void toMainActivity(LoginBean data) {
-        if (data.getScope() != null && !data.getScope().isEmpty()) {
-            if (data.getScope().contains(LoginBean.USER_TYPE)) {
+    public void toMainActivity(User data) {
+        if (data.getAccountType() != null && !data.getAccountType().isEmpty()) {
+            if (data.getAccountType().contains(UserType.CUSTOMER.getValue())) {
                 startActivity(new Intent(this, MainActivity.class));
-            } else if (data.getScope().contains(LoginBean.SHOP_TYPE)) {
+            } else if (data.getAccountType().contains(UserType.SHOP.getValue())) {
                 startActivity(new Intent(this, ShopMainActivity.class));
-            } else if (data.getScope().contains(LoginBean.SERVICE_TYPE)) {
+            } else if (data.getAccountType().contains(UserType.STAFF.getValue())) {
                 startActivity(new Intent(this, ServiceMainActivity.class));
             } else {
                 ToastUtils.showLong("未知的用户类型,请联系管理员！");
@@ -216,7 +227,7 @@ public class WelcomeActivity extends BaseActivity implements LoginPresenter.ILog
     }
 
     @Override
-    public void loginSuccess(LoginBean data) {
+    public void loginSuccess(User data) {
         toMainActivity(data);
     }
 

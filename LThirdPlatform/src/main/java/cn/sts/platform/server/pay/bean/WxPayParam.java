@@ -11,44 +11,44 @@ public class WxPayParam {
      * timeStamp : 1557473245
      */
 
-    private String appId;
-    private String mchId;
-    private String nonceStr;
-    private String prepayId;
+    private String appid;
+    private String partnerid;
+    private String noncestr;
+    private String prepayid;
     private String sign;
-    private String signType;
-    private String timeStamp;
+    private String signtype;
+    private String timestamp;
 
     public String getAppId() {
-        return appId;
+        return appid;
     }
 
     public void setAppId(String appId) {
-        this.appId = appId;
+        this.appid = appId;
     }
 
     public String getMchId() {
-        return mchId;
+        return partnerid;
     }
 
     public void setMchId(String mchId) {
-        this.mchId = mchId;
+        this.partnerid = mchId;
     }
 
     public String getNonceStr() {
-        return nonceStr;
+        return noncestr;
     }
 
     public void setNonceStr(String nonceStr) {
-        this.nonceStr = nonceStr;
+        this.noncestr = nonceStr;
     }
 
     public String getPrepayId() {
-        return prepayId;
+        return prepayid;
     }
 
     public void setPrepayId(String prepayId) {
-        this.prepayId = prepayId;
+        this.prepayid = prepayId;
     }
 
     public String getSign() {
@@ -60,19 +60,19 @@ public class WxPayParam {
     }
 
     public String getSignType() {
-        return signType;
+        return signtype;
     }
 
     public void setSignType(String signType) {
-        this.signType = signType;
+        this.signtype = signType;
     }
 
     public String getTimeStamp() {
-        return timeStamp;
+        return timestamp;
     }
 
     public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+        this.timestamp = timeStamp;
     }
 
 }

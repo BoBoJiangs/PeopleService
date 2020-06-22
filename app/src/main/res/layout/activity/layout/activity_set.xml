@@ -21,4 +21,8 @@
         android:id="@+id/updateUV"
         style="@style/image_utility"
         app:text_title="修改密码" />
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/aboutUV"
+        style="@style/image_utility"
+        app:text_title="关于" />
 </LinearLayout>

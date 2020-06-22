@@ -25,12 +25,12 @@ public class StoreEntryActivity extends BaseListActivity {
 
     @Override
     public BaseQuickAdapter initAdapter() {
-        return adapter = new EntryListAdapter();
+        return adapter = new EntryListAdapter(this);
     }
 
     @Override
     public String getTitleName() {
-        return null;
+        return "申请入驻";
     }
 
     @Override

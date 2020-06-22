@@ -1,5 +1,6 @@
 package com.yb.peopleservice.view.activity.personal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,10 +23,13 @@ import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.database.manager.UserManager;
 import com.yb.peopleservice.model.presenter.WeChatPresenter;
+import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
 import com.yb.peopleservice.model.presenter.uploadfile.UploadFilePresenter;
 import com.yb.peopleservice.model.presenter.user.UpdateUserPresenter;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
+import com.yb.peopleservice.view.activity.login.LoginActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.ypx.imagepicker.ImagePicker;
 import com.ypx.imagepicker.bean.ImageItem;
@@ -105,20 +109,24 @@ public class EditUserInfoActivity extends BaseToolbarActivity implements
 
     private void setUserInfoText() {
         User user = ManagerFactory.getInstance().getUserManager().getUser();
+        if (user == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return;
+        }
         UserInfoBean infoBean = user.getInfoBean();
         if (infoBean != null) {
             nameUV.setContentText(infoBean.getNickname());
             phoneUV.setContentText(infoBean.getPhone());
             trueNameUV.setContentText(infoBean.getName());
             sexUV.setContentText(infoBean.getSex());
-            if(infoBean.getAge()!=0){
-                ageUV.setContentText(infoBean.getAge()+"");
+            if (infoBean.getAge() != 0) {
+                ageUV.setContentText(infoBean.getAge() + "");
             }
             dateUV.setContentText(infoBean.getBirthday());
             if (!StringUtils.isEmpty(infoBean.getHeadImg())) {
                 ImageLoaderUtil.loadServerCircleImage(this, infoBean.getHeadImg(), headIV);
             }
-        }else{
+        } else {
             infoBean = new UserInfoBean();
         }
     }
@@ -171,15 +179,15 @@ public class EditUserInfoActivity extends BaseToolbarActivity implements
         infoBean.setPhone(phone);
         if (!StringUtils.isEmpty(headUrl)) {
             uploadPresenter.launchImage(headUrl, true);
-        }else{
+        } else {
             presenter.setUserInfo(infoBean);
         }
-        updateUser();
+        ChatPresenter.getInstance().updateUser(nikeName, headUrl);
     }
 
-    @OnClick({R.id.headUV,R.id.dateUV,R.id.sexUV})
+    @OnClick({R.id.headUV, R.id.dateUV, R.id.sexUV})
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.dateUV:
                 TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
                     @Override
@@ -235,30 +243,6 @@ public class EditUserInfoActivity extends BaseToolbarActivity implements
         EventBus.getDefault().post(infoBean);
     }
 
-    /**
-     * 更新用户
-     */
-    private void updateUser() {
-        UserInfo myInfo = JMessageClient.getMyInfo();
-        if (myInfo != null && !StringUtils.isEmpty(nikeName)) {
-            myInfo.setNickname(nikeName);
-            JMessageClient.updateMyInfo(UserInfo.Field.nickname, myInfo, new BasicCallback() {
-                @Override
-                public void gotResult(int i, String s) {
-                    LogUtils.i("昵称信息：" + i + "==" + s);
-                }
-            });
-        }
-        if (!StringUtils.isEmpty(headUrl)) {
-            JMessageClient.updateUserAvatar(new File(headUrl), new BasicCallback() {
-                @Override
-                public void gotResult(int i, String s) {
-                    LogUtils.i("头像信息：" + i + "==" + s);
-                }
-            });
-        }
-    }
-
 
     @Override
     public void getDataFail() {
@@ -266,7 +250,7 @@ public class EditUserInfoActivity extends BaseToolbarActivity implements
     }
 
     @Override
-    public void uploadSuccess(List<String> files) {
+    public void uploadSuccess(List<String> files, boolean isPublic) {
         if (!files.isEmpty()) {
             infoBean.setHeadImg(files.get(0));
         }

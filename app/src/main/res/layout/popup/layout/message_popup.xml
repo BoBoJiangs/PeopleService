@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/space_default"
+    android:paddingTop="@dimen/space_default"
+    android:paddingEnd="@dimen/space_default"
+    app:bl_corners_radius="@dimen/dp_10"
+    app:bl_solid_color="@color/white"
+    android:paddingBottom="70dp">
+
+    <cn.sts.base.view.widget.UtilityView
+        android:id="@+id/titleUV"
+        style="@style/utility_view"
+        android:background="@drawable/edittext_normal"
+        app:text_content_hint="请输入标题"
+        app:title_padding_left="0dp"
+        app:type="INPUT" />
+
+    <EditText
+        android:id="@+id/contentUV"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/edittext_normal"
+        android:gravity="top"
+        android:hint="请输入内容"
+        android:padding="@dimen/space" />
+
+    <Button
+        android:id="@+id/yesBtn"
+        style="@style/login_btn_style"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="0dp"
+        android:text="发送"
+        app:bl_corners_radius="@dimen/dp_10" />
+
+</LinearLayout>

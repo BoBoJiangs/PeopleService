@@ -15,6 +15,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.AppConstant;
+import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.model.bean.PersonalListBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
@@ -27,10 +28,13 @@ import com.yb.peopleservice.push.TagAliasOperatorHelper;
 import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
+import com.yb.peopleservice.view.activity.common.MessageListActivity;
 import com.yb.peopleservice.view.activity.im.ChatListActivity;
+import com.yb.peopleservice.view.activity.login.LoginActivity;
 import com.yb.peopleservice.view.activity.personal.EditUserInfoActivity;
 import com.yb.peopleservice.view.activity.personal.MyCouponListActivity;
 import com.yb.peopleservice.view.activity.personal.MyFavoriteActivity;
+import com.yb.peopleservice.view.activity.personal.MyOrderActivity;
 import com.yb.peopleservice.view.activity.personal.SetActivity;
 import com.yb.peopleservice.view.adapter.PersonalListAdapter;
 import com.yb.peopleservice.view.base.LazyLoadListFragment;
@@ -73,8 +77,9 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
     private HeaderViewHolder headerViewHolder;
     List<PersonalListBean> listData = new ArrayList<>();
     private PersonalPresenter presenter;
-    private UserManager userManager;
+    public UserManager userManager;
     private UserInfoManager infoManager;
+    private TextView exitBtn;
 
 
     public static Fragment getInstanceFragment() {
@@ -122,6 +127,7 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
+        listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
 //        listData.add(new PersonalListBean(CONTENT_TYPE, SPAN_SIZE_ONE));
         adapter.setNewData(listData);
 //        DraggableController mDraggableController = adapter.getDraggableController();
@@ -162,6 +168,10 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
 
     @Override
     public void onClickItem(BaseQuickAdapter adapter, View view, int position) {
+        if (userManager.getUser() == null) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         switch (position) {
             case 0:
                 startActivity(new Intent(getContext(), MyCouponListActivity.class));
@@ -173,7 +183,7 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
                 startActivity(new Intent(getContext(), MyFavoriteActivity.class));
                 break;
             case 3:
-
+                startActivity(new Intent(getContext(), MessageListActivity.class));
                 break;
 
         }
@@ -189,9 +199,14 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
         headerViewHolder = new HeaderViewHolder(headerView, getActivity());
         adapter.addHeaderView(headerView);
         View footerView = View.inflate(getActivity(), R.layout.view_exit_button, null);
+        exitBtn = footerView.findViewById(R.id.exitBtn);
         footerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (userManager.getUser() == null) {
+                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    return;
+                }
                 AppDialog appDialog = new AppDialog(getActivity());
                 appDialog.title("是否确认退出？")
                         .positiveBtn(R.string.sure, new AppDialog.OnClickListener() {
@@ -218,18 +233,22 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
     @Override
     public void getDataSuccess(UserInfoBean data) {
         if (data != null) {
+
             User user = userManager.getUser();
             user.setUserId(data.getId());
             userManager.update(user);
             headerViewHolder.setUserInfoData(data);
-            infoManager.deleteAll();
-            infoManager.save(data);
+//            infoManager.deleteAll();
+            UserInfoBean oldInfoBean = user.getInfoBean();
+            if (oldInfoBean != null) {
+                data.setProvince(oldInfoBean.getProvince());
+                data.setCity(oldInfoBean.getCity());
+            }
+            user.setInfoBean(data);
+            infoManager.saveOrUpdate(data);
         }
 
     }
-
-
-
 
 
     @Override
@@ -239,17 +258,26 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
 
     @Override
     public void fetchData() {
-        UserInfoBean userInfo = userManager.getUser().getInfoBean();
-        if (userInfo==null){
-            presenter.getUserInfo();
-        }else{
-            getDataSuccess(userInfo);
+        if (userManager.getUser() != null) {
+            UserInfoBean userInfo = userManager.getUser().getInfoBean();
+            if (userInfo == null) {
+                presenter.getUserInfo();
+            } else {
+                getDataSuccess(userInfo);
+            }
+        } else {
+            exitBtn.setText("立即登录");
         }
+
 
     }
 
     @OnClick({R.id.setIV, R.id.msgTV})
     public void onViewClicked(View view) {
+        if (userManager.getUser() == null) {
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            return;
+        }
         switch (view.getId()) {
             case R.id.setIV:
                 startActivity(new Intent(getContext(), SetActivity.class));
@@ -289,20 +317,33 @@ public class PersonalFragment extends LazyLoadListFragment implements PersonalPr
 
         private void setUserInfoData(UserInfoBean userInfo) {
             nameTV.setText(userInfo.getNickname());
-            memberTV.setText("等级:" + userInfo.getTotalPoints());
+            memberTV.setVisibility(View.VISIBLE);
+            memberTV.setText("等级:" + userInfo.getOrderAmount());
             ImageLoaderUtil.loadServerCircleImage(context, userInfo.getHeadImg(), photoIV);
         }
 
-        @OnClick({R.id.payTV, R.id.todoTV, R.id.finishTV, R.id.evaluateTV, R.id.userInfoRL})
+        @OnClick({R.id.orderLL,R.id.payTV, R.id.todoTV, R.id.finishTV, R.id.evaluateTV, R.id.userInfoRL})
         public void onViewClicked(View view) {
+
             switch (view.getId()) {
+                case R.id.orderLL:
+                    context.startActivity(new Intent(context, MyOrderActivity.class));
+                    break;
                 case R.id.payTV:
+                    context.startActivity(new Intent(context, MyOrderActivity.class)
+                            .putExtra(IntentKeyConstant.DATA_KEY,1));
                     break;
                 case R.id.todoTV:
+                    context.startActivity(new Intent(context, MyOrderActivity.class)
+                            .putExtra(IntentKeyConstant.DATA_KEY,2));
                     break;
                 case R.id.finishTV:
+                    context.startActivity(new Intent(context, MyOrderActivity.class)
+                            .putExtra(IntentKeyConstant.DATA_KEY,4));
                     break;
                 case R.id.evaluateTV:
+                    context.startActivity(new Intent(context, MyOrderActivity.class)
+                            .putExtra(IntentKeyConstant.DATA_KEY,3));
                     break;
                 case R.id.userInfoRL:
                     context.startActivity(new Intent(context, EditUserInfoActivity.class));

@@ -18,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 /**
  * 类描述:用户登录
@@ -42,13 +43,13 @@ public interface HomeRequest {
      * 获取首页的热门服务
      */
     @GET("categories/all")
-    Observable<RequestResult<List<ClassifyListBean>>> getHotList();
+    Observable<RequestResult<List<ClassifyListBean>>> getHotList(@QueryMap Map<String,String> map);
 
     /**
      * 获取首页的热销服务
      */
     @GET("mainpage/categories/hotsales")
-    Observable<RequestResult<List<HomeListBean>>> getHotService();
+    Observable<RequestResult<List<HomeListBean>>> getHotService(@QueryMap Map<String,String> map);
 
     /********************************** 地址相关 **************************************/
 
@@ -95,4 +96,14 @@ public interface HomeRequest {
      */
     @PUT("customers/password")
     Observable<RequestResult<UserInfoBean>> password(@Body Map map);
+    /**
+     * 修改密码(店铺管理员)
+     */
+    @PUT("managers/password")
+    Observable<RequestResult<UserInfoBean>> passwordManager(@Body Map map);
+    /**
+     * 修改密码(服务人员)
+     */
+    @PUT("staffs/password")
+    Observable<RequestResult<UserInfoBean>> passwordStaffs(@Body Map map);
 }

@@ -1,14 +1,28 @@
 package com.yb.peopleservice.view.activity.services;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.gyf.immersionbar.ImmersionBar;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.AppConstant;
@@ -16,10 +30,12 @@ import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.presenter.ServiceListUIPresenter;
 import com.yb.peopleservice.model.presenter.user.service.CollectPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ServiceListPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ShopDetailsPresenter;
+import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.common.ShopDetailsActivity;
@@ -27,6 +43,7 @@ import com.yb.peopleservice.view.adapter.user.classify.ServiceListAdapter;
 import com.yb.peopleservice.view.base.BaseListActivity;
 import com.yb.peopleservice.view.fragment.user.favorite.FavoriteServiceFragment;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +59,9 @@ import io.reactivex.functions.Consumer;
 import jiguang.chat.activity.ChatActivity;
 import jiguang.chat.application.JGApplication;
 import jiguang.chat.utils.ToastUtil;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * 项目名称:PeopleService
@@ -64,6 +84,8 @@ public class ShopListActivity extends BaseListActivity implements
     @BindView(R.id.searchUV)
     UtilityView searchUV;
     EditText searchEt;
+    @BindView(R.id.shopBgIV)
+    ImageView shopBgIV;
     private ServiceListPresenter presenter;
     private ServiceListAdapter adapter;
     private ServiceListBean bean;
@@ -72,6 +94,7 @@ public class ShopListActivity extends BaseListActivity implements
     private MyShop myShop;
     private ShopInfo shopInfo;
     private String shopId;
+    private ServiceInfo serviceInfo;
 
     @Override
     public BaseQuickAdapter initAdapter() {
@@ -89,6 +112,14 @@ public class ShopListActivity extends BaseListActivity implements
     }
 
     @Override
+    protected void initImmersionBar() {
+        ImmersionBar.with(this).statusBarView(R.id.top_view)
+                .fullScreen(true)
+                .addTag("PicAndColor")
+                .init();
+    }
+
+    @Override
     public void initToolView() {
         super.initToolView();
         if (shopInfo != null) {
@@ -99,7 +130,13 @@ public class ShopListActivity extends BaseListActivity implements
 
     @Override
     protected void initData() {
+        KeyboardUtils.hideSoftInput(this);
         collectPresenter = new CollectPresenter(this, this);
+        serviceInfo = getIntent().getParcelableExtra(ServiceInfo.class.getName());
+        if (serviceInfo != null) {
+            //从地图跳转过来 用于指定服务人员下单
+            shopId = serviceInfo.getShopId();
+        }
         bean = getIntent().getParcelableExtra(ServiceListBean.class.getName());
         if (bean != null) {
             shopId = bean.getShopId();
@@ -142,6 +179,9 @@ public class ShopListActivity extends BaseListActivity implements
     @Override
     public void onClickItem(BaseQuickAdapter a, View view, int position) {
         ServiceListBean serviceListBean = adapter.getItem(position);
+        if (serviceInfo != null && serviceListBean != null) {
+            serviceListBean.setServiceStaffId(serviceInfo.getId());
+        }
         startActivity(new Intent(this, ServiceDetailsActivity.class)
                 .putExtra(ServiceListBean.class.getName(), serviceListBean));
     }
@@ -180,7 +220,7 @@ public class ShopListActivity extends BaseListActivity implements
     @Override
     public void isCollect(FavoriteBean data) {
         collectTV.setVisibility(View.VISIBLE);
-        if (collectTV.getText().equals("收藏")) {
+        if (data != null) {
             collectTV.setText("已收藏");
         } else {
             collectTV.setText("收藏");
@@ -197,8 +237,14 @@ public class ShopListActivity extends BaseListActivity implements
                 titleTV.setText(shopInfo.getName());
             }
             nameTV.setText(data.getName());
-            ImageLoaderUtil.loadServerImage(this, data.getHeadImg(), imageView);
+            ImageLoaderUtil.loadServerCircleImage(this, data.getHeadImg(), imageView);
             collectPresenter.getFavorite(data.getId());
+            if (!StringUtils.isEmpty(data.getBackgroundImg())) {
+                Glide.with(this).load(BaseRequestServer.getFileUrl(true) +
+                        data.getBackgroundImg())
+                        .apply(RequestOptions.bitmapTransform(new BlurTransformation(15, 3)))
+                        .into(shopBgIV);
+            }
         }
 
     }
@@ -209,7 +255,7 @@ public class ShopListActivity extends BaseListActivity implements
     }
 
 
-    @OnClick({R.id.collectTV, R.id.shopLL,R.id.leftIV2,R.id.msgIV2})
+    @OnClick({R.id.collectTV, R.id.shopLL, R.id.leftIV2, R.id.msgIV2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.leftIV2:
@@ -217,7 +263,7 @@ public class ShopListActivity extends BaseListActivity implements
                 break;
             case R.id.collectTV:
                 if (collectTV.getText().equals("收藏")) {
-                    collectPresenter.addFavorite(myShop.getShop().getId(), FavoriteServiceFragment.SHOP_TYPE);
+                    collectPresenter.addFavorite(shopInfo.getId(), FavoriteServiceFragment.SHOP_TYPE);
                 } else {
                     collectPresenter.addFavorite(shopInfo.getId(), FavoriteServiceFragment.CANCEL_TYPE);
 
@@ -227,16 +273,16 @@ public class ShopListActivity extends BaseListActivity implements
             case R.id.shopLL:
                 myShop.setType(MyShop.USER_DETAILS);
                 startActivity(new Intent(this, ShopDetailsActivity.class)
-                        .putExtra(MyShop.class.getName(), myShop));
+                        .putExtra(ShopInfo.class.getName(), myShop.getShop()));
                 break;
             case R.id.msgIV2:
-                if (shopInfo!=null){
+                if (shopInfo != null) {
                     Intent intent = new Intent(this, ChatActivity.class);
                     intent.putExtra(JGApplication.TARGET_ID, AppUtils.formatID(shopInfo.getId()));
                     intent.putExtra(JGApplication.TARGET_APP_KEY, AppConstant.JPUSH_KEY);
                     intent.putExtra(JGApplication.DRAFT, shopInfo.getName());
                     startActivity(intent);
-                }else {
+                } else {
                     ToastUtils.showLong("未获取到店铺信息");
                 }
 

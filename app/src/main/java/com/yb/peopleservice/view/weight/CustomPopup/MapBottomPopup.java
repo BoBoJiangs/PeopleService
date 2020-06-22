@@ -85,28 +85,33 @@ public class MapBottomPopup extends BottomPopupView {
     private void setServiceInfoData() {
         if (serviceInfo != null) {
             nameTV.setText(serviceInfo.getName());
-            ratingBar.setStarProgress(serviceInfo.getLevel() / 5f * 100);
+            ratingBar.setStarProgress(serviceInfo.getStars() / 5f * 100);
             praiseRateTV.setText("已接" + serviceInfo.getOrderNumber() + "单 好评" +
-                    serviceInfo.getPraiseRate() * 100 + "%");
+                    serviceInfo.getPraiseRate() + "%");
             contentTV.setText(serviceInfo.getIntroduction());
             ImageLoaderUtil.loadServerCircleImage(context, serviceInfo.getHeadImg(), headImg);
         }
         if (shopInfo != null) {
             nameTV.setText(shopInfo.getName());
-            ratingBar.setStarProgress(shopInfo.getLevel() / 5f * 100);
-            praiseRateTV.setText("已接" + shopInfo.getOrderNumber() + "单 好评" +
-                    shopInfo.getPraiseRate() * 100 + "%");
+            ratingBar.setStarProgress(shopInfo.getStars() / 5f * 100);
+            praiseRateTV.setText("已接" + shopInfo.getOrderAmount() + "单 好评" +
+                    shopInfo.getPraiseRate() + "%");
             contentTV.setText(shopInfo.getIntroduction());
-            ImageLoaderUtil.loadServerCircleImage(context, shopInfo.getHeadImg(), headImg);
+            ImageLoaderUtil.loadServerImage(context, shopInfo.getHeadImg(), headImg);
         }
     }
 
 
-    @OnClick(R.id.nameTV)
+    @OnClick(R.id.contentLL)
     public void onViewClicked() {
+        dismiss();
         if (shopInfo != null) {
             ActivityUtils.startActivity(new Intent(context, ShopListActivity.class)
-                    .putExtra(ShopInfo.class.getName(),shopInfo));
+                    .putExtra(ShopInfo.class.getName(), shopInfo));
+        }
+        if (serviceInfo != null) {
+            ActivityUtils.startActivity(new Intent(context, ShopListActivity.class)
+                    .putExtra(ServiceInfo.class.getName(), serviceInfo));
         }
     }
 }

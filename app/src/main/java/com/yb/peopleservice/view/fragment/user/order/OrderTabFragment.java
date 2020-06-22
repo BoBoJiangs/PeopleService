@@ -1,11 +1,13 @@
 package com.yb.peopleservice.view.fragment.user.order;
 
+import android.os.Bundle;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
 import com.yb.peopleservice.view.base.BaseViewPagerFragment;
 
@@ -27,9 +29,13 @@ public class OrderTabFragment extends BaseViewPagerFragment {
     private Fragment doFragment;
     private Fragment finishFragment;
     private Fragment evaluateFragment;
+    private int index;
 
-    public static Fragment getInstanceFragment() {
+    public static Fragment getInstanceFragment(int index) {
         OrderTabFragment fragment = new OrderTabFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(IntentKeyConstant.DATA_KEY, index);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -45,7 +51,7 @@ public class OrderTabFragment extends BaseViewPagerFragment {
 
     @Override
     protected void initView() {
-
+        super.initView();
     }
 
     @Override
@@ -66,7 +72,11 @@ public class OrderTabFragment extends BaseViewPagerFragment {
 
     @Override
     protected void initData() {
+        if (getArguments() != null) {
+            index = getArguments().getInt(IntentKeyConstant.DATA_KEY, 0);
+        }
         viewPager.setScroll(true);
+        viewPager.setCurrentItem(index);
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.yb.peopleservice.model.bean.shop;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.blankj.utilcode.util.StringUtils;
+
 import java.io.Serializable;
 
 /**
@@ -45,31 +47,148 @@ public class ShopInfo implements Parcelable {
      */
     private String id;
     private String address; //店铺地址
+    private String backCardNumber;//银行卡号
+    private String backName;//银行开户行
+    private String backgroundImg;//背景图
     private String businessLicenseImg;//营业执照
     private String headImg;//头像
     private String introduction;//介绍
-    private double locationLatitude;//店铺位置纬度
-    private double locationLongitude;//店铺位置经度
+    private String locationLatitude;//店铺位置纬度
+    private String locationLongitude;//店铺位置经度
     private String managerIdcardImgBack;//管理员身份证背面(个人信息页面)
     private String managerIdcardImgFront;//管理员身份证正面(国徽页面)
     private String message;//平台给店铺的信息，当店铺被审核拒绝通过，或者拉黑以后，会有信息
     private String managerIdcardNumber;//管理员身份证号码
     private String managerName;//管理员名称
+    private String shopManagerId;//管理员ID
+    private String managerSex;//管理员性别
+    private String managerBirthday;//管理员生日
+    private String saveLocation;//保存位置 0否 1是
+    private String selfSupport;//是否是自营 1是 0否
     private String name;//店铺名称
     private String phone;//店铺电话
+    private String deposit;//押金
     private int level;
-    private int status;//状态 0禁用 1正常 2新注册 3待审核 4审核不通过 5申请解除入驻店铺（服务人员状态）
-    private double longitude;
-    private double latitude;
-    private int orderNumber;
-    private double praiseRate;
+    private int stars;//评价星级 1-5；
+    private int status;//状态 0拉黑禁用 1正常 2需要审核 3已提交审核信息
+    private String longitude;//店铺位置经度
+    private String latitude;//店铺位置纬度
+    private int orderReceived;//已接单数量
+    private int orderAmount;//累计完成订单数量
+    private double praiseRate;//好评率 如0.99即好评率99%
+    private String province;//省
+    private String city;//市
+
+    public int getStars() {
+        return stars;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
+    }
+
+    public int getOrderAmount() {
+        return orderAmount;
+    }
+
+    public void setOrderAmount(int orderAmount) {
+        this.orderAmount = orderAmount;
+    }
+
+    public String getProvince() {
+        return province == null ? "" : province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city == null ? "" : city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getBackCardNumber() {
+        return backCardNumber == null ? "" : backCardNumber;
+    }
+
+    public void setBackCardNumber(String backCardNumber) {
+        this.backCardNumber = backCardNumber;
+    }
+
+    public String getBackName() {
+        return backName == null ? "" : backName;
+    }
+
+    public void setBackName(String backName) {
+        this.backName = backName;
+    }
+
+    public String getBackgroundImg() {
+        return backgroundImg == null ? "" : backgroundImg;
+    }
+
+    public void setBackgroundImg(String backgroundImg) {
+        this.backgroundImg = backgroundImg;
+    }
+
+    public String getShopManagerId() {
+        return shopManagerId == null ? "" : shopManagerId;
+    }
+
+    public void setShopManagerId(String shopManagerId) {
+        this.shopManagerId = shopManagerId;
+    }
+
+    public String getManagerSex() {
+        return managerSex == null ? "" : managerSex;
+    }
+
+    public void setManagerSex(String managerSex) {
+        this.managerSex = managerSex;
+    }
+
+    public String getManagerBirthday() {
+        return managerBirthday == null ? "" : managerBirthday;
+    }
+
+    public void setManagerBirthday(String managerBirthday) {
+        this.managerBirthday = managerBirthday;
+    }
+
+    public String getSaveLocation() {
+        return saveLocation == null ? "" : saveLocation;
+    }
+
+    public void setSaveLocation(String saveLocation) {
+        this.saveLocation = saveLocation;
+    }
+
+    public String getSelfSupport() {
+        return selfSupport == null ? "" : selfSupport;
+    }
+
+    public void setSelfSupport(String selfSupport) {
+        this.selfSupport = selfSupport;
+    }
+
+    public String getDeposit() {
+        return deposit == null ? "" : deposit;
+    }
+
+    public void setDeposit(String deposit) {
+        this.deposit = deposit;
+    }
 
     public int getOrderNumber() {
-        return orderNumber;
+        return orderReceived;
     }
 
     public void setOrderNumber(int orderNumber) {
-        this.orderNumber = orderNumber;
+        this.orderReceived = orderNumber;
     }
 
     public double getPraiseRate() {
@@ -85,18 +204,27 @@ public class ShopInfo implements Parcelable {
     }
 
     public double getLongitude() {
-        return longitude;
+        if (StringUtils.isEmpty(longitude)) {
+            return 0.0;
+        } else {
+            return Double.parseDouble(longitude);
+        }
+
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
     public double getLatitude() {
-        return latitude;
+        if (StringUtils.isEmpty(latitude)) {
+            return 0.0;
+        } else {
+            return Double.parseDouble(latitude);
+        }
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
@@ -145,18 +273,26 @@ public class ShopInfo implements Parcelable {
     }
 
     public double getLocationLatitude() {
-        return locationLatitude;
+        if (StringUtils.isEmpty(locationLatitude)) {
+            return 0.0;
+        } else {
+            return Double.parseDouble(locationLatitude);
+        }
     }
 
-    public void setLocationLatitude(double locationLatitude) {
+    public void setLocationLatitude(String locationLatitude) {
         this.locationLatitude = locationLatitude;
     }
 
     public double getLocationLongitude() {
-        return locationLongitude ;
+        if (StringUtils.isEmpty(locationLongitude)) {
+            return 0.0;
+        } else {
+            return Double.parseDouble(locationLongitude);
+        }
     }
 
-    public void setLocationLongitude(double locationLongitude) {
+    public void setLocationLongitude(String locationLongitude) {
         this.locationLongitude = locationLongitude;
     }
 
@@ -236,47 +372,69 @@ public class ShopInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.id);
         dest.writeString(this.address);
+        dest.writeString(this.backCardNumber);
+        dest.writeString(this.backName);
+        dest.writeString(this.backgroundImg);
         dest.writeString(this.businessLicenseImg);
         dest.writeString(this.headImg);
         dest.writeString(this.introduction);
-        dest.writeDouble(this.locationLatitude);
-        dest.writeDouble(this.locationLongitude);
+        dest.writeString(this.locationLatitude);
+        dest.writeString(this.locationLongitude);
         dest.writeString(this.managerIdcardImgBack);
         dest.writeString(this.managerIdcardImgFront);
         dest.writeString(this.message);
         dest.writeString(this.managerIdcardNumber);
         dest.writeString(this.managerName);
+        dest.writeString(this.shopManagerId);
+        dest.writeString(this.managerSex);
+        dest.writeString(this.managerBirthday);
+        dest.writeString(this.saveLocation);
+        dest.writeString(this.selfSupport);
         dest.writeString(this.name);
         dest.writeString(this.phone);
+        dest.writeString(this.deposit);
         dest.writeInt(this.level);
         dest.writeInt(this.status);
-        dest.writeDouble(this.longitude);
-        dest.writeDouble(this.latitude);
-        dest.writeInt(this.orderNumber);
+        dest.writeString(this.longitude);
+        dest.writeString(this.latitude);
+        dest.writeInt(this.orderReceived);
         dest.writeDouble(this.praiseRate);
+        dest.writeString(this.province);
+        dest.writeString(this.city);
     }
 
     protected ShopInfo(Parcel in) {
         this.id = in.readString();
         this.address = in.readString();
+        this.backCardNumber = in.readString();
+        this.backName = in.readString();
+        this.backgroundImg = in.readString();
         this.businessLicenseImg = in.readString();
         this.headImg = in.readString();
         this.introduction = in.readString();
-        this.locationLatitude = in.readDouble();
-        this.locationLongitude = in.readDouble();
+        this.locationLatitude = in.readString();
+        this.locationLongitude = in.readString();
         this.managerIdcardImgBack = in.readString();
         this.managerIdcardImgFront = in.readString();
         this.message = in.readString();
         this.managerIdcardNumber = in.readString();
         this.managerName = in.readString();
+        this.shopManagerId = in.readString();
+        this.managerSex = in.readString();
+        this.managerBirthday = in.readString();
+        this.saveLocation = in.readString();
+        this.selfSupport = in.readString();
         this.name = in.readString();
         this.phone = in.readString();
+        this.deposit = in.readString();
         this.level = in.readInt();
         this.status = in.readInt();
-        this.longitude = in.readDouble();
-        this.latitude = in.readDouble();
-        this.orderNumber = in.readInt();
+        this.longitude = in.readString();
+        this.latitude = in.readString();
+        this.orderReceived = in.readInt();
         this.praiseRate = in.readDouble();
+        this.province = in.readString();
+        this.city = in.readString();
     }
 
     public static final Creator<ShopInfo> CREATOR = new Creator<ShopInfo>() {

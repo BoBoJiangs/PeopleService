@@ -92,7 +92,7 @@ public class PayPresenter {
         }) {
             @Override
             public Observable getObservable(IPayRequest iRequestServer) {
-                Map<String, Object> map = new HashMap<>(2);
+                Map<String, String> map = new HashMap<>(2);
                 map.put("businessId", orderId);
                 map.put("title", title);
                 map.put("businessType", businessType);

@@ -20,8 +20,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space_default"
-            android:layout_marginRight="@dimen/space_default"
             android:orientation="vertical">
 
             <cn.sts.base.view.widget.UtilityView
@@ -29,150 +27,193 @@
                 style="@style/utility_view"
                 android:layout_height="220pt"
                 app:right_image_height="180pt"
-                app:right_image_res="@drawable/base_icon_default"
+                app:right_image_res="@mipmap/icon_yuan"
                 app:right_image_width="180pt"
                 app:text_content=""
-                app:text_content_size="@dimen/font_btn_small_best"
                 app:text_content_color="@color/base_lib_gray"
-                app:text_title="店铺图片" />
+                app:text_content_size="@dimen/font_btn_small_best"
+                app:text_title="店铺头像" />
 
             <cn.sts.base.view.widget.UtilityView
-                android:id="@+id/nameUV"
-                style="@style/utility_view"
-                android:layout_height="50dp"
-                app:line_show="true"
-                app:type="INPUT"
-                app:text_content_hint="请输入管理员姓名"
-                app:text_title="管理员姓名" />
+                android:id="@+id/shopNameUV"
+                style="@style/info_utility_input"
+                app:text_content_hint="店铺名称"
+                app:text_title="店铺名称" />
 
             <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/phoneUV"
-                style="@style/utility_view"
-                android:layout_height="50dp"
-                app:line_show="true"
-                app:type="INPUT"
+                style="@style/info_utility_input"
+                app:text_content_hint="店铺电话"
                 app:text_content_input_type="NUMBER"
-                app:text_content_hint="请输入店铺电话"
-                app:text_title="店铺电话　" />
+                app:text_title="店铺电话" />
 
             <cn.sts.base.view.widget.UtilityView
-                android:id="@+id/idCardUV"
-                style="@style/utility_view"
-                android:layout_height="50dp"
-                app:line_show="true"
-                app:type="INPUT"
-                app:text_content_hint="请输入身份证号"
-                app:text_title="身份证号　" />
-            <cn.sts.base.view.widget.UtilityView
-                android:id="@+id/shopNameUV"
-                style="@style/utility_view"
-                android:layout_height="50dp"
-                app:line_show="true"
-                app:text_content_hint="请输入店铺名称"
-                app:type="INPUT"
-                app:text_title="店铺名称　" />
-            <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/addressUV"
-                style="@style/utility_view"
-                app:right_image_res="@mipmap/icon_location2"
-                app:right_image_height="35pt"
-                app:right_image_width="35pt"
-                android:layout_height="50dp"
+                style="@style/info_utility"
                 app:line_show="true"
-                app:text_content_hint="请选择店铺地址"
-                app:text_title="店铺地址　" />
+                app:text_content_hint="请选择"
+                app:text_title="店铺地址" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/cityUV"
+                style="@style/info_utility"
+                app:text_content_hint="请选择"
+                app:text_title="所属省市" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/bankNumberUV"
+                style="@style/info_utility_input"
+                app:line_show="true"
+                app:text_content_hint="银行卡号"
+                app:text_title="银行卡号" />
+
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/bankNameUV"
+                style="@style/info_utility_input"
+                app:line_show="true"
+                app:text_content_hint="开户行"
+                app:text_title="开户行" />
+
+
+
             <cn.sts.base.view.widget.UtilityView
                 android:id="@+id/remakeUV"
                 style="@style/utility_view"
                 android:layout_height="wrap_content"
                 android:minHeight="50dp"
                 app:line_show="true"
-                app:type="INPUT"
                 app:multi_line="true"
                 app:text_content_hint="请输入店铺描述"
-                app:text_title="店铺描述　" />
+                app:text_title="店铺描述　"
+                app:type="INPUT" />
 
-
-            <TextView
-                style="@style/text_view_content_black"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:text="上传身份证明" />
-
-            <FrameLayout
-                android:id="@+id/cardFaceFL"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="420pt"
-                android:background="@color/color_fa">
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_default"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/cardFaceIV"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                <LinearLayout
+                    android:id="@+id/shopBgLL"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/addFaceTV"
-                    style="@style/text_view_content_gray"
-                    android:layout_gravity="center"
-                    android:drawableTop="@mipmap/icon_xinzeng"
-                    android:drawablePadding="5dp"
-                    android:text="身份证人像面" />
-            </FrameLayout>
+                    <ImageView
+                        android:id="@+id/shopBgIV"
+                        android:layout_width="match_parent"
+                        android:layout_height="200pt"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/icon_camera" />
 
-            <FrameLayout
-                android:id="@+id/cardBackFL"
+                    <TextView
+                        android:id="@+id/shopBgTV"
+                        style="@style/text_view_content_black"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="店铺背景图" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/licenseFL"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/licenseIV"
+                        android:layout_width="match_parent"
+                        android:layout_height="200pt"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/icon_camera" />
+
+                    <TextView
+                        android:id="@+id/licenseTV"
+                        style="@style/text_view_content_black"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="营业执照" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/nameUV"
+                style="@style/info_utility_input"
+                android:layout_marginTop="20dp"
+                app:text_content_hint="管理员姓名"
+                app:text_title="管理员姓名" />
+
+            <cn.sts.base.view.widget.UtilityView
+                android:id="@+id/idCardUV"
+                style="@style/info_utility_input"
+                app:text_content_hint="请输入身份证号"
+                app:text_title="管理员身份证号" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="420pt"
-                android:layout_marginTop="15dp"
-                android:background="@color/color_fa">
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_default"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/cardBackIV"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                <LinearLayout
+                    android:id="@+id/cardFaceFL"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/addBackTV"
-                    style="@style/text_view_content_gray"
-                    android:layout_gravity="center"
-                    android:drawableTop="@mipmap/icon_xinzeng"
-                    android:drawablePadding="5dp"
-                    android:text="身份证国徽面" />
-            </FrameLayout>
+                    <ImageView
+                        android:id="@+id/cardFaceIV"
+                        android:layout_width="match_parent"
+                        android:layout_height="200pt"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/icon_camera" />
 
-            <TextView
-                android:id="@+id/titleLicenseTV"
-                style="@style/text_view_content_black"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:text="上传营业执照" />
+                    <TextView
+                        android:id="@+id/addFaceTV"
+                        style="@style/text_view_content_black"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="身份证正面" />
+                </LinearLayout>
 
-            <FrameLayout
-                android:id="@+id/licenseFL"
-                android:layout_width="match_parent"
-                android:layout_height="420pt"
-                android:background="@color/color_fa">
+                <LinearLayout
+                    android:id="@+id/cardBackFL"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/licenseIV"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    <ImageView
+                        android:id="@+id/cardBackIV"
+                        android:layout_width="match_parent"
+                        android:layout_height="200pt"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/icon_camera" />
 
-                <TextView
-                    android:id="@+id/licenseTV"
-                    style="@style/text_view_content_gray"
-                    android:layout_gravity="center"
-                    android:drawableTop="@mipmap/icon_xinzeng"
-                    android:drawablePadding="5dp"
-                    android:text="上传营业执照" />
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/addBackTV"
+                        style="@style/text_view_content_black"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="身份证反面" />
+                </LinearLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
     <Button
         android:id="@+id/sureBtn"
         style="@style/login_btn_style"
-        android:text="确定" />
+        android:layout_width="90dp"
+        android:layout_height="70pt"
+        android:layout_gravity="right"
+        android:text="提交" />
 </LinearLayout>

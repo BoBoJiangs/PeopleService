@@ -36,6 +36,9 @@ public class UserInfoBeanDao extends AbstractDao<UserInfoBean, String> {
         public final static Property Age = new Property(9, int.class, "age", false, "AGE");
         public final static Property Birthday = new Property(10, String.class, "birthday", false, "BIRTHDAY");
         public final static Property Sex = new Property(11, String.class, "sex", false, "SEX");
+        public final static Property Province = new Property(12, String.class, "province", false, "PROVINCE");
+        public final static Property City = new Property(13, String.class, "city", false, "CITY");
+        public final static Property OrderAmount = new Property(14, String.class, "orderAmount", false, "ORDER_AMOUNT");
     }
 
 
@@ -62,7 +65,10 @@ public class UserInfoBeanDao extends AbstractDao<UserInfoBean, String> {
                 "\"ORDER_NUMBER\" INTEGER," + // 8: orderNumber
                 "\"AGE\" INTEGER NOT NULL ," + // 9: age
                 "\"BIRTHDAY\" TEXT," + // 10: birthday
-                "\"SEX\" TEXT);"); // 11: sex
+                "\"SEX\" TEXT," + // 11: sex
+                "\"PROVINCE\" TEXT," + // 12: province
+                "\"CITY\" TEXT," + // 13: city
+                "\"ORDER_AMOUNT\" TEXT);"); // 14: orderAmount
     }
 
     /** Drops the underlying database table. */
@@ -118,6 +124,21 @@ public class UserInfoBeanDao extends AbstractDao<UserInfoBean, String> {
         if (sex != null) {
             stmt.bindString(12, sex);
         }
+ 
+        String province = entity.getProvince();
+        if (province != null) {
+            stmt.bindString(13, province);
+        }
+ 
+        String city = entity.getCity();
+        if (city != null) {
+            stmt.bindString(14, city);
+        }
+ 
+        String orderAmount = entity.getOrderAmount();
+        if (orderAmount != null) {
+            stmt.bindString(15, orderAmount);
+        }
     }
 
     @Override
@@ -167,6 +188,21 @@ public class UserInfoBeanDao extends AbstractDao<UserInfoBean, String> {
         if (sex != null) {
             stmt.bindString(12, sex);
         }
+ 
+        String province = entity.getProvince();
+        if (province != null) {
+            stmt.bindString(13, province);
+        }
+ 
+        String city = entity.getCity();
+        if (city != null) {
+            stmt.bindString(14, city);
+        }
+ 
+        String orderAmount = entity.getOrderAmount();
+        if (orderAmount != null) {
+            stmt.bindString(15, orderAmount);
+        }
     }
 
     @Override
@@ -188,7 +224,10 @@ public class UserInfoBeanDao extends AbstractDao<UserInfoBean, String> {
             cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // orderNumber
             cursor.getInt(offset + 9), // age
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // birthday
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11) // sex
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // sex
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // province
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // city
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14) // orderAmount
         );
         return entity;
     }
@@ -207,6 +246,9 @@ public class UserInfoBeanDao extends AbstractDao<UserInfoBean, String> {
         entity.setAge(cursor.getInt(offset + 9));
         entity.setBirthday(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setSex(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setProvince(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setCity(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setOrderAmount(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
      }
     
     @Override

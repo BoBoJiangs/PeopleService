@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.google.gson.reflect.TypeToken;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 
@@ -89,7 +90,7 @@ public class OrderBean implements Parcelable {
     private String consigneeRegion;//被服务人区/县
     private String createTime;//订单创建时间戳
     private String customerId;//顾客id
-    private int distance;//距离，起点到终点由地图API计算得到的总距离
+    private float distance;//距离，起点到终点由地图API计算得到的总距离
     private String endLatitude;//终点位置纬度
     private String endLongitude;//终点位置经度
     private int evaluateLevel;//评价等级 1到5星 整数1到5
@@ -124,6 +125,65 @@ public class OrderBean implements Parcelable {
     private String groupId;
     private String orderNumber;
     private List<CouponBean> coupons;//优惠券列表
+    private String trajectoryId;
+    private String startAddress;
+    private String endAddress;
+    private String startDistance;
+    private String startPrice;
+    private String setOutTime;
+
+    public String getSetOutTime() {
+        return setOutTime == null ? "" : setOutTime;
+    }
+
+    public void setSetOutTime(String setOutTime) {
+        this.setOutTime = setOutTime;
+    }
+
+    public String getStartDistance() {
+        return startDistance == null ? "" : startDistance;
+    }
+
+    public void setStartDistance(String startDistance) {
+        this.startDistance = startDistance;
+    }
+
+    public String getStartPrice() {
+        return startPrice == null ? "" : startPrice;
+    }
+
+    public void setStartPrice(String startPrice) {
+        this.startPrice = startPrice;
+    }
+
+    public long getTrajectoryId() {
+        if (!StringUtils.isEmpty(trajectoryId)) {
+            return Long.parseLong(trajectoryId);
+        } else {
+            return 0;
+        }
+
+    }
+
+    public String getStartAddress() {
+        return startAddress == null ? "" : startAddress;
+    }
+
+    public void setStartAddress(String startAddress) {
+        this.startAddress = startAddress;
+    }
+
+    public String getEndAddress() {
+        return endAddress == null ? "" : endAddress;
+    }
+
+    public void setEndAddress(String endAddress) {
+        this.endAddress = endAddress;
+    }
+
+    public void setTrajectoryId(String trajectoryId) {
+        this.trajectoryId = trajectoryId;
+    }
 
     public List<CouponBean> getCoupons() {
         if (coupons == null) {
@@ -177,7 +237,7 @@ public class OrderBean implements Parcelable {
     }
 
     public String getConsigneeAddress() {
-        return consigneeAddress;
+        return consigneeAddress == null ? "" : consigneeAddress;
     }
 
     public void setConsigneeAddress(String consigneeAddress) {
@@ -193,7 +253,7 @@ public class OrderBean implements Parcelable {
     }
 
     public String getConsigneeHouseNumber() {
-        return consigneeHouseNumber;
+        return consigneeHouseNumber == null ? "" : consigneeHouseNumber;
     }
 
     public void setConsigneeHouseNumber(String consigneeHouseNumber) {
@@ -248,24 +308,32 @@ public class OrderBean implements Parcelable {
         this.customerId = customerId;
     }
 
-    public int getDistance() {
+    public float getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(float distance) {
         this.distance = distance;
     }
 
-    public String getEndLatitude() {
-        return endLatitude;
+    public double getEndLatitude() {
+        if (!StringUtils.isEmpty(endLatitude)) {
+            return Double.parseDouble(endLatitude);
+        } else {
+            return 0;
+        }
     }
 
     public void setEndLatitude(String endLatitude) {
         this.endLatitude = endLatitude;
     }
 
-    public String getEndLongitude() {
-        return endLongitude;
+    public double getEndLongitude() {
+        if (!StringUtils.isEmpty(endLongitude)) {
+            return Double.parseDouble(endLongitude);
+        } else {
+            return 0;
+        }
     }
 
     public void setEndLongitude(String endLongitude) {
@@ -371,7 +439,7 @@ public class OrderBean implements Parcelable {
     public List<String> refundImgList() {
         List<String> imgList = GsonUtils.fromJson(refundImgs,
                 new TypeToken<List<String>>() {
-        }.getType());
+                }.getType());
         if (imgList != null) {
             return imgList;
         } else {
@@ -444,16 +512,24 @@ public class OrderBean implements Parcelable {
         this.shopId = shopId;
     }
 
-    public String getStartLatitude() {
-        return startLatitude;
+    public double getStartLatitude() {
+        if (!StringUtils.isEmpty(startLatitude)){
+            return Double.parseDouble(startLatitude);
+        }else{
+            return 0.0;
+        }
     }
 
     public void setStartLatitude(String startLatitude) {
         this.startLatitude = startLatitude;
     }
 
-    public String getStartLongitude() {
-        return startLongitude;
+    public double getStartLongitude() {
+        if (!StringUtils.isEmpty(startLongitude)){
+            return Double.parseDouble(startLongitude);
+        }else{
+            return 0.0;
+        }
     }
 
     public void setStartLongitude(String startLongitude) {
@@ -480,7 +556,7 @@ public class OrderBean implements Parcelable {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -516,7 +592,7 @@ public class OrderBean implements Parcelable {
         dest.writeString(this.consigneeRegion);
         dest.writeString(this.createTime);
         dest.writeString(this.customerId);
-        dest.writeInt(this.distance);
+        dest.writeFloat(this.distance);
         dest.writeString(this.endLatitude);
         dest.writeString(this.endLongitude);
         dest.writeInt(this.evaluateLevel);
@@ -547,6 +623,12 @@ public class OrderBean implements Parcelable {
         dest.writeString(this.groupId);
         dest.writeString(this.orderNumber);
         dest.writeTypedList(this.coupons);
+        dest.writeString(this.trajectoryId);
+        dest.writeString(this.startAddress);
+        dest.writeString(this.endAddress);
+        dest.writeString(this.startDistance);
+        dest.writeString(this.startPrice);
+        dest.writeString(this.setOutTime);
     }
 
     protected OrderBean(Parcel in) {
@@ -562,7 +644,7 @@ public class OrderBean implements Parcelable {
         this.consigneeRegion = in.readString();
         this.createTime = in.readString();
         this.customerId = in.readString();
-        this.distance = in.readInt();
+        this.distance = in.readFloat();
         this.endLatitude = in.readString();
         this.endLongitude = in.readString();
         this.evaluateLevel = in.readInt();
@@ -593,6 +675,12 @@ public class OrderBean implements Parcelable {
         this.groupId = in.readString();
         this.orderNumber = in.readString();
         this.coupons = in.createTypedArrayList(CouponBean.CREATOR);
+        this.trajectoryId = in.readString();
+        this.startAddress = in.readString();
+        this.endAddress = in.readString();
+        this.startDistance = in.readString();
+        this.startPrice = in.readString();
+        this.setOutTime = in.readString();
     }
 
     public static final Creator<OrderBean> CREATOR = new Creator<OrderBean>() {

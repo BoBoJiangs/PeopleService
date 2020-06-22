@@ -2,6 +2,7 @@ package com.yb.peopleservice.model.server.user;
 
 
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.order.OrderListBean;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * 类描述:用户相关
@@ -22,6 +24,14 @@ import retrofit2.http.Query;
  */
 
 public interface OrderRequest {
+
+
+    /**
+     * 添加订单轨迹ID（服务人员）
+     */
+    @POST("orders/{id}/trajectory")
+    Observable<RequestResult> addOrderTrackId(@Path("id") String orderId,
+                                              @Query("trajectoryId") String trajectoryId);
 
     /**
      * 接受订单（服务人员）
@@ -64,5 +74,11 @@ public interface OrderRequest {
      */
     @POST("orders/{id}/confirm")
     Observable<RequestResult> confirmRefund(@Path("id") String id);
+
+    /**
+     * 查询订单详情
+     */
+    @GET("orders/{orderId}")
+    Observable<RequestResult<OrderListBean>> orderDetails(@Path("orderId") String id);
 
 }

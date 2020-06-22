@@ -2,8 +2,10 @@ package com.yb.peopleservice.model.server.shop;
 
 
 import com.yb.peopleservice.model.bean.shop.BalanceBean;
+import com.yb.peopleservice.model.bean.shop.MessageBean;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.PersonListBean;
+import com.yb.peopleservice.model.database.bean.RecordBean;
 import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 
@@ -31,6 +33,12 @@ import retrofit2.http.QueryMap;
 public interface ShopRequest {
 
     /**
+     * 修改店铺信息
+     */
+    @PUT("shops/custom")
+    Observable<RequestResult<ShopInfo>> editShopInfo(@Body ShopInfo shopInfo);
+
+    /**
      * 店铺认证
      */
     @PUT("shops")
@@ -40,13 +48,13 @@ public interface ShopRequest {
      * 获取店铺信息
      */
     @GET("shops")
-    Observable<RequestResult<MyShop>> getShopInfo();
+    Observable<RequestResult<ServiceInfo>> getShopInfo();
 
     /**
      * 查询本店铺下所有的服务人员关系列表
      */
     @GET("staffs")
-    Observable<RequestResult<List<PersonListBean>>> shopPerson();
+    Observable<RequestResult<List<ServiceInfo>>> shopPerson();
 
     /**
      * 指派服务员
@@ -74,6 +82,31 @@ public interface ShopRequest {
 
 
     /***********************************服务人员相关接口 *******************************************/
+
+
+    /**
+     * 消息列表(用户)
+     */
+    @GET("messages")
+    Observable<RequestResult<List<MessageBean>>> getUserMessage(@QueryMap Map<String, String> parameter);
+
+    /**
+     * 消息列表(用户)
+     */
+    @POST("messages")
+    Observable<RequestResult> addMessage(@Body MessageBean parameter);
+
+    /**
+     * 消息列表(店铺)
+     */
+    @GET("shop/messages")
+    Observable<RequestResult<List<MessageBean>>> getShopMessage(@QueryMap Map<String, Integer> parameter);
+
+    /**
+     * 消息列表（服务人员）
+     */
+    @GET("staff/messages")
+    Observable<RequestResult<List<MessageBean>>> getStaffMessage(@QueryMap Map<String, Integer> parameter);
 
     /**
      * 获取服务人员自己的所有信息
@@ -108,17 +141,28 @@ public interface ShopRequest {
     /**
      * 解除关联店铺
      */
-    @POST("shops/{id}/unbound")
-    Observable<RequestResult<Object>> unboundShop(@Path("id") String id);
+    @POST("shops/unbound")
+    Observable<RequestResult<Object>> unboundShop();
 
 
     /**
      *
      * 取消申请入驻到店铺
      */
-    @POST("shops/{id}/cancelsettledin")
-    Observable<RequestResult<Object>> cancelaShop(@Path("id") String id);
+    @POST("shops/cancelsettledin")
+    Observable<RequestResult<Object>> cancelaShop();
 
+    /**
+     *
+     * 录音上传
+     */
+    @POST("orders/sound")
+    Observable<RequestResult<Object>> uploadSound(@Body List<RecordBean> bean);
 
+    /**
+     * 修改店铺信息
+     */
+    @PUT("staffs/custom")
+    Observable<RequestResult<ShopInfo>> editStaffsInfo(@Body ServiceInfo shopInfo);
 
 }

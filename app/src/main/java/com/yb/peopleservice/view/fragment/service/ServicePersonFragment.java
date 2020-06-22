@@ -3,7 +3,6 @@ package com.yb.peopleservice.view.fragment.service;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,44 +11,37 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
-import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
-import com.yb.peopleservice.model.bean.shop.BalanceBean;
 import com.yb.peopleservice.model.bean.shop.MyShop;
+import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.database.bean.ServiceInfo;
-import com.yb.peopleservice.model.database.bean.UserInfoBean;
-import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
 import com.yb.peopleservice.model.presenter.login.LogoutPresenter;
 import com.yb.peopleservice.model.presenter.shop.ServiceInfoPresenter;
-import com.yb.peopleservice.push.TagAliasOperatorHelper;
-import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
-import com.yb.peopleservice.view.activity.common.MyIncomeActivity;
+import com.yb.peopleservice.view.activity.common.AboutActivity;
+import com.yb.peopleservice.view.activity.common.MessageListActivity;
 import com.yb.peopleservice.view.activity.common.ShopDetailsActivity;
+import com.yb.peopleservice.view.activity.personal.UpdatePasswordActivity;
 import com.yb.peopleservice.view.activity.services.ApplyServiceActivity;
-import com.yb.peopleservice.view.activity.services.CertificationDetailsActivity;
+import com.yb.peopleservice.view.activity.services.EditServiceInfoActivity;
+import com.yb.peopleservice.view.activity.services.ServiceApplyDetailsActivity;
+import com.yb.peopleservice.view.activity.services.ShopEntryActivity;
 import com.yb.peopleservice.view.activity.services.StoreEntryActivity;
 import com.yb.peopleservice.view.base.LazyLoadFragment;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.model.UserInfo;
-import cn.jpush.im.api.BasicCallback;
 import cn.sts.base.presenter.AbstractPresenter;
-import cn.sts.base.view.fragment.BaseFragment;
 import cn.sts.base.view.widget.AppDialog;
 import cn.sts.base.view.widget.UtilityView;
-
-import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
 
 /**
  * 项目名称:PeopleService
@@ -67,27 +59,31 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
     ImageView photoIV;
     @BindView(R.id.nameTV)
     TextView nameTV;
-    @BindView(R.id.shopInfoUV)
-    UtilityView shopInfoUV;
-    @BindView(R.id.profitUV)
-    UtilityView profitUV;
+    @BindView(R.id.phoneTV)
+    TextView phoneTV;
+    @BindView(R.id.applyUV)
+    UtilityView applyUV;
     @BindView(R.id.shopInUV)
     UtilityView shopInUV;
-    @BindView(R.id.emptyLL)
-    LinearLayout emptyLL;
+    //    @BindView(R.id.emptyLL)
+//    LinearLayout emptyLL;
     @BindView(R.id.rootLL)
     LinearLayout rootLL;
-    @BindView(R.id.applyBtn)
-    Button applyBtn;
-    @BindView(R.id.remakeTV)
-    TextView remakeTV;
+    @BindView(R.id.barView)
+    TextView barView;
     private ServiceInfoPresenter presenter;
-    private MyShop myShop;
+    //    private MyShop myShop;
     private ServiceInfo serviceInfo;
 
     public static Fragment getInstanceFragment() {
         ServicePersonFragment fragment = new ServicePersonFragment();
         return fragment;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -98,6 +94,7 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
     @Override
     protected void initView() {
         setOnRefreshListener();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -106,7 +103,13 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
         swipeRefreshLayout.setRefreshing(true);
         presenter = new ServiceInfoPresenter(getContext(), this);
         presenter.getServiceInfo();
-        presenter.getServiceMyShop();
+//        presenter.getServiceMyShop();
+        barView.setPadding(0, ImmersionBar.getStatusBarHeight(this), 0, 0);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ServiceInfo infoBean) {
+        presenter.getServiceInfo();
     }
 
     @Override
@@ -125,7 +128,7 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
                 @Override
                 public void onRefresh() {
                     presenter.getServiceInfo();
-                    presenter.getServiceMyShop();
+//                    presenter.getServiceMyShop();
                 }
             });
             //设置下拉刷新旋转颜色
@@ -138,29 +141,25 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
         return presenter;
     }
 
-    @OnClick({R.id.shopInfoUV, R.id.profitUV, R.id.applyBtn, R.id.shopInUV,R.id.exitBtn})
+    @OnClick({R.id.applyUV, R.id.shopInUV, R.id.exitBtn, R.id.editCl,
+            R.id.aboutUV, R.id.updateUV, R.id.noticeUV})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.shopInfoUV:
-                if (serviceInfo != null) {
-                    startActivity(new Intent(getContext(), CertificationDetailsActivity.class)
-                            .putExtra(ServiceInfo.class.getName(), serviceInfo));
-                }
-
+            case R.id.editCl:
+                startActivity(new Intent(getContext(), EditServiceInfoActivity.class)
+                        .putExtra(ServiceInfo.class.getName(), serviceInfo));
                 break;
-            case R.id.profitUV:
-                startActivity(new Intent(getContext(), MyIncomeActivity.class)
-                        .putExtra("type", BalanceBean.PRRSONAL));
-                break;
-            case R.id.applyBtn:
-                startActivityForResult(new Intent(getContext(), ApplyServiceActivity.class),
-                        RequestCodeConstant.BASE_REQUEST);
+            case R.id.applyUV:
+                applyStatus();
                 break;
             case R.id.shopInUV:
-                if (shopInUV.getContentText().contains("我的店铺")) {
-                    myShop.setType(MyShop.SHOP_DETAILS);
-                    startActivityForResult(new Intent(getContext(), ShopDetailsActivity.class)
-                            .putExtra(MyShop.class.getName(), myShop), RequestCodeConstant.BASE_REQUEST);
+                if (serviceInfo.getStatus() != 1) {
+                    ToastUtils.showLong("请先完成身份认证");
+                    return;
+                }
+                if (serviceInfo.getShop() != null) {
+                    startActivity(new Intent(getContext(), ShopEntryActivity.class)
+                            .putExtra(ServiceInfo.class.getName(), serviceInfo));
                 } else {
                     startActivity(new Intent(getContext(), StoreEntryActivity.class));
                 }
@@ -169,7 +168,35 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
             case R.id.exitBtn:
                 exit();
                 break;
+            case R.id.aboutUV:
+                startActivity(new Intent(getContext(), AboutActivity.class));
+                break;
+            case R.id.updateUV:
+                startActivity(new Intent(getContext(), UpdatePasswordActivity.class));
+                break;
+            case R.id.noticeUV:
+                startActivity(new Intent(getContext(), MessageListActivity.class));
+                break;
         }
+    }
+
+    /**
+     * 判断账号状态 跳转具体页面
+     */
+    private void applyStatus() {
+        switch (serviceInfo.getStatus()) {
+            case 1://账号正常
+            case 3://待审核
+                startActivity(new Intent(getContext(), ServiceApplyDetailsActivity.class)
+                        .putExtra(ServiceInfo.class.getName(), serviceInfo));
+                break;
+            case 2://新用户
+            case 4://审核没通过
+                startActivityForResult(new Intent(getContext(), ApplyServiceActivity.class),
+                        RequestCodeConstant.BASE_REQUEST);
+                break;
+        }
+
     }
 
     public void exit() {
@@ -179,7 +206,7 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
                     @Override
                     public void onClick(AppDialog appDialog) {
                         appDialog.dismiss();
-                        new LogoutPresenter(getContext(),null).logout();
+                        new LogoutPresenter(getContext(), null).logout();
                     }
                 });
 
@@ -193,89 +220,64 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
         appDialog.show();
     }
 
-    @Override
-    public void getMyShopSuccess(MyShop info) {
-        myShop = info;
-        shopInUV.setContentText("　入驻店铺");
-        if (info != null) {
-            shopInUV.setContentText("　我的店铺");
-        }
-    }
-
-    @Override
-    public void getMyShopFail() {
-        shopInUV.setContentText("　入驻店铺");
-    }
+//    @Override
+//    public void getMyShopSuccess(MyShop info) {
+//        myShop = info;
+//        shopInUV.setContentText("　入驻店铺");
+//        if (info != null) {
+//            shopInUV.setContentText("　我的店铺");
+//        }
+//    }
+//
+//    @Override
+//    public void getMyShopFail() {
+//        shopInUV.setContentText("　入驻店铺");
+//    }
 
     @Override
     public void serviceInfoSuccess(ServiceInfo data) {
         if (data != null) {
-            new ChatPresenter().getUserInfo(AppUtils.formatID(data.getId()),
-                    data.getName());
+
             this.serviceInfo = data;
             swipeRefreshLayout.setRefreshing(false);
             rootLL.setVisibility(View.VISIBLE);
-            if (data != null) {
-                ImageLoaderUtil.loadServerCircleImage(getContext(), data.getHeadImg(), photoIV);
-                nameTV.setText(data.getName());
-                if (data.getStatus() == 1) {
-                    shopInfoUV.setVisibility(View.VISIBLE);
-                    profitUV.setVisibility(View.VISIBLE);
-                    shopInUV.setVisibility(View.VISIBLE);
-                    emptyLL.setVisibility(View.GONE);
-                } else {
-                    shopInfoUV.setVisibility(View.INVISIBLE);
-                    profitUV.setVisibility(View.INVISIBLE);
-                    shopInUV.setVisibility(View.INVISIBLE);
-                    emptyLL.setVisibility(View.VISIBLE);
-                }
-                switch (data.getStatus()) {
-                    case 0:
-                        applyBtn.setVisibility(View.INVISIBLE);
-                        remakeTV.setText("账号已被禁用,请联系管理员！");
+            ImageLoaderUtil.loadServerCircleImage(getContext(), data.getHeadImg(), photoIV);
+            nameTV.setText(data.getName());
+            phoneTV.setText(data.getPhone());
+            switch (data.getStatus()) {
+                case 0:
+                    applyUV.setContentText("账号已被禁用");
+                    break;
+                case 1:
+                    applyUV.setContentText("已认证");
+                    break;
+                case 2:
+                    applyUV.setContentText("未认证");
+                    break;
+                case 3:
+                    applyUV.setContentText("认证审核中");
+                    break;
+                case 4:
+                    applyUV.setContentText("认证未通过");
+                    break;
+            }
+            shopInUV.setContentText("未入职");
+            ShopInfo shopInfo = data.getShop();
+            if (shopInfo != null) {
+                switch (serviceInfo.getJobStatus()) {
+                    case "1"://正常
+                        shopInUV.setContentText(shopInfo.getName());
                         break;
-                    case 2:
-                        applyBtn.setVisibility(View.VISIBLE);
-                        applyBtn.setText("申请认证服务人员");
-                        remakeTV.setText("审核通过后即可发布服务！");
-                        break;
-                    case 3:
-                        applyBtn.setVisibility(View.INVISIBLE);
-                        remakeTV.setText("认证审核中！");
-                        break;
-                    case 4:
-                        applyBtn.setVisibility(View.VISIBLE);
-                        applyBtn.setText("申请认证服务人员");
-                        remakeTV.setText("审核不通过：" + data.getMessage());
+                    case "2"://申请入驻审核中
+                        shopInUV.setContentText("待审核");
                         break;
                 }
             }
-            setAlias(data);
-            setTags(data);
+
+
         }
     }
 
-
-    private void setAlias(ServiceInfo data) {
-        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
-        tagAliasBean.action = ACTION_SET;
-        LogUtils.e(data.getId().replace("-", ""));
-        tagAliasBean.alias = data.getId().replace("-", "");
-        tagAliasBean.isAliasAction = true;
-        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
-    }
-
-    private void setTags(ServiceInfo data) {
-        Set<String> tags = new HashSet<>();
-        tags.add("staff");
-        if (!StringUtils.isEmpty(data.getShopId())) {
-            tags.add(data.getShopId().replace("-", ""));
-        }
-        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
-        tagAliasBean.action = ACTION_SET;
-        tagAliasBean.tags = tags;
-        TagAliasOperatorHelper.getInstance().handleAction(getContext(), 1, tagAliasBean);
-    }
 
     @Override
     public void serviceInfoFail() {
@@ -287,7 +289,7 @@ public class ServicePersonFragment extends LazyLoadFragment implements ServiceIn
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ResponseCodeConstant.BASE_RESPONSE) {
             presenter.getServiceInfo();
-            presenter.getServiceMyShop();
+//            presenter.getServiceMyShop();
         }
     }
 

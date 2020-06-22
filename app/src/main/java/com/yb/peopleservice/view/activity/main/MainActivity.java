@@ -18,10 +18,12 @@ import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
+import com.yb.peopleservice.model.presenter.VersionPresenter;
 import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
 import com.yb.peopleservice.push.TagAliasOperatorHelper;
 import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
+import com.yb.peopleservice.view.activity.personal.MyOrderActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
 import com.yb.peopleservice.view.base.BaseViewPagerActivity;
 import com.yb.peopleservice.view.fragment.user.classify.ClassifyFragment;
@@ -29,6 +31,7 @@ import com.yb.peopleservice.view.fragment.user.HomeFragment;
 import com.yb.peopleservice.view.fragment.user.LifeRadarMapFragment;
 import com.yb.peopleservice.view.fragment.user.order.OrderTabFragment;
 import com.yb.peopleservice.view.fragment.user.PersonalFragment;
+import com.yb.peopleservice.view.fragment.user.order.QuickOrderFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,7 +49,7 @@ import static com.yb.peopleservice.push.TagAliasOperatorHelper.ACTION_SET;
 
 public class MainActivity extends BaseViewPagerActivity {
 
-    private String[] mTitles = {"首页", "分类", "生活雷达", "订单", "个人中心"};
+    private String[] mTitles = {"首页", "分类", "生活雷达", "快速下单", "我的"};
     private int[] mIconUnselectIds = {
             R.mipmap.tab_home_unselect, R.mipmap.tab_class_unselect,
             R.mipmap.tab_map_unselect, R.mipmap.tab_order_unselect, R.mipmap.tab_center_unselect};
@@ -80,6 +83,7 @@ public class MainActivity extends BaseViewPagerActivity {
     public void initView() {
         super.initView();
         viewPager.setOffscreenPageLimit(5);
+        new VersionPresenter(this).checkVersion();
     }
 
     @Override
@@ -87,9 +91,12 @@ public class MainActivity extends BaseViewPagerActivity {
         super.onNewIntent(intent);
         boolean isPaySuccess = intent.getBooleanExtra("isPaySuccess",false);
         if (isPaySuccess){
-            commonTabLayout.setCurrentTab(2);
+            commonTabLayout.setCurrentTab(0);
+            onTabSelect(0);
+            startActivity(new Intent(this, MyOrderActivity.class));
         }else{
             commonTabLayout.setCurrentTab(0);
+            viewPager.setCurrentItem(0,false);
         }
     }
 
@@ -103,7 +110,7 @@ public class MainActivity extends BaseViewPagerActivity {
             new ChatPresenter().getUserInfo(AppUtils.
                     formatID(user.getInfoBean().getId()),user.getInfoBean().getNickname());
         }
-        Beta.checkUpgrade(false,false);
+//        Beta.checkUpgrade(false,false);
     }
 
 
@@ -145,7 +152,7 @@ public class MainActivity extends BaseViewPagerActivity {
         fragmentList.add(HomeFragment.getInstanceFragment());
         fragmentList.add(ClassifyFragment.getInstanceFragment());
         fragmentList.add(LifeRadarMapFragment.getInstanceFragment());
-        fragmentList.add(OrderTabFragment.getInstanceFragment());
+        fragmentList.add(QuickOrderFragment.getInstanceFragment());
         fragmentList.add(PersonalFragment.getInstanceFragment());
 
         return fragmentList;
@@ -153,10 +160,6 @@ public class MainActivity extends BaseViewPagerActivity {
 
     @Override
     public void onTabSelect(int position) {
-        if (user == null && (position == 3 || position == 4)) {
-            startActivity(new Intent(this, LoginActivity.class));
-            return;
-        }
         viewPager.setCurrentItem(position, false);
         if (position == 0 || position == 4) {
             ImmersionBar.with(this)

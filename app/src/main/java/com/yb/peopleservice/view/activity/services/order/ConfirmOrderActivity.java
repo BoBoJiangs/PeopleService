@@ -20,13 +20,13 @@ import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.app.MyApplication;
 import com.yb.peopleservice.constant.IntentKeyConstant;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
-import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.bean.user.AddressListVO;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
 import com.yb.peopleservice.model.bean.user.order.OrderBean;
@@ -37,22 +37,17 @@ import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.address.AddressListActivity;
 import com.yb.peopleservice.view.activity.services.ShopListActivity;
 import com.yb.peopleservice.view.activity.shop.SearchMapActivity;
-import com.yb.peopleservice.view.adapter.order.PayActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
-import com.yb.peopleservice.view.fragment.user.order.CouponDialogFragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sts.base.presenter.AbstractPresenter;
 import cn.sts.base.util.NumberUtil;
 import cn.sts.base.view.widget.UtilityView;
-
-import static com.yb.peopleservice.view.adapter.order.PayActivity.ORDER_ID;
 
 /**
  * 项目名称:PeopleService
@@ -100,6 +95,8 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
     TextView shopTV;
     @BindView(R.id.shopLL)
     LinearLayout shopLL;
+    @BindView(R.id.startPriceTV)
+    TextView startPriceTV;
 
     private boolean isStart;//是否点击的起点
     private PoiItem startPoi;//起点位置
@@ -132,6 +129,9 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
             LatLonPoint mStartPoint = new LatLonPoint(MyApplication.aMapLocation.getLatitude()
                     , MyApplication.aMapLocation.getLongitude());
             startLocationTV.setText(MyApplication.aMapLocation.getPoiName());
+            orderBean.setStartAddress(MyApplication.aMapLocation.getPoiName());
+            orderBean.setStartLatitude(MyApplication.aMapLocation.getLatitude() + "");
+            orderBean.setStartLongitude(MyApplication.aMapLocation.getLongitude() + "");
             startPoi = new PoiItem("", mStartPoint, MyApplication.aMapLocation.getPoiName(), "");
         }
     }
@@ -141,6 +141,13 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
 
         presenter = new ConfirmOrderPresenter(this, this);
         bean = getIntent().getParcelableExtra(ServiceListBean.class.getName());
+        if (bean.getCalculatedDistance() == 1) {
+            startPriceTV.setVisibility(View.VISIBLE);
+            startPriceTV.setText("起步距离:" + bean.getStartDistance() + "公里 " +
+                    "起步价:" + bean.getStartPrice() + "元 ");
+        } else {
+            startPriceTV.setVisibility(View.GONE);
+        }
         if (bean != null) {
             couponBean = bean.getCoupons();
             if (bean.getCoupons() != null) {
@@ -154,7 +161,7 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
             }
             if (bean.getShop() != null) {
                 shopTV.setText(bean.getShop().getName());
-            }else{
+            } else {
                 shopLL.setVisibility(View.GONE);
             }
 
@@ -233,7 +240,6 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
                         ToastUtils.showLong("请选择终点位置");
                         return;
                     }
-                    orderBean.setPrice(price);
                 } else {
                     if (addressListVO == null) {
                         ToastUtils.showLong("请选择地址信息");
@@ -253,6 +259,9 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
                 orderBean.setCalculatedDistance(bean.getCalculatedDistance());
                 orderBean.setGroupBuy(bean.getGroupType());
                 orderBean.setGroupId(bean.getGroupId());
+                if (!StringUtils.isEmpty(bean.getServiceStaffId())){
+                    orderBean.setServiceStaffId(bean.getServiceStaffId());
+                }
 //                childMap.put("order", orderBean);
                 presenter.placeOrder(orderBean);
 //                //根据状态不同显示隐藏
@@ -266,14 +275,39 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
         }
     }
 
+    /**
+     * 驾驶类价格计算
+     */
+    private void updatePrice2() {
+        if (couponBean != null) {
+            if (couponBean.getType() == 1) {
+                bean.setPayMoney(bean.getPayMoney() - couponBean.getMoney());
+            } else {
+                bean.setPayMoney(bean.getPayMoney() * couponBean.getDiscount());
+            }
+        }
+        orderBean.setTotalPrice(bean.getPayMoney());
+        orderBean.setAmount(num);
+        numTV.setText(num + "");
+        totalUV.setContentText("¥ " + bean.getPayMoney());
+        moneyTV.setText("¥ " + bean.getPayMoney());
+        totalUV.setVisibility(View.VISIBLE);
+        moneyTV.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 非驾驶类价格计算
+     */
     private void updatePrice() {
         if (couponBean != null) {
             if (couponBean.getType() == 1) {
                 bean.setPayMoney(num * bean.getPrice() - couponBean.getMoney());
             } else {
-                bean.setPayMoney(num * bean.getPayMoney());
+                bean.setPayMoney(num * bean.getPrice());
             }
 
+        } else {
+            bean.setPayMoney(num * bean.getPrice());
         }
         orderBean.setAmount(num);
         numTV.setText(num + "");
@@ -328,9 +362,15 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
                     if (isStart) {
                         startPoi = poiItem;
                         startLocationTV.setText(poiItem.getTitle());
+                        orderBean.setStartAddress(poiItem.getTitle());
+                        orderBean.setStartLatitude(startPoi.getLatLonPoint().getLatitude() + "");
+                        orderBean.setStartLongitude(startPoi.getLatLonPoint().getLongitude() + "");
                     } else {
                         endPoi = poiItem;
                         endLocationTV.setText(poiItem.getTitle());
+                        orderBean.setEndAddress(poiItem.getTitle());
+                        orderBean.setEndLatitude(endPoi.getLatLonPoint().getLatitude() + "");
+                        orderBean.setEndLongitude(endPoi.getLatLonPoint().getLongitude() + "");
                     }
                     if (startPoi != null && endPoi != null) {
                         searchRouteResult();
@@ -379,20 +419,27 @@ public class ConfirmOrderActivity extends BaseToolbarActivity implements Confirm
 
                     int dis = (int) drivePath.getDistance();
                     int dur = (int) drivePath.getDuration();
-                    String des = AMapUtil.getFriendlyTime(dur) + "(" + AMapUtil.getFriendlyLength(dis) + ")";
+                    //公里数
+                    float disKm = NumberUtil.convertFloat1((float) dis / 1000);
+
+                    String des = "预计时长:" + AMapUtil.getFriendlyTime(dur) + "   路程："
+                            + AMapUtil.getFriendlyLength(dis);
                     resultTV.setText(des);
                     if (bean.getStartDistance() * 1000 >= dis) {
                         price = bean.getStartPrice();
-                        resultTV.append("   预计费用：" + price + "元");
-                    } else {
-                        float distance = (float) (dis - bean.getStartDistance() * 1000) / 1000;
-                        price = NumberUtil.convertFloat1(bean.getStartPrice() + bean.getPayMoney() * distance);
 
-                        resultTV.append("   预计费用：" + price + "元");
+//                        resultTV.append("   预计费用：" + price + "元");
+                    } else {
+                        float distance = disKm - bean.getStartDistance();
+                        price = bean.getStartPrice() + NumberUtil.convertFloat1(bean.getPrice() * distance);
+
+//                        resultTV.append("   预计费用：" + price + "元");
                     }
+                    orderBean.setDistance(disKm);
                     resultTV.setVisibility(View.VISIBLE);
                     bean.setPayMoney(price);
-                    updatePrice();
+
+                    updatePrice2();
 
 
                 } else if (result.getPaths() == null) {

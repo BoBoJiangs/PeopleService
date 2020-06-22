@@ -26,7 +26,6 @@ public class ClassifyTabActivity extends BaseViewPagerActivity {
     SlidingTabLayout commonTabLayout;
     @BindView(R.id.viewPager)
     ScrollViewPager viewPager;
-    //    private List<Fragment> fragmentList = new ArrayList<>();
     private ClassifyListBean bean;
     private List<Fragment> fragmentList;
 
@@ -52,7 +51,6 @@ public class ClassifyTabActivity extends BaseViewPagerActivity {
             fragmentList.add(ServiceListFragment.getInstanceFragment(classifyListBean));
         }
         if (childList.size()>3){
-//            commonTabLayout.setTabSpaceEqual(false);
             commonTabLayout.setIndicatorWidthEqualTitle(true);
         }else{
             commonTabLayout.setTabSpaceEqual(true);

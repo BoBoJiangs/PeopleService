@@ -8,9 +8,11 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
+import com.yb.peopleservice.model.database.bean.RecordBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.bean.UserInfoBean;
 
+import com.yb.peopleservice.model.database.dao.RecordBeanDao;
 import com.yb.peopleservice.model.database.dao.UserDao;
 import com.yb.peopleservice.model.database.dao.UserInfoBeanDao;
 
@@ -23,9 +25,11 @@ import com.yb.peopleservice.model.database.dao.UserInfoBeanDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
+    private final DaoConfig recordBeanDaoConfig;
     private final DaoConfig userDaoConfig;
     private final DaoConfig userInfoBeanDaoConfig;
 
+    private final RecordBeanDao recordBeanDao;
     private final UserDao userDao;
     private final UserInfoBeanDao userInfoBeanDao;
 
@@ -33,22 +37,32 @@ public class DaoSession extends AbstractDaoSession {
             daoConfigMap) {
         super(db);
 
+        recordBeanDaoConfig = daoConfigMap.get(RecordBeanDao.class).clone();
+        recordBeanDaoConfig.initIdentityScope(type);
+
         userDaoConfig = daoConfigMap.get(UserDao.class).clone();
         userDaoConfig.initIdentityScope(type);
 
         userInfoBeanDaoConfig = daoConfigMap.get(UserInfoBeanDao.class).clone();
         userInfoBeanDaoConfig.initIdentityScope(type);
 
+        recordBeanDao = new RecordBeanDao(recordBeanDaoConfig, this);
         userDao = new UserDao(userDaoConfig, this);
         userInfoBeanDao = new UserInfoBeanDao(userInfoBeanDaoConfig, this);
 
+        registerDao(RecordBean.class, recordBeanDao);
         registerDao(User.class, userDao);
         registerDao(UserInfoBean.class, userInfoBeanDao);
     }
     
     public void clear() {
+        recordBeanDaoConfig.clearIdentityScope();
         userDaoConfig.clearIdentityScope();
         userInfoBeanDaoConfig.clearIdentityScope();
+    }
+
+    public RecordBeanDao getRecordBeanDao() {
+        return recordBeanDao;
     }
 
     public UserDao getUserDao() {

@@ -1,23 +1,43 @@
 package com.yb.peopleservice.view.activity.services;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
+import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.reflect.TypeToken;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.yb.peopleservice.R;
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.constant.ResponseCodeConstant;
+import com.yb.peopleservice.model.bean.user.JsonBean;
 import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.presenter.WeChatPresenter;
+import com.yb.peopleservice.model.presenter.chat.ChatPresenter;
 import com.yb.peopleservice.model.presenter.shop.ApplyShopPresenter;
 import com.yb.peopleservice.model.presenter.uploadfile.UploadFilePresenter;
+import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
 import com.yb.peopleservice.view.activity.shop.SearchMapActivity;
 import com.yb.peopleservice.view.base.BaseToolbarActivity;
@@ -27,8 +47,13 @@ import com.ypx.imagepicker.bean.MimeType;
 import com.ypx.imagepicker.bean.SelectMode;
 import com.ypx.imagepicker.data.OnImagePickCompleteListener;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,8 +73,6 @@ public class ApplyServiceActivity extends BaseToolbarActivity implements UploadF
     @BindView(R.id.headUV)
     UtilityView headUV;
     ImageView headIV;
-    @BindView(R.id.shopNameUV)
-    UtilityView shopNameUV;
     @BindView(R.id.remakeUV)
     UtilityView remakeUV;
     @BindView(R.id.nameUV)
@@ -66,28 +89,31 @@ public class ApplyServiceActivity extends BaseToolbarActivity implements UploadF
     @BindView(R.id.addFaceTV)
     TextView addFaceTV;
     @BindView(R.id.cardFaceFL)
-    FrameLayout cardFaceFL;
+    LinearLayout cardFaceFL;
     @BindView(R.id.cardBackIV)
     ImageView cardBackIV;
     @BindView(R.id.addBackTV)
     TextView addBackTV;
     @BindView(R.id.cardBackFL)
-    FrameLayout cardBackFL;
-    @BindView(R.id.licenseIV)
-    ImageView licenseIV;
-    @BindView(R.id.licenseTV)
-    TextView licenseTV;
-    @BindView(R.id.titleLicenseTV)
-    TextView titleLicenseTV;
-    @BindView(R.id.licenseFL)
-    FrameLayout licenseFL;
-    private String headUrl;//头像
+    LinearLayout cardBackFL;
+    @BindView(R.id.ageUV)
+    UtilityView ageUV;
+    @BindView(R.id.dateUV)
+    UtilityView dateUV;
+    @BindView(R.id.sexUV)
+    UtilityView sexUV;
+    @BindView(R.id.sureBtn)
+    Button sureBtn;
+    @BindView(R.id.cityUV)
+    UtilityView cityUV;
+    protected String headUrl;//头像
     private String cardFaceUrl;//身份证正面
     private String cardBackUrl;//身份证背面
-    private String licenseUrl;//营业执照
-    private UploadFilePresenter uploadFilePresenter;
-    private ServiceInfo shopInfo;
+    UploadFilePresenter uploadFilePresenter;
+    protected ServiceInfo serviceInfo;
     private ApplyShopPresenter presenter;
+    private List<JsonBean> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
 
     @Override
     public String getTitleName() {
@@ -96,22 +122,12 @@ public class ApplyServiceActivity extends BaseToolbarActivity implements UploadF
 
     @Override
     protected int contentViewResID() {
-        return R.layout.activity_shop_apply;
+        return R.layout.activity_apply_service_info;
     }
 
     @Override
     protected void initData() {
-        shopNameUV.setVisibility(View.GONE);
-        remakeUV.setVisibility(View.GONE);
-        licenseFL.setVisibility(View.GONE);
-        titleLicenseTV.setVisibility(View.GONE);
-        addressUV.setVisibility(View.GONE);
-        nameUV.setTitleText("姓名　　　");
-        phoneUV.setTitleText("联系电话　");
-        phoneUV.setContentHintText("请输入联系电话");
-        headUV.setTitleText("头像");
-        headUV.setContentText("(请拍摄正面面部照片作为头像)");
-        shopInfo = new ServiceInfo();
+        serviceInfo = new ServiceInfo();
         headIV = headUV.getRightImageView();
         headIV.setId(R.id.headImg);
         uploadFilePresenter = new UploadFilePresenter(this, this);
@@ -122,17 +138,79 @@ public class ApplyServiceActivity extends BaseToolbarActivity implements UploadF
         return presenter = new ApplyShopPresenter(this, this);
     }
 
+    private void initJsonData() {//解析数据
 
-    @OnClick({R.id.cardFaceFL, R.id.cardBackFL, R.id.licenseFL, R.id.headUV,
-            R.id.sureBtn, R.id.addressUV})
+        /**
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         *
+         * */
+        String JsonData = AppUtils.getJson(this, "province.json");//获取assets目录下的json文件数据
+
+        ArrayList<JsonBean> jsonBean = GsonUtils.fromJson(JsonData, new TypeToken<List<JsonBean>>() {
+        }.getType());//用Gson 转成实体
+
+        /**
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+         */
+        options1Items = jsonBean;
+
+        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+            ArrayList<String> cityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<String>> province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+
+            for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
+                String cityName = jsonBean.get(i).getCityList().get(c).getName();
+                cityList.add(cityName);//添加城市
+            }
+
+            /**
+             * 添加城市数据
+             */
+            options2Items.add(cityList);
+
+        }
+        showPickerView();
+    }
+
+    private void showPickerView() {// 弹出选择器
+
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                String province = options1Items.size() > 0 ?
+                        options1Items.get(options1).getPickerViewText() : "";
+
+                String city = options2Items.size() > 0
+                        && options2Items.get(options1).size() > 0 ?
+                        options2Items.get(options1).get(options2) : "";
+                serviceInfo.setProvince(province);
+                serviceInfo.setCity(city);
+                cityUV.setContentText(province + city);
+            }
+        })
+
+                .setTitleText("城市选择")
+                .setDividerColor(Color.GRAY)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
+        pvOptions.setPicker(options1Items, options2Items);//二级选择器
+        pvOptions.show();
+    }
+
+    @OnClick({R.id.cardFaceFL, R.id.cardBackFL, R.id.headUV,
+            R.id.sureBtn, R.id.addressUV, R.id.dateUV, R.id.sexUV, R.id.cityUV})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.addressUV:
-                startActivityForResult(new Intent(this, SearchMapActivity.class),
-                        RequestCodeConstant.BASE_REQUEST);
+            case R.id.cityUV:
+                initJsonData();
                 break;
             case R.id.headUV:
-
                 ImagePicker.withMulti(new WeChatPresenter())
                         .setMaxCount(1)
                         .showCamera(true)//显示拍照
@@ -158,8 +236,31 @@ public class ApplyServiceActivity extends BaseToolbarActivity implements UploadF
             case R.id.cardBackFL:
                 choiceImg(cardBackIV);
                 break;
-            case R.id.licenseFL:
-                choiceImg(licenseIV);
+            case R.id.dateUV:
+                KeyboardUtils.hideSoftInput(this);
+                TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {
+                        String dateTime = TimeUtils.date2String(date,
+                                new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
+                        serviceInfo.setBirthday(dateTime);
+                        dateUV.setContentText(dateTime);
+                    }
+                }).build();
+                pvTime.show();
+                break;
+            case R.id.sexUV:
+                new XPopup.Builder(this)
+                        //.maxWidth(600)
+                        .asCenterList("请选择一项", new String[]{"男", "女"},
+                                new OnSelectListener() {
+                                    @Override
+                                    public void onSelect(int position, String text) {
+                                        sexUV.setContentText(text);
+                                        serviceInfo.setSex(text);
+                                    }
+                                })
+                        .show();
                 break;
             case R.id.sureBtn:
 
@@ -183,6 +284,18 @@ public class ApplyServiceActivity extends BaseToolbarActivity implements UploadF
                     ToastUtils.showLong("请上传" + headUV.getTitleText());
                     return;
                 }
+
+                if (StringUtils.isEmpty(serviceInfo.getProvince())||
+                        StringUtils.isEmpty(serviceInfo.getCity())){
+                    ToastUtils.showLong("请选择所在省市");
+                    return;
+                }
+
+                String address = addressUV.getContentText();
+                if (StringUtils.isEmpty(address)) {
+                    ToastUtils.showLong("地址不能为空");
+                    return;
+                }
                 if (StringUtils.isEmpty(cardFaceUrl)) {
                     ToastUtils.showLong("请上传身份证正面照");
                     return;
@@ -191,16 +304,30 @@ public class ApplyServiceActivity extends BaseToolbarActivity implements UploadF
                     ToastUtils.showLong("请上传身份证背面照");
                     return;
                 }
-//                shopInfo.setName(shopName);
-//                shopInfo.setIntroduction(remake);
-                shopInfo.setName(name);
-                shopInfo.setIdCardNumber(idCard);
+                int age = 0;
+                try {
+                    age = Integer.parseInt(ageUV.getContentText());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (age == 0) {
+                    ToastUtils.showLong("年龄不能为空");
+                    return;
+                }
+
+                serviceInfo.setIntroduction(remakeUV.getContentText());
+                serviceInfo.setName(name);
+                serviceInfo.setIdCardNumber(idCard);
+                serviceInfo.setPhone(phone);
+                serviceInfo.setAddress(address);
+                serviceInfo.setAge(age);
 
                 List<String> list = new ArrayList<>();
                 list.add(cardFaceUrl);
                 list.add(cardBackUrl);
                 uploadFilePresenter.launchImage(headUrl, true);
                 uploadFilePresenter.launchImage(list, false);
+                ChatPresenter.getInstance().updateUser(name, headUrl);
                 break;
         }
     }
@@ -211,53 +338,66 @@ public class ApplyServiceActivity extends BaseToolbarActivity implements UploadF
      *
      * @param imageView
      */
-    private void choiceImg(ImageView imageView) {
-        ImagePicker.withMulti(new WeChatPresenter())
-                .setMaxCount(1)
-                .setSelectMode(SelectMode.MODE_SINGLE)
-                .showCamera(true)//显示拍照
-                .mimeTypes(MimeType.ofImage())
-                .cropRectMinMargin(SizeUtils.dp2px(80))//设置剪裁边框间距
-                .pick(this, new OnImagePickCompleteListener() {
-                    @Override
-                    public void onImagePickComplete(ArrayList<ImageItem> items) {
-                        if (!items.isEmpty()) {
-                            String url = items.get(0).getPath();
-                            ImageLoaderUtil.loadLocalImage(getApplicationContext(), url, imageView);
-                            switch (imageView.getId()) {
-                                case R.id.cardFaceIV:
-                                    cardFaceUrl = url;
-                                    addFaceTV.setVisibility(View.GONE);
-                                    break;
-                                case R.id.cardBackIV:
-                                    cardBackUrl = url;
-                                    addBackTV.setVisibility(View.GONE);
-                                    break;
-                                case R.id.licenseIV:
-                                    licenseUrl = url;
-                                    licenseTV.setVisibility(View.GONE);
-                                    break;
-                                case R.id.headImg:
-                                    headUrl = url;
-                                    break;
+    protected void choiceImg(ImageView imageView) {
+        if (imageView.getId() == R.id.headImg) {
+            ImagePicker.withMulti(new WeChatPresenter())
+                    .setMaxCount(1)
+                    .showCamera(true)//显示拍照
+                    .mimeTypes(MimeType.ofImage())
+                    .setSelectMode(SelectMode.MODE_SINGLE)
+                    .cropSaveInDCIM(false)
+                    .cropAsCircle()
+                    .cropRectMinMargin(SizeUtils.dp2px(80))//设置剪裁边框间距
+                    //调用剪裁
+                    .crop(this, new OnImagePickCompleteListener() {
+                        @Override
+                        public void onImagePickComplete(ArrayList<ImageItem> items) {
+                            if (!items.isEmpty()) {
+                                headUrl = items.get(0).getPath();
+                                ImageLoaderUtil.loadLocalCircleImage(getApplicationContext(), headUrl, headIV);
                             }
                         }
-                    }
-                });
+                    });
+        } else {
+            ImagePicker.withMulti(new WeChatPresenter())
+                    .setMaxCount(1)
+                    .setSelectMode(SelectMode.MODE_SINGLE)
+                    .showCamera(true)//显示拍照
+                    .mimeTypes(MimeType.ofImage())
+                    .cropRectMinMargin(SizeUtils.dp2px(80))//设置剪裁边框间距
+                    .pick(this, new OnImagePickCompleteListener() {
+                        @Override
+                        public void onImagePickComplete(ArrayList<ImageItem> items) {
+                            if (!items.isEmpty()) {
+                                String url = items.get(0).getPath();
+                                ImageLoaderUtil.loadLocalImage(getApplicationContext(), url, imageView);
+                                switch (imageView.getId()) {
+                                    case R.id.cardFaceIV:
+
+                                        cardFaceUrl = url;
+                                        break;
+                                    case R.id.cardBackIV:
+                                        cardBackUrl = url;
+                                        break;
+                                }
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
-    public void uploadSuccess(List<String> files) {
+    public void uploadSuccess(List<String> files, boolean isPublic) {
         if (files.size() == 1) {
-            shopInfo.setHeadImg(files.get(0));
+            serviceInfo.setHeadImg(files.get(0));
         }
         if (files.size() == 2) {
-            shopInfo.setIdCardImgFront(files.get(0));
-            shopInfo.setIdCardImgBack(files.get(1));
+            serviceInfo.setIdCardImgFront(files.get(0));
+            serviceInfo.setIdCardImgBack(files.get(1));
         }
-        if (!StringUtils.isEmpty(shopInfo.getHeadImg()) &&
-                !StringUtils.isEmpty(shopInfo.getIdCardImgBack())) {
-            presenter.applyService(shopInfo);
+        if (!StringUtils.isEmpty(serviceInfo.getHeadImg()) &&
+                !StringUtils.isEmpty(serviceInfo.getIdCardImgBack())) {
+            presenter.applyService(serviceInfo);
         }
     }
 
@@ -269,7 +409,7 @@ public class ApplyServiceActivity extends BaseToolbarActivity implements UploadF
     @Override
     public void ApplySuccess(ShopInfo data) {
         ToastUtils.showLong("提交成功,等待管理员审核");
-        setResult(ResponseCodeConstant.BASE_RESPONSE);
+        EventBus.getDefault().post(serviceInfo);
         finish();
     }
 

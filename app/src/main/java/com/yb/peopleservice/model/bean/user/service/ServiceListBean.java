@@ -78,6 +78,24 @@ public class ServiceListBean implements Parcelable {
     private ShopInfo shop;//店铺
     private CouponBean coupons;//优惠券
     private String groupId;
+    private float distance;
+    private String serviceStaffId;
+
+    public String getServiceStaffId() {
+        return serviceStaffId == null ? "" : serviceStaffId;
+    }
+
+    public void setServiceStaffId(String serviceStaffId) {
+        this.serviceStaffId = serviceStaffId;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
 
     public String getMainImage() {
         return mainImg;
@@ -396,6 +414,8 @@ public class ServiceListBean implements Parcelable {
         dest.writeParcelable(this.shop, flags);
         dest.writeParcelable(this.coupons, flags);
         dest.writeString(this.groupId);
+        dest.writeFloat(this.distance);
+        dest.writeString(this.serviceStaffId);
     }
 
     protected ServiceListBean(Parcel in) {
@@ -430,6 +450,8 @@ public class ServiceListBean implements Parcelable {
         this.shop = in.readParcelable(ShopInfo.class.getClassLoader());
         this.coupons = in.readParcelable(CouponBean.class.getClassLoader());
         this.groupId = in.readString();
+        this.distance = in.readFloat();
+        this.serviceStaffId = in.readString();
     }
 
     public static final Creator<ServiceListBean> CREATOR = new Creator<ServiceListBean>() {

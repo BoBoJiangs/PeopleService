@@ -51,7 +51,7 @@ public class AddressListActivity extends BaseListActivity implements BaseQuickAd
             protected void convert(BaseViewHolder helper, AddressListVO item) {
                 helper.setText(R.id.nameTV, item.getConsigneeName() + " " + item.getConsigneePhone());
                 helper.setVisible(R.id.emptyTV, "Y".equals(item.getIsDefault()));
-                helper.setText(R.id.addressTV, item.getDetailAddress());
+                helper.setText(R.id.addressTV, item.getDetailAddress()+item.getHouseNum());
                 helper.setGone(R.id.checkbox, false);
                 helper.addOnClickListener(R.id.editIV);
             }

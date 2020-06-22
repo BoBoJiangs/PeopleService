@@ -23,8 +23,14 @@ public interface IPayRequest {
     /**
      * 微信支付
      */
-    @POST("app/order/getWx")
-    Observable<RequestResult<WxPayParam>> getWXPayInfo(@Body Map parameter);
+    @GET("pay/wxpay/app")
+    Observable<RequestResult<WxPayParam>> getWXPayInfo(@QueryMap Map<String, String> parameter);
+
+    /**
+     * 微信支付(增加金额)
+     */
+    @GET("pay/wxpay/app/add")
+    Observable<RequestResult<String>> getAddWXPayInfo(@QueryMap Map<String, String> parameter);
 
     /**
      * 支付宝支付
@@ -32,4 +38,9 @@ public interface IPayRequest {
     @GET("pay/alipay/app")
     Observable<RequestResult<String>> getAliPayInfo(@QueryMap Map<String, String> parameter);
 
+    /**
+     * 获得支付宝app拉起信息,增加金额
+     */
+    @GET("pay/alipay/app/add")
+    Observable<RequestResult<String>> getAddAliPayInfo(@QueryMap Map<String, String> parameter);
 }

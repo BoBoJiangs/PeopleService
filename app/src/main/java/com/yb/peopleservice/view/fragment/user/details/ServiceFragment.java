@@ -43,6 +43,8 @@ import com.yb.peopleservice.model.bean.user.FavoriteBean;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
 import com.yb.peopleservice.model.bean.user.service.GroupBean;
 import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
+import com.yb.peopleservice.model.database.bean.User;
+import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.eventbean.EventOrderBean;
 import com.yb.peopleservice.model.presenter.user.service.CollectPresenter;
 import com.yb.peopleservice.model.presenter.user.service.ServicePresenter;
@@ -95,6 +97,8 @@ public class ServiceFragment extends BaseFragment implements
     TextView priceTV;
     @BindView(R.id.soldTV)
     TextView soldTV;
+    @BindView(R.id.praiseTV)
+    TextView praiseTV;
     @BindView(R.id.activityUV)
     UtilityView activityUV;
     @BindView(R.id.topLL)
@@ -103,6 +107,8 @@ public class ServiceFragment extends BaseFragment implements
     RecyclerView contentRv;
     @BindView(R.id.scrollView)
     NestedScrollView scrollView;
+    @BindView(R.id.startPriceTV)
+    TextView startPriceTV;
 
     protected ServiceListBean serviceInfo;
     private CollectPresenter collectPresenter;
@@ -110,8 +116,10 @@ public class ServiceFragment extends BaseFragment implements
     private boolean isFavorite;//是否已收藏
     List<CouponBean> couponList;
     private BaseQuickAdapter<String, BaseViewHolder> adapter;
-    private int topHeight;
+    protected int topHeight;
     ServiceDetailsActivity activity;
+
+    private ScrollCallBack callBack;
 
     public static Fragment getInstanceFragment(ServiceListBean serviceInfo) {
         ServiceFragment fragment = new ServiceFragment();
@@ -122,6 +130,14 @@ public class ServiceFragment extends BaseFragment implements
         }
 
         return fragment;
+    }
+
+    public int getTopHeight() {
+        return topHeight;
+    }
+
+    public void setScrollListener(ScrollCallBack callBack) {
+        this.callBack = callBack;
     }
 
     @Override
@@ -144,6 +160,7 @@ public class ServiceFragment extends BaseFragment implements
     }
 
     private void initContentView() {
+        contentRv.setFocusable(false);
         contentRv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.adapter_image) {
             @Override
@@ -198,14 +215,25 @@ public class ServiceFragment extends BaseFragment implements
             } else {
                 priceUnit = "元/" + priceUnit;
             }
-            priceTV.setText(serviceInfo.getPrice() + priceUnit);
-            soldTV.setText("已售：" + serviceInfo.getTotalSold());
+            priceTV.setText("单价："+serviceInfo.getPrice() + priceUnit);
+            soldTV.setText("已售" + serviceInfo.getTotalSold() + "单");
+            praiseTV.setText("好评率:" + NumberUtil.convertFloatZero(serviceInfo.getPraiseRate()) + "%");
+            if (serviceInfo.getCalculatedDistance() == 1) {
+                startPriceTV.setVisibility(View.VISIBLE);
+                startPriceTV.setText("起步距离:" + serviceInfo.getStartDistance() + "公里 " +
+                        "起步价:" + serviceInfo.getStartPrice() + "元 ");
+            } else {
+                startPriceTV.setVisibility(View.GONE);
+            }
 
             initContentView();
 
         }
+        User user = ManagerFactory.getInstance().getUserManager().getUser();
         collectPresenter = new CollectPresenter(getContext(), this);
-        collectPresenter.getFavorite(serviceInfo.getId());
+        if (user != null) {
+            collectPresenter.getFavorite(serviceInfo.getId());
+        }
         presenter = new ServicePresenter(getContext(), this);
         topHeight = SizeUtils.getMeasuredHeight(topLL);
     }
@@ -273,6 +301,9 @@ public class ServiceFragment extends BaseFragment implements
         }
     }
 
+    public void onTabSelect() {
+        scrollView.scrollTo(0, topHeight);
+    }
 
     @Override
     public void groupSuccess(List<GroupBean> favoriteBean) {
@@ -297,12 +328,19 @@ public class ServiceFragment extends BaseFragment implements
 
     @Override
     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (callBack != null) {
+            callBack.onScrollState(scrollY > topHeight, topHeight);
+        }
         if (scrollY > topHeight) {
-            if (activity!=null){
-                activity.commonTabLayout.setCurrentTab(1);
-            }
-        }else{
+            activity.isDetails = true;
+            activity.commonTabLayout.setCurrentTab(1);
+        } else {
+            activity.isDetails = false;
             activity.commonTabLayout.setCurrentTab(0);
         }
+    }
+
+    public interface ScrollCallBack {
+        void onScrollState(boolean isDetails, int topHeight);
     }
 }

@@ -4,9 +4,12 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.eventbean.EventOrderBean;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
+
+import org.greenrobot.eventbus.EventBus;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
@@ -45,6 +48,7 @@ public class AssignPresenter extends AbstractPresenter<AssignPresenter.IAssignCa
             @Override
             public void onRequestSuccess(Object data) {
                 try {
+                    EventBus.getDefault().post(new EventOrderBean());
                     getViewCallBack().assignSuccess(data);
                 } catch (Exception e) {
                     e.printStackTrace();

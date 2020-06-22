@@ -13,8 +13,8 @@
         android:id="@+id/titleLL"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_title"
-        android:paddingStart="@dimen/space_default"
-        android:paddingEnd="@dimen/space_default"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
         android:background="@color/base_text_color"
         android:gravity="center"
         android:orientation="horizontal">
@@ -27,10 +27,11 @@
             android:id="@+id/locationName"
             style="@style/text_view_content_gray"
             android:textColor="@color/white"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
+            android:drawableEnd="@drawable/arrow_down"
             android:text="我的位置"
-            android:visibility="gone"
             android:lines="1"
+            android:maxEms="5"
             android:layout_marginStart="5dp"
             android:textSize="@dimen/font_btn_small_best" />
         <include

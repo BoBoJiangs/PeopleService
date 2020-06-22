@@ -34,6 +34,33 @@
             app:text_content_hint="请输入手机号码"
             app:text_content_size="@dimen/font_content_small" />
 
+        <RadioGroup
+            android:id="@+id/radioRg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_default"
+            android:visibility="invisible"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="顾客"/>
+            <RadioButton
+                android:id="@+id/rbl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="商家"/>
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="服务人员"/>
+        </RadioGroup>
 
         <Button
             android:id="@+id/nextBtn"

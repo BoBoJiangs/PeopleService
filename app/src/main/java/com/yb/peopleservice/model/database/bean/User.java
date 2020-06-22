@@ -1,5 +1,8 @@
 package com.yb.peopleservice.model.database.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -11,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.greenrobot.greendao.DaoException;
+
+import com.google.gson.annotations.SerializedName;
 import com.yb.peopleservice.model.database.dao.DaoSession;
 import com.yb.peopleservice.model.database.dao.UserInfoBeanDao;
 import com.yb.peopleservice.model.database.dao.UserDao;
@@ -19,15 +24,19 @@ import com.yb.peopleservice.model.database.dao.UserDao;
  * 用户登录的用户信息
  */
 @Entity
-public class User {
+public class User implements Parcelable {
     @Id
     private String account;
     private String access_token;//登录token
     private String password;//用户密码
+    private String code;//第三方或者快捷登录返回的临时密码
     private String userName;
     private String quickCode;//快捷登录获取的凭证
+    @SerializedName("token_type")
     private String tokenType;
+    private String type;
     @Convert(converter = StringConverter.class, columnType = String.class)
+    @SerializedName("scope")
     private List<String> accountType;
 
     private String userId;
@@ -40,35 +49,48 @@ public class User {
     /** Used for active entity operations. */
     @Generated(hash = 1507654846)
     private transient UserDao myDao;
-
-
-
-
-
-    @Generated(hash = 762822922)
-    public User(String account, String access_token, String password, String userName,
-            String quickCode, String tokenType, List<String> accountType, String userId) {
-        this.account = account;
-        this.access_token = access_token;
-        this.password = password;
-        this.userName = userName;
-        this.quickCode = quickCode;
-        this.tokenType = tokenType;
-        this.accountType = accountType;
-        this.userId = userId;
-    }
-
-    @Generated(hash = 586692638)
-    public User() {
-    }
-
-
     @Generated(hash = 1039837059)
     private transient String infoBean__resolvedKey;
 
 
 
 
+
+
+    public User() {
+    }
+
+
+
+
+
+    @Generated(hash = 510797623)
+    public User(String account, String access_token, String password, String code,
+            String userName, String quickCode, String tokenType, String type,
+            List<String> accountType, String userId) {
+        this.account = account;
+        this.access_token = access_token;
+        this.password = password;
+        this.code = code;
+        this.userName = userName;
+        this.quickCode = quickCode;
+        this.tokenType = tokenType;
+        this.type = type;
+        this.accountType = accountType;
+        this.userId = userId;
+    }
+
+
+
+
+
+    public String getType() {
+        return type == null ? "" : type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getAccess_token() {
         return this.access_token;
@@ -137,6 +159,26 @@ public class User {
         this.userId = userId;
     }
 
+
+
+
+
+    public String getCode() {
+        return this.code;
+    }
+
+
+
+
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+
+
+
+
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 476370479)
     public UserInfoBean getInfoBean() {
@@ -156,6 +198,10 @@ public class User {
         return infoBean;
     }
 
+
+
+
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1925003790)
     public void setInfoBean(UserInfoBean infoBean) {
@@ -165,6 +211,10 @@ public class User {
             infoBean__resolvedKey = userId;
         }
     }
+
+
+
+
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
@@ -178,6 +228,10 @@ public class User {
         myDao.delete(this);
     }
 
+
+
+
+
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -189,6 +243,10 @@ public class User {
         }
         myDao.refresh(this);
     }
+
+
+
+
 
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
@@ -202,12 +260,19 @@ public class User {
         myDao.update(this);
     }
 
+
+
+
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 2059241980)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getUserDao() : null;
     }
+
+
+
 
 
     public static class StringConverter implements PropertyConverter<List<String>, String> {
@@ -236,4 +301,50 @@ public class User {
             }
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.account);
+        dest.writeString(this.access_token);
+        dest.writeString(this.password);
+        dest.writeString(this.code);
+        dest.writeString(this.userName);
+        dest.writeString(this.quickCode);
+        dest.writeString(this.tokenType);
+        dest.writeString(this.type);
+        dest.writeStringList(this.accountType);
+        dest.writeString(this.userId);
+        dest.writeParcelable(this.infoBean, flags);
+    }
+
+    protected User(Parcel in) {
+        this.account = in.readString();
+        this.access_token = in.readString();
+        this.password = in.readString();
+        this.code = in.readString();
+        this.userName = in.readString();
+        this.quickCode = in.readString();
+        this.tokenType = in.readString();
+        this.type = in.readString();
+        this.accountType = in.createStringArrayList();
+        this.userId = in.readString();
+        this.infoBean = in.readParcelable(UserInfoBean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

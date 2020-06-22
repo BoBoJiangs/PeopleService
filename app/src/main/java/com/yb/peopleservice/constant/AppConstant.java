@@ -25,10 +25,11 @@ public class AppConstant {
     /**
      * bugly 应用 id
      */
-    public static String BUGLY_APP_ID = "31afacff7e";
+    public static String BUGLY_APP_ID = "cbea7096ad";
 
-    public static String JPUSH_KEY = "2016fa17df9b1e19a1ba9d27";
-
+//    public static String JPUSH_KEY = "2016fa17df9b1e19a1ba9d27";
+    //IM接收方的appkey
+    public static String JPUSH_KEY = "442d6e29c9adcf8ad9850a24";
     /**
      * QQ分享的AppId
      */
@@ -38,12 +39,13 @@ public class AppConstant {
     /**
      * 微信分享的AppId
      */
-    public static final String SHARE_WECHAT_APP_ID = "wx7fc567068d46fa17";
+    public static final String SHARE_WECHAT_APP_ID = "wx0fe47f01f97b1710";
 
     /**
      * 微信分享的SECRET
      */
-    public static final String WECHAT_SECRET = "0b7dc133c77f4cd4d374352061274904";
+    public static final String WECHAT_SECRET = "d8ea6db4d2013589f0554dfd21e325dd";
+
 
     /**
      * 图片缓存路径
@@ -88,4 +90,23 @@ public class AppConstant {
     public static final String SEARCH_AT_MEMBER_NAME = "search_at_member_name";
     public static final String SEARCH_AT_MEMBER_USERNAME = "search_at_member_username";
     public static final String SEARCH_AT_APPKEY = "search_at_appkey";
+
+    /**
+     * 终端名称，该名称可以根据使用方业务而定，比如可以是用户名、用户手机号等唯一标识
+     * <p>
+     * 通常应该使用该名称查询对应终端id，确定该终端是否存在，如果不存在则创建，然后就可以开启轨迹上报，将上报的轨迹关联
+     * 到该终端
+     */
+    public static final String TERMINAL_NAME = "service_track";
+
+    /**
+     * 服务id，请修改成您创建的服务的id
+     * <p>
+     * 猎鹰轨迹服务，同一个开发者账号下的key可以直接使用同账号下的sid，不再需要人工绑定
+     */
+    public static final long SERVICE_ID = 125396;
+
+    public static String PROVINCE = "云南省";
+
+    public static String CITY = "昭通市";
 }

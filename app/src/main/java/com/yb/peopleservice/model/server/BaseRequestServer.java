@@ -8,7 +8,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.app.MyApplication;
-import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.constant.enums.UserType;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
@@ -109,11 +109,11 @@ public class BaseRequestServer extends AbstractHttpsRequestServer {
 
         User data = ManagerFactory.getInstance().getUserManager().getUser();
         if (data != null && !data.getAccountType().isEmpty()) {
-            if (data.getAccountType().contains(LoginBean.USER_TYPE)) {
+            if (data.getAccountType().contains(UserType.CUSTOMER.getValue())) {
                 baseURL = SERVER_URL + "api/";
-            } else if (data.getAccountType().contains(LoginBean.SHOP_TYPE)) {
+            } else if (data.getAccountType().contains(UserType.SHOP.getValue())) {
                 baseURL = SERVER_URL + "shop/api/";
-            } else if (data.getAccountType().contains(LoginBean.SERVICE_TYPE)) {
+            } else if (data.getAccountType().contains(UserType.STAFF.getValue())) {
                 baseURL = SERVER_URL + "staff/api/";
             } else {
                 baseURL = SERVER_URL + "api/";

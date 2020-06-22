@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.yb.peopleservice.model.bean.LoginBean;
 import com.yb.peopleservice.model.database.bean.User;
 import com.yb.peopleservice.model.database.helper.ManagerFactory;
 import com.yb.peopleservice.model.database.manager.UserInfoManager;
@@ -12,6 +11,7 @@ import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.LoginRequest;
 import com.yb.peopleservice.view.activity.login.LoginActivity;
+import com.yb.peopleservice.view.activity.main.MainActivity;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
@@ -47,19 +47,20 @@ public class LogoutPresenter extends AbstractPresenter<IViewCallback> {
      * 退出
      */
     public void logout() {
-        BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<LoginBean>() {
+        BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<User>() {
             @Override
-            public void onRequestSuccess(LoginBean data) {
+            public void onRequestSuccess(User data) {
                 try {
+                    AppManager.getAppManager().finishAllActivity();
                     ManagerFactory.getInstance().getUserManager().deleteAll();
-                    ManagerFactory.getInstance().getUserInfoManager().deleteAll();
+//                    ManagerFactory.getInstance().getUserInfoManager().deleteAll();
 //                    User user = ManagerFactory.getInstance().getUserManager().getUser();
 //                    user.setPassword("");
 //                    ManagerFactory.getInstance().getUserManager().saveOrUpdate(user);
                     JMessageClient.logout();
-                    context.startActivity(new Intent(context, LoginActivity.class));
                     JPushInterface.deleteAlias(context,1);
-                    AppManager.getAppManager().finishAllActivity();
+                    JPushInterface.cleanTags(context,1);
+                    context.startActivity(new Intent(context, MainActivity.class));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

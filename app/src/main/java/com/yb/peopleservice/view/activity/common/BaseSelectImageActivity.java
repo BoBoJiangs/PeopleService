@@ -2,20 +2,26 @@ package com.yb.peopleservice.view.activity.common;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.lzy.ninegrid.ImageInfo;
+import com.lzy.ninegrid.preview.ImagePreviewActivity;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.RequestCodeConstant;
 import com.yb.peopleservice.model.presenter.WeChatPresenter;
+import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.utils.AppUtils;
 import com.yb.peopleservice.utils.GlideImageLoader;
 import com.yb.peopleservice.utils.ImageLoaderUtil;
@@ -28,6 +34,7 @@ import com.ypx.imagepicker.bean.SelectMode;
 import com.ypx.imagepicker.data.OnImagePickCompleteListener;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +75,7 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
 
     }
 
-    protected boolean isShowBtn(){
+    protected boolean isShowBtn() {
         return true;
     }
 
@@ -77,7 +84,7 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
         baseQuickAdapter = initAdapter();
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setAdapter(baseQuickAdapter);
-        if (isShowBtn){
+        if (isShowBtn) {
             List<String> files = new ArrayList<>();
             files.add("app");//加一个空数据显示添加按钮
             baseQuickAdapter.setNewData(files);
@@ -141,16 +148,18 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
      * @return
      */
     public List<String> getImages() {
+        List<String> listData = new ArrayList<>();
         if (baseQuickAdapter != null) {
             if (baseQuickAdapter.getData().size() > 1) {
-                return baseQuickAdapter.getData().subList(0,
-                        baseQuickAdapter.getData().size() - 1);
+                listData.addAll(baseQuickAdapter.getData());
+                listData.remove(baseQuickAdapter.getData().size() - 1);
+                return listData;
             } else {
-                return new ArrayList<>();
+                return listData;
             }
 
         }
-        return new ArrayList<>();
+        return listData;
     }
 
 
@@ -161,7 +170,7 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
                 baseQuickAdapter.remove(position);
                 break;
             case R.id.photoIV:
-                if (isShowBtn){
+                if (isShowBtn) {
                     if (baseQuickAdapter.getItemCount() - 1 == position) {
                         ArrayList<String> fileList = (ArrayList<String>) getImages();
                         ImagePicker.withMulti(new WeChatPresenter())
@@ -187,7 +196,11 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
                                         }
                                     }
                                 });
+                    } else {
+                        showPreviewImg(position, false,view);
                     }
+                } else {
+                    showPreviewImg(position, true,view);
                 }
 
 
@@ -195,5 +208,26 @@ public abstract class BaseSelectImageActivity extends BaseOrderInfoActivity impl
         }
     }
 
+    private void showPreviewImg(int position, boolean httpImg,View view) {
+        ImageInfo imageInfo = new ImageInfo();
+        if (httpImg) {
+            imageInfo.setBigImageUrl(BaseRequestServer.getFileUrl(true) +
+                    baseQuickAdapter.getItem(position));
+        }
+        imageInfo.imageViewWidth = view.getWidth();
+        imageInfo.imageViewHeight = view.getHeight();
+        int[] points = new int[2];
+        imageView.getLocationInWindow(points);
+        imageInfo.imageViewX = points[0];
+        imageInfo.imageViewY = points[1] - BarUtils.getStatusBarHeight();
+        List<ImageInfo> imageInfoList = new ArrayList<>();
+        imageInfoList.add(imageInfo);
+        Intent intent = new Intent(this, ImagePreviewActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ImagePreviewActivity.IMAGE_INFO, (Serializable) imageInfoList);
+        bundle.putInt(ImagePreviewActivity.CURRENT_ITEM, 0);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
 }

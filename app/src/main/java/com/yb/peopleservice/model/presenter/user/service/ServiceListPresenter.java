@@ -3,6 +3,7 @@ package com.yb.peopleservice.model.presenter.user.service;
 import android.content.Context;
 
 import com.blankj.utilcode.util.StringUtils;
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
@@ -79,6 +80,8 @@ public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
                 switch (type) {
                     case SERVICE_TYPE:
                         map.put("order", order);
+                        map.put("province", AppConstant.PROVINCE);
+                        map.put("city", AppConstant.CITY);
                         return iRequestServer.getServiceList(classId, map);
                     case SHOP_TYPE:
                         if (!StringUtils.isEmpty(keywords)){
@@ -86,6 +89,8 @@ public class ServiceListPresenter extends AbstractQueryListPresenter<ShopInfo> {
                         }
                         return iRequestServer.getShopList(classId,map);
                     default:
+                        map.put("province", AppConstant.PROVINCE);
+                        map.put("city", AppConstant.CITY);
                         return iRequestServer.groupBuyList(map);
                 }
 

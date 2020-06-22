@@ -75,4 +75,40 @@
             app:bl_corners_radius="20dp"
             app:bl_solid_color="@color/base_text_color" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomLL2"
+        style="@style/line_style"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:bl_stroke_position="top">
+
+
+        <TextView
+            android:id="@+id/bottomTV1"
+            style="@style/button_style"
+            android:text="拒绝退款"
+            android:minWidth="60dp"
+            app:bl_corners_radius="25dp"
+            app:bl_solid_color="@color/white"
+            app:bl_pressed_solid_color="@color/gray_f6"
+            app:bl_stroke_color="@color/gray_66"
+            android:layout_marginEnd="@dimen/dp_10"
+            app:bl_stroke_width="1dp" />
+
+        <TextView
+            android:id="@+id/bottomTV2"
+            style="@style/button_style"
+            android:text="同意退款"
+            android:minWidth="60dp"
+            app:bl_corners_radius="25dp"
+            app:bl_solid_color="@color/white"
+            android:layout_marginEnd="@dimen/dp_10"
+            app:bl_pressed_solid_color="@color/gray_f6"
+            app:bl_stroke_color="@color/gray_66"
+            app:bl_stroke_width="1dp" />
+    </LinearLayout>
 </LinearLayout>

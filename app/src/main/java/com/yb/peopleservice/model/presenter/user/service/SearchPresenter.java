@@ -2,6 +2,7 @@ package com.yb.peopleservice.model.presenter.user.service;
 
 import android.content.Context;
 
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
@@ -63,6 +64,8 @@ public class SearchPresenter extends AbstractQueryListPresenter<ShopInfo> {
                 Map<String, String> map = new HashMap<>();
                 map.put("current", pageIndex + "");
                 map.put("keywords", keywords);
+                map.put("province", AppConstant.PROVINCE);
+                map.put("city", AppConstant.CITY);
                 return iRequestServer.searchData(map);
             }
 

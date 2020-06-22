@@ -13,14 +13,38 @@ public class EventRecorderBean {
     public static final String START = "START";
     public static final String STOP = "STOP";
     private String message;
+    private String orderId;
+    private String userId;
 
     public EventRecorderBean() {
+    }
+
+    public EventRecorderBean(String userId,String message,String orderId) {
+        this.message = message;
+        this.orderId = orderId;
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId == null ? "" : userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public EventRecorderBean(String message) {
         this.message = message;
     }
 
+
+    public String getOrderId() {
+        return orderId == null ? "" : orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     public String getMessage() {
         return message;

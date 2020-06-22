@@ -69,12 +69,25 @@
         app:tl_tab_padding="@dimen/space_small_best"
         app:tl_textSelectColor="@color/base_text_color"
         app:tl_textUnselectColor="@color/base_lib_gray"
+        android:visibility="gone"
         app:tl_textsize="@dimen/font_content" />
 
-
-    <com.amap.api.maps.TextureMapView
-        android:id="@+id/mapView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+        <com.amap.api.maps.TextureMapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/locationIV"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginBottom="120dp"
+            android:src="@mipmap/icon_location"/>
+    </FrameLayout>
+
 
 </LinearLayout>

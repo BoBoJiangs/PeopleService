@@ -3,13 +3,16 @@ package com.yb.peopleservice.model.presenter.user;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
 import com.yb.peopleservice.model.bean.user.HomeListBean;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.HomeRequest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.sts.base.callback.IViewCallback;
 import cn.sts.base.model.listener.IRequestListener;
@@ -68,9 +71,10 @@ public class HomePresenter extends AbstractPresenter<HomePresenter.IHomeCallback
         }) {
             @Override
             public Observable getObservable(HomeRequest iRequestServer) {
-//                Map<String, Object> map = new HashMap<>();
-//                map.put("parentId", parentId);
-                return iRequestServer.getHotList();
+                Map<String, String> map = new HashMap<>();
+                map.put("province", AppConstant.PROVINCE);
+                map.put("city", AppConstant.CITY);
+                return iRequestServer.getHotList(map);
             }
 
             @Override
@@ -115,7 +119,10 @@ public class HomePresenter extends AbstractPresenter<HomePresenter.IHomeCallback
             public Observable getObservable(HomeRequest iRequestServer) {
 //                Map<String, Object> map = new HashMap<>();
 //                map.put("parentId", parentId);
-                return iRequestServer.getHotService();
+                Map<String, String> map = new HashMap<>();
+                map.put("province", AppConstant.PROVINCE);
+                map.put("city", AppConstant.CITY);
+                return iRequestServer.getHotService(map);
             }
 
             @Override
@@ -136,6 +143,7 @@ public class HomePresenter extends AbstractPresenter<HomePresenter.IHomeCallback
 
         /**
          * 获取热销服务
+         *
          * @param data
          */
         void getHotShopSuccess(List<HomeListBean> data);

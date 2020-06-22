@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.user.ClassifyListBean;
+import com.yb.peopleservice.model.bean.user.service.ServiceListBean;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.user.classify.ClassifyRequest;
@@ -81,6 +82,26 @@ public class ClassifyPresenter extends AbstractPresenter<ClassifyPresenter.IClas
         requestFunc.setShowProgress(false);
         BaseRequestServer.getInstance().request(requestFunc);
     }
+
+    /**
+     * 获取快速下单商品
+     */
+    public void quickOrder(String categoryId,IRequestListener requestListener) {
+        BaseRequestFunc<ClassifyRequest> requestFunc = new BaseRequestFunc<ClassifyRequest>(context, requestListener) {
+            @Override
+            public Observable getObservable(ClassifyRequest iRequestServer) {
+                return iRequestServer.quickOrder(categoryId);
+            }
+
+            @Override
+            public Class<ClassifyRequest> getRequestInterfaceClass() {
+                return ClassifyRequest.class;
+            }
+        };
+        requestFunc.setShowProgress(false);
+        BaseRequestServer.getInstance().request(requestFunc);
+    }
+
 
     /**
      * 分类列表回调

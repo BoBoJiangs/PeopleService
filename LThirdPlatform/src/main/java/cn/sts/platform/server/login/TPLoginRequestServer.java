@@ -3,6 +3,7 @@ package cn.sts.platform.server.login;
 import java.io.InputStream;
 
 import cn.sts.base.model.server.request.AbstractHttpsRequestServer;
+import cn.sts.base.model.server.request.AbstractRequestServer;
 import cn.sts.base.util.Logs;
 import cn.sts.platform.R;
 import cn.sts.platform.util.ThirdPlatformUtil;
@@ -13,7 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * 第三方登录
  * Created by weilin on 18/7/2.
  */
-public class TPLoginRequestServer extends AbstractHttpsRequestServer<ITPLoginRequest> {
+public class TPLoginRequestServer extends AbstractRequestServer<ITPLoginRequest> {
 
     private static final String TAG = "GeneratorRequestServer";
 
@@ -61,13 +62,13 @@ public class TPLoginRequestServer extends AbstractHttpsRequestServer<ITPLoginReq
         return null;
     }
 
-    @Override
-    public InputStream getCertificateResource() {
-        return ThirdPlatformUtil.application.getResources().openRawResource(R.raw.weixin);
-    }
-
-    @Override
-    public String getCertificatePassword() {
-        return "Aa111111";
-    }
+//    @Override
+//    public InputStream getCertificateResource() {
+//        return ThirdPlatformUtil.application.getResources().openRawResource(R.raw.weixin);
+//    }
+//
+//    @Override
+//    public String getCertificatePassword() {
+//        return "Aa111111";
+//    }
 }

@@ -45,7 +45,8 @@ public class PasswordResetPresenter extends AbstractPresenter<PasswordResetPrese
     /**
      * 忘记密码
      */
-    public void resetPass(final String userAccount, String password, String smsCode) {
+    public void resetPass(final String userAccount, String password,
+                          String smsCode,String type) {
         BaseRequestFunc<LoginRequest> requestFunc = new BaseRequestFunc<LoginRequest>(context, new IRequestListener<Object>() {
             @Override
             public void onRequestSuccess(Object data) {
@@ -72,6 +73,7 @@ public class PasswordResetPresenter extends AbstractPresenter<PasswordResetPrese
                 map.put("phone", userAccount);
                 map.put("password", password);
                 map.put("code", smsCode);
+                map.put("type", type);
                 return iRequestServer.resetPass(map);
             }
 

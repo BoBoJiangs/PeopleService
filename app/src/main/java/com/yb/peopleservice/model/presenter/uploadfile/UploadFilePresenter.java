@@ -52,7 +52,7 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
             @Override
             public void onRequestSuccess(List<String> data) {
                 try {
-                    getViewCallBack().uploadSuccess(data);
+                    getViewCallBack().uploadSuccess(data,isPublic);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -75,6 +75,54 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
                 } else {
                     return iRequestServer.upLoadPrivateFile(builder.build());
                 }
+
+            }
+        };
+        requestFunc.setCancelableProgress(false);
+        requestFunc.setFileUpload(true);
+        BaseRequestServer.getInstance().request(requestFunc);
+    }
+
+    /**
+     * 上传音频文件
+     * @param file
+     */
+    public void upLoadSoundFile(File file) {
+
+        UploadRequestFunc requestFunc = new UploadRequestFunc(context, new IRequestListener<List<String>>() {
+            @Override
+            public void onRequestSuccess(List<String> data) {
+                try {
+                    //上传成功删除本地文件
+                    FileUtils.delete(file);
+                    getViewCallBack().uploadSuccess(data,true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRequestFailure(String error) {
+                try {
+                    getViewCallBack().uploadFail();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRequestCancel() {
+
+            }
+        }) {
+            @Override
+            public Observable getObservable(UploadRequest iRequestServer) {
+                MultipartBody.Builder builder = new MultipartBody.Builder();
+                builder.setType(MultipartBody.FORM);
+                builder.addFormDataPart(
+                        "files", file.getName(),
+                        RequestBody.create(MediaType.parse("application/octet-stream"), file));
+                return iRequestServer.upLoadSoundFile(builder.build());
 
             }
         };
@@ -137,8 +185,9 @@ public class UploadFilePresenter extends AbstractPresenter<UploadFilePresenter.I
 
     public interface IViewUploadFile extends IViewCallback {
 
+        void uploadSuccess(List<String> files,boolean isPublic);
 
-        void uploadSuccess(List<String> files);
+//        void uploadSuccess(List<String> files);
 
         void uploadFail();
     }

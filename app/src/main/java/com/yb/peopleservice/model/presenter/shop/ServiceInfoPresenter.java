@@ -76,57 +76,57 @@ public class ServiceInfoPresenter extends AbstractPresenter<ServiceInfoPresenter
                 return ShopRequest.class;
             }
         };
-        requestFunc.setShowProgress(true);
+        requestFunc.setShowProgress(false);
         BaseRequestServer.getInstance().request(requestFunc);
     }
 
-    /**
-     * 获取服务人员入驻的店铺信息
-     */
-    public void getServiceMyShop() {
-        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<MyShop>() {
-            @Override
-            public void onRequestSuccess(MyShop data) {
-                try {
-                    getViewCallBack().getMyShopSuccess(data);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onRequestFailure(String error) {
-                try {
-                    getViewCallBack().getMyShopFail();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                ToastUtils.showLong(error);
-            }
-
-            @Override
-            public void onRequestCancel() {
-
-            }
-        }) {
-            @Override
-            public Observable getObservable(ShopRequest iRequestServer) {
-                return iRequestServer.getMyShop();
-
-            }
-
-            @Override
-            public Class<ShopRequest> getRequestInterfaceClass() {
-                return ShopRequest.class;
-            }
-        };
-        requestFunc.setShowProgress(true);
-        BaseRequestServer.getInstance().request(requestFunc);
-    }
+//    /**
+//     * 获取服务人员入驻的店铺信息
+//     */
+//    public void getServiceMyShop() {
+//        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<MyShop>() {
+//            @Override
+//            public void onRequestSuccess(MyShop data) {
+//                try {
+//                    getViewCallBack().getMyShopSuccess(data);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onRequestFailure(String error) {
+//                try {
+//                    getViewCallBack().getMyShopFail();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                ToastUtils.showLong(error);
+//            }
+//
+//            @Override
+//            public void onRequestCancel() {
+//
+//            }
+//        }) {
+//            @Override
+//            public Observable getObservable(ShopRequest iRequestServer) {
+//                return iRequestServer.getMyShop();
+//
+//            }
+//
+//            @Override
+//            public Class<ShopRequest> getRequestInterfaceClass() {
+//                return ShopRequest.class;
+//            }
+//        };
+//        requestFunc.setShowProgress(true);
+//        BaseRequestServer.getInstance().request(requestFunc);
+//    }
     public interface IServiceInfoCallback extends IViewCallback {
-        void getMyShopSuccess(MyShop info);
-
-        void getMyShopFail();
+//        void getMyShopSuccess(MyShop info);
+//
+//        void getMyShopFail();
 
         void serviceInfoSuccess(ServiceInfo data);
 

@@ -36,4 +36,11 @@ public interface UploadRequest {
     @POST("file/public/upload")
     Observable<RequestResult<List<String>>> upLoadPublicFile(@Body MultipartBody multipartBody);
 
+    /**
+     *
+     * 上传音频数据
+     */
+    @POST("file/public/upload/sound")
+    Observable<RequestResult<List<String>>> upLoadSoundFile(@Body MultipartBody multipartBody);
+
 }

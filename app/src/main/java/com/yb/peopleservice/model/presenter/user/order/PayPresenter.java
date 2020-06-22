@@ -58,7 +58,7 @@ public class PayPresenter {
      * @param title        订单标题
      * @param businessType 业务类型
      */
-    public void wxPay(String orderId, String title, String businessType) {
+    public void wxPay(String orderId, String money,boolean isPayAdd) {
 
         AbstractPayRequestFunc requestFunc = new AbstractPayRequestFunc(context, new IRequestListener<WxPayParam>() {
             @Override
@@ -93,16 +93,20 @@ public class PayPresenter {
         }) {
             @Override
             public Observable getObservable(IPayRequest iRequestServer) {
-                Map<String, Object> map = new HashMap<>(2);
-                map.put("businessId", orderId);
-                map.put("title", title);
-                map.put("businessType", businessType);
-                map.put("appName", AppManageUtil.APP_CODE);
-                return iRequestServer.getWXPayInfo(map);
+                Map<String, String> map = new HashMap<>(2);
+                if (isPayAdd){
+                    map.put("orderId", orderId);
+                    map.put("money", money);
+                    return iRequestServer.getAddWXPayInfo(map);
+                }else{
+                    map.put("orderId", orderId);
+                    return iRequestServer.getWXPayInfo(map);
+                }
+
             }
         };
         requestFunc.setShowProgress(false);
-        PayRequestServer.getInstance().request(requestFunc);
+        BaseRequestServer.getInstance().request(requestFunc);
     }
 
     /**
@@ -110,10 +114,7 @@ public class PayPresenter {
      *
      * @param orderId 订单id
      */
-    public void aliPay(String orderId, String id) {
-
-        // TODO: 2019-07-12 还未完成
-
+    public void aliPay(String orderId,String money,boolean isPayAdd) {
         AbstractPayRequestFunc requestFunc = new AbstractPayRequestFunc(context, new IRequestListener<String>() {
             @Override
             public void onRequestSuccess(String data) {
@@ -185,10 +186,16 @@ public class PayPresenter {
             @Override
             public Observable getObservable(IPayRequest iRequestServer) {
                 Map<String, String> map = new HashMap<>(2);
-                map.put("orderId", orderId);
-//                map.put("id", id);
-//                map.put("title", title);
-                return iRequestServer.getAliPayInfo(map);
+                if (isPayAdd){
+                    map.put("orderId", orderId);
+                    map.put("money", money);
+                    return iRequestServer.getAddAliPayInfo(map);
+                }else{
+                    map.put("orderId", orderId);
+                    return iRequestServer.getAliPayInfo(map);
+                }
+
+
             }
         };
         requestFunc.setShowProgress(false);

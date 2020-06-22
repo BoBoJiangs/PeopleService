@@ -45,7 +45,7 @@
                     android:id="@+id/nameTV"
                     style="@style/text_view_content"
                     android:lines="1"
-                    android:text="张三"
+                    android:text="请登录"
                     android:textSize="@dimen/font_content_four" />
 
                 <TextView
@@ -58,6 +58,7 @@
                     android:gravity="center"
                     android:text="普通会员"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     app:bl_corners_radius="10dp"
                     app:bl_solid_color="#FFB284" />
             </LinearLayout>
@@ -75,14 +76,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_default"
+            android:layout_marginStart="@dimen/space_default"
+            android:layout_marginEnd="@dimen/space_default"
+            android:layout_marginTop="100dp"
             android:orientation="vertical"
-            android:visibility="gone"
             app:bl_corners_radius="5dp"
             android:layout_gravity="bottom"
             app:bl_solid_color="@color/white">
 
             <LinearLayout
+                android:id="@+id/orderLL"
                 android:layout_width="match_parent"
                 android:layout_height="80pt"
                 android:gravity="center_vertical"
@@ -118,15 +121,16 @@
                     android:drawableTop="@mipmap/icon_persona2"
                     android:text="进行中"/>
                 <TextView
-                    android:id="@+id/finishTV"
-                    style="@style/personal_text_style"
-                    android:drawableTop="@mipmap/icon_persona3"
-                    android:text="已完成"/>
-                <TextView
                     android:id="@+id/evaluateTV"
                     style="@style/personal_text_style"
                     android:drawableTop="@mipmap/icon_persona4"
                     android:text="待评价"/>
+                <TextView
+                    android:id="@+id/finishTV"
+                    style="@style/personal_text_style"
+                    android:drawableTop="@mipmap/icon_persona3"
+                    android:text="已完成"/>
+
             </LinearLayout>
 
         </LinearLayout>

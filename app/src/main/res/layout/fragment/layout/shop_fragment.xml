@@ -6,124 +6,150 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:ignore="MissingPrefix">
+
     <LinearLayout
+        android:id="@+id/rootLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:ignore="MissingPrefix">
-        <LinearLayout
-            android:id="@+id/userInfoRL"
-            android:layout_width="match_parent"
-            android:layout_height="250pt"
-            android:background="@color/base_text_color"
-            android:gravity="center"
-            android:padding="@dimen/space_default">
 
-            <ImageView
-                android:id="@+id/photoIV"
-                android:layout_width="@dimen/height_image_big"
-                android:layout_height="@dimen/height_image_big"
-                android:src="@mipmap/default_head" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/shop_person_bg"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/nameTV"
-                style="@style/text_view_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginStart="@dimen/dp_10"
-                android:textColor="@color/white"
-                android:lines="1"
-                android:text=""
-                android:textSize="@dimen/font_content_four" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/shopInfoLL"
-            style="@style/line_style"
-            android:layout_width="match_parent"
-            android:layout_height="120pt"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/space_default"
-            android:paddingEnd="@dimen/space_default"
-            tools:ignore="MissingPrefix">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_shop_info"/>
+                android:id="@+id/barView"
+                style="@style/text_view_content_black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/titleTV"
                 style="@style/text_view_content_black"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/space_default"
-                android:layout_weight="1"
-                android:text="店铺信息" />
-
-            <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_arrow_right" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/profitLL"
-            style="@style/line_style"
-            android:layout_width="match_parent"
-            android:layout_height="120pt"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/space_default"
-            android:paddingEnd="@dimen/space_default"
-            tools:ignore="MissingPrefix">
+                android:layout_marginBottom="@dimen/dp_10"
+                android:gravity="center"
+                android:text="店铺"
+                android:textSize="@dimen/font_title" />
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/headCL"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_shuju"/>
+                android:minHeight="150pt"
+                android:layout_margin="@dimen/dp_10"
+                android:padding="@dimen/space_default"
+                app:bl_corners_radius="5dp"
+                app:bl_solid_color="@color/white">
 
-            <TextView
-                style="@style/text_view_content_black"
-                android:layout_width="0dp"
-                android:layout_marginStart="@dimen/space_default"
-                android:layout_weight="1"
-                android:text="我的收益" />
+                <ImageView
+                    android:id="@+id/photoIV"
+                    android:layout_width="@dimen/height_image_big"
+                    android:layout_height="@dimen/height_image_big"
+                    android:src="@mipmap/default_head"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_arrow_right" />
+                <TextView
+                    android:id="@+id/editText"
+                    style="@style/text_view_content_gray"
+                    android:text="编辑"
+                    android:drawablePadding="5dp"
+                    android:drawableEnd="@mipmap/icon_arrow_right"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <LinearLayout
+                    android:id="@+id/userInfoRL"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_default"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/photoIV"
+                    app:layout_constraintTop_toTopOf="@+id/photoIV">
+
+                    <TextView
+                        android:id="@+id/nameTV"
+                        style="@style/text_view_content_black"
+                        android:textStyle="bold"
+                        android:lines="1"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/phoneTV"
+                        style="@style/text_view_content_black"
+                        android:layout_width="wrap_content"
+                        android:drawableStart="@mipmap/icon_phone"
+                        android:drawablePadding="5dp"
+                        android:layout_marginTop="5dp"
+                        android:lines="1"
+                        android:text="" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/addressTV"
+                    style="@style/text_view_content_black"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="加载中"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@id/userInfoRL"
+                    app:layout_constraintTop_toBottomOf="@+id/userInfoRL" />
+
+                <TextView
+                    android:id="@+id/remakeTV"
+                    style="@style/text_view_content_black"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:ellipsize="end"
+                    android:lines="2"
+                    android:text="加载中"
+                    app:layout_constraintStart_toStartOf="@id/photoIV"
+                    app:layout_constraintTop_toBottomOf="@+id/photoIV" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/emptyLL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_default"
-            android:layout_marginEnd="@dimen/space_default"
-            android:gravity="center"
-            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/applyBtn"
-                style="@style/login_btn_style"
-                android:layout_width="390pt"
-                android:layout_height="78pt"
-                android:text="申请认证店铺" />
 
-            <TextView
-                android:id="@+id/remakeTV"
-                style="@style/text_view_content_gray"
-                android:layout_marginTop="@dimen/space_default"
-                android:textColor="@color/gray_66"
-                android:textSize="@dimen/font_title_small"
-                android:text="审核通过后即可发布服务" />
-        </LinearLayout>
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/applyUV"
+            style="@style/image_utility"
+            android:layout_marginTop="@dimen/dp_10"
+            app:content_gravity="end"
+            app:text_content="未认证"
+            app:text_title="管理员信息"
+            app:text_title_size="@dimen/font_content_three" />
 
-        <include layout="@layout/view_exit_button"/>
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/profitUV"
+            style="@style/image_utility"
+            app:text_title_size="@dimen/font_content_three"
+            app:text_title="数据看板" />
+
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/noticeUV"
+            style="@style/image_utility"
+            app:text_title_size="@dimen/font_content_three"
+            app:text_title="系统消息" />
+
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/updateUV"
+            style="@style/image_utility"
+            app:text_title_size="@dimen/font_content_three"
+            app:text_title="修改密码" />
+
+        <cn.sts.base.view.widget.UtilityView
+            android:id="@+id/aboutUV"
+            style="@style/image_utility"
+            app:text_title_size="@dimen/font_content_three"
+            app:text_title="关于" />
+        <include layout="@layout/view_exit_button" />
     </LinearLayout>
 
 

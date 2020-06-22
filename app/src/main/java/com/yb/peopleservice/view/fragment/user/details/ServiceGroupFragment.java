@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.lxj.xpopup.XPopup;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.model.bean.user.order.CouponBean;
@@ -80,7 +81,7 @@ public class ServiceGroupFragment extends ServiceFragment implements ServicePres
         } else {
             groupLL.setVisibility(View.GONE);
         }
-
+        topHeight = SizeUtils.getMeasuredHeight(topLL);
 
     }
 

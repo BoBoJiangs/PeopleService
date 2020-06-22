@@ -49,7 +49,6 @@ public abstract class BaseViewPagerActivity extends BaseToolbarActivity implemen
 
     @Override
     public void initView() {
-
         tabLayout = getTabLayout();
         viewPager = findViewById(R.id.viewPager);
 

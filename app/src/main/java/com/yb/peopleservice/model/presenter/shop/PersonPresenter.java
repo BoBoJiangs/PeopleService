@@ -2,8 +2,8 @@ package com.yb.peopleservice.model.presenter.shop;
 
 import android.content.Context;
 
-import com.yb.peopleservice.model.bean.shop.PersonListBean;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
@@ -23,13 +23,13 @@ import io.reactivex.Observable;
  * 修改时间:
  * 修改描述:
  */
-public class PersonPresenter extends AbstractQueryListPresenter<PersonListBean> {
+public class PersonPresenter extends AbstractQueryListPresenter<ServiceInfo> {
 
     /**
      * @param context            上下文
      * @param IQueryListCallback 列表操作接口
      */
-    public PersonPresenter(Context context, IQueryListCallback<PersonListBean> IQueryListCallback) {
+    public PersonPresenter(Context context, IQueryListCallback<ServiceInfo> IQueryListCallback) {
         super(context, IQueryListCallback);
     }
 

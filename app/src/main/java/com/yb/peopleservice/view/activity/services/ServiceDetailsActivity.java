@@ -38,7 +38,7 @@ import cn.sts.base.view.widget.ScrollViewPager;
 import jiguang.chat.activity.ChatActivity;
 import jiguang.chat.application.JGApplication;
 
-public class ServiceDetailsActivity extends BaseViewPagerActivity {
+public class ServiceDetailsActivity extends BaseViewPagerActivity implements ServiceFragment.ScrollCallBack {
     @BindView(R.id.shopTV)
     TextView shopTV;
     @BindView(R.id.customerTV)
@@ -55,9 +55,10 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
     private ServiceFragment fragment1;
     private Fragment fragment2;
     private Fragment fragment3;
-    private Fragment fragment4;
+    private ServiceGroupFragment fragment4;
     private ServiceListBean serviceInfo;
     private float payMoney;
+    public boolean isDetails;//是否滑到服务详情页
 
     @Override
     protected View getTabLayout() {
@@ -73,17 +74,22 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
     protected List<Fragment> getFragmentList() {
         serviceInfo = getIntent().getParcelableExtra(ServiceListBean.class.getName());
         List<Fragment> fragmentList = new ArrayList<>();
-        fragment1 = (ServiceFragment) ServiceFragment.getInstanceFragment(serviceInfo);
+
 //        fragment2 = ServiceContentFragment.getInstanceFragment(serviceInfo);
         fragment3 = EvaluateFragment.getInstanceFragment(serviceInfo);
-        fragment4 = ServiceGroupFragment.getInstanceFragment(serviceInfo);
+
         if (serviceInfo.isGrop()) {
+            fragment4 = (ServiceGroupFragment) ServiceGroupFragment.getInstanceFragment(serviceInfo);
             fragmentList.add(fragment4);
+            fragment4.setScrollListener(this);
         } else {
+            fragment1 = (ServiceFragment) ServiceFragment.getInstanceFragment(serviceInfo);
             fragmentList.add(fragment1);
+            fragment1.setScrollListener(this);
         }
 //        fragmentList.add(fragment2);
         fragmentList.add(fragment3);
+
         return fragmentList;
     }
 
@@ -108,11 +114,36 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
 
     @Override
     public void onPageSelected(int position) {
-        if (position==1){
+        if (position == 1) {
             commonTabLayout.setCurrentTab(2);
-        }else{
-            commonTabLayout.setCurrentTab(0);
+        } else {
+            if (isDetails) {
+                commonTabLayout.setCurrentTab(1);
+            } else {
+                commonTabLayout.setCurrentTab(0);
+            }
+
         }
+    }
+
+    @Override
+    public void onTabSelect(int position) {
+        if (position == 2) {
+            viewPager.setCurrentItem(1);
+        } else {
+            viewPager.setCurrentItem(0);
+
+        }
+//        if (position == 1) {
+//            if (fragment1!=null){
+//                fragment1.onTabSelect();
+//            }
+//            if (fragment4!=null){
+//                fragment4.onTabSelect();
+//            }
+//        }
+
+
     }
 
     private void setBottomText() {
@@ -150,6 +181,7 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
         serviceInfo.setGroupType(1);
         serviceInfo.setCoupons(null);
         serviceInfo.setPayMoney(serviceInfo.getGroupBuyPrice());
+        serviceInfo.setPrice(serviceInfo.getGroupBuyPrice());
         serviceInfo.setGroupId(bean.getId());
         Intent intent = new Intent();
         intent.setClass(this, ConfirmOrderActivity.class);
@@ -167,7 +199,7 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
         return null;
     }
 
-    @OnClick({R.id.shopTV, R.id.groupBtn, R.id.orderBtn,R.id.customerTV})
+    @OnClick({R.id.shopTV, R.id.groupBtn, R.id.orderBtn, R.id.customerTV})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
@@ -193,12 +225,12 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
                 }
                 break;
             case R.id.customerTV:
-                if (serviceInfo!=null){
+                if (serviceInfo != null) {
                     intent.setClass(this, ChatActivity.class);
                     intent.putExtra(JGApplication.TARGET_ID, AppUtils.formatID(serviceInfo.getShopId()));
                     intent.putExtra(JGApplication.TARGET_APP_KEY, AppConstant.JPUSH_KEY);
-                    intent.putExtra(JGApplication.CONV_TITLE,"店铺");
-                }else {
+                    intent.putExtra(JGApplication.CONV_TITLE, "店铺");
+                } else {
                     ToastUtils.showLong("未获取到店铺信息");
                 }
                 break;
@@ -209,4 +241,8 @@ public class ServiceDetailsActivity extends BaseViewPagerActivity {
 
     }
 
+    @Override
+    public void onScrollState(boolean isDetails, int topHeight) {
+        this.isDetails = isDetails;
+    }
 }

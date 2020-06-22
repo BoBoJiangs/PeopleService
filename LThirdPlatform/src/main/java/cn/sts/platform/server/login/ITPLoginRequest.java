@@ -32,4 +32,6 @@ public interface ITPLoginRequest {
     @GET("sns/userinfo")
     Observable<WXUser> getUseInfo(@QueryMap Map<String, String> parameter);
 
+
+
 }

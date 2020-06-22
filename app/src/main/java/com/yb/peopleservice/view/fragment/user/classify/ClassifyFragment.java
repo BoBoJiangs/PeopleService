@@ -33,8 +33,8 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
     @BindView(R.id.recyclerView2)
     RecyclerView recyclerView2;
     private ClassifyAdapter adapter;
-    private ClassifyChildAdapter childAdapter;
-    private ClassifyPresenter presenter;
+    protected ClassifyChildAdapter childAdapter;
+    protected ClassifyPresenter presenter;
     private boolean isFirst = true;//首次进入请求一级和二级分类
     private int clickIndex = 0;//记录点击的position
 
@@ -64,6 +64,10 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
         //获取一级分类
         presenter = new ClassifyPresenter(getContext(), this);
         presenter.getCategoryInfo("0");
+        setOnItemClickListener();
+    }
+
+    public void setOnItemClickListener(){
         childAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -76,18 +80,6 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
 
             }
         });
-//        for (int i = 0; i < 5; i++) {
-//            ClassifyListBean bean = new ClassifyListBean();
-//            List<ClassifyListBean> childList = new ArrayList<>();
-//            for (int j = 0; j < new Random().nextInt(9) + 1; j++) {
-//                ClassifyListBean childBean = new ClassifyListBean();
-//                childList.add(childBean);
-//            }
-//            bean.setName(i + "");
-//            bean.setChildList(childList);
-//            listData.add(bean);
-//        }
-//        adapter.setNewData(listData);
     }
 
     @OnClick({R.id.searchLL,R.id.msgIV2})
@@ -130,14 +122,6 @@ public class ClassifyFragment extends BaseFragment<ClassifyPresenter> implements
             adapter.setName(data.get(0).getName());
             adapter.setNewData(data);
             childAdapter.setNewData(data.get(0).getChildList());
-//            if (isFirst) {
-//                isFirst = false;
-//                adapter.setName(data.get(0).getName());
-//                adapter.setNewData(data);
-//            } else {
-//                adapter.getData().get(clickIndex).setChildList(data);
-//                childAdapter.setNewData(data);
-//            }
 
         }
 

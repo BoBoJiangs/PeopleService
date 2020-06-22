@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="10dp"
-    android:paddingEnd="@dimen/dp_10"
-    android:paddingTop="10dp"
-    android:paddingBottom="60dp"
+    android:background="@color/white"
+    android:paddingStart="@dimen/space_default"
+    android:paddingEnd="@dimen/space_default"
+    android:paddingTop="@dimen/space_default"
+    android:paddingBottom="70dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/title"
         style="@style/text_view_content_black"
+        android:textSize="15sp"
         android:text="修改退款金额"/>
 
     <LinearLayout
@@ -41,6 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_margin="0dp"
+        app:bl_corners_radius="@dimen/dp_10"
+        android:text="确定"
         style="@style/login_btn_style"/>
 
 </LinearLayout>

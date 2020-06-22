@@ -66,7 +66,6 @@ public class ShopPersonActivity extends BaseListActivity {
 
     @Override
     public void onClickItem(BaseQuickAdapter a, View view, int position) {
-        PersonListBean serviceListBean = adapter.getItem(position);
 
     }
 

@@ -1,7 +1,8 @@
 package com.yb.peopleservice.model.server.user.classify;
 
 
-import com.yb.peopleservice.model.bean.LoginBean;
+import com.yb.peopleservice.model.bean.PlatformLoginBean;
+import com.yb.peopleservice.model.database.bean.User;
 
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * 类描述:用户登录注册
@@ -43,27 +45,38 @@ public interface LoginRequest {
      * 登录
      */
     @GET("oauth0/authorize/APP")
-    Observable<RequestResult<LoginBean>> login(@Query("username") String phone, @Query("grant_type") String grant_type,
-                                               @Query("password") String password);
+    Observable<RequestResult<User>> login(@Query("username") String phone, @Query("grant_type") String grant_type,
+                                          @Query("password") String password);
 
     /**
      * 登录
      */
     @POST("oauth0/authorize/APP")
-    Observable<RequestResult<LoginBean>> login(@Body Map map);
+    Observable<RequestResult<User>> login(@Body Map map);
 
+    /**
+     * 微信登录
+     */
+    @GET("wx/login")
+    Observable<RequestResult<PlatformLoginBean>> wxLogin(@QueryMap Map<String,String> map);
 
     /**
      * 登录
      */
+    @GET("alipay/login")
+    Observable<RequestResult<PlatformLoginBean>> aliPayLogin(@QueryMap Map<String,String> map);
+
+    /**
+     * 退出
+     */
     @GET("logout")
-    Observable<RequestResult<LoginBean>> logout();
+    Observable<RequestResult<User>> logout();
 
     /**
      * 快速登录（获取token）
      */
     @POST("oauth0/authorize/code/APP")
-    Observable<RequestResult<LoginBean>> quickLogin(@Body Map map);
+    Observable<RequestResult<User>> quickLogin(@Body Map map);
 
     /**
      *  快速登录获取登录凭证
@@ -85,5 +98,11 @@ public interface LoginRequest {
      */
     @POST("oauth0/resetpass")
     Observable<RequestResult> resetPass(@Body Map map);
+
+    /**
+     * 获取支付宝授权码
+     */
+    @GET("alipay/authinfo")
+    Observable<RequestResult<String>> authInfo();
 
 }

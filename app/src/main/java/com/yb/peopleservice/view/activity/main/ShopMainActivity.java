@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.gyf.immersionbar.ImmersionBar;
 import com.yb.peopleservice.R;
 import com.yb.peopleservice.constant.AppConstant;
 import com.yb.peopleservice.model.database.bean.User;
@@ -54,7 +55,7 @@ public class ShopMainActivity extends BaseViewPagerActivity implements OnTabSele
 
     private String[] mTitles = {"订单", "消息", "店铺"};
     private int[] mIconUnselectIds = {R.mipmap.tab_order_unselect, R.mipmap.tab_msg_unselect,R.mipmap.icon_shop};
-    private int[] mIconSelectIds = {R.mipmap.tab_order_select, R.mipmap.tab_msg_select,R.mipmap.tab_map_select};
+    private int[] mIconSelectIds = {R.mipmap.tab_order_select, R.mipmap.tab_msg_select,R.mipmap.tab_shop_select};
     @BindView(R.id.commonTabLayout)
     CommonTabLayout commonTabLayout;
     @BindView(R.id.viewPager)
@@ -131,7 +132,7 @@ public class ShopMainActivity extends BaseViewPagerActivity implements OnTabSele
     protected ArrayList<Fragment> getFragmentList() {
         shopFragment = (ShopFragment) ShopFragment.getInstanceFragment();
         ArrayList<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(ShopOrderTabFragment.getInstanceFragment());
+        fragmentList.add(ShopOrderTabFragment.getInstanceFragment(true));
         fragmentList.add(ConversationListFragment.getInstanceFragment());
         fragmentList.add(shopFragment);
 
@@ -148,6 +149,19 @@ public class ShopMainActivity extends BaseViewPagerActivity implements OnTabSele
             titleTV.setText("消息");
         }else{
             titleTV.setText("店铺");
+        }
+        if (position == 2) {
+            toolbar.setVisibility(View.GONE);
+            ImmersionBar.with(this)
+                    .reset()
+                    .statusBarDarkFont(true, 0.2f)
+                    .init();
+        } else {
+            toolbar.setVisibility(View.VISIBLE);
+            ImmersionBar.with(this)
+                    .fitsSystemWindows(true)
+                    .statusBarDarkFont(true, 0.2f)
+                    .statusBarColor(R.color.white).init();
         }
     }
     @Override

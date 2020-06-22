@@ -5,6 +5,7 @@ import android.content.Context;
 import com.blankj.utilcode.util.ToastUtils;
 import com.yb.peopleservice.model.bean.shop.MyShop;
 import com.yb.peopleservice.model.bean.shop.ShopInfo;
+import com.yb.peopleservice.model.database.bean.ServiceInfo;
 import com.yb.peopleservice.model.server.BaseRequestFunc;
 import com.yb.peopleservice.model.server.BaseRequestServer;
 import com.yb.peopleservice.model.server.shop.ShopRequest;
@@ -39,9 +40,9 @@ public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShop
      * 获取店铺信息
      */
     public void getShopInfo() {
-        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<MyShop>() {
+        BaseRequestFunc<ShopRequest> requestFunc = new BaseRequestFunc<ShopRequest>(context, new IRequestListener<ServiceInfo>() {
             @Override
-            public void onRequestSuccess(MyShop data) {
+            public void onRequestSuccess(ServiceInfo data) {
                 try {
                     getViewCallBack().shopInfoSuccess(data);
                 } catch (Exception e) {
@@ -83,7 +84,7 @@ public class ShopInfoPresenter extends AbstractPresenter<ShopInfoPresenter.IShop
     public interface IShopInfoCallback extends IViewCallback {
 
 
-        void shopInfoSuccess(MyShop data);
+        void shopInfoSuccess(ServiceInfo data);
 
         void shopInfoFail();
     }

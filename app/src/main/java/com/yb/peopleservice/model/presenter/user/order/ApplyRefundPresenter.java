@@ -110,7 +110,7 @@ public class ApplyRefundPresenter extends AbstractPresenter<ApplyRefundPresenter
     }
 
     @Override
-    public void uploadSuccess(List<String> files) {
+    public void uploadSuccess(List<String> files,boolean isPublic) {
         map.put("refundImgs", new Gson().toJson(files));
         evaluatesOrder(map);
     }
